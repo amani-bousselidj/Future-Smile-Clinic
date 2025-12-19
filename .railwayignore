@@ -1,0 +1,27 @@
+# Exclude Frontend files from Railway deployment
+node_modules/
+.next/
+out/
+package.json
+package-lock.json
+next.config.mjs
+next-env.d.ts
+vercel.json
+.vercel/
+tsconfig.json
+tailwind.config.ts
+postcss.config.mjs
+.env.production
+.env.local
+
+# Frontend source files
+src/
+public/
+css/
+js/
+
+# Frontend scripts
+start-frontend.ps1
+
+# Keep only backend
+!backend/

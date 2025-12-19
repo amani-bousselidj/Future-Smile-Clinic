@@ -1,0 +1,8 @@
+[build]
+builder = "nixpacks"
+buildCommand = "cd backend && pip install -r requirements.txt"
+
+[deploy]
+startCommand = "cd backend && gunicorn future_smile.wsgi --log-file -"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
