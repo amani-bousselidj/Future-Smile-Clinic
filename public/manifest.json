@@ -1,0 +1,14 @@
+{
+    "name": "ابتسامة المستقبل",
+    "short_name": "Future Smile",
+    "description": "عيادة أسنان احترافية - Future Smile Clinic",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#29abe2",
+    "icons": [{
+        "src": "/images/logo.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }]
+}
