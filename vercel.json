@@ -3,10 +3,6 @@
   "outputDirectory": ".next",
   "framework": "nextjs",
   "regions": ["fra1"],
-  "env": {
-    "NEXT_PUBLIC_API_URL": "@api-url",
-    "NEXT_PUBLIC_SITE_URL": "@site-url"
-  },
   "headers": [
     {
       "source": "/(.*)",
