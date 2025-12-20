@@ -175,7 +175,7 @@ NEXT_PUBLIC_API_URL=https://your-backend.railway.app/api
 
 ## 🔒 أمان إضافي (اختياري)
 
-### 1. تفعيل Custom Domain
+### 1. تفعيل Custom
 
 **في Vercel:**
 
