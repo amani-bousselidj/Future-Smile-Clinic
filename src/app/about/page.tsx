@@ -4,12 +4,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { FaAward, FaUsers, FaHeart, FaStar } from "react-icons/fa";
 
-export const metadata = {
-  title: "من نحن",
-  description:
-    "تعرف على عيادة ابتسامة المستقبل - فريقنا الطبي المتخصص وخبرتنا في طب الأسنان والتجميل",
-};
-
 const teamMembers = [
   {
     id: 1,
