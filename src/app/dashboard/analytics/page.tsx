@@ -10,7 +10,7 @@ import {
   FaMoneyBillWave,
 } from "react-icons/fa";
 import { Line, Bar, Doughnut } from "react-chartjs-2";
-import { appointmentsAPI, servicesAPI, patientsAPI } from "@/lib/api";
+import { appointmentsAPI, servicesAPI, patientsAPI } from "../../../lib/api";
 import {
   Chart as ChartJS,
   CategoryScale,

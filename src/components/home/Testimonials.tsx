@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { FaStar, FaQuoteRight, FaSpinner } from "react-icons/fa";
-import { testimonialsAPI } from "@/lib/api";
+import { testimonialsAPI } from "../../lib/api";
 
 const Testimonials = () => {
   const [testimonials, setTestimonials] = useState<any[]>([]);

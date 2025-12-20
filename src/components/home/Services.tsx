@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FaArrowLeft, FaSpinner } from "react-icons/fa";
-import { servicesAPI } from "@/lib/api";
+import { servicesAPI } from "../../lib/api";
 
 const Services = () => {
   const [services, setServices] = useState<any[]>([]);

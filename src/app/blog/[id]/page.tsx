@@ -16,7 +16,7 @@ import {
   FaWhatsapp,
   FaSpinner,
 } from "react-icons/fa";
-import { blogAPI } from "@/lib/api";
+import { blogAPI } from "../../../lib/api";
 
 const BlogPostPage = () => {
   const params = useParams();

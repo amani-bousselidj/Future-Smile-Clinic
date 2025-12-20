@@ -11,7 +11,7 @@ import {
   FaPlus,
   FaFilePdf,
 } from "react-icons/fa";
-import { patientsAPI } from "@/lib/api";
+import { patientsAPI } from "../../../lib/api";
 import toast from "react-hot-toast";
 
 export default function PatientsPage() {

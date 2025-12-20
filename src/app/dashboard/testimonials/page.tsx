@@ -10,7 +10,7 @@ import {
   FaTrash,
   FaSpinner,
 } from "react-icons/fa";
-import { testimonialsAPI } from "@/lib/api";
+import { testimonialsAPI } from "../../../lib/api";
 import toast from "react-hot-toast";
 
 export default function TestimonialsPage() {

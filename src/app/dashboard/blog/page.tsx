@@ -11,7 +11,7 @@ import {
   FaSpinner,
 } from "react-icons/fa";
 import Image from "next/image";
-import { blogAPI } from "@/lib/api";
+import { blogAPI } from "../../../lib/api";
 
 export default function BlogManagementPage() {
   const [posts, setPosts] = useState<any[]>([]);

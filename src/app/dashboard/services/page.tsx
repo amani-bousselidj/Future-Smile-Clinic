@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaTooth, FaEdit, FaTrash, FaPlus, FaSpinner } from "react-icons/fa";
-import { servicesAPI } from "@/lib/api";
+import { servicesAPI } from "../../../lib/api";
 import toast from "react-hot-toast";
 
 export default function ServicesManagementPage() {

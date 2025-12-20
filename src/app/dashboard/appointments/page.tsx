@@ -11,7 +11,7 @@ import {
   FaFilter,
   FaFilePdf,
 } from "react-icons/fa";
-import { appointmentsAPI, servicesAPI } from "@/lib/api";
+import { appointmentsAPI, servicesAPI } from "../../../lib/api";
 import toast from "react-hot-toast";
 
 export default function AppointmentsPage() {

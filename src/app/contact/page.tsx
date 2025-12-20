@@ -15,7 +15,7 @@ import {
   FaCheckCircle,
   FaSpinner,
 } from "react-icons/fa";
-import { contactAPI } from "@/lib/api";
+import { contactAPI } from "../../lib/api";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({

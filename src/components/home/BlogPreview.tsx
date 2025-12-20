@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FaCalendar, FaArrowLeft, FaClock, FaSpinner } from "react-icons/fa";
-import { blogAPI } from "@/lib/api";
+import { blogAPI } from "../../lib/api";
 
 const BlogPreview = () => {
   const [blogPosts, setBlogPosts] = useState<any[]>([]);

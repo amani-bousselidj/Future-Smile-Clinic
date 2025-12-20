@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTimes, FaCheck, FaSpinner } from "react-icons/fa";
-import { servicesAPI } from "@/lib/api";
+import { servicesAPI } from "../../lib/api";
 
 const oldServices = [
   {

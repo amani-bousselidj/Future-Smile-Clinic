@@ -13,7 +13,7 @@ import {
   FaSpinner,
   FaWhatsapp,
 } from "react-icons/fa";
-import { servicesAPI, appointmentsAPI } from "@/lib/api";
+import { servicesAPI, appointmentsAPI } from "../../lib/api";
 
 export default function AppointmentPage() {
   const [formData, setFormData] = useState({

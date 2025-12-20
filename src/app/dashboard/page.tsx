@@ -24,7 +24,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { appointmentsAPI, patientsAPI, servicesAPI } from "@/lib/api";
+import { appointmentsAPI, patientsAPI, servicesAPI } from "../../lib/api";
 
 ChartJS.register(
   CategoryScale,

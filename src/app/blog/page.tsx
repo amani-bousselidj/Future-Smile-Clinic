@@ -11,7 +11,7 @@ import {
   FaArrowLeft,
   FaSpinner,
 } from "react-icons/fa";
-import { blogAPI } from "@/lib/api";
+import { blogAPI } from "../../lib/api";
 
 const blogPosts = [
   {
