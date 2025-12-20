@@ -36,7 +36,7 @@ export default function AppointmentPage() {
     const fetchServices = async () => {
       try {
         const data = await servicesAPI.getAll();
-        setApiServices(data);
+        setApiServices(data.results || []);
       } catch (err) {
         // Fallback to static services
         setApiServices([]);

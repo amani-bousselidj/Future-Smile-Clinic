@@ -59,7 +59,7 @@ async function apiRequest<T>(
 
 // Services API
 export const servicesAPI = {
-  getAll: () => apiRequest<any[]>("/services/"),
+  getAll: () => apiRequest<{ results: any[] }>("/services/"),
   getById: (id: number) => apiRequest<any>(`/services/${id}/`),
   create: (data: {
     name: string;
@@ -101,7 +101,7 @@ export const appointmentsAPI = {
       body: JSON.stringify(data),
     }),
 
-  getAll: () => apiRequest<any[]>("/appointments/"),
+  getAll: () => apiRequest<{ results: any[] }>("/appointments/"),
   getById: (id: number) => apiRequest<any>(`/appointments/${id}/`),
 
   update: (id: number, data: any) =>
@@ -136,7 +136,7 @@ export const contactAPI = {
 
 // Patients API
 export const patientsAPI = {
-  getAll: () => apiRequest<any[]>("/patients/"),
+  getAll: () => apiRequest<{ results: any[] }>("/patients/"),
   getById: (id: number) => apiRequest<any>(`/patients/${id}/`),
   create: (data: {
     full_name: string;
@@ -160,7 +160,7 @@ export const patientsAPI = {
 
 // Blog API
 export const blogAPI = {
-  getAll: () => apiRequest<any>("/blog/"),
+  getAll: () => apiRequest<{ results: any[] }>("/blog/"),
   getById: (id: number) => apiRequest<any>(`/blog/${id}/`),
   create: (data: {
     title: string;
@@ -189,7 +189,7 @@ export const blogAPI = {
 
 // Testimonials API
 export const testimonialsAPI = {
-  getAll: () => apiRequest<any>("/testimonials/"),
+  getAll: () => apiRequest<{ results: any[] }>("/testimonials/"),
   getById: (id: number) => apiRequest<any>(`/testimonials/${id}/`),
   create: (data: {
     patient_name: string;
