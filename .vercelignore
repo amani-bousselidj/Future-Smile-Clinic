@@ -1,0 +1,3 @@
+# Don't ignore anything in src/lib
+!src/lib/
+!src/lib/**
