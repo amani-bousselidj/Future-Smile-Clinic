@@ -1,15 +1,9 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pip install -r requirements.txt"
 
 [deploy]
-startCommand = "gunicorn future_smile.wsgi --log-file -"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 10
-
-[nixpacks]
-nixPkgs = ["python311", "pip"]
-nixLibs = ["gcc", "postgresql"]
 
 [service]
 rootDirectory = "/backend"

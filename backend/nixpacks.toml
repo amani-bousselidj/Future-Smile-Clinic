@@ -1,0 +1,8 @@
+[phases.setup]
+nixPkgs = ["python311", "pip", "gcc", "postgresql"]
+
+[phases.install]
+cmds = ["pip install -r requirements.txt"]
+
+[start]
+cmd = "gunicorn future_smile.wsgi --log-file -"
