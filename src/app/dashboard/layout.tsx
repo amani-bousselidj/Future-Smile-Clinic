@@ -15,8 +15,8 @@ import {
   FaChartLine,
   FaSignOutAlt,
 } from "react-icons/fa";
-import ProtectedRoute from "@/components/auth/ProtectedRoute";
-import { useAuth } from "@/contexts/AuthContext";
+import ProtectedRoute from "../../components/auth/ProtectedRoute";
+import { useAuth } from "../../contexts/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function DashboardLayout({

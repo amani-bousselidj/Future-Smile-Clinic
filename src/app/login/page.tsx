@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import Image from "next/image";
 
 export default function LoginPage() {
