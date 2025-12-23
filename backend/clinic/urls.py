@@ -8,6 +8,7 @@ from .views import (
     BlogPostViewSet,
     ContactMessageViewSet,
     BeforeAfterGalleryViewSet,
+    AdminInitViewSet,
 )
 
 router = DefaultRouter()
@@ -18,6 +19,7 @@ router.register(r'testimonials', TestimonialViewSet, basename='testimonial')
 router.register(r'blog', BlogPostViewSet, basename='blogpost')
 router.register(r'contact', ContactMessageViewSet, basename='contactmessage')
 router.register(r'gallery', BeforeAfterGalleryViewSet, basename='gallery')
+router.register(r'admin-init', AdminInitViewSet, basename='admin-init')
 
 urlpatterns = [
     path('', include(router.urls)),
