@@ -45,9 +45,9 @@ export default function DashboardOverview() {
           apiRequest("/services/", { method: "GET" }),
         ]);
 
-        const appointments = appointmentsRes?.results || [];
-        const patients = patientsRes?.results || [];
-        const services = servicesRes?.results || [];
+        const appointments = (appointmentsRes as any)?.results || [];
+        const patients = (patientsRes as any)?.results || [];
+        const services = (servicesRes as any)?.results || [];
 
         // حساب الإحصائيات
         const totalRevenue = services.reduce(
