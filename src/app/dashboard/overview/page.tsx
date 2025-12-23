@@ -1,9 +1,23 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { useAuth } from '../../../contexts/AuthContext';
-import { apiRequest } from '../../../lib/api';
+import { useState, useEffect } from "react";
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+import { useAuth } from "../../../contexts/AuthContext";
+import { apiRequest } from "../../../lib/api";
 
 interface Stats {
   totalAppointments: number;
@@ -14,10 +28,10 @@ interface Stats {
   appointmentsByStatus: Array<{ status: string; count: number }>;
 }
 
-const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'];
+const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444"];
 
 export default function DashboardOverview() {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -26,9 +40,9 @@ export default function DashboardOverview() {
       try {
         // جلب البيانات من API
         const [appointmentsRes, patientsRes, servicesRes] = await Promise.all([
-          apiRequest('/appointments/', 'GET', null, token),
-          apiRequest('/patients/', 'GET', null, token),
-          apiRequest('/services/', 'GET', null, token),
+          apiRequest("/appointments/", "GET"),
+          apiRequest("/patients/", "GET"),
+          apiRequest("/services/", "GET"),
         ]);
 
         const appointments = appointmentsRes?.results || [];
@@ -36,24 +50,27 @@ export default function DashboardOverview() {
         const services = servicesRes?.results || [];
 
         // حساب الإحصائيات
-        const totalRevenue = services.reduce((sum: number, service: any) => sum + (service.price_min || 0), 0);
-        
+        const totalRevenue = services.reduce(
+          (sum: number, service: any) => sum + (service.price_min || 0),
+          0
+        );
+
         // عد حالات المواعيد
         const statusCounts = appointments.reduce((acc: any, apt: any) => {
-          const status = apt.status || 'pending';
+          const status = apt.status || "pending";
           acc[status] = (acc[status] || 0) + 1;
           return acc;
         }, {});
 
         // بيانات الاتجاه (آخر 7 أيام)
         const appointmentsTrend = [
-          { date: 'الاثنين', count: Math.floor(Math.random() * 10) + 2 },
-          { date: 'الثلاثاء', count: Math.floor(Math.random() * 10) + 3 },
-          { date: 'الأربعاء', count: Math.floor(Math.random() * 10) + 4 },
-          { date: 'الخميس', count: Math.floor(Math.random() * 10) + 5 },
-          { date: 'الجمعة', count: Math.floor(Math.random() * 10) + 6 },
-          { date: 'السبت', count: Math.floor(Math.random() * 10) + 3 },
-          { date: 'الأحد', count: Math.floor(Math.random() * 10) + 2 },
+          { date: "الاثنين", count: Math.floor(Math.random() * 10) + 2 },
+          { date: "الثلاثاء", count: Math.floor(Math.random() * 10) + 3 },
+          { date: "الأربعاء", count: Math.floor(Math.random() * 10) + 4 },
+          { date: "الخميس", count: Math.floor(Math.random() * 10) + 5 },
+          { date: "الجمعة", count: Math.floor(Math.random() * 10) + 6 },
+          { date: "السبت", count: Math.floor(Math.random() * 10) + 3 },
+          { date: "الأحد", count: Math.floor(Math.random() * 10) + 2 },
         ];
 
         setStats({
@@ -62,22 +79,24 @@ export default function DashboardOverview() {
           totalServices: services.length,
           totalRevenue,
           appointmentsTrend,
-          appointmentsByStatus: Object.entries(statusCounts).map(([status, count]) => ({
-            status,
-            count: count as number,
-          })),
+          appointmentsByStatus: Object.entries(statusCounts).map(
+            ([status, count]) => ({
+              status,
+              count: count as number,
+            })
+          ),
         });
       } catch (error) {
-        console.error('Failed to fetch stats:', error);
+        console.error("Failed to fetch stats:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    if (token) {
+    if (user) {
       fetchStats();
     }
-  }, [token]);
+  }, [user]);
 
   if (loading) {
     return (
@@ -103,7 +122,9 @@ export default function DashboardOverview() {
       {/* رأس الصفحة */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900">نظرة عامة</h1>
-        <p className="text-gray-600 mt-2">مرحباً {user?.username}، إليك ملخص عملك</p>
+        <p className="text-gray-600 mt-2">
+          مرحباً {user?.username}، إليك ملخص عملك
+        </p>
       </div>
 
       {/* بطاقات الإحصائيات */}
@@ -112,11 +133,23 @@ export default function DashboardOverview() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm">إجمالي المواعيد</p>
-              <p className="text-3xl font-bold text-gray-900">{stats.totalAppointments}</p>
+              <p className="text-3xl font-bold text-gray-900">
+                {stats.totalAppointments}
+              </p>
             </div>
             <div className="bg-blue-100 rounded-full p-3">
-              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              <svg
+                className="w-6 h-6 text-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
               </svg>
             </div>
           </div>
@@ -126,11 +159,23 @@ export default function DashboardOverview() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm">إجمالي المرضى</p>
-              <p className="text-3xl font-bold text-gray-900">{stats.totalPatients}</p>
+              <p className="text-3xl font-bold text-gray-900">
+                {stats.totalPatients}
+              </p>
             </div>
             <div className="bg-green-100 rounded-full p-3">
-              <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.856-1.487M15 10a3 3 0 11-6 0 3 3 0 016 0zM15 20h.01" />
+              <svg
+                className="w-6 h-6 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 20h5v-2a3 3 0 00-5.856-1.487M15 10a3 3 0 11-6 0 3 3 0 016 0zM15 20h.01"
+                />
               </svg>
             </div>
           </div>
@@ -140,11 +185,23 @@ export default function DashboardOverview() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm">إجمالي الخدمات</p>
-              <p className="text-3xl font-bold text-gray-900">{stats.totalServices}</p>
+              <p className="text-3xl font-bold text-gray-900">
+                {stats.totalServices}
+              </p>
             </div>
             <div className="bg-purple-100 rounded-full p-3">
-              <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              <svg
+                className="w-6 h-6 text-purple-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                />
               </svg>
             </div>
           </div>
@@ -154,11 +211,23 @@ export default function DashboardOverview() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm">الإيرادات المتوقعة</p>
-              <p className="text-3xl font-bold text-gray-900">${stats.totalRevenue}</p>
+              <p className="text-3xl font-bold text-gray-900">
+                ${stats.totalRevenue}
+              </p>
             </div>
             <div className="bg-orange-100 rounded-full p-3">
-              <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-6 h-6 text-orange-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
           </div>
@@ -169,7 +238,9 @@ export default function DashboardOverview() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* رسم بياني للاتجاه */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">اتجاه المواعيد</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            اتجاه المواعيد
+          </h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={stats.appointmentsTrend}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -177,14 +248,22 @@ export default function DashboardOverview() {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="count" stroke="#3b82f6" strokeWidth={2} name="عدد المواعيد" />
+              <Line
+                type="monotone"
+                dataKey="count"
+                stroke="#3b82f6"
+                strokeWidth={2}
+                name="عدد المواعيد"
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
         {/* رسم بياني للحالات */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">توزيع حالات المواعيد</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            توزيع حالات المواعيد
+          </h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -198,7 +277,10 @@ export default function DashboardOverview() {
                 dataKey="count"
               >
                 {stats.appointmentsByStatus.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
                 ))}
               </Pie>
               <Tooltip />
@@ -209,7 +291,9 @@ export default function DashboardOverview() {
 
       {/* النشاط الأخير */}
       <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">آخر المواعيد</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">
+          آخر المواعيد
+        </h2>
         <div className="space-y-4">
           <p className="text-gray-600 text-sm">يتم تحديثها قريباً...</p>
         </div>
