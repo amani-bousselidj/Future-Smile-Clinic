@@ -31,6 +31,11 @@ export default function DashboardLayout({
 
   const menuItems = [
     { name: "الرئيسية", href: "/dashboard", icon: <FaHome /> },
+    {
+      name: "النظرة العامة",
+      href: "/dashboard/overview",
+      icon: <FaChartLine />,
+    },
     { name: "التحليلات", href: "/dashboard/analytics", icon: <FaChartLine /> },
     { name: "الخدمات", href: "/dashboard/services", icon: <FaTooth /> },
     {
@@ -69,8 +74,10 @@ export default function DashboardLayout({
                   <Link
                     key={item.href}
                     href={item.href}
+                    onClick={() => setSidebarOpen(false)}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                      pathname === item.href
+                      pathname === item.href ||
+                      pathname.startsWith(item.href + "/")
                         ? "bg-white text-primary-dark font-bold shadow-md"
                         : "hover:bg-white/20"
                     }`}
