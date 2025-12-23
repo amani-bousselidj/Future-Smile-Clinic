@@ -10,7 +10,7 @@ function getAuthToken(): string | null {
 }
 
 // Generic API request handler
-async function apiRequest<T>(
+export async function apiRequest<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
