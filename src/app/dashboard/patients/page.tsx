@@ -70,7 +70,7 @@ export default function PatientsPage() {
   const handleDownloadPatientPDF = async (patientId: number) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/patients/${patientId}/download_pdf/`,
+        `https://future-smile-clinic-production.up.railway.app/api/patients/${patientId}/download_pdf/`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
