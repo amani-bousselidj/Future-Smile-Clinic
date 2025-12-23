@@ -1,5 +1,5 @@
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+  process.env.NEXT_PUBLIC_API_URL || "https://future-smile-clinic-production.up.railway.app/api";
 
 // Get auth token from localStorage
 function getAuthToken(): string | null {
