@@ -1,84 +1,103 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Future Smile Clinic - API</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Cairo', Arial, sans-serif;
-            background: linear-gradient(135deg, #29abe2 0%, #0053b6 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-        }
-        .container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 60px 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            max-width: 600px;
-        }
-        h1 { font-size: 2.5em; margin-bottom: 20px; }
-        p { font-size: 1.1em; margin: 15px 0; opacity: 0.9; }
-        .api-link {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 15px 30px;
-            background: #29abe2;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        .api-link:hover {
-            background: #0053b6;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        .endpoints {
-            text-align: left;
-            margin-top: 40px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .endpoints h3 { margin-bottom: 15px; }
-        .endpoints ul { list-style: none; }
-        .endpoints li { padding: 8px 0; }
-        .endpoints code {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-family: monospace;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Cairo", Arial, sans-serif;
+        background: linear-gradient(135deg, #29abe2 0%, #0053b6 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
+      .container {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 60px 40px;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        max-width: 600px;
+      }
+      h1 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+      }
+      p {
+        font-size: 1.1em;
+        margin: 15px 0;
+        opacity: 0.9;
+      }
+      .api-link {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 15px 30px;
+        background: #29abe2;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+      .api-link:hover {
+        background: #0053b6;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+      .endpoints {
+        text-align: left;
+        margin-top: 40px;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        border-radius: 10px;
+      }
+      .endpoints h3 {
+        margin-bottom: 15px;
+      }
+      .endpoints ul {
+        list-style: none;
+      }
+      .endpoints li {
+        padding: 8px 0;
+      }
+      .endpoints code {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-family: monospace;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>🦷 Future Smile Clinic</h1>
-        <p><strong>Backend API Server</strong></p>
-        <p>The backend is running successfully!</p>
-        
-        <a href="/api/" class="api-link">📊 View API</a>
-        <a href="/admin/" class="api-link" style="margin-right: 10px;">🔐 Admin Panel</a>
-        
-        <div class="endpoints">
-            <h3>📍 API Endpoints:</h3>
-            <ul>
-                <li><code>GET /api/services/</code> - List all services</li>
-                <li><code>GET /api/appointments/</code> - List appointments</li>
-                <li><code>GET /api/patients/</code> - List patients</li>
-                <li><code>GET /api/blog/</code> - List blog posts</li>
-                <li><code>POST /api/contact/</code> - Send contact message</li>
-                <li><code>POST /api/token/</code> - Get authentication token</li>
-            </ul>
-        </div>
+      <h1>🦷 Future Smile Clinic</h1>
+      <p><strong>Backend API Server</strong></p>
+      <p>The backend is running successfully!</p>
+
+      <a href="/api/" class="api-link">📊 View API</a>
+      <a href="/admin/" class="api-link" style="margin-right: 10px"
+        >🔐 Admin Panel</a
+      >
+
+      <div class="endpoints">
+        <h3>📍 API Endpoints:</h3>
+        <ul>
+          <li><code>GET /api/services/</code> - List all services</li>
+          <li><code>GET /api/appointments/</code> - List appointments</li>
+          <li><code>GET /api/patients/</code> - List patients</li>
+          <li><code>GET /api/blog/</code> - List blog posts</li>
+          <li><code>POST /api/contact/</code> - Send contact message</li>
+          <li><code>POST /api/token/</code> - Get authentication token</li>
+        </ul>
+      </div>
     </div>
-</body>
+  </body>
 </html>
