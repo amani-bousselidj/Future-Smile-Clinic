@@ -43,6 +43,18 @@ const nextConfig = {
   swcMinify: true,
   poweredByHeader: false,
   compress: true,
+  // Webpack config for CSS optimization
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.optimization.splitChunks.cacheGroups.styles = {
+        name: "styles",
+        type: "css/mini-extract",
+        chunks: "all",
+        enforce: true,
+      };
+    }
+    return config;
+  },
   // Enable experimental features for better performance
   experimental: {
     optimizePackageImports: ["framer-motion", "react-icons"],
