@@ -1,1 +1,2 @@
+release: python manage.py migrate && python manage.py init_admin
 web: gunicorn future_smile.wsgi --log-file -
