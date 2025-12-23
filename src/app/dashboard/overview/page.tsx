@@ -40,9 +40,9 @@ export default function DashboardOverview() {
       try {
         // جلب البيانات من API
         const [appointmentsRes, patientsRes, servicesRes] = await Promise.all([
-          apiRequest("/appointments/", "GET"),
-          apiRequest("/patients/", "GET"),
-          apiRequest("/services/", "GET"),
+          apiRequest("/appointments/", { method: "GET" }),
+          apiRequest("/patients/", { method: "GET" }),
+          apiRequest("/services/", { method: "GET" }),
         ]);
 
         const appointments = appointmentsRes?.results || [];
