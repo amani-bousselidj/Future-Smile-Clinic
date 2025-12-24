@@ -13,7 +13,10 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-your-secret-key-chang
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['*'] if not DEBUG else config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = config(
+    'ALLOWED_HOSTS',
+    default='localhost,127.0.0.1,*.ondigitalocean.app'
+).split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -146,7 +149,7 @@ CORS_ALLOWED_ORIGINS = config(
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
 else:
-    # Add Vercel domains for production
+    # Add Vercel and DigitalOcean domains for production
     CORS_ALLOWED_ORIGINS = [
         'https://future-smile-clinic-production.vercel.app',
         'http://localhost:3000',
@@ -177,7 +180,7 @@ CORS_ALLOW_HEADERS = [
 # CSRF Trusted Origins
 CSRF_TRUSTED_ORIGINS = config(
     'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost:3000,http://localhost:3001,https://future-smile-clinic-production.up.railway.app',
+    default='http://localhost:3000,http://localhost:3001,https://future-smile-clinic-production.up.railway.app,https://*.ondigitalocean.app',
 ).split(',')
 
 # REST Framework Settings

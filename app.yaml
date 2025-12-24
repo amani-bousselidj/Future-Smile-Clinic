@@ -1,0 +1,30 @@
+name: future-smile-clinic-backend
+services:
+- name: api
+  github:
+    repo: amani-bousselidj/Future-Smile-Clinic
+    branch: master
+  build_command: pip install -r backend/requirements.txt && cd backend && python manage.py migrate && python manage.py collectstatic --noinput
+  run_command: cd backend && gunicorn future_smile.wsgi:application --bind 0.0.0.0:8080
+  http_port: 8080
+  source_dir: backend
+  
+  envs:
+  - key: DEBUG
+    value: "False"
+  - key: SECRET_KEY
+    value: ${SECRET_KEY}
+  - key: DATABASE_URL
+    value: ${DATABASE_URL}
+  - key: ALLOWED_HOSTS
+    value: "localhost,127.0.0.1,*.ondigitalocean.app"
+  - key: CORS_ALLOWED_ORIGINS
+    value: "https://future-smile-clinic-production.vercel.app,http://localhost:3000"
+  - key: CSRF_TRUSTED_ORIGINS
+    value: "https://*.ondigitalocean.app,https://future-smile-clinic-production.vercel.app"
+
+databases:
+- name: postgres
+  engine: PG
+  version: "14"
+  production: true
