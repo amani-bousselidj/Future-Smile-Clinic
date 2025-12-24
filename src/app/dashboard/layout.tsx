@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -25,14 +25,9 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const { logout, user } = useAuth();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const menuItems = [
     { name: "الرئيسية", href: "/dashboard", icon: <FaHome /> },
@@ -79,16 +74,14 @@ export default function DashboardLayout({
                   <button
                     key={item.href}
                     onClick={() => {
-                      router.push(item.href);
-                      setSidebarOpen(false);
+                      window.location.href = item.href;
                     }}
-                    disabled={!mounted}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-left ${
-                      mounted && (pathname === item.href ||
-                      pathname.startsWith(item.href + "/"))
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-left cursor-pointer ${
+                      pathname === item.href ||
+                      pathname.startsWith(item.href + "/")
                         ? "bg-white text-primary-dark font-bold shadow-md"
                         : "hover:bg-white/20"
-                    } ${!mounted ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                    }`}
                   >
                     <span className="text-xl">{item.icon}</span>
                     <span>{item.name}</span>
