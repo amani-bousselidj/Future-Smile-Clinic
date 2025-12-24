@@ -62,7 +62,7 @@ export default function AppointmentsPage() {
   const handleDownloadPDF = async (appointmentId: number) => {
     try {
       const response = await fetch(
-        `https://future-smile-clinic-production.up.railway.app/api/appointments/${appointmentId}/download_pdf/`,
+        `https://future-smile-clinic.onrender.com/api/appointments/${appointmentId}/download_pdf/`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,

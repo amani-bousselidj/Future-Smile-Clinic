@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ||
-  "https://future-smile-clinic-production.up.railway.app/api";
+  "https://future-smile-clinic.onrender.com/api";
 const SITE_URL = "https://futuresmile.dz";
 
 async function fetchBlogPosts() {

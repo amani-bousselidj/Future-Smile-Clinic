@@ -45,7 +45,7 @@ export default function GalleryPage() {
   const fetchGallery = async () => {
     try {
       const response = await fetch(
-        "https://future-smile-clinic-production.up.railway.app/api/gallery/"
+        "https://future-smile-clinic.onrender.com/api/gallery/"
       );
       const data = await response.json();
       setGallery(data.results || data);

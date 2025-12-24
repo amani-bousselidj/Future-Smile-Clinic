@@ -1,6 +1,6 @@
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ||
-  "https://future-smile-clinic-production.up.railway.app/api";
+  "https://future-smile-clinic.onrender.com/api";
 
 // Simple cache with expiration (5 minutes)
 const cache = new Map<
