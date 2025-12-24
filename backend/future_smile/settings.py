@@ -151,18 +151,14 @@ if not DEBUG:
     CSRF_COOKIE_SAMESITE = 'Lax'
 
 # CORS Settings
-CORS_ALLOWED_ORIGINS = config(
-    'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:3000,http://localhost:3001,https://future-smile-clinic-production.vercel.app',
-).split(',')
-
-# Allow all origins in development, or specific in production
 if DEBUG:
+    # Development - allow all
     CORS_ALLOW_ALL_ORIGINS = True
 else:
-    # Add Vercel and DigitalOcean domains for production
+    # Production - specific domains
     CORS_ALLOWED_ORIGINS = [
-        'https://future-smile-clinic-production.vercel.app',
+        'https://future-smile-clinic.vercel.app',
+        'https://www.future-smile-clinic.vercel.app',
         'http://localhost:3000',
         'http://localhost:3001',
     ]
@@ -191,7 +187,7 @@ CORS_ALLOW_HEADERS = [
 # CSRF Trusted Origins
 CSRF_TRUSTED_ORIGINS = config(
     'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost:3000,http://localhost:3001,https://future-smile-clinic.onrender.com,https://*.onrender.com',
+    default='http://localhost:3000,http://localhost:3001,https://future-smile-clinic.onrender.com,https://*.onrender.com,https://future-smile-clinic.vercel.app',
 ).split(',')
 
 # REST Framework Settings
