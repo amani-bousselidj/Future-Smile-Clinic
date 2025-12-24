@@ -15,7 +15,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
-    default='localhost,127.0.0.1,*.ondigitalocean.app'
+    default='localhost,127.0.0.1,*.onrender.com,future-smile-clinic.onrender.com'
 ).split(',')
 
 INSTALLED_APPS = [
@@ -132,12 +132,17 @@ if not DEBUG:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_HTTPONLY = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     X_FRAME_OPTIONS = 'DENY'
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
+    # Allow admin cookies over HTTPS
+    SESSION_COOKIE_SAMESITE = 'Lax'
+    CSRF_COOKIE_SAMESITE = 'Lax'
 
 # CORS Settings
 CORS_ALLOWED_ORIGINS = config(
@@ -180,7 +185,7 @@ CORS_ALLOW_HEADERS = [
 # CSRF Trusted Origins
 CSRF_TRUSTED_ORIGINS = config(
     'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost:3000,http://localhost:3001,https://future-smile-clinic-production.up.railway.app,https://*.ondigitalocean.app',
+    default='http://localhost:3000,http://localhost:3001,https://future-smile-clinic.onrender.com,https://*.onrender.com',
 ).split(',')
 
 # REST Framework Settings

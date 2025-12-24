@@ -1,6 +1,7 @@
 # Django Admin Access Guide
 
 ## 🔐 Admin Panel URL:
+
 ```
 https://future-smile-clinic.onrender.com/admin/
 ```
@@ -10,11 +11,13 @@ https://future-smile-clinic.onrender.com/admin/
 ## 📝 Login Credentials:
 
 ### **Username:**
+
 ```
 amani
 ```
 
 ### **Password:**
+
 ```
 bousselidj
 ```
@@ -26,6 +29,7 @@ bousselidj
 ## ✅ If Login Still Fails:
 
 ### **Option 1: Check Render Logs**
+
 1. Go to Render Dashboard
 2. Select `future-smile-clinic-backend`
 3. Go to "Logs"
@@ -33,6 +37,7 @@ bousselidj
 5. Check for any errors
 
 ### **Option 2: Manual Admin Creation**
+
 ```bash
 # If you have Render access, run in terminal:
 python manage.py init_admin
@@ -42,6 +47,7 @@ python manage.py createsuperuser
 ```
 
 ### **Option 3: Reset Admin User**
+
 ```bash
 # Delete and recreate:
 python manage.py shell
@@ -77,12 +83,12 @@ python manage.py shell
 
 ## 🆘 Troubleshooting:
 
-| Problem | Solution |
-|---------|----------|
+| Problem                     | Solution                                |
+| --------------------------- | --------------------------------------- |
 | **Credentials not working** | Check Render logs for init_admin errors |
-| **Page won't load** | Check ALLOWED_HOSTS in settings |
-| **CSRF error** | Clear browser cache and cookies |
-| **Database not found** | Check DATABASE_URL in Render env vars |
+| **Page won't load**         | Check ALLOWED_HOSTS in settings         |
+| **CSRF error**              | Clear browser cache and cookies         |
+| **Database not found**      | Check DATABASE_URL in Render env vars   |
 
 ---
 
