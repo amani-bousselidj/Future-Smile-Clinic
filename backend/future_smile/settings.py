@@ -139,12 +139,19 @@ if not DEBUG:
 # CORS Settings
 CORS_ALLOWED_ORIGINS = config(
     'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:3000,http://localhost:3001',
+    default='http://localhost:3000,http://localhost:3001,https://future-smile-clinic-production.vercel.app',
 ).split(',')
 
-# Allow all origins in development
+# Allow all origins in development, or specific in production
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
+else:
+    # Add Vercel domains for production
+    CORS_ALLOWED_ORIGINS = [
+        'https://future-smile-clinic-production.vercel.app',
+        'http://localhost:3000',
+        'http://localhost:3001',
+    ]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [

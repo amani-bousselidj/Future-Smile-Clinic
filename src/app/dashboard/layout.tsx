@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   FaHome,
@@ -71,11 +70,13 @@ export default function DashboardLayout({
 
               <nav className="space-y-2">
                 {menuItems.map((item) => (
-                  <Link
+                  <button
                     key={item.href}
-                    href={item.href}
-                    onClick={() => setSidebarOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    onClick={() => {
+                      router.push(item.href);
+                      setSidebarOpen(false);
+                    }}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-left ${
                       pathname === item.href ||
                       pathname.startsWith(item.href + "/")
                         ? "bg-white text-primary-dark font-bold shadow-md"
@@ -84,7 +85,7 @@ export default function DashboardLayout({
                   >
                     <span className="text-xl">{item.icon}</span>
                     <span>{item.name}</span>
-                  </Link>
+                  </button>
                 ))}
               </nav>
 
