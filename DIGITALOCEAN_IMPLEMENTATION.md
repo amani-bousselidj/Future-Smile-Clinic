@@ -3,29 +3,34 @@
 ## ✅ تم إنجازه:
 
 ### 1. **تحديث Django Settings** (`backend/future_smile/settings.py`)
+
 - ✅ تحديث `ALLOWED_HOSTS` للـ DigitalOcean domains
-- ✅ تحديث `CORS_ALLOWED_ORIGINS` 
+- ✅ تحديث `CORS_ALLOWED_ORIGINS`
 - ✅ تحديث `CSRF_TRUSTED_ORIGINS`
 - ✅ دعم البيئتين: Development و Production
 
 ### 2. **تحديث متغيرات البيئة** (`backend/.env.example`)
+
 - ✅ أضفنا `DEBUG=False` للـ Production
 - ✅ أضفنا DigitalOcean database format
 - ✅ أضفنا CORS و CSRF domains
 
 ### 3. **إنشاء `app.yaml`** (DigitalOcean App Platform)
+
 - ✅ Build command متكامل
 - ✅ Run command مع Gunicorn
 - ✅ Environment variables محددة
 - ✅ Database PostgreSQL مرفق
 
 ### 4. **ملف التوثيق** (`DIGITALOCEAN_DEPLOYMENT.md`)
+
 - ✅ خطوات شاملة من البداية للنهاية
 - ✅ صور توضيحية لكل خطوة
 - ✅ معلومات Database
 - ✅ Troubleshooting guide
 
 ### 5. **Scripts Automation**
+
 - ✅ `deploy-digitalocean.sh` (لـ Linux/Mac)
 - ✅ `deploy-digitalocean.ps1` (لـ Windows)
 - ✅ يسهلان عملية Deployment
@@ -35,6 +40,7 @@
 ## 🚀 الخطوات التالية:
 
 ### 1️⃣ **الحصول على DigitalOcean Credit**
+
 ```
 1. اذهب: https://education.github.com/pack
 2. ابحث عن DigitalOcean
@@ -43,6 +49,7 @@
 ```
 
 ### 2️⃣ **إنشاء PostgreSQL Database**
+
 ```
 1. DigitalOcean Dashboard → Create → Databases
 2. اختر PostgreSQL 14
@@ -51,6 +58,7 @@
 ```
 
 ### 3️⃣ **Deploy على DigitalOcean**
+
 ```
 1. Dashboard → Create → Apps
 2. ربط GitHub repo
@@ -61,6 +69,7 @@
 ```
 
 ### 4️⃣ **تحديث Frontend API URL**
+
 ```
 src/lib/api.ts:
 const API_BASE_URL = "https://[app-name].ondigitalocean.app/api";
@@ -70,10 +79,10 @@ const API_BASE_URL = "https://[app-name].ondigitalocean.app/api";
 
 ## 📊 التكلفة:
 
-| المرحلة | التكلفة |
-|--------|--------|
+| المرحلة                        | التكلفة      |
+| ------------------------------ | ------------ |
 | السنة الأولى (مع Student Pack) | **مجاني** ✅ |
-| السنة الثانية فما بعد | ~$15-20/شهر |
+| السنة الثانية فما بعد          | ~$15-20/شهر  |
 
 ---
 
@@ -98,7 +107,7 @@ CSRF_TRUSTED_ORIGINS=https://*.ondigitalocean.app
 ✅ **More Control** على Infrastructure  
 ✅ **$50 credit** مجاني لـ Student  
 ✅ **Automatic SSL** من DigitalOcean  
-✅ **Easy Scaling** كل ما يبقى في الـ credit  
+✅ **Easy Scaling** كل ما يبقى في الـ credit
 
 ---
 
@@ -119,13 +128,13 @@ git push origin master
 
 ## 🎯 Timeline:
 
-| الخطوة | الوقت |
-|--------|------|
-| إنشاء DigitalOcean account | 5 دقائق |
-| إنشاء Database | 5 دقائق |
-| Deploy App | 10 دقائق |
-| First Build | 5-10 دقائق |
-| **Total** | **25-30 دقيقة** |
+| الخطوة                     | الوقت           |
+| -------------------------- | --------------- |
+| إنشاء DigitalOcean account | 5 دقائق         |
+| إنشاء Database             | 5 دقائق         |
+| Deploy App                 | 10 دقائق        |
+| First Build                | 5-10 دقائق      |
+| **Total**                  | **25-30 دقيقة** |
 
 ---
 

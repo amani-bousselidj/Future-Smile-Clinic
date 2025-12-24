@@ -20,6 +20,7 @@
 6. اضغط **"Create Database Cluster"**
 
 ### احفظ بيانات Database:
+
 ```
 Host: xxxxx.db.ondigitalocean.com
 Port: 25060
@@ -29,6 +30,7 @@ Password: xxxxxxxxxxxxxxxxx
 ```
 
 **DATABASE_URL:**
+
 ```
 postgresql://doadmin:password@host:25060/defaultdb?sslmode=require
 ```
@@ -66,16 +68,19 @@ CSRF_TRUSTED_ORIGINS=https://*.ondigitalocean.app,https://future-smile-clinic-pr
 في **App Settings** → **Components**:
 
 ### Build Command:
+
 ```bash
 pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
 ```
 
 ### Run Command:
+
 ```bash
 gunicorn future_smile.wsgi:application --bind 0.0.0.0:8080
 ```
 
 ### Source Directory:
+
 ```
 backend
 ```
@@ -106,6 +111,7 @@ Backend URL: https://future-smile-clinic-backend-xxxxx.ondigitalocean.app/api
 حدّث الـ API URL في Frontend:
 
 **src/lib/api.ts:**
+
 ```typescript
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ||
@@ -113,6 +119,7 @@ const API_BASE_URL =
 ```
 
 **أو أضيف في .env.local:**
+
 ```
 NEXT_PUBLIC_API_URL=https://future-smile-clinic-backend-xxxxx.ondigitalocean.app/api
 ```
@@ -135,17 +142,18 @@ https://future-smile-clinic-backend-xxxxx.ondigitalocean.app/admin/
 
 ## 📊 التكلفة
 
-| الخدمة | السعر |
-|--------|------|
-| App (Backend) | مجاني |
+| الخدمة              | السعر                   |
+| ------------------- | ----------------------- |
+| App (Backend)       | مجاني                   |
 | PostgreSQL Database | $15/شهر (مجاني أول سنة) |
-| **Total** | **مجاني للسنة الأولى** |
+| **Total**           | **مجاني للسنة الأولى**  |
 
 ---
 
 ## 🔧 Troubleshooting
 
 ### 1. Database Connection Error
+
 ```bash
 # تحقق من DATABASE_URL
 # جرب الـ SSL:
@@ -153,6 +161,7 @@ postgresql://user:password@host:25060/dbname?sslmode=require
 ```
 
 ### 2. Static Files Not Loading
+
 ```bash
 # تأكد من:
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -160,6 +169,7 @@ STATIC_URL = 'static/'
 ```
 
 ### 3. CORS Error
+
 ```python
 # في settings.py:
 CORS_ALLOWED_ORIGINS = [
@@ -172,10 +182,12 @@ CORS_ALLOWED_ORIGINS = [
 ## 🚀 Next Steps
 
 1. **Domain Custom:**
+
    - استخدم Namecheap domain من Student Pack
    - أضيف CNAME record إلى DigitalOcean
 
 2. **SSL Certificate:**
+
    - DigitalOcean توفر SSL automatically
 
 3. **Monitoring:**
