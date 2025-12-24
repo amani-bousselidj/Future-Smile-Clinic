@@ -63,11 +63,13 @@ Instance Type:
 ### **في الحقول التالية:**
 
 **Build Command:**
+
 ```bash
 pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
 ```
 
 **Start Command:**
+
 ```bash
 gunicorn future_smile.wsgi:application --bind 0.0.0.0:$PORT
 ```
@@ -86,7 +88,7 @@ gunicorn future_smile.wsgi:application --bind 0.0.0.0:$PORT
 
 ② SECRET_KEY
    django-insecure-8j_s!@q^#8zx$5#9k!j@^#$%^&*()_+-=[]{}|;:,.<>?
-   
+
 ③ ALLOWED_HOSTS
    .onrender.com
 
@@ -123,19 +125,19 @@ Done! ✅
 1. من Render Dashboard → اضغط "+ New"
 2. اختر "PostgreSQL"
 3. ملأ:
-   
+
    Name:
    future-smile-clinic-db
-   
+
    Database:
    clinic
-   
+
    User:
    admin
-   
+
    Region:
    Frankfurt
-   
+
    Plan:
    Free
 
@@ -155,6 +157,7 @@ Done! ✅
 ```
 
 **مثال:**
+
 ```
 postgresql://admin:xyz123abc@dpg-xxxxx.onrender.com:5432/clinic
 ```
@@ -187,6 +190,7 @@ https://future-smile-clinic-backend-xxxx.onrender.com
 ```
 
 **Backend API URL:**
+
 ```
 https://future-smile-clinic-backend-xxxx.onrender.com/api
 ```
@@ -200,13 +204,17 @@ https://future-smile-clinic-backend-xxxx.onrender.com/api
 **`src/lib/api.ts`:**
 
 ابحث عن هذا السطر:
+
 ```typescript
-const API_BASE_URL = "https://future-smile-clinic-production.up.railway.app/api";
+const API_BASE_URL =
+  "https://future-smile-clinic-production.up.railway.app/api";
 ```
 
 غيّره لـ:
+
 ```typescript
-const API_BASE_URL = "https://future-smile-clinic-backend-xxxx.onrender.com/api";
+const API_BASE_URL =
+  "https://future-smile-clinic-backend-xxxx.onrender.com/api";
 ```
 
 (استبدل `xxxx` بـ الأرقام من URL الفعلي)
@@ -214,11 +222,13 @@ const API_BASE_URL = "https://future-smile-clinic-backend-xxxx.onrender.com/api"
 ### **أو أستخدم .env:**
 
 **`.env.local`:**
+
 ```
 NEXT_PUBLIC_API_URL=https://future-smile-clinic-backend-xxxx.onrender.com/api
 ```
 
 **في `src/lib/api.ts`:**
+
 ```typescript
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://...";
 ```
@@ -254,12 +264,12 @@ https://future-smile-clinic.vercel.app/dashboard
 
 ## 📊 المقارنة:
 
-| الميزة | Render | Railway |
-|--------|--------|---------|
-| **مجاني** | ✅ 100% | ⚠️ محدود |
-| **بدون بطاقة** | ✅ | ✅ |
-| **Database مجاني** | ✅ | ❌ |
-| **الأداء** | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| الميزة             | Render   | Railway    |
+| ------------------ | -------- | ---------- |
+| **مجاني**          | ✅ 100%  | ⚠️ محدود   |
+| **بدون بطاقة**     | ✅       | ✅         |
+| **Database مجاني** | ✅       | ❌         |
+| **الأداء**         | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
 
 ---
 
@@ -272,6 +282,7 @@ https://future-smile-clinic.vercel.app/dashboard
 ✅ **HTTPS تلقائي** - آمن
 
 ⚠️ **الحدود:**
+
 - Service واحد مجاني
 - Database واحد مجاني
 - Sleep بعد 15 دقيقة عدم استخدام (يصحو بسرعة)
@@ -283,6 +294,7 @@ https://future-smile-clinic.vercel.app/dashboard
 ### **مشكلة: CORS Error**
 
 **الحل:**
+
 ```python
 # في settings.py
 CORS_ALLOWED_ORIGINS = [
@@ -293,6 +305,7 @@ CORS_ALLOWED_ORIGINS = [
 ### **مشكلة: Database Connection Failed**
 
 **الحل:**
+
 ```
 1. تحقق من DATABASE_URL
 2. أضيف: ?sslmode=require في النهاية
@@ -302,6 +315,7 @@ CORS_ALLOWED_ORIGINS = [
 ### **مشكلة: Static files not loading**
 
 **الحل:**
+
 ```bash
 python manage.py collectstatic --noinput
 ```

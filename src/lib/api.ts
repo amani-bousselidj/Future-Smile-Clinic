@@ -3,10 +3,7 @@ const API_BASE_URL =
   "https://future-smile-clinic.onrender.com/api";
 
 // Simple cache with expiration (5 minutes)
-const cache = new Map<
-  string,
-  { data: any; timestamp: number; ttl: number }
->();
+const cache = new Map<string, { data: any; timestamp: number; ttl: number }>();
 
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
 

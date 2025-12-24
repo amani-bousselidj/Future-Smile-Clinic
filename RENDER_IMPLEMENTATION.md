@@ -3,17 +3,20 @@
 ## ✅ Completed Setup:
 
 ### 1. **Backend Files Ready**
+
 - ✅ `backend/requirements.txt` - All dependencies included
 - ✅ `backend/render.yaml` - Render configuration
 - ✅ `backend/.env.example` - Environment variables template
 - ✅ `backend/future_smile/settings.py` - Database URL support
 
 ### 2. **Documentation Created**
+
 - ✅ `RENDER_DEPLOYMENT.md` - Complete step-by-step guide
 - ✅ `deploy-render.ps1` - Windows deployment script
 - ✅ `deploy-render.sh` - Linux/Mac deployment script
 
 ### 3. **Ready for Deployment**
+
 - ✅ All files committed to GitHub
 - ✅ Master branch ready
 
@@ -22,6 +25,7 @@
 ## 🚀 Quick Start (3 Steps):
 
 ### **Step 1: Setup Render Account**
+
 ```
 https://render.com
 ↓
@@ -31,6 +35,7 @@ Authorize rendering-io
 ```
 
 ### **Step 2: Deploy Backend**
+
 ```
 Dashboard → + New → Web Service
 ↓
@@ -44,6 +49,7 @@ Start: gunicorn future_smile.wsgi:application --bind 0.0.0.0:$PORT
 ```
 
 ### **Step 3: Setup Database**
+
 ```
 Dashboard → + New → PostgreSQL
 ↓
@@ -84,7 +90,8 @@ CSRF_TRUSTED_ORIGINS=https://.onrender.com,https://future-smile-clinic.vercel.ap
 1. **Get Backend URL** from Render Dashboard
 2. **Update Frontend** in `src/lib/api.ts`:
    ```typescript
-   const API_BASE_URL = "https://future-smile-clinic-backend-xxxx.onrender.com/api";
+   const API_BASE_URL =
+     "https://future-smile-clinic-backend-xxxx.onrender.com/api";
    ```
 3. **Push Changes** to GitHub
 4. **Vercel** auto-redeploys Frontend
@@ -94,20 +101,21 @@ CSRF_TRUSTED_ORIGINS=https://.onrender.com,https://future-smile-clinic.vercel.ap
 
 ## ⚡ Timeline:
 
-| Step | Time |
-|------|------|
-| Create Render account | 2 min |
-| Deploy Web Service | 5 min |
-| Create Database | 2 min |
-| Connect to Backend | 3 min |
-| Update Frontend | 5 min |
-| **Total** | **17 minutes** |
+| Step                  | Time           |
+| --------------------- | -------------- |
+| Create Render account | 2 min          |
+| Deploy Web Service    | 5 min          |
+| Create Database       | 2 min          |
+| Connect to Backend    | 3 min          |
+| Update Frontend       | 5 min          |
+| **Total**             | **17 minutes** |
 
 ---
 
 ## 🎯 Next Actions:
 
 1. ✅ Run deployment script (optional):
+
    ```powershell
    powershell -ExecutionPolicy Bypass -File deploy-render.ps1
    ```
