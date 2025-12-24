@@ -4,8 +4,9 @@ services:
     env: python
     plan: free
     runtime: python-3.11
-    buildCommand: pip install -r requirements.txt && python manage.py migrate && python manage.py init_admin && python manage.py collectstatic --noinput
+    buildCommand: pip install -r requirements.txt
     startCommand: gunicorn future_smile.wsgi:application --bind 0.0.0.0:$PORT
+    preDeployCommand: bash release.sh
     healthCheckPath: /api/
 
     envVars:
