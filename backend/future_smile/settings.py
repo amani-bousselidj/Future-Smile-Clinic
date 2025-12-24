@@ -46,6 +46,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'future_smile.middleware.AdminAuthMiddleware',  # Custom middleware for admin
 ]
 
 ROOT_URLCONF = 'future_smile.urls'
@@ -109,6 +110,11 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Session configuration
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 2592000  # 30 days
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
@@ -132,11 +138,11 @@ if not DEBUG:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_HTTPONLY = True
-    CSRF_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_HTTPONLY = False  # Allow admin panel to set session
+    CSRF_COOKIE_HTTPONLY = False  # Allow admin panel to set CSRF token
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    X_FRAME_OPTIONS = 'DENY'
+    X_FRAME_OPTIONS = 'SAMEORIGIN'  # Allow admin panel frames
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
