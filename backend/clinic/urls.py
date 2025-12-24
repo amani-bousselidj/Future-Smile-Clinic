@@ -10,7 +10,7 @@ from .views import (
     BeforeAfterGalleryViewSet,
     AdminInitViewSet,
 )
-from .views_admin import admin_login, check_admin_exists, create_admin
+from .views_admin import admin_login, check_admin_exists, create_admin, admin_init
 
 router = DefaultRouter()
 router.register(r'services', ServiceViewSet, basename='service')
@@ -23,6 +23,7 @@ router.register(r'gallery', BeforeAfterGalleryViewSet, basename='gallery')
 router.register(r'admin-init', AdminInitViewSet, basename='admin-init')
 
 urlpatterns = [
+    path('admin/init/', admin_init, name='admin-init'),
     path('admin/login/', admin_login, name='admin-login'),
     path('admin/check/', check_admin_exists, name='check-admin-exists'),
     path('admin/create/', create_admin, name='create-admin'),

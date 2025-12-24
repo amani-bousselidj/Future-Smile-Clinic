@@ -5,6 +5,70 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_http_methods
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
+def admin_init(request):
+    """
+    Initialize admin user - creates if doesn't exist
+    GET: Check if admin exists
+    POST: Create admin user
+    """
+    try:
+        admin_user = User.objects.filter(username='amani', is_superuser=True).first()
+        
+        if request.method == 'GET':
+            if admin_user:
+                return Response({
+                    'exists': True,
+                    'message': 'Admin user already exists',
+                    'username': admin_user.username,
+                    'email': admin_user.email,
+                }, status=200)
+            else:
+                return Response({
+                    'exists': False,
+                    'message': 'No admin user found',
+                }, status=200)
+        
+        # POST - Create or update admin
+        if admin_user:
+            # Update existing admin
+            admin_user.set_password('bousselidj')
+            admin_user.email = 'amani@example.com'
+            admin_user.save()
+            return Response({
+                'created': False,
+                'updated': True,
+                'message': 'Admin user updated',
+                'username': admin_user.username,
+                'email': admin_user.email,
+            }, status=200)
+        else:
+            # Create new admin
+            admin_user = User.objects.create_superuser(
+                username='amani',
+                email='amani@example.com',
+                password='bousselidj'
+            )
+            return Response({
+                'created': True,
+                'updated': False,
+                'message': 'Admin user created successfully',
+                'username': admin_user.username,
+                'email': admin_user.email,
+            }, status=201)
+    
+    except Exception as e:
+        logger.error(f"Error in admin_init: {str(e)}")
+        return Response({
+            'error': str(e),
+            'message': 'Failed to initialize admin user'
+        }, status=400)
 
 
 @api_view(['POST'])
