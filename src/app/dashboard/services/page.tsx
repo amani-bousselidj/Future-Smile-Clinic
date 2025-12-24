@@ -29,8 +29,11 @@ export default function ServicesManagementPage() {
     try {
       const data = await servicesAPI.getAll();
       setServices(data.results || []);
-    } catch (error) {
-      // Silent error handling
+    } catch (error: any) {
+      console.error("Error fetching services:", error);
+      toast.error("فشل تحميل الخدمات. الخادم قد يكون مشغول الآن، حاول لاحقاً");
+      // Set empty array to prevent UI breaking
+      setServices([]);
     } finally {
       setIsLoading(false);
     }
@@ -49,8 +52,14 @@ export default function ServicesManagementPage() {
       toast.success(
         editingService ? "تم تحديث الخدمة بنجاح" : "تم إضافة الخدمة بنجاح"
       );
-    } catch (error) {
-      toast.error("فشل في حفظ الخدمة");
+    } catch (error: any) {
+      console.error("Error saving service:", error);
+      const errorMsg = error?.message || "فشل في حفظ الخدمة";
+      if (errorMsg.includes("ERR_INSUFFICIENT")) {
+        toast.error("الخادم مشغول جداً. حاول مرة أخرى بعد قليل");
+      } else {
+        toast.error(errorMsg);
+      }
     }
   };
 

@@ -33,10 +33,11 @@ function getAuthToken(): string | null {
   return null;
 }
 
-// Generic API request handler with caching
+// Generic API request handler with caching and retry
 export async function apiRequest<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
+  retries: number = 2
 ): Promise<T> {
   const url = `${API_BASE_URL}${endpoint}`;
 
@@ -91,7 +92,18 @@ export async function apiRequest<T>(
     }
 
     return data;
-  } catch (error) {
+  } catch (error: any) {
+    // Retry on network errors (ERR_INSUFFICIENT_RESOURCES, etc.)
+    if (
+      retries > 0 &&
+      (error.message?.includes("ERR_") ||
+        error.message?.includes("Failed to fetch") ||
+        error.message?.includes("NetworkError"))
+    ) {
+      // Wait 1 second before retrying
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      return apiRequest<T>(endpoint, options, retries - 1);
+    }
     throw error;
   }
 }

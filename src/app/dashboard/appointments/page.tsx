@@ -32,8 +32,11 @@ export default function AppointmentsPage() {
       ]);
       setAppointments(appointmentsData.results || []);
       setServices(servicesData.results || []);
-    } catch (error) {
-      // Silent error handling
+    } catch (error: any) {
+      console.error("Error fetching data:", error);
+      toast.error("فشل تحميل البيانات. الخادم قد يكون مشغول الآن");
+      setAppointments([]);
+      setServices([]);
     } finally {
       setIsLoading(false);
     }
