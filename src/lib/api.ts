@@ -2,6 +2,29 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ||
   "https://future-smile-clinic-production.up.railway.app/api";
 
+// Simple cache with expiration (5 minutes)
+const cache = new Map<
+  string,
+  { data: any; timestamp: number; ttl: number }
+>();
+
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+// Get cached data if valid
+function getCachedData(key: string): any | null {
+  const cached = cache.get(key);
+  if (cached && Date.now() - cached.timestamp < cached.ttl) {
+    return cached.data;
+  }
+  cache.delete(key);
+  return null;
+}
+
+// Set cached data
+function setCacheData(key: string, data: any, ttl: number = CACHE_TTL): void {
+  cache.set(key, { data, timestamp: Date.now(), ttl });
+}
+
 // Get auth token from localStorage
 function getAuthToken(): string | null {
   if (typeof window !== "undefined") {
@@ -10,12 +33,20 @@ function getAuthToken(): string | null {
   return null;
 }
 
-// Generic API request handler
+// Generic API request handler with caching
 export async function apiRequest<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
   const url = `${API_BASE_URL}${endpoint}`;
+
+  // Use cache only for GET requests
+  if (!options.method || options.method === "GET") {
+    const cached = getCachedData(endpoint);
+    if (cached) {
+      return cached as T;
+    }
+  }
 
   const token = getAuthToken();
   const defaultHeaders: HeadersInit = {
@@ -52,9 +83,31 @@ export async function apiRequest<T>(
       return {} as T;
     }
 
-    return await response.json();
+    const data = await response.json();
+
+    // Cache GET requests
+    if (!options.method || options.method === "GET") {
+      setCacheData(endpoint, data);
+    }
+
+    return data;
   } catch (error) {
     throw error;
+  }
+}
+
+// Export cache invalidation function
+export function invalidateCache(pattern?: string): void {
+  if (pattern) {
+    // Invalidate specific cache entries matching pattern
+    for (const key of cache.keys()) {
+      if (key.includes(pattern)) {
+        cache.delete(key);
+      }
+    }
+  } else {
+    // Clear all cache
+    cache.clear();
   }
 }
 
@@ -70,20 +123,29 @@ export const servicesAPI = {
     duration: string;
     image?: string;
     is_active?: boolean;
-  }) =>
-    apiRequest<any>("/services/", {
+  }) => {
+    const promise = apiRequest<any>("/services/", {
       method: "POST",
       body: JSON.stringify(data),
-    }),
-  update: (id: number, data: any) =>
-    apiRequest<any>(`/services/${id}/`, {
+    });
+    promise.then(() => invalidateCache("services"));
+    return promise;
+  },
+  update: (id: number, data: any) => {
+    const promise = apiRequest<any>(`/services/${id}/`, {
       method: "PATCH",
       body: JSON.stringify(data),
-    }),
-  delete: (id: number) =>
-    apiRequest<void>(`/services/${id}/`, {
+    });
+    promise.then(() => invalidateCache("services"));
+    return promise;
+  },
+  delete: (id: number) => {
+    const promise = apiRequest<void>(`/services/${id}/`, {
       method: "DELETE",
-    }),
+    });
+    promise.then(() => invalidateCache("services"));
+    return promise;
+  },
 };
 
 // Appointments API
@@ -96,25 +158,34 @@ export const appointmentsAPI = {
     appointment_date: string;
     appointment_time: string;
     notes?: string;
-  }) =>
-    apiRequest<any>("/appointments/", {
+  }) => {
+    const promise = apiRequest<any>("/appointments/", {
       method: "POST",
       body: JSON.stringify(data),
-    }),
+    });
+    promise.then(() => invalidateCache("appointments"));
+    return promise;
+  },
 
   getAll: () => apiRequest<{ results: any[] }>("/appointments/"),
   getById: (id: number) => apiRequest<any>(`/appointments/${id}/`),
 
-  update: (id: number, data: any) =>
-    apiRequest<any>(`/appointments/${id}/`, {
+  update: (id: number, data: any) => {
+    const promise = apiRequest<any>(`/appointments/${id}/`, {
       method: "PATCH",
       body: JSON.stringify(data),
-    }),
+    });
+    promise.then(() => invalidateCache("appointments"));
+    return promise;
+  },
 
-  delete: (id: number) =>
-    apiRequest<any>(`/appointments/${id}/`, {
+  delete: (id: number) => {
+    const promise = apiRequest<any>(`/appointments/${id}/`, {
       method: "DELETE",
-    }),
+    });
+    promise.then(() => invalidateCache("appointments"));
+    return promise;
+  },
 };
 
 // Contact API
@@ -146,17 +217,23 @@ export const patientsAPI = {
     date_of_birth?: string;
     address?: string;
     medical_history?: string;
-  }) =>
-    apiRequest<any>("/patients/", {
+  }) => {
+    const promise = apiRequest<any>("/patients/", {
       method: "POST",
       body: JSON.stringify(data),
-    }),
+    });
+    promise.then(() => invalidateCache("patients"));
+    return promise;
+  },
 
-  update: (id: number, data: any) =>
-    apiRequest<any>(`/patients/${id}/`, {
+  update: (id: number, data: any) => {
+    const promise = apiRequest<any>(`/patients/${id}/`, {
       method: "PATCH",
       body: JSON.stringify(data),
-    }),
+    });
+    promise.then(() => invalidateCache("patients"));
+    return promise;
+  },
 };
 
 // Blog API
@@ -172,20 +249,29 @@ export const blogAPI = {
     read_time: string;
     image?: string;
     is_published?: boolean;
-  }) =>
-    apiRequest<any>("/blog/", {
+  }) => {
+    const promise = apiRequest<any>("/blog/", {
       method: "POST",
       body: JSON.stringify(data),
-    }),
-  update: (id: number, data: any) =>
-    apiRequest<any>(`/blog/${id}/`, {
+    });
+    promise.then(() => invalidateCache("blog"));
+    return promise;
+  },
+  update: (id: number, data: any) => {
+    const promise = apiRequest<any>(`/blog/${id}/`, {
       method: "PATCH",
       body: JSON.stringify(data),
-    }),
-  delete: (id: number) =>
-    apiRequest<void>(`/blog/${id}/`, {
+    });
+    promise.then(() => invalidateCache("blog"));
+    return promise;
+  },
+  delete: (id: number) => {
+    const promise = apiRequest<void>(`/blog/${id}/`, {
       method: "DELETE",
-    }),
+    });
+    promise.then(() => invalidateCache("blog"));
+    return promise;
+  },
 };
 
 // Testimonials API
@@ -197,18 +283,27 @@ export const testimonialsAPI = {
     service_name: string;
     rating: number;
     comment: string;
-  }) =>
-    apiRequest<any>("/testimonials/", {
+  }) => {
+    const promise = apiRequest<any>("/testimonials/", {
       method: "POST",
       body: JSON.stringify(data),
-    }),
-  update: (id: number, data: any) =>
-    apiRequest<any>(`/testimonials/${id}/`, {
+    });
+    promise.then(() => invalidateCache("testimonials"));
+    return promise;
+  },
+  update: (id: number, data: any) => {
+    const promise = apiRequest<any>(`/testimonials/${id}/`, {
       method: "PATCH",
       body: JSON.stringify(data),
-    }),
-  delete: (id: number) =>
-    apiRequest<void>(`/testimonials/${id}/`, {
+    });
+    promise.then(() => invalidateCache("testimonials"));
+    return promise;
+  },
+  delete: (id: number) => {
+    const promise = apiRequest<any>(`/testimonials/${id}/`, {
       method: "DELETE",
-    }),
+    });
+    promise.then(() => invalidateCache("testimonials"));
+    return promise;
+  },
 };
