@@ -150,20 +150,8 @@ if not DEBUG:
     SESSION_COOKIE_SAMESITE = 'Lax'
     CSRF_COOKIE_SAMESITE = 'Lax'
 
-# CORS Settings
-if DEBUG:
-    # Development - allow all
-    CORS_ALLOW_ALL_ORIGINS = True
-else:
-    # Production - allow Vercel
-    CORS_ALLOW_ALL_ORIGINS = True  # Temporarily allow all for debugging
-    # CORS_ALLOWED_ORIGINS = [
-    #     'https://future-smile-clinic.vercel.app',
-    #     'https://www.future-smile-clinic.vercel.app',
-    #     'http://localhost:3000',
-    #     'http://localhost:3001',
-    # ]
-
+# CORS Settings - Explicitly allow all origins and credentials
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
     'DELETE',
@@ -194,10 +182,11 @@ CSRF_TRUSTED_ORIGINS = config(
 # REST Framework Settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # Temporarily disable for debugging - causing 401 issues
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',  # Allow unauthenticated access for GET
+        'rest_framework.permissions.AllowAny',  # Allow unauthenticated access
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
