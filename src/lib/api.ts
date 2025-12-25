@@ -1,6 +1,11 @@
+// Use Render backend API URL (hardcoded as fallback)
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ||
-  "https://future-smile-clinic.onrender.com/api";
+  (typeof window !== 'undefined' ? 
+    (window.location.hostname.includes('localhost') 
+      ? 'http://localhost:8000/api' 
+      : 'https://future-smile-clinic.onrender.com/api') 
+    : 'https://future-smile-clinic.onrender.com/api');
 
 // Simple cache with expiration (5 minutes)
 const cache = new Map<string, { data: any; timestamp: number; ttl: number }>();
