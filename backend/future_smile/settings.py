@@ -155,13 +155,14 @@ if DEBUG:
     # Development - allow all
     CORS_ALLOW_ALL_ORIGINS = True
 else:
-    # Production - specific domains
-    CORS_ALLOWED_ORIGINS = [
-        'https://future-smile-clinic.vercel.app',
-        'https://www.future-smile-clinic.vercel.app',
-        'http://localhost:3000',
-        'http://localhost:3001',
-    ]
+    # Production - allow Vercel
+    CORS_ALLOW_ALL_ORIGINS = True  # Temporarily allow all for debugging
+    # CORS_ALLOWED_ORIGINS = [
+    #     'https://future-smile-clinic.vercel.app',
+    #     'https://www.future-smile-clinic.vercel.app',
+    #     'http://localhost:3000',
+    #     'http://localhost:3001',
+    # ]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
