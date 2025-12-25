@@ -29,7 +29,13 @@ function setCacheData(key: string, data: any, ttl: number = CACHE_TTL): void {
 // Get auth token from localStorage
 function getAuthToken(): string | null {
   if (typeof window !== "undefined") {
-    return localStorage.getItem("access_token");
+    const token = localStorage.getItem("access_token");
+    if (token) {
+      console.log("🔐 Auth token found, length:", token.length);
+    } else {
+      console.log("🔐 No auth token in localStorage");
+    }
+    return token;
   }
   return null;
 }
@@ -66,6 +72,13 @@ export async function apiRequest<T>(
       ...options.headers,
     },
   };
+
+  console.log("📤 API Request:", {
+    url,
+    method: config.method || "GET",
+    hasAuthToken: !!token,
+    headers: Object.keys(config.headers as Record<string, string>),
+  });
 
   try {
     const response = await fetch(url, config);
