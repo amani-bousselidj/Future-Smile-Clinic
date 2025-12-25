@@ -1,11 +1,10 @@
-// Use Render backend API URL (hardcoded as fallback)
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  (typeof window !== 'undefined' ? 
-    (window.location.hostname.includes('localhost') 
-      ? 'http://localhost:8000/api' 
-      : 'https://future-smile-clinic.onrender.com/api') 
-    : 'https://future-smile-clinic.onrender.com/api');
+// Use Render backend API URL - HARDCODED to bypass environment variable issues
+const API_BASE_URL = "https://future-smile-clinic.onrender.com/api";
+
+// Log API URL for debugging
+if (typeof window !== "undefined") {
+  console.log("🔗 API Base URL:", API_BASE_URL);
+}
 
 // Simple cache with expiration (5 minutes)
 const cache = new Map<string, { data: any; timestamp: number; ttl: number }>();
