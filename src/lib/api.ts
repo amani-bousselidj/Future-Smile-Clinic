@@ -84,6 +84,21 @@ export async function apiRequest<T>(
     const response = await fetch(url, config);
 
     if (!response.ok) {
+      // Handle 401 Unauthorized - likely invalid token
+      if (response.status === 401 && token) {
+        console.warn("🚫 401 Unauthorized received. Invalid/expired token. Clearing auth...");
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          localStorage.removeItem("user");
+        }
+        
+        // Retry without the invalid token
+        if (retries > 0) {
+          return apiRequest<T>(endpoint, options, 0); // Retry once without token
+        }
+      }
+      
       const error = await response.json().catch(() => ({}));
       throw new Error(
         error.message || `HTTP error! status: ${response.status}`
