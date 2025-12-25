@@ -125,11 +125,14 @@ export default function DashboardPage() {
 
     // Cleanup function to destroy charts on unmount
     return () => {
-      if (lineChartRef.current) {
-        lineChartRef.current.destroy();
+      const lineChart = lineChartRef.current;
+      const barChart = barChartRef.current;
+      
+      if (lineChart) {
+        lineChart.destroy();
       }
-      if (barChartRef.current) {
-        barChartRef.current.destroy();
+      if (barChart) {
+        barChart.destroy();
       }
     };
   }, []);

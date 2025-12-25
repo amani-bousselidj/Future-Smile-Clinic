@@ -49,9 +49,9 @@ export default function DashboardOverview() {
         const patients = (patientsRes as any)?.results || [];
         const services = (servicesRes as any)?.results || [];
 
-        // حساب الإحصائيات
+        // حساب الإحصائيات - استخدام price_max كقيمة افتراضية للإيرادات
         const totalRevenue = services.reduce(
-          (sum: number, service: any) => sum + (service.price_min || 0),
+          (sum: number, service: any) => sum + (service.price_max || service.price_min || 0),
           0
         );
 
@@ -62,16 +62,28 @@ export default function DashboardOverview() {
           return acc;
         }, {});
 
-        // بيانات الاتجاه (آخر 7 أيام)
-        const appointmentsTrend = [
-          { date: "الاثنين", count: Math.floor(Math.random() * 10) + 2 },
-          { date: "الثلاثاء", count: Math.floor(Math.random() * 10) + 3 },
-          { date: "الأربعاء", count: Math.floor(Math.random() * 10) + 4 },
-          { date: "الخميس", count: Math.floor(Math.random() * 10) + 5 },
-          { date: "الجمعة", count: Math.floor(Math.random() * 10) + 6 },
-          { date: "السبت", count: Math.floor(Math.random() * 10) + 3 },
-          { date: "الأحد", count: Math.floor(Math.random() * 10) + 2 },
-        ];
+        // بيانات الاتجاه (آخر 7 أيام) - محسوبة من البيانات الفعلية
+        const dayNames = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+        const today = new Date();
+        const appointmentsTrend = [];
+        
+        for (let i = 6; i >= 0; i--) {
+          const date = new Date(today);
+          date.setDate(date.getDate() - i);
+          const dayIndex = date.getDay();
+          
+          // حساب عدد المواعيد في هذا اليوم من البيانات الفعلية
+          const dayAppointments = appointments.filter((apt: any) => {
+            if (!apt.appointment_date) return false;
+            const aptDate = new Date(apt.appointment_date);
+            return aptDate.toDateString() === date.toDateString();
+          });
+          
+          appointmentsTrend.push({
+            date: dayNames[dayIndex],
+            count: dayAppointments.length,
+          });
+        }
 
         setStats({
           totalAppointments: appointments.length,
