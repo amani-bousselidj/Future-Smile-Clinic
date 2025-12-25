@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ConditionalLayout from "../components/layout/ConditionalLayout";
+import StorageCleanup from "../components/StorageCleanup";
 import { AuthProvider } from "../contexts/AuthContext";
 import ToastProvider from "../components/ToastProvider";
 import { defaultMetadata } from "../lib/metadata";
@@ -36,6 +37,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-gray-50">
+        <StorageCleanup />
         <AuthProvider>
           <ToastProvider />
           <ConditionalLayout>{children}</ConditionalLayout>
