@@ -45,9 +45,8 @@ export default function AnalyticsPage() {
       completedAppointments.forEach((apt) => {
         const service = services.find((s) => s.id === apt.service);
         if (service) {
-          const avgPrice =
-            (parseFloat(service.price_min) + parseFloat(service.price_max)) / 2;
-          totalRevenue += avgPrice;
+          const price = parseFloat(service.price_max || service.price_min || 0);
+          totalRevenue += price;
         }
       });
 

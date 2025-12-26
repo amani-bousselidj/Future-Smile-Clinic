@@ -49,9 +49,19 @@ export default function DashboardOverview() {
         const patients = (patientsRes as any)?.results || [];
         const services = (servicesRes as any)?.results || [];
 
-        // حساب الإحصائيات - استخدام price_max كقيمة افتراضية للإيرادات
-        const totalRevenue = services.reduce(
-          (sum: number, service: any) => sum + (service.price_max || service.price_min || 0),
+        // حساب الإيرادات من المواعيد المكتملة فقط
+        const completedAppointments = appointments.filter(
+          (apt: any) => apt.status === "completed"
+        );
+        
+        const totalRevenue = completedAppointments.reduce(
+          (sum: number, apt: any) => {
+            const service = services.find((s: any) => s.id === apt.service);
+            const price = service
+              ? parseFloat(service.price_max || service.price_min || 0)
+              : 0;
+            return sum + price;
+          },
           0
         );
 

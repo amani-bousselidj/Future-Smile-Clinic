@@ -83,6 +83,31 @@ export default function DashboardPage() {
   const lineChartRef = useRef<ChartJS<"line"> | null>(null);
   const barChartRef = useRef<ChartJS<"bar"> | null>(null);
 
+  // حساب الإيرادات الشهرية من المواعيد المكتملة
+  const calculateMonthlyRevenue = (appointments: any[], services: any[]) => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    const monthlyCompleted = appointments.filter((apt) => {
+      if (apt.status !== "completed") return false;
+      const aptDate = new Date(apt.appointment_date);
+      return (
+        aptDate.getMonth() === currentMonth &&
+        aptDate.getFullYear() === currentYear
+      );
+    });
+
+    const revenue = monthlyCompleted.reduce((sum, apt) => {
+      const service = services.find((s) => s.id === apt.service);
+      const price = service
+        ? parseFloat(service.price_max || service.price_min || 0)
+        : 0;
+      return sum + price;
+    }, 0);
+
+    return revenue.toLocaleString("ar-DZ") + " دج";
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -112,7 +137,7 @@ export default function DashboardPage() {
           totalPatients: patients.length,
           todayAppointments: todayAppts,
           totalServices: services.length,
-          monthlyRevenue: "450,000 دج", // Placeholder
+          monthlyRevenue: calculateMonthlyRevenue(appointments, services),
         });
       } catch (error) {
         // Silent error handling
@@ -127,7 +152,7 @@ export default function DashboardPage() {
     return () => {
       const lineChart = lineChartRef.current;
       const barChart = barChartRef.current;
-      
+
       if (lineChart) {
         lineChart.destroy();
       }
