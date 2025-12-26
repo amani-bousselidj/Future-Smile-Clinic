@@ -10,6 +10,9 @@ import {
   FaSearch,
   FaPlus,
   FaFilePdf,
+  FaEye,
+  FaCalendarAlt,
+  FaMapPin,
 } from "react-icons/fa";
 import { patientsAPI } from "../../../lib/api";
 import toast from "react-hot-toast";
@@ -19,6 +22,8 @@ export default function PatientsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState<any>(null);
+  const [showDetails, setShowDetails] = useState(false);
   const [formData, setFormData] = useState({
     full_name: "",
     phone: "",
@@ -344,14 +349,21 @@ export default function PatientsPage() {
 
             <div className="mt-4 pt-4 border-t border-gray-200 flex gap-2">
               <button
+                onClick={() => {
+                  setSelectedPatient(patient);
+                  setShowDetails(true);
+                }}
+                className="flex-1 btn-primary text-sm py-2 flex items-center justify-center gap-2"
+              >
+                <FaEye />
+                عرض
+              </button>
+              <button
                 onClick={() => handleDownloadPatientPDF(patient.id)}
                 className="flex-1 bg-red-600 hover:bg-red-700 text-white text-sm py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
               >
                 <FaFilePdf />
                 PDF
-              </button>
-              <button className="flex-1 btn-primary text-sm py-2">
-                عرض التفاصيل
               </button>
             </div>
           </motion.div>
@@ -364,6 +376,133 @@ export default function PatientsPage() {
           <p className="text-gray-500">
             {searchTerm ? "لا توجد نتائج للبحث" : "لا يوجد مرضى حالياً"}
           </p>
+        </div>
+      )}
+
+      {/* Details Modal */}
+      {showDetails && selectedPatient && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+          onClick={() => setShowDetails(false)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="bg-gradient-to-r from-primary-light to-primary-dark text-white p-6">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-2xl font-bold">{selectedPatient.full_name}</h2>
+                  <p className="text-primary-light text-sm mt-1">ID: {selectedPatient.id}</p>
+                </div>
+                <button
+                  onClick={() => setShowDetails(false)}
+                  className="text-2xl hover:text-gray-200"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="p-6 space-y-6">
+              {/* Basic Info */}
+              <div className="border-b pb-6">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                  <FaUsers className="text-primary-light" />
+                  المعلومات الأساسية
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-gray-500 text-sm">الاسم الكامل</p>
+                    <p className="font-bold">{selectedPatient.full_name}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500 text-sm">تاريخ الميلاد</p>
+                    <p className="font-bold">
+                      {selectedPatient.date_of_birth
+                        ? new Date(selectedPatient.date_of_birth).toLocaleDateString(
+                            "ar-DZ"
+                          )
+                        : "غير محدد"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contact Info */}
+              <div className="border-b pb-6">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                  <FaPhone className="text-primary-light" />
+                  معلومات الاتصال
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-gray-500 text-sm">الهاتف</p>
+                    <p className="font-bold">{selectedPatient.phone}</p>
+                  </div>
+                  {selectedPatient.email && (
+                    <div>
+                      <p className="text-gray-500 text-sm">البريد الإلكتروني</p>
+                      <p className="font-bold">{selectedPatient.email}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Address */}
+              {selectedPatient.address && (
+                <div className="border-b pb-6">
+                  <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                    <FaMapPin className="text-primary-light" />
+                    العنوان
+                  </h3>
+                  <p className="text-gray-700">{selectedPatient.address}</p>
+                </div>
+              )}
+
+              {/* Medical History */}
+              {selectedPatient.medical_history && (
+                <div className="border-b pb-6">
+                  <h3 className="text-lg font-bold mb-4">التاريخ الطبي</h3>
+                  <p className="text-gray-700">{selectedPatient.medical_history}</p>
+                </div>
+              )}
+
+              {/* Registration Date */}
+              <div>
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                  <FaCalendarAlt className="text-primary-light" />
+                  تاريخ التسجيل
+                </h3>
+                <p className="text-gray-700">
+                  {new Date(selectedPatient.created_at).toLocaleDateString(
+                    "ar-DZ",
+                    { year: "numeric", month: "long", day: "numeric" }
+                  )}
+                </p>
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={() => handleDownloadPatientPDF(selectedPatient.id)}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition flex items-center gap-2"
+                >
+                  <FaFilePdf /> تحميل PDF
+                </button>
+                <button
+                  onClick={() => setShowDetails(false)}
+                  className="px-4 py-2 bg-primary-light text-white rounded-lg hover:bg-primary-dark transition"
+                >
+                  إغلاق
+                </button>
+              </div>
+            </div>
+          </motion.div>
         </div>
       )}
     </div>

@@ -142,10 +142,15 @@ export default function AppointmentsPage() {
         }
 
         // تصفية البحث (اسم أو رقم المريض)
-        if (searchTerm && !(
-          apt.patient_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          apt.patient_phone?.includes(searchTerm)
-        )) {
+        if (
+          searchTerm &&
+          !(
+            apt.patient_name
+              ?.toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            apt.patient_phone?.includes(searchTerm)
+          )
+        ) {
           return false;
         }
 
@@ -153,7 +158,7 @@ export default function AppointmentsPage() {
         if (dateFilter !== "all") {
           const today = new Date();
           const aptDate = new Date(apt.appointment_date);
-          
+
           if (dateFilter === "today") {
             if (aptDate.toDateString() !== today.toDateString()) return false;
           } else if (dateFilter === "week") {
@@ -164,7 +169,8 @@ export default function AppointmentsPage() {
             if (
               aptDate.getMonth() !== today.getMonth() ||
               aptDate.getFullYear() !== today.getFullYear()
-            ) return false;
+            )
+              return false;
           } else if (dateFilter === "past") {
             if (aptDate >= today) return false;
           } else if (dateFilter === "upcoming") {
@@ -198,17 +204,17 @@ export default function AppointmentsPage() {
           </p>
         </div>
 
-      {/* Search Bar */}
-      <div className="flex items-center gap-2 w-full">
-        <FaSearch className="text-gray-500" />
-        <input
-          type="text"
-          placeholder="ابحث عن المريض أو الهاتف..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light outline-none text-sm w-full"
-        />
-      </div>
+        {/* Search Bar */}
+        <div className="flex items-center gap-2 w-full">
+          <FaSearch className="text-gray-500" />
+          <input
+            type="text"
+            placeholder="ابحث عن المريض أو الهاتف..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light outline-none text-sm w-full"
+          />
+        </div>
       </div>
 
       {/* Filters Row */}
@@ -434,7 +440,9 @@ export default function AppointmentsPage() {
               <div className="flex justify-between items-start">
                 <div>
                   <h2 className="text-2xl font-bold">تفاصيل الموعد</h2>
-                  <p className="text-primary-light text-sm mt-1">ID: {selectedAppointment.id}</p>
+                  <p className="text-primary-light text-sm mt-1">
+                    ID: {selectedAppointment.id}
+                  </p>
                 </div>
                 <button
                   onClick={() => setShowDetails(false)}
@@ -456,16 +464,22 @@ export default function AppointmentsPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <p className="text-gray-500 text-sm">الاسم</p>
-                    <p className="font-bold">{selectedAppointment.patient_name}</p>
+                    <p className="font-bold">
+                      {selectedAppointment.patient_name}
+                    </p>
                   </div>
                   <div>
                     <p className="text-gray-500 text-sm">الهاتف</p>
-                    <p className="font-bold">{selectedAppointment.patient_phone}</p>
+                    <p className="font-bold">
+                      {selectedAppointment.patient_phone}
+                    </p>
                   </div>
                   {selectedAppointment.patient_email && (
                     <div>
                       <p className="text-gray-500 text-sm">البريد الإلكتروني</p>
-                      <p className="font-bold">{selectedAppointment.patient_email}</p>
+                      <p className="font-bold">
+                        {selectedAppointment.patient_email}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -481,23 +495,30 @@ export default function AppointmentsPage() {
                   <div>
                     <p className="text-gray-500 text-sm">الخدمة</p>
                     <p className="font-bold">
-                      {services.find((s) => s.id === selectedAppointment.service)
-                        ?.name || "خدمة"}
+                      {services.find(
+                        (s) => s.id === selectedAppointment.service
+                      )?.name || "خدمة"}
                     </p>
                   </div>
                   <div>
                     <p className="text-gray-500 text-sm">التاريخ</p>
-                    <p className="font-bold">{selectedAppointment.appointment_date}</p>
+                    <p className="font-bold">
+                      {selectedAppointment.appointment_date}
+                    </p>
                   </div>
                   <div>
                     <p className="text-gray-500 text-sm">الوقت</p>
-                    <p className="font-bold">{selectedAppointment.appointment_time}</p>
+                    <p className="font-bold">
+                      {selectedAppointment.appointment_time}
+                    </p>
                   </div>
                   <div>
                     <p className="text-gray-500 text-sm">الحالة</p>
-                    <p className={`font-bold inline-block px-3 py-1 rounded-full text-sm ${
-                      getStatusColor(selectedAppointment.status)
-                    }`}>
+                    <p
+                      className={`font-bold inline-block px-3 py-1 rounded-full text-sm ${getStatusColor(
+                        selectedAppointment.status
+                      )}`}
+                    >
                       {selectedAppointment.status}
                     </p>
                   </div>
