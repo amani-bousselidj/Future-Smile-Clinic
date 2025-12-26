@@ -395,8 +395,12 @@ export default function PatientsPage() {
             <div className="bg-gradient-to-r from-primary-light to-primary-dark text-white p-6">
               <div className="flex justify-between items-start">
                 <div>
-                  <h2 className="text-2xl font-bold">{selectedPatient.full_name}</h2>
-                  <p className="text-primary-light text-sm mt-1">ID: {selectedPatient.id}</p>
+                  <h2 className="text-2xl font-bold">
+                    {selectedPatient.full_name}
+                  </h2>
+                  <p className="text-primary-light text-sm mt-1">
+                    ID: {selectedPatient.id}
+                  </p>
                 </div>
                 <button
                   onClick={() => setShowDetails(false)}
@@ -424,9 +428,9 @@ export default function PatientsPage() {
                     <p className="text-gray-500 text-sm">تاريخ الميلاد</p>
                     <p className="font-bold">
                       {selectedPatient.date_of_birth
-                        ? new Date(selectedPatient.date_of_birth).toLocaleDateString(
-                            "ar-DZ"
-                          )
+                        ? new Date(
+                            selectedPatient.date_of_birth
+                          ).toLocaleDateString("ar-DZ")
                         : "غير محدد"}
                     </p>
                   </div>
@@ -468,7 +472,9 @@ export default function PatientsPage() {
               {selectedPatient.medical_history && (
                 <div className="border-b pb-6">
                   <h3 className="text-lg font-bold mb-4">التاريخ الطبي</h3>
-                  <p className="text-gray-700">{selectedPatient.medical_history}</p>
+                  <p className="text-gray-700">
+                    {selectedPatient.medical_history}
+                  </p>
                 </div>
               )}
 

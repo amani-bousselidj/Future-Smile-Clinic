@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { 
-  FaTooth, 
-  FaEdit, 
-  FaTrash, 
-  FaPlus, 
+import {
+  FaTooth,
+  FaEdit,
+  FaTrash,
+  FaPlus,
   FaSpinner,
   FaDollarSign,
   FaClock,
@@ -323,7 +323,7 @@ export default function ServicesManagementPage() {
           </div>
           <p className="text-xs sm:text-sm text-gray-600">إجمالي الخدمات</p>
         </motion.div>
-        
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -411,8 +411,10 @@ export default function ServicesManagementPage() {
 
             {/* Status Badge */}
             <div className="mb-3 flex items-center gap-2">
-              <FaCheckCircle 
-                className={service.is_active ? "text-green-500" : "text-gray-400"} 
+              <FaCheckCircle
+                className={
+                  service.is_active ? "text-green-500" : "text-gray-400"
+                }
               />
               <span className="text-xs sm:text-sm">
                 {service.is_active ? "نشط" : "غير نشط"}
@@ -465,7 +467,9 @@ export default function ServicesManagementPage() {
               <div className="flex justify-between items-start">
                 <div>
                   <h2 className="text-2xl font-bold">{selectedService.name}</h2>
-                  <p className="text-primary-light text-sm mt-1">ID: {selectedService.id}</p>
+                  <p className="text-primary-light text-sm mt-1">
+                    ID: {selectedService.id}
+                  </p>
                 </div>
                 <button
                   onClick={() => setShowDetails(false)}
@@ -481,8 +485,8 @@ export default function ServicesManagementPage() {
               {/* Image */}
               {selectedService.image && (
                 <div className="rounded-lg overflow-hidden bg-gray-100">
-                  <img 
-                    src={selectedService.image} 
+                  <img
+                    src={selectedService.image}
                     alt={selectedService.name}
                     className="w-full h-64 object-cover"
                   />
@@ -492,7 +496,9 @@ export default function ServicesManagementPage() {
               {/* Description */}
               <div className="border-b pb-6">
                 <h3 className="text-lg font-bold mb-4">الوصف</h3>
-                <p className="text-gray-700 leading-relaxed">{selectedService.description}</p>
+                <p className="text-gray-700 leading-relaxed">
+                  {selectedService.description}
+                </p>
               </div>
 
               {/* Pricing */}
@@ -534,11 +540,13 @@ export default function ServicesManagementPage() {
                   <FaCheckCircle className="text-primary-light" />
                   الحالة
                 </h3>
-                <p className={`inline-block px-4 py-2 rounded-full font-medium ${
-                  selectedService.is_active
-                    ? "bg-green-100 text-green-800"
-                    : "bg-gray-100 text-gray-800"
-                }`}>
+                <p
+                  className={`inline-block px-4 py-2 rounded-full font-medium ${
+                    selectedService.is_active
+                      ? "bg-green-100 text-green-800"
+                      : "bg-gray-100 text-gray-800"
+                  }`}
+                >
                   {selectedService.is_active ? "نشطة" : "غير نشطة"}
                 </p>
               </div>
