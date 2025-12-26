@@ -53,7 +53,7 @@ export default function DashboardOverview() {
         const completedAppointments = appointments.filter(
           (apt: any) => apt.status === "completed"
         );
-        
+
         const totalRevenue = completedAppointments.reduce(
           (sum: number, apt: any) => {
             const service = services.find((s: any) => s.id === apt.service);
@@ -73,22 +73,30 @@ export default function DashboardOverview() {
         }, {});
 
         // بيانات الاتجاه (آخر 7 أيام) - محسوبة من البيانات الفعلية
-        const dayNames = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+        const dayNames = [
+          "الأحد",
+          "الاثنين",
+          "الثلاثاء",
+          "الأربعاء",
+          "الخميس",
+          "الجمعة",
+          "السبت",
+        ];
         const today = new Date();
         const appointmentsTrend = [];
-        
+
         for (let i = 6; i >= 0; i--) {
           const date = new Date(today);
           date.setDate(date.getDate() - i);
           const dayIndex = date.getDay();
-          
+
           // حساب عدد المواعيد في هذا اليوم من البيانات الفعلية
           const dayAppointments = appointments.filter((apt: any) => {
             if (!apt.appointment_date) return false;
             const aptDate = new Date(apt.appointment_date);
             return aptDate.toDateString() === date.toDateString();
           });
-          
+
           appointmentsTrend.push({
             date: dayNames[dayIndex],
             count: dayAppointments.length,
