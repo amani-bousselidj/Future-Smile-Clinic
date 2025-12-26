@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   FaUser,
@@ -16,6 +17,7 @@ import {
 import { servicesAPI, appointmentsAPI } from "../../lib/api";
 
 export default function AppointmentPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -30,6 +32,7 @@ export default function AppointmentPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [bookingId, setBookingId] = useState("");
 
   // Fetch services from API
   useEffect(() => {
@@ -77,7 +80,7 @@ export default function AppointmentPage() {
     setIsSuccess(false);
 
     try {
-      // Find service ID
+      // Find service ID and name
       const selectedService = apiServices.find(
         (s) =>
           s.name === formData.service || s.id === parseInt(formData.service)
@@ -96,21 +99,37 @@ export default function AppointmentPage() {
       // Submit to API
       const response = await appointmentsAPI.create(appointmentData);
 
-      setIsSuccess(true);
+      // Get booking ID from response
+      const id = response.booking_id || response.id;
+      if (id) {
+        setBookingId(id);
+        setIsSuccess(true);
 
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setFormData({
-          name: "",
-          phone: "",
-          email: "",
-          service: "",
-          date: "",
-          time: "",
-          notes: "",
-        });
-        setIsSuccess(false);
-      }, 3000);
+        // Redirect to confirmation page with booking data
+        const confirmationUrl = new URL(
+          "/appointment-confirmation",
+          window.location.origin
+        );
+        confirmationUrl.searchParams.set("bookingId", id);
+        confirmationUrl.searchParams.set("patientName", formData.name);
+        confirmationUrl.searchParams.set("patientPhone", formData.phone);
+        if (formData.email) {
+          confirmationUrl.searchParams.set("patientEmail", formData.email);
+        }
+        confirmationUrl.searchParams.set(
+          "serviceName",
+          selectedService?.name || formData.service
+        );
+        confirmationUrl.searchParams.set("appointmentDate", formData.date);
+        confirmationUrl.searchParams.set("appointmentTime", formData.time);
+
+        // Redirect after 2 seconds
+        setTimeout(() => {
+          router.push(confirmationUrl.toString());
+        }, 2000);
+      } else {
+        throw new Error("لم يتم الحصول على معرف الحجز");
+      }
     } catch (err: any) {
       setError(
         err.message || "حدث خطأ أثناء حجز الموعد. يرجى المحاولة مرة أخرى."
@@ -174,12 +193,20 @@ export default function AppointmentPage() {
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg flex items-center gap-3 mb-4"
+                className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4"
               >
-                <FaCheckCircle className="text-2xl" />
-                <div>
-                  <p className="font-bold">تم حجز موعدك بنجاح!</p>
-                  <p className="text-sm">سنتواصل معك قريباً لتأكيد الموعد.</p>
+                <div className="flex items-start gap-3">
+                  <FaCheckCircle className="text-2xl flex-shrink-0 mt-1" />
+                  <div>
+                    <p className="font-bold">تم حجز موعدك بنجاح!</p>
+                    {bookingId && (
+                      <p className="text-sm mt-1">
+                        معرف الحجز:{" "}
+                        <span className="font-mono font-bold">{bookingId}</span>
+                      </p>
+                    )}
+                    <p className="text-sm">جاري الانتقال إلى صفحة التأكيد...</p>
+                  </div>
                 </div>
               </motion.div>
             )}

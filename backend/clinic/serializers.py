@@ -16,11 +16,13 @@ class PatientSerializer(serializers.ModelSerializer):
 
 class AppointmentSerializer(serializers.ModelSerializer):
     patient_name = serializers.CharField(source='patient.full_name', read_only=True)
+    patient_phone = serializers.CharField(source='patient.phone', read_only=True)
+    patient_email = serializers.CharField(source='patient.email', read_only=True)
     service_name = serializers.CharField(source='service.name', read_only=True)
 
     class Meta:
         model = Appointment
-        fields = '__all__'
+        fields = ['id', 'booking_id', 'patient', 'patient_name', 'patient_phone', 'patient_email', 'service', 'service_name', 'appointment_date', 'appointment_time', 'status', 'notes', 'created_at', 'updated_at']
 
 
 class AppointmentCreateSerializer(serializers.ModelSerializer):

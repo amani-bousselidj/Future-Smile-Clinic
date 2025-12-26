@@ -1,5 +1,8 @@
 from django.db import models
 from django.core.validators import RegexValidator
+from datetime import datetime
+import random
+import string
 
 class Service(models.Model):
     """خدمات العيادة"""
@@ -55,6 +58,7 @@ class Appointment(models.Model):
         ('cancelled', 'ملغي'),
     ]
 
+    booking_id = models.CharField(max_length=50, unique=True, db_index=True, verbose_name='معرف الحجز', null=True, blank=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, verbose_name='المريض')
     service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, verbose_name='الخدمة')
     appointment_date = models.DateField(verbose_name='تاريخ الموعد')
@@ -69,6 +73,18 @@ class Appointment(models.Model):
         verbose_name_plural = 'الحجوزات'
         ordering = ['-appointment_date', '-appointment_time']
         unique_together = ['appointment_date', 'appointment_time']
+
+    def generate_booking_id(self):
+        """Generate unique booking ID in format: BK-YYYYMMDD-####"""
+        if not self.booking_id:
+            date_str = datetime.now().strftime('%Y%m%d')
+            random_suffix = ''.join(random.choices(string.digits, k=4))
+            self.booking_id = f"BK-{date_str}-{random_suffix}"
+
+    def save(self, *args, **kwargs):
+        if not self.booking_id:
+            self.generate_booking_id()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.patient.full_name} - {self.appointment_date} {self.appointment_time}"
