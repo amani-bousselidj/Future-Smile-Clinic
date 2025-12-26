@@ -125,8 +125,14 @@ export default function AppointmentConfirmation() {
               </div>
               <h3 className="font-semibold text-gray-800 mb-2">تتبع موعدك</h3>
               <p className="text-gray-600 text-sm">
-                استخدم معرف الحجز لتتبع حالة موعدك قريباً
+                استخدم معرف الحجز لتتبع حالة موعدك
               </p>
+              <Link
+                href={`/appointment-status?bookingId=${bookingData.bookingId}`}
+                className="mt-3 px-4 py-2 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition"
+              >
+                تتبع الآن
+              </Link>
             </div>
 
             {/* Step 3 */}
