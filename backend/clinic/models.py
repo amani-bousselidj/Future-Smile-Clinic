@@ -59,6 +59,7 @@ class Appointment(models.Model):
     ]
 
     booking_id = models.CharField(max_length=50, unique=True, db_index=True, verbose_name='معرف الحجز', null=True, blank=True)
+    queue_number = models.IntegerField(default=0, verbose_name='رقم الطابور')
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, verbose_name='المريض')
     service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, verbose_name='الخدمة')
     appointment_date = models.DateField(verbose_name='تاريخ الموعد')
@@ -81,9 +82,23 @@ class Appointment(models.Model):
             random_suffix = ''.join(random.choices(string.digits, k=4))
             self.booking_id = f"BK-{date_str}-{random_suffix}"
 
+    def calculate_queue_number(self):
+        """حساب رقم الطابور بناءً على عدد المواعيد قبل هذا الموعد في نفس اليوم"""
+        if not self.id:  # إذا كان موعد جديد
+            # احسب عدد المواعيد قبل هذا الموعد في نفس اليوم
+            appointments_before = Appointment.objects.filter(
+                appointment_date=self.appointment_date,
+                appointment_time__lt=self.appointment_time,
+                status__in=['pending', 'confirmed', 'completed']  # تجاهل الملغاة
+            ).count()
+            self.queue_number = appointments_before + 1
+        return self.queue_number
+
     def save(self, *args, **kwargs):
         if not self.booking_id:
             self.generate_booking_id()
+        if not self.id:  # إذا كان موعد جديد
+            self.calculate_queue_number()
         super().save(*args, **kwargs)
 
     def __str__(self):

@@ -21,6 +21,7 @@ import Link from "next/link";
 interface AppointmentDetail {
   id: number;
   booking_id: string;
+  queue_number?: number;
   patient_name: string;
   patient_phone: string;
   patient_email?: string;
@@ -340,6 +341,17 @@ export default function AppointmentStatusPage() {
 
               {/* Details Grid */}
               <div className="p-6 space-y-4">
+                {/* Queue Number Badge */}
+                {appointment.queue_number && appointment.queue_number > 0 && (
+                  <div className="flex items-center justify-center p-4 bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg border-2 border-purple-300">
+                    <div className="text-center">
+                      <p className="text-sm text-purple-700 font-medium">رقم الطابور</p>
+                      <p className="text-5xl font-bold text-purple-600">#{appointment.queue_number}</p>
+                      <p className="text-xs text-purple-600 mt-1">سيتم استدعاؤك قريباً</p>
+                    </div>
+                  </div>
+                )}
+
                 {/* Patient Name */}
                 <div className="flex items-start gap-4 p-4 bg-white bg-opacity-70 rounded-lg">
                   <FaUser className="text-blue-600 mt-1 flex-shrink-0 text-lg" />
