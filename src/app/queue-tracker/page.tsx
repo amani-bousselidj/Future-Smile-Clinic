@@ -13,15 +13,23 @@ export default function QueueTrackerPage() {
   const [showInfo, setShowInfo] = useState(!bookingId);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100" dir="rtl">
+    <div
+      className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100"
+      dir="rtl"
+    >
       {/* Navigation */}
       <nav className="bg-white shadow-md sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 transition-colors">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 transition-colors"
+          >
             <FaHome className="w-5 h-5" />
             الرئيسية
           </Link>
-          <h1 className="text-2xl font-bold text-gray-800">متتبع الطابور الفعلي</h1>
+          <h1 className="text-2xl font-bold text-gray-800">
+            متتبع الطابور الفعلي
+          </h1>
           <div className="flex items-center gap-4">
             {bookingId && (
               <motion.div
@@ -30,7 +38,9 @@ export default function QueueTrackerPage() {
                 className="text-right"
               >
                 <p className="text-xs text-gray-600">معرف الحجز</p>
-                <p className="text-sm font-mono font-bold text-indigo-600">{bookingId}</p>
+                <p className="text-sm font-mono font-bold text-indigo-600">
+                  {bookingId}
+                </p>
               </motion.div>
             )}
           </div>
@@ -55,7 +65,9 @@ export default function QueueTrackerPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <div className="p-6 bg-blue-50 rounded-lg">
                 <div className="text-4xl mb-4">1️⃣</div>
-                <h3 className="font-bold text-lg text-gray-800 mb-3">احصل على معرف الحجز</h3>
+                <h3 className="font-bold text-lg text-gray-800 mb-3">
+                  احصل على معرف الحجز
+                </h3>
                 <p className="text-gray-600">
                   عند حجز موعدك، ستحصل على معرف حجز فريد بصيغة BK-YYYYMMDD-####
                 </p>
@@ -63,7 +75,9 @@ export default function QueueTrackerPage() {
 
               <div className="p-6 bg-green-50 rounded-lg">
                 <div className="text-4xl mb-4">2️⃣</div>
-                <h3 className="font-bold text-lg text-gray-800 mb-3">قم بزيارة متتبع الطابور</h3>
+                <h3 className="font-bold text-lg text-gray-800 mb-3">
+                  قم بزيارة متتبع الطابور
+                </h3>
                 <p className="text-gray-600">
                   زر هذه الصفحة وأدخل معرف الحجز الخاص بك للبدء في المراقبة
                 </p>
@@ -71,7 +85,9 @@ export default function QueueTrackerPage() {
 
               <div className="p-6 bg-purple-50 rounded-lg">
                 <div className="text-4xl mb-4">3️⃣</div>
-                <h3 className="font-bold text-lg text-gray-800 mb-3">راقب موقعك في الطابور</h3>
+                <h3 className="font-bold text-lg text-gray-800 mb-3">
+                  راقب موقعك في الطابور
+                </h3>
                 <p className="text-gray-600">
                   سيتم تحديث موقعك تلقائياً كل 5 ثوان مع الإشعارات الصوتية
                 </p>
@@ -89,14 +105,15 @@ export default function QueueTrackerPage() {
                   placeholder="BK-20251227-1234"
                   className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 outline-none transition"
                   onKeyPress={(e) => {
-                    if (e.key === 'Enter' && e.currentTarget.value) {
+                    if (e.key === "Enter" && e.currentTarget.value) {
                       window.location.href = `/queue-tracker?bookingId=${e.currentTarget.value}`;
                     }
                   }}
                 />
                 <button
                   onClick={(e) => {
-                    const input = e.currentTarget.previousElementSibling as HTMLInputElement;
+                    const input = e.currentTarget
+                      .previousElementSibling as HTMLInputElement;
                     if (input.value) {
                       window.location.href = `/queue-tracker?bookingId=${input.value}`;
                     }
