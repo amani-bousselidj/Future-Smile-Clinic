@@ -9,6 +9,7 @@ from .views import (
     ContactMessageViewSet,
     BeforeAfterGalleryViewSet,
     AdminInitViewSet,
+    AppointmentNotificationViewSet,
 )
 from .views_admin import admin_login, check_admin_exists, create_admin, admin_init
 
@@ -21,6 +22,7 @@ router.register(r'blog', BlogPostViewSet, basename='blogpost')
 router.register(r'contact', ContactMessageViewSet, basename='contactmessage')
 router.register(r'gallery', BeforeAfterGalleryViewSet, basename='gallery')
 router.register(r'admin-init', AdminInitViewSet, basename='admin-init')
+router.register(r'notifications', AppointmentNotificationViewSet, basename='notification')
 
 urlpatterns = [
     path('admin/init/', admin_init, name='admin-init'),

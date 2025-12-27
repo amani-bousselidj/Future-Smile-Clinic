@@ -7,7 +7,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from .pdf_reports import generate_appointment_report_pdf, generate_patient_report_pdf
-from .models import Service, Patient, Appointment, Testimonial, BlogPost, ContactMessage, BeforeAfterGallery
+from .models import Service, Patient, Appointment, Testimonial, BlogPost, ContactMessage, BeforeAfterGallery, AppointmentNotification
 from .serializers import (
     ServiceSerializer, 
     PatientSerializer, 
@@ -16,7 +16,8 @@ from .serializers import (
     TestimonialSerializer, 
     BlogPostSerializer, 
     ContactMessageSerializer,
-    BeforeAfterGallerySerializer
+    BeforeAfterGallerySerializer,
+    AppointmentNotificationSerializer
 )
 
 
@@ -183,3 +184,41 @@ class AdminInitViewSet(viewsets.ViewSet):
                 'status': 'error',
                 'message': str(e)
             }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AppointmentNotificationViewSet(viewsets.ModelViewSet):
+    """API endpoint for appointment notifications"""
+    queryset = AppointmentNotification.objects.all()
+    serializer_class = AppointmentNotificationSerializer
+    permission_classes = [AllowAny]
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['appointment', 'notification_type', 'status']
+    ordering_fields = ['created_at', 'scheduled_time']
+    ordering = ['-created_at']
+    
+    @action(detail=False, methods=['get'])
+    def by_appointment(self, request):
+        """Get notifications for a specific appointment"""
+        appointment_id = request.query_params.get('appointment_id')
+        if appointment_id:
+            notifications = AppointmentNotification.objects.filter(appointment_id=appointment_id)
+            serializer = self.get_serializer(notifications, many=True)
+            return Response(serializer.data)
+        return Response({"error": "appointment_id parameter required"}, status=400)
+    
+    @action(detail=False, methods=['post'])
+    def send_pending(self, request):
+        """Send all pending notifications that are ready"""
+        from .notifications import NotificationService
+        try:
+            count = NotificationService.send_pending_notifications()
+            return Response({
+                'status': 'success',
+                'message': f'تم إرسال {count} إشعار',
+                'count': count
+            })
+        except Exception as e:
+            return Response({
+                'status': 'error',
+                'message': str(e)
+            }, status=400)
