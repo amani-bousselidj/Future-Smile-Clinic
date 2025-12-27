@@ -33,6 +33,7 @@ export default function AppointmentPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
   const [bookingId, setBookingId] = useState("");
+  const [estimatedWaitTime, setEstimatedWaitTime] = useState<number | null>(null);
 
   // Fetch services from API
   useEffect(() => {
@@ -148,6 +149,61 @@ export default function AppointmentPage() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+
+    // Calculate estimated wait time when date, time, or service changes
+    if (["date", "time", "service"].includes(e.target.name)) {
+      calculateWaitTime(
+        formData.service || (e.target.name === "service" ? e.target.value : ""),
+        formData.date || (e.target.name === "date" ? e.target.value : ""),
+        formData.time || (e.target.name === "time" ? e.target.value : "")
+      );
+    }
+  };
+
+  const calculateWaitTime = async (
+    serviceId: string,
+    date: string,
+    time: string
+  ) => {
+    if (!serviceId || !date || !time) {
+      setEstimatedWaitTime(null);
+      return;
+    }
+
+    try {
+      const apiBase =
+        process.env.NEXT_PUBLIC_API_URL ||
+        "https://future-smile-clinic.onrender.com/api";
+
+      // This would require a backend endpoint to calculate wait time
+      // For now, we'll show a simple calculation based on queue position
+      const response = await fetch(
+        `${apiBase}/queue-history/?appointment_date=${date}&ordering=-scheduled_start_time`,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        const results = Array.isArray(data) ? data : data.results || [];
+
+        // Count appointments before this time
+        let appointmentsBefore = 0;
+        results.forEach((item: any) => {
+          if (item.appointment_date === date && item.appointment_time < time) {
+            appointmentsBefore++;
+          }
+        });
+
+        // Estimate: 30 minutes per appointment + 5 minute buffer
+        const estimatedMinutes = appointmentsBefore * 35;
+        setEstimatedWaitTime(estimatedMinutes);
+      }
+    } catch (err) {
+      console.error("Error calculating wait time:", err);
+      setEstimatedWaitTime(null);
+    }
   };
 
   return (
@@ -333,6 +389,25 @@ export default function AppointmentPage() {
                   ))}
                 </select>
               </div>
+
+              {/* Estimated Wait Time */}
+              {estimatedWaitTime !== null && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 p-4 rounded-lg"
+                >
+                  <div className="flex items-center gap-3">
+                    <FaClock className="text-blue-600 text-xl" />
+                    <div>
+                      <p className="text-sm text-gray-600">وقت الانتظار المتوقع</p>
+                      <p className="text-lg font-bold text-blue-600">
+                        حوالي {estimatedWaitTime} دقيقة
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
 
               {/* Notes */}
               <div>

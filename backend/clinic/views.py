@@ -7,7 +7,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from .pdf_reports import generate_appointment_report_pdf, generate_patient_report_pdf
-from .models import Service, Patient, Appointment, Testimonial, BlogPost, ContactMessage, BeforeAfterGallery, AppointmentNotification
+from .models import Service, Patient, Appointment, Testimonial, BlogPost, ContactMessage, BeforeAfterGallery, AppointmentNotification, QueueStatistics, QueueHistory
 from .serializers import (
     ServiceSerializer, 
     PatientSerializer, 
@@ -17,7 +17,9 @@ from .serializers import (
     BlogPostSerializer, 
     ContactMessageSerializer,
     BeforeAfterGallerySerializer,
-    AppointmentNotificationSerializer
+    AppointmentNotificationSerializer,
+    QueueStatisticsSerializer,
+    QueueHistorySerializer
 )
 
 
@@ -222,3 +224,95 @@ class AppointmentNotificationViewSet(viewsets.ModelViewSet):
                 'status': 'error',
                 'message': str(e)
             }, status=400)
+
+
+class QueueStatisticsViewSet(viewsets.ReadOnlyModelViewSet):
+    """API endpoint for queue statistics"""
+    queryset = QueueStatistics.objects.all()
+    serializer_class = QueueStatisticsSerializer
+    permission_classes = [AllowAny]
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['service', 'appointment_date']
+    ordering_fields = ['appointment_date', 'average_wait_minutes']
+    ordering = ['-appointment_date']
+    
+    @action(detail=False, methods=['get'])
+    def latest(self, request):
+        """Get latest queue statistics (today)"""
+        from django.utils import timezone
+        today = timezone.now().date()
+        stats = QueueStatistics.objects.filter(appointment_date=today)
+        serializer = self.get_serializer(stats, many=True)
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['get'])
+    def service_stats(self, request):
+        """Get average statistics for a specific service"""
+        service_id = request.query_params.get('service_id')
+        if not service_id:
+            return Response({"error": "service_id parameter required"}, status=400)
+        
+        from django.db.models import Avg
+        stats = QueueStatistics.objects.filter(service_id=service_id).aggregate(
+            avg_wait=Avg('average_wait_minutes'),
+            avg_duration=Avg('average_service_duration_minutes'),
+            min_wait=Avg('min_wait_minutes'),
+            max_wait=Avg('max_wait_minutes')
+        )
+        return Response(stats)
+
+
+class QueueHistoryViewSet(viewsets.ReadOnlyModelViewSet):
+    """API endpoint for queue history"""
+    queryset = QueueHistory.objects.all()
+    serializer_class = QueueHistorySerializer
+    permission_classes = [AllowAny]
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['appointment', 'queue_position', 'is_no_show']
+    ordering_fields = ['scheduled_start_time', 'estimated_wait_minutes', 'actual_wait_minutes']
+    ordering = ['-scheduled_start_time']
+    
+    @action(detail=False, methods=['get'])
+    def by_appointment(self, request):
+        """Get queue history for a specific appointment"""
+        appointment_id = request.query_params.get('appointment_id')
+        if appointment_id:
+            try:
+                queue_history = QueueHistory.objects.get(appointment_id=appointment_id)
+                serializer = self.get_serializer(queue_history)
+                return Response(serializer.data)
+            except QueueHistory.DoesNotExist:
+                return Response({"error": "Queue history not found"}, status=404)
+        return Response({"error": "appointment_id parameter required"}, status=400)
+    
+    @action(detail=False, methods=['get'])
+    def today(self, request):
+        """Get today's queue history"""
+        from django.utils import timezone
+        today = timezone.now().date()
+        from datetime import datetime
+        today_start = datetime.combine(today, datetime.min.time())
+        today_end = datetime.combine(today, datetime.max.time())
+        
+        queue_history = QueueHistory.objects.filter(
+            scheduled_start_time__range=[today_start, today_end]
+        )
+        serializer = self.get_serializer(queue_history, many=True)
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['get'])
+    def current_queue(self, request):
+        """Get current queue status (appointments waiting or being served)"""
+        from django.utils import timezone
+        from django.db.models import Q
+        
+        now = timezone.now()
+        
+        queue_history = QueueHistory.objects.filter(
+            Q(actual_start_time__isnull=True, scheduled_start_time__lte=now) |
+            Q(actual_start_time__isnull=False, actual_end_time__isnull=True),
+            appointment__status__in=['pending', 'confirmed', 'completed']
+        ).order_by('queue_position')
+        
+        serializer = self.get_serializer(queue_history, many=True)
+        return Response(serializer.data)

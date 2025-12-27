@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Service, Patient, Appointment, Testimonial, BlogPost, ContactMessage, BeforeAfterGallery, AppointmentNotification
+from .models import Service, Patient, Appointment, Testimonial, BlogPost, ContactMessage, BeforeAfterGallery, AppointmentNotification, QueueStatistics, QueueHistory
 
 
 class ServiceSerializer(serializers.ModelSerializer):
@@ -59,6 +59,14 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
             **validated_data
         )
         
+        # Create queue history and calculate wait time
+        try:
+            from .queue_service import QueueService
+            QueueService.create_queue_history(appointment)
+        except Exception as e:
+            # Log error but don't fail appointment creation
+            print(f"تحذير: فشل إنشاء سجل الطابور: {str(e)}")
+        
         # Send notifications (optional - can be disabled if needed)
         try:
             from .notifications import NotificationService
@@ -105,3 +113,29 @@ class AppointmentNotificationSerializer(serializers.ModelSerializer):
         model = AppointmentNotification
         fields = ['id', 'appointment', 'notification_type', 'notification_type_display', 'status', 'status_display', 'message', 'recipient', 'scheduled_time', 'sent_time', 'error_message', 'created_at', 'updated_at']
         read_only_fields = ['created_at', 'updated_at', 'sent_time']
+
+
+class QueueStatisticsSerializer(serializers.ModelSerializer):
+    service_name = serializers.CharField(source='service.name', read_only=True)
+    
+    class Meta:
+        model = QueueStatistics
+        fields = ['id', 'service', 'service_name', 'appointment_date', 'total_appointments', 'completed_appointments', 
+                  'average_wait_minutes', 'average_service_duration_minutes', 'min_wait_minutes', 'max_wait_minutes', 
+                  'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at']
+
+
+class QueueHistorySerializer(serializers.ModelSerializer):
+    booking_id = serializers.CharField(source='appointment.booking_id', read_only=True)
+    patient_name = serializers.CharField(source='appointment.patient.full_name', read_only=True)
+    service_name = serializers.CharField(source='appointment.service.name', read_only=True)
+    appointment_status = serializers.CharField(source='appointment.status', read_only=True)
+    
+    class Meta:
+        model = QueueHistory
+        fields = ['id', 'appointment', 'booking_id', 'patient_name', 'service_name', 'appointment_status',
+                  'scheduled_start_time', 'actual_start_time', 'actual_end_time', 'estimated_wait_minutes',
+                  'actual_wait_minutes', 'service_duration_minutes', 'queue_position', 'is_no_show',
+                  'cancellation_reason', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at', 'actual_wait_minutes', 'service_duration_minutes']

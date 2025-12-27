@@ -237,3 +237,93 @@ class AppointmentNotification(models.Model):
 
     def __str__(self):
         return f"{self.get_notification_type_display()} - {self.appointment.booking_id} - {self.get_status_display()}"
+
+
+class QueueStatistics(models.Model):
+    """إحصائيات الطابور - متوسط أوقات الانتظار حسب الخدمة والتاريخ"""
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='queue_stats', verbose_name='الخدمة')
+    appointment_date = models.DateField(db_index=True, verbose_name='التاريخ')
+    
+    # الإحصائيات
+    total_appointments = models.IntegerField(default=0, verbose_name='إجمالي المواعيد')
+    completed_appointments = models.IntegerField(default=0, verbose_name='المواعيد المكتملة')
+    average_wait_minutes = models.IntegerField(default=0, verbose_name='متوسط الانتظار (دقيقة)')
+    average_service_duration_minutes = models.IntegerField(default=0, verbose_name='متوسط مدة الخدمة (دقيقة)')
+    
+    # الحد الأدنى والأقصى
+    min_wait_minutes = models.IntegerField(default=0, verbose_name='الحد الأدنى للانتظار (دقيقة)')
+    max_wait_minutes = models.IntegerField(default=0, verbose_name='الحد الأقصى للانتظار (دقيقة)')
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'إحصائية طابور'
+        verbose_name_plural = 'إحصائيات الطابور'
+        unique_together = ['service', 'appointment_date']
+        ordering = ['-appointment_date']
+        indexes = [
+            models.Index(fields=['service', 'appointment_date']),
+            models.Index(fields=['-appointment_date']),
+        ]
+
+    def __str__(self):
+        return f"{self.service.name} - {self.appointment_date}: {self.average_wait_minutes} دقيقة"
+
+
+class QueueHistory(models.Model):
+    """سجل الطابور - تتبع تفصيلي لكل موعد في الطابور"""
+    appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE, related_name='queue_history', verbose_name='الموعد')
+    
+    # معلومات الوقت
+    scheduled_start_time = models.DateTimeField(verbose_name='وقت البدء المجدول')
+    actual_start_time = models.DateTimeField(blank=True, null=True, verbose_name='وقت البدء الفعلي')
+    actual_end_time = models.DateTimeField(blank=True, null=True, verbose_name='وقت الانتهاء الفعلي')
+    
+    # حسابات الانتظار
+    estimated_wait_minutes = models.IntegerField(default=0, verbose_name='الانتظار المتوقع (دقيقة)')
+    actual_wait_minutes = models.IntegerField(blank=True, null=True, verbose_name='الانتظار الفعلي (دقيقة)')
+    service_duration_minutes = models.IntegerField(blank=True, null=True, verbose_name='مدة الخدمة (دقيقة)')
+    
+    # حالات
+    queue_position = models.IntegerField(default=0, verbose_name='رقم الطابور')
+    is_no_show = models.BooleanField(default=False, verbose_name='لم يحضر')
+    cancellation_reason = models.TextField(blank=True, null=True, verbose_name='سبب الإلغاء')
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'سجل طابور'
+        verbose_name_plural = 'سجلات الطابور'
+        ordering = ['-scheduled_start_time']
+        indexes = [
+            models.Index(fields=['-scheduled_start_time']),
+            models.Index(fields=['queue_position']),
+        ]
+
+    def __str__(self):
+        return f"Q#{self.queue_position} - {self.appointment.booking_id}"
+    
+    def calculate_actual_wait_minutes(self):
+        """حساب الانتظار الفعلي إذا كان الموعد مكتملاً"""
+        if self.actual_start_time and self.scheduled_start_time:
+            delta = self.actual_start_time - self.scheduled_start_time
+            self.actual_wait_minutes = max(0, int(delta.total_seconds() / 60))
+            return self.actual_wait_minutes
+        return None
+    
+    def calculate_service_duration(self):
+        """حساب مدة الخدمة الفعلية"""
+        if self.actual_start_time and self.actual_end_time:
+            delta = self.actual_end_time - self.actual_start_time
+            self.service_duration_minutes = max(0, int(delta.total_seconds() / 60))
+            return self.service_duration_minutes
+        return None
+    
+    def save(self, *args, **kwargs):
+        """حساب الأوقات تلقائياً عند الحفظ"""
+        if self.actual_start_time or self.actual_end_time:
+            self.calculate_actual_wait_minutes()
+            self.calculate_service_duration()
+        super().save(*args, **kwargs)

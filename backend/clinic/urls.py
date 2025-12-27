@@ -10,6 +10,8 @@ from .views import (
     BeforeAfterGalleryViewSet,
     AdminInitViewSet,
     AppointmentNotificationViewSet,
+    QueueStatisticsViewSet,
+    QueueHistoryViewSet,
 )
 from .views_admin import admin_login, check_admin_exists, create_admin, admin_init
 
@@ -23,6 +25,8 @@ router.register(r'contact', ContactMessageViewSet, basename='contactmessage')
 router.register(r'gallery', BeforeAfterGalleryViewSet, basename='gallery')
 router.register(r'admin-init', AdminInitViewSet, basename='admin-init')
 router.register(r'notifications', AppointmentNotificationViewSet, basename='notification')
+router.register(r'queue-statistics', QueueStatisticsViewSet, basename='queuestatistics')
+router.register(r'queue-history', QueueHistoryViewSet, basename='queuehistory')
 
 urlpatterns = [
     path('admin/init/', admin_init, name='admin-init'),
