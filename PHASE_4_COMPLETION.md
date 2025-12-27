@@ -12,6 +12,7 @@
 ### Backend (Django)
 
 #### 1️⃣ نماذج قاعدة البيانات الجديدة
+
 ```python
 ✅ QueueStatistics (إحصائيات الطابور)
    - خدمة + تاريخ = مفتاح فريد
@@ -26,6 +27,7 @@
 ```
 
 #### 2️⃣ خدمة حساب الطابور المتقدمة (queue_service.py)
+
 ```
 ✅ 500+ سطر من الكود المتقدم
 ✅ خوارزمية متعددة الطبقات:
@@ -44,6 +46,7 @@
 ```
 
 #### 3️⃣ Serializers والـ API Endpoints
+
 ```
 ✅ QueueStatisticsSerializer
    - معلومات الخدمة + الإحصائيات
@@ -62,6 +65,7 @@
 ```
 
 #### 4️⃣ Integration مع نظام الحجز
+
 ```
 ✅ AppointmentCreateSerializer محسّن:
    - إنشاء QueueHistory تلقائياً
@@ -73,6 +77,7 @@
 ### Frontend (Next.js)
 
 #### 1️⃣ صفحة إدارة الطابور الجديدة
+
 ```
 📄 /dashboard/queue-management/page.tsx (370+ سطر)
 
@@ -87,6 +92,7 @@
 ```
 
 #### 2️⃣ تحسينات صفحة الحجز
+
 ```
 📄 /appointment/page.tsx محسّن
 
@@ -102,6 +108,7 @@
 ## 🔧 التفاصيل التقنية
 
 ### Database Schema
+
 ```sql
 -- QueueStatistics
 CREATE TABLE clinic_queuestatistics (
@@ -134,21 +141,24 @@ CREATE TABLE clinic_queuehistory (
 ```
 
 ### Queue Calculation Algorithm
+
 ```python
 estimated_wait = (
-    appointments_before_count * 
+    appointments_before_count *
     (service_duration + 5_minute_buffer) *
     peak_hour_multiplier  # 1.5x if peak
 ) * 0.75 + historical_average * 0.25
 ```
 
 **النتيجة:**
+
 - دقة عالية جداً (85-90% من الحالات)
 - تأخذ في الاعتبار الأنماط التاريخية
 - تتعامل مع ساعات الذروة
 - تقاوم التذبذبات العشوائية
 
 ### Performance Optimizations
+
 ```
 ✅ Database Indexes:
    - appointment_date (search)
@@ -167,6 +177,7 @@ estimated_wait = (
 ## 📈 الإحصائيات
 
 ### Code Changes
+
 - **Backend:** 500+ أسطر (queue_service.py)
 - **Models:** 200+ سطر إضافي (2 models جديد)
 - **Serializers:** 40 سطر جديد
@@ -175,11 +186,13 @@ estimated_wait = (
 - **الإجمالي:** 1,200+ سطر
 
 ### Pages
+
 - من 27 إلى 28 صفحة
 - الصفحة الجديدة: `/dashboard/queue-management`
 - الصفحات المحسّنة: `/appointment`
 
 ### Database
+
 - Migration: `0008_queuehistory_queuestatistics.py` ✅
 - Models: +2 جديد (QueueStatistics, QueueHistory)
 - Relations: +1 جديد (OneToOne مع Appointment)
@@ -189,6 +202,7 @@ estimated_wait = (
 ## 🎯 الحالات الاستخدامية
 
 ### للمستخدمين (المرضى)
+
 ```
 1. عند الحجز:
    ✅ يرى وقت الانتظار المتوقع قبل التأكيد
@@ -200,6 +214,7 @@ estimated_wait = (
 ```
 
 ### للعيادة (الإدارة)
+
 ```
 1. لوحة تحكم الطابور:
    ✅ معاينة فورية لحالة الطابور الحالية
@@ -218,6 +233,7 @@ estimated_wait = (
 ## 🔌 API Documentation
 
 ### GET /api/queue-statistics/
+
 ```json
 {
   "results": [
@@ -238,6 +254,7 @@ estimated_wait = (
 ```
 
 ### GET /api/queue-history/current_queue/
+
 ```json
 {
   "results": [
@@ -258,6 +275,7 @@ estimated_wait = (
 ```
 
 ### GET /api/queue-history/by_appointment/?appointment_id=5
+
 ```json
 {
   "id": 5,
@@ -277,16 +295,19 @@ estimated_wait = (
 ## ✨ المميزات الرئيسية
 
 ### 1. Predictive Analytics
+
 - حساب الانتظار بناءً على البيانات التاريخية
 - دقة 85-90% في التنبؤ
 - تحديث تلقائي للإحصائيات اليومية
 
 ### 2. Real-time Dashboard
+
 - تحديث معلومات الطابور كل 30 ثانية
 - بطاقات إحصائيات فورية
 - عرض الطابور الحالي بالتفصيل
 
 ### 3. Smart Calculation
+
 - معادلة ذكية تجمع:
   - عدد المواعيد
   - مدة الخدمة
@@ -294,6 +315,7 @@ estimated_wait = (
   - البيانات التاريخية
 
 ### 4. User Experience
+
 - عرض الانتظار المتوقع قبل الحجز
 - اختيار أفضل وقت (أقل انتظار)
 - معلومات واضحة ومباشرة
@@ -303,16 +325,19 @@ estimated_wait = (
 ## 🧪 الاختبارات
 
 ✅ **Build Tests:**
+
 - npm run build: ✅ نجح (28 صفحة)
 - TypeScript: ✅ خالي من الأخطاء
 - ESLint: ⚠️ 3 تحذيرات (من سابق)
 
 ✅ **API Tests:**
+
 - GET /api/queue-statistics/ ✅
 - GET /api/queue-history/ ✅
 - GET /api/queue-history/current_queue/ ✅
 
 ✅ **Database Tests:**
+
 - Migration: ✅ مطبق بنجاح
 - Models: ✅ تم إنشاؤها بنجاح
 - Relations: ✅ OneToOne يعمل
@@ -348,6 +373,7 @@ estimated_wait = (
 ## 🚀 الخطوات التالية (Phase 5)
 
 ### Real-time Queue Tracker
+
 - صفحة `/queue-tracker` محسّنة
 - WebSocket أو polling للتحديثات الحية
 - إشعارات صوتية/بصرية
@@ -358,15 +384,15 @@ estimated_wait = (
 
 ## 📊 الملخص
 
-| المقياس | القيمة |
-|--------|--------|
-| **صفحات** | 28 (كانت 27) |
-| **أسطر كود** | 1,200+ |
-| **API Endpoints** | 6 جديدة |
-| **Database Models** | 2 جديد |
-| **Build Status** | ✅ نجح |
-| **TypeScript Errors** | 0 ❌ |
-| **Completion** | 100% ✅ |
+| المقياس               | القيمة       |
+| --------------------- | ------------ |
+| **صفحات**             | 28 (كانت 27) |
+| **أسطر كود**          | 1,200+       |
+| **API Endpoints**     | 6 جديدة      |
+| **Database Models**   | 2 جديد       |
+| **Build Status**      | ✅ نجح       |
+| **TypeScript Errors** | 0 ❌         |
+| **Completion**        | 100% ✅      |
 
 ---
 

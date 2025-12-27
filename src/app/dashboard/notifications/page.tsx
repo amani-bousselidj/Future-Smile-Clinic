@@ -38,7 +38,9 @@ interface Notification {
 export default function NotificationsPage() {
   const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [filteredNotifications, setFilteredNotifications] = useState<Notification[]>([]);
+  const [filteredNotifications, setFilteredNotifications] = useState<
+    Notification[]
+  >([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [filterType, setFilterType] = useState<string>("all");
@@ -90,9 +92,9 @@ export default function NotificationsPage() {
 
     // Search in recipient
     if (searchText) {
-      filtered = filtered.filter((n) =>
-        n.recipient.includes(searchText) ||
-        n.message.includes(searchText)
+      filtered = filtered.filter(
+        (n) =>
+          n.recipient.includes(searchText) || n.message.includes(searchText)
       );
     }
 
@@ -167,7 +169,9 @@ export default function NotificationsPage() {
             <div className="flex items-center gap-3">
               <FaBell className="text-blue-600 text-3xl" />
               <div>
-                <h1 className="text-3xl font-bold text-gray-800">إدارة الإشعارات</h1>
+                <h1 className="text-3xl font-bold text-gray-800">
+                  إدارة الإشعارات
+                </h1>
                 <p className="text-gray-600">إدارة جميع إشعارات المواعيد</p>
               </div>
             </div>
@@ -334,11 +338,17 @@ export default function NotificationsPage() {
                         {notification.message}
                       </p>
                       <p className="text-xs text-gray-500 mt-2">
-                        الموعد المجدول: {new Date(notification.scheduled_time).toLocaleString("ar-SA")}
+                        الموعد المجدول:{" "}
+                        {new Date(notification.scheduled_time).toLocaleString(
+                          "ar-SA"
+                        )}
                       </p>
                       {notification.sent_time && (
                         <p className="text-xs text-green-600 mt-1">
-                          أرسل في: {new Date(notification.sent_time).toLocaleString("ar-SA")}
+                          أرسل في:{" "}
+                          {new Date(notification.sent_time).toLocaleString(
+                            "ar-SA"
+                          )}
                         </p>
                       )}
                       {notification.error_message && (

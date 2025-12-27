@@ -1,8 +1,15 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { FaArrowRight, FaChartLine, FaClock, FaUsers, FaExclamationTriangle, FaSync } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from "react";
+import {
+  FaArrowRight,
+  FaChartLine,
+  FaClock,
+  FaUsers,
+  FaExclamationTriangle,
+  FaSync,
+} from "react-icons/fa";
+import { motion } from "framer-motion";
 
 interface QueueStat {
   service_name: string;
@@ -29,7 +36,9 @@ export default function QueueManagementPage() {
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
-  const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://future-smile-clinic.onrender.com/api';
+  const apiBase =
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://future-smile-clinic.onrender.com/api";
 
   const fetchQueueData = async () => {
     try {
@@ -37,25 +46,30 @@ export default function QueueManagementPage() {
       setError(null);
 
       // Fetch queue statistics
-      const statsRes = await fetch(`${apiBase}/queue-statistics/latest/?limit=10`, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-      if (!statsRes.ok) throw new Error('فشل تحميل إحصائيات الطابور');
+      const statsRes = await fetch(
+        `${apiBase}/queue-statistics/latest/?limit=10`,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      if (!statsRes.ok) throw new Error("فشل تحميل إحصائيات الطابور");
       const statsData = await statsRes.json();
       setStats(Array.isArray(statsData) ? statsData : statsData.results || []);
 
       // Fetch current queue
       const queueRes = await fetch(`${apiBase}/queue-history/current_queue/`, {
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
-      if (!queueRes.ok) throw new Error('فشل تحميل الطابور الحالي');
+      if (!queueRes.ok) throw new Error("فشل تحميل الطابور الحالي");
       const queueData = await queueRes.json();
-      setCurrentQueue(Array.isArray(queueData) ? queueData : queueData.results || []);
+      setCurrentQueue(
+        Array.isArray(queueData) ? queueData : queueData.results || []
+      );
 
       setLastUpdated(new Date());
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'حدث خطأ');
-      console.error('Error:', err);
+      setError(err instanceof Error ? err.message : "حدث خطأ");
+      console.error("Error:", err);
     } finally {
       setLoading(false);
     }
@@ -70,16 +84,19 @@ export default function QueueManagementPage() {
 
   const getStatusBadge = (status: string) => {
     const styles = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      confirmed: 'bg-blue-100 text-blue-800',
-      completed: 'bg-green-100 text-green-800',
-      cancelled: 'bg-red-100 text-red-800',
+      pending: "bg-yellow-100 text-yellow-800",
+      confirmed: "bg-blue-100 text-blue-800",
+      completed: "bg-green-100 text-green-800",
+      cancelled: "bg-red-100 text-red-800",
     };
-    return styles[status as keyof typeof styles] || 'bg-gray-100 text-gray-800';
+    return styles[status as keyof typeof styles] || "bg-gray-100 text-gray-800";
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4" dir="rtl">
+    <div
+      className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4"
+      dir="rtl"
+    >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -91,9 +108,11 @@ export default function QueueManagementPage() {
             <div className="flex items-center gap-3">
               <FaArrowRight className="w-8 h-8 text-indigo-600" />
               <div>
-                <h1 className="text-4xl font-bold text-gray-800">إدارة الطابور</h1>
+                <h1 className="text-4xl font-bold text-gray-800">
+                  إدارة الطابور
+                </h1>
                 <p className="text-gray-600 mt-1">
-                  تحديث آخر: {lastUpdated.toLocaleTimeString('ar-EG')}
+                  تحديث آخر: {lastUpdated.toLocaleTimeString("ar-EG")}
                 </p>
               </div>
             </div>
@@ -102,7 +121,7 @@ export default function QueueManagementPage() {
               disabled={loading}
               className="flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition-all"
             >
-              <FaSync className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
+              <FaSync className={`w-5 h-5 ${loading ? "animate-spin" : ""}`} />
               تحديث
             </button>
           </div>
@@ -152,9 +171,10 @@ export default function QueueManagementPage() {
                 <p className="text-3xl font-bold text-gray-800 mt-2">
                   {stats.length > 0
                     ? Math.round(
-                        stats.reduce((sum, s) => sum + (s.avg_wait || 0), 0) / stats.length
+                        stats.reduce((sum, s) => sum + (s.avg_wait || 0), 0) /
+                          stats.length
                       )
-                    : 0}{' '}
+                    : 0}{" "}
                   دقيقة
                 </p>
               </div>
@@ -173,7 +193,7 @@ export default function QueueManagementPage() {
               <div>
                 <p className="text-gray-600 text-sm">الطابور الحالي</p>
                 <p className="text-3xl font-bold text-gray-800 mt-2">
-                  Q#{currentQueue[0]?.queue_position || '-'}
+                  Q#{currentQueue[0]?.queue_position || "-"}
                 </p>
               </div>
               <FaChartLine className="w-12 h-12 text-green-500 opacity-20" />
@@ -190,7 +210,9 @@ export default function QueueManagementPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600 text-sm">الخدمات النشطة</p>
-                <p className="text-3xl font-bold text-gray-800 mt-2">{stats.length}</p>
+                <p className="text-3xl font-bold text-gray-800 mt-2">
+                  {stats.length}
+                </p>
               </div>
               <FaUsers className="w-12 h-12 text-purple-500 opacity-20" />
             </div>
@@ -233,26 +255,39 @@ export default function QueueManagementPage() {
                               #{queue.queue_position}
                             </div>
                             <div>
-                              <p className="font-semibold text-gray-800">{queue.patient_name}</p>
-                              <p className="text-sm text-gray-600">{queue.service_name}</p>
-                              <p className="text-xs text-gray-500 mt-1">{queue.booking_id}</p>
+                              <p className="font-semibold text-gray-800">
+                                {queue.patient_name}
+                              </p>
+                              <p className="text-sm text-gray-600">
+                                {queue.service_name}
+                              </p>
+                              <p className="text-xs text-gray-500 mt-1">
+                                {queue.booking_id}
+                              </p>
                             </div>
                           </div>
                         </div>
                         <div className="text-right">
                           <div className="flex items-center gap-2 mb-2">
-                            <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getStatusBadge(queue.appointment_status)}`}>
-                              {queue.appointment_status === 'pending'
-                                ? 'قيد الانتظار'
-                                : queue.appointment_status === 'confirmed'
-                                ? 'مؤكد'
-                                : queue.appointment_status === 'completed'
-                                ? 'مكتمل'
-                                : 'ملغي'}
+                            <span
+                              className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getStatusBadge(
+                                queue.appointment_status
+                              )}`}
+                            >
+                              {queue.appointment_status === "pending"
+                                ? "قيد الانتظار"
+                                : queue.appointment_status === "confirmed"
+                                ? "مؤكد"
+                                : queue.appointment_status === "completed"
+                                ? "مكتمل"
+                                : "ملغي"}
                             </span>
                           </div>
                           <p className="text-lg font-bold text-indigo-600">
-                            ⏱️ {queue.actual_wait_minutes || queue.estimated_wait_minutes} دقيقة
+                            ⏱️{" "}
+                            {queue.actual_wait_minutes ||
+                              queue.estimated_wait_minutes}{" "}
+                            دقيقة
                           </p>
                         </div>
                       </div>
@@ -290,15 +325,21 @@ export default function QueueManagementPage() {
                       transition={{ delay: idx * 0.05 }}
                       className="p-4 hover:bg-gray-50 transition-colors"
                     >
-                      <p className="font-semibold text-gray-800 mb-3">{stat.service_name}</p>
+                      <p className="font-semibold text-gray-800 mb-3">
+                        {stat.service_name}
+                      </p>
                       <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                           <span className="text-gray-600">متوسط الانتظار:</span>
-                          <span className="font-medium text-indigo-600">{stat.avg_wait} دقيقة</span>
+                          <span className="font-medium text-indigo-600">
+                            {stat.avg_wait} دقيقة
+                          </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-600">متوسط المدة:</span>
-                          <span className="font-medium text-green-600">{stat.avg_duration} دقيقة</span>
+                          <span className="font-medium text-green-600">
+                            {stat.avg_duration} دقيقة
+                          </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-600">النطاق:</span>
@@ -340,7 +381,10 @@ export default function QueueManagementPage() {
           <ul className="space-y-2 text-sm text-blue-800">
             <li>• الأرقام تُحدّث تلقائياً كل 30 ثانية</li>
             <li>• يمكنك إعادة تحميل البيانات يدوياً باستخدام زر التحديث</li>
-            <li>• متوسط الانتظار محسوب بناءً على البيانات التاريخية والطابور الحالي</li>
+            <li>
+              • متوسط الانتظار محسوب بناءً على البيانات التاريخية والطابور
+              الحالي
+            </li>
             <li>• يتم تحديث إحصائيات الخدمات تلقائياً في نهاية كل يوم</li>
           </ul>
         </motion.div>

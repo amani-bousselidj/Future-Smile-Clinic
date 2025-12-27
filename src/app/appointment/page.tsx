@@ -33,7 +33,9 @@ export default function AppointmentPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
   const [bookingId, setBookingId] = useState("");
-  const [estimatedWaitTime, setEstimatedWaitTime] = useState<number | null>(null);
+  const [estimatedWaitTime, setEstimatedWaitTime] = useState<number | null>(
+    null
+  );
 
   // Fetch services from API
   useEffect(() => {
@@ -400,7 +402,9 @@ export default function AppointmentPage() {
                   <div className="flex items-center gap-3">
                     <FaClock className="text-blue-600 text-xl" />
                     <div>
-                      <p className="text-sm text-gray-600">وقت الانتظار المتوقع</p>
+                      <p className="text-sm text-gray-600">
+                        وقت الانتظار المتوقع
+                      </p>
                       <p className="text-lg font-bold text-blue-600">
                         حوالي {estimatedWaitTime} دقيقة
                       </p>
