@@ -113,7 +113,9 @@ export function calculateQueueNumber(data: QueueCalculationData): QueueInfo {
   const callTimeMinutes = apptTimeInMinutes + estimatedWaitTime;
   const callHour = Math.floor(callTimeMinutes / 60);
   const callMin = callTimeMinutes % 60;
-  const approximateCallTime = `${String(callHour).padStart(2, "0")}:${String(callMin).padStart(2, "0")}`;
+  const approximateCallTime = `${String(callHour).padStart(2, "0")}:${String(
+    callMin
+  ).padStart(2, "0")}`;
 
   return {
     queueNumber,
@@ -140,7 +142,10 @@ export function getRecommendedArrivalTime(appointmentTime: string): string {
   const arrivalHour = Math.floor(totalMinutes / 60);
   const arrivalMin = totalMinutes % 60;
 
-  return `${String(arrivalHour).padStart(2, "0")}:${String(arrivalMin).padStart(2, "0")}`;
+  return `${String(arrivalHour).padStart(2, "0")}:${String(arrivalMin).padStart(
+    2,
+    "0"
+  )}`;
 }
 
 /**

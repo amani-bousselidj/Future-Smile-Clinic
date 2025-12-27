@@ -38,7 +38,9 @@ export default function AppointmentStatusPage() {
     "booking_id"
   );
   const [searchValue, setSearchValue] = useState("");
-  const [appointment, setAppointment] = useState<AppointmentDetail | null>(null);
+  const [appointment, setAppointment] = useState<AppointmentDetail | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [searched, setSearched] = useState(false);
@@ -111,13 +113,15 @@ export default function AppointmentStatusPage() {
       if (searchType === "booking_id") {
         foundAppointment = appointments.find(
           (apt: any) =>
-            apt.booking_id && apt.booking_id.toLowerCase() === searchValue.toLowerCase()
+            apt.booking_id &&
+            apt.booking_id.toLowerCase() === searchValue.toLowerCase()
         );
       } else {
         // For phone search, get the latest appointment for that phone
         const matchingAppointments = appointments.filter(
           (apt: any) =>
-            apt.patient_phone && apt.patient_phone.includes(searchValue.replace(/\D/g, ""))
+            apt.patient_phone &&
+            apt.patient_phone.includes(searchValue.replace(/\D/g, ""))
         );
         foundAppointment = matchingAppointments[0];
       }
@@ -234,7 +238,9 @@ export default function AppointmentStatusPage() {
                       }
                       className="w-4 h-4 text-blue-600"
                     />
-                    <span className="ms-2 text-gray-700">البحث بمعرف الحجز</span>
+                    <span className="ms-2 text-gray-700">
+                      البحث بمعرف الحجز
+                    </span>
                   </label>
                   <label className="flex items-center cursor-pointer">
                     <input
@@ -247,7 +253,9 @@ export default function AppointmentStatusPage() {
                       }
                       className="w-4 h-4 text-blue-600"
                     />
-                    <span className="ms-2 text-gray-700">البحث برقم الهاتف</span>
+                    <span className="ms-2 text-gray-700">
+                      البحث برقم الهاتف
+                    </span>
                   </label>
                 </div>
               </div>
@@ -317,15 +325,21 @@ export default function AppointmentStatusPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className={`max-w-2xl mx-auto bg-gradient-to-br ${getStatusColor(appointment.status)} rounded-2xl border-2 overflow-hidden shadow-lg`}
+              className={`max-w-2xl mx-auto bg-gradient-to-br ${getStatusColor(
+                appointment.status
+              )} rounded-2xl border-2 overflow-hidden shadow-lg`}
             >
               {/* Header */}
               <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 flex items-center justify-between">
                 <div>
                   <h2 className="text-2xl font-bold mb-2">حالة موعدك</h2>
-                  <p className="text-blue-100">معرف الحجز: {appointment.booking_id}</p>
+                  <p className="text-blue-100">
+                    معرف الحجز: {appointment.booking_id}
+                  </p>
                 </div>
-                <div className="text-5xl">{getStatusIcon(appointment.status)}</div>
+                <div className="text-5xl">
+                  {getStatusIcon(appointment.status)}
+                </div>
               </div>
 
               {/* Status Badge */}
@@ -345,9 +359,15 @@ export default function AppointmentStatusPage() {
                 {appointment.queue_number && appointment.queue_number > 0 && (
                   <div className="flex items-center justify-center p-4 bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg border-2 border-purple-300">
                     <div className="text-center">
-                      <p className="text-sm text-purple-700 font-medium">رقم الطابور</p>
-                      <p className="text-5xl font-bold text-purple-600">#{appointment.queue_number}</p>
-                      <p className="text-xs text-purple-600 mt-1">سيتم استدعاؤك قريباً</p>
+                      <p className="text-sm text-purple-700 font-medium">
+                        رقم الطابور
+                      </p>
+                      <p className="text-5xl font-bold text-purple-600">
+                        #{appointment.queue_number}
+                      </p>
+                      <p className="text-xs text-purple-600 mt-1">
+                        سيتم استدعاؤك قريباً
+                      </p>
                     </div>
                   </div>
                 )}
@@ -429,24 +449,75 @@ export default function AppointmentStatusPage() {
 
               {/* Timeline Status */}
               <div className="px-6 py-6 bg-white bg-opacity-50 border-t-2">
-                <p className="text-sm font-bold text-gray-700 mb-4">مراحل الموعد:</p>
+                <p className="text-sm font-bold text-gray-700 mb-4">
+                  مراحل الموعد:
+                </p>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
-                    <div className={`w-3 h-3 rounded-full ${appointment.status !== "pending" ? "bg-green-500" : "bg-yellow-500"}`}></div>
-                    <p className={appointment.status !== "pending" ? "text-green-700" : "text-yellow-700"}>
+                    <div
+                      className={`w-3 h-3 rounded-full ${
+                        appointment.status !== "pending"
+                          ? "bg-green-500"
+                          : "bg-yellow-500"
+                      }`}
+                    ></div>
+                    <p
+                      className={
+                        appointment.status !== "pending"
+                          ? "text-green-700"
+                          : "text-yellow-700"
+                      }
+                    >
                       ✓ تم الحجز
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className={`w-3 h-3 rounded-full ${appointment.status === "confirmed" || appointment.status === "completed" ? "bg-green-500" : appointment.status === "pending" ? "bg-gray-300" : "bg-red-500"}`}></div>
-                    <p className={appointment.status === "confirmed" || appointment.status === "completed" ? "text-green-700" : appointment.status === "pending" ? "text-gray-600" : "text-red-700"}>
-                      {appointment.status === "confirmed" || appointment.status === "completed" ? "✓ تم التأكيد" : appointment.status === "pending" ? "في الانتظار" : "✗ ملغى"}
+                    <div
+                      className={`w-3 h-3 rounded-full ${
+                        appointment.status === "confirmed" ||
+                        appointment.status === "completed"
+                          ? "bg-green-500"
+                          : appointment.status === "pending"
+                          ? "bg-gray-300"
+                          : "bg-red-500"
+                      }`}
+                    ></div>
+                    <p
+                      className={
+                        appointment.status === "confirmed" ||
+                        appointment.status === "completed"
+                          ? "text-green-700"
+                          : appointment.status === "pending"
+                          ? "text-gray-600"
+                          : "text-red-700"
+                      }
+                    >
+                      {appointment.status === "confirmed" ||
+                      appointment.status === "completed"
+                        ? "✓ تم التأكيد"
+                        : appointment.status === "pending"
+                        ? "في الانتظار"
+                        : "✗ ملغى"}
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className={`w-3 h-3 rounded-full ${appointment.status === "completed" ? "bg-green-500" : "bg-gray-300"}`}></div>
-                    <p className={appointment.status === "completed" ? "text-green-700" : "text-gray-600"}>
-                      {appointment.status === "completed" ? "✓ مكتمل" : "في الانتظار"}
+                    <div
+                      className={`w-3 h-3 rounded-full ${
+                        appointment.status === "completed"
+                          ? "bg-green-500"
+                          : "bg-gray-300"
+                      }`}
+                    ></div>
+                    <p
+                      className={
+                        appointment.status === "completed"
+                          ? "text-green-700"
+                          : "text-gray-600"
+                      }
+                    >
+                      {appointment.status === "completed"
+                        ? "✓ مكتمل"
+                        : "في الانتظار"}
                     </p>
                   </div>
                 </div>
@@ -459,6 +530,12 @@ export default function AppointmentStatusPage() {
                   className="flex-1 bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition text-center"
                 >
                   حجز موعد جديد
+                </Link>
+                <Link
+                  href={`/queue-tracker?bookingId=${appointment.booking_id}`}
+                  className="flex-1 bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition text-center"
+                >
+                  تتبع الطابور 🎯
                 </Link>
                 <Link
                   href="/contact"
@@ -475,7 +552,9 @@ export default function AppointmentStatusPage() {
       {/* Info Section */}
       <section className="section-container px-4">
         <div className="max-w-3xl mx-auto bg-blue-50 rounded-2xl p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">معلومات مفيدة</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-6">
+            معلومات مفيدة
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h3 className="font-bold text-gray-800 mb-2">💡 كيفية البحث:</h3>
@@ -488,9 +567,16 @@ export default function AppointmentStatusPage() {
             <div>
               <h3 className="font-bold text-gray-800 mb-2">📞 حالات الموعد:</h3>
               <ul className="text-gray-700 space-y-2 list-disc list-inside">
-                <li><span className="font-semibold">قيد الانتظار:</span> لم يتم التأكيد</li>
-                <li><span className="font-semibold">مؤكد:</span> تم تأكيد الموعد</li>
-                <li><span className="font-semibold">مكتمل:</span> انتهى الموعد</li>
+                <li>
+                  <span className="font-semibold">قيد الانتظار:</span> لم يتم
+                  التأكيد
+                </li>
+                <li>
+                  <span className="font-semibold">مؤكد:</span> تم تأكيد الموعد
+                </li>
+                <li>
+                  <span className="font-semibold">مكتمل:</span> انتهى الموعد
+                </li>
               </ul>
             </div>
           </div>

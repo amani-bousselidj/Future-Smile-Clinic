@@ -144,6 +144,7 @@
 ## 🎯 What The User Can Do On Confirmation Page
 
 ### Option 1: Print Receipt
+
 ```
 User clicks [🖨️  طباعة]
       ↓
@@ -160,6 +161,7 @@ Physical receipt printed with:
 ```
 
 ### Option 2: Download Receipt
+
 ```
 User clicks [⬇️  تحميل الإيصال]
       ↓
@@ -171,6 +173,7 @@ Contains all booking details in readable format
 ```
 
 ### Option 3: Share via WhatsApp
+
 ```
 User clicks [💬 WhatsApp]
       ↓
@@ -189,6 +192,7 @@ User can send to family/friends
 ```
 
 ### Option 4: Copy Booking ID
+
 ```
 User clicks [نسخ] button on booking ID
       ↓
@@ -241,11 +245,13 @@ On mobile devices, the receipt layout adapts:
 **Pattern:** `BK-YYYYMMDD-####`
 
 **Examples:**
+
 - `BK-20251226-0001` (First booking on Dec 26, 2025)
 - `BK-20251226-3847` (Example in flow)
 - `BK-20251227-0520` (First of next day)
 
 **Why this format?**
+
 - ✅ Unique - Guaranteed unique
 - ✅ Sequential - Easy to remember and increment
 - ✅ Date-based - Shows when booking was made
@@ -267,6 +273,7 @@ SELECT * FROM clinic_appointment WHERE id = 123;
 ```
 
 **Key Database Features:**
+
 - `booking_id` is UNIQUE - only one record per ID
 - `booking_id` is INDEXED - fast lookups for tracking
 - `booking_id` is auto-generated on save
@@ -277,26 +284,34 @@ SELECT * FROM clinic_appointment WHERE id = 123;
 ## 🚀 Next Features (Coming Soon)
 
 ### Phase 2: Tracking Page
+
 User can visit `/appointment-status?bookingId=BK-20251226-3847` to:
+
 - View current status (pending → confirmed → completed)
 - See appointment details
 - Check estimated confirmation time
 - Download appointment details anytime
 
 ### Phase 3: Notifications
+
 User receives:
+
 - SMS reminder 24 hours before
 - Email confirmation
 - WhatsApp reminder on day of appointment
 
 ### Phase 4: Queue Management
+
 User can see:
+
 - Queue number for appointment
 - Current wait time at clinic
 - Estimated call time
 
 ### Phase 5: Real-time Tracking
+
 On appointment day, user can:
+
 - See live queue at clinic
 - Check their position
 - Get notified when approaching turn
@@ -334,21 +349,25 @@ On appointment day, user can:
 ## 🎓 How It Works (Technical Summary)
 
 1. **Appointment Submission**
+
    - Frontend → POST /api/appointments/
    - Backend creates Appointment record
    - Model.save() generates booking_id
 
 2. **Response Processing**
+
    - Frontend captures booking_id from response
    - Constructs confirmation URL with all details
    - Waits 2 seconds to show success message
 
 3. **Redirect to Confirmation**
+
    - Routes to /appointment-confirmation
    - Passes all booking data as URL parameters
    - Page loads and displays AppointmentReceipt component
 
 4. **Receipt Display**
+
    - Framer Motion animations
    - Responsive Tailwind CSS layout
    - QR code SVG generation

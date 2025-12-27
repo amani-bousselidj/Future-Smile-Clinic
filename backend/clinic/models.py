@@ -94,6 +94,14 @@ class Appointment(models.Model):
             self.queue_number = appointments_before + 1
         return self.queue_number
 
+    def appointment_datetime(self):
+        """الحصول على datetime كامل للموعد"""
+        from datetime import datetime as dt
+        try:
+            return dt.combine(self.appointment_date, self.appointment_time)
+        except:
+            return None
+
     def save(self, *args, **kwargs):
         if not self.booking_id:
             self.generate_booking_id()
@@ -195,3 +203,37 @@ class BeforeAfterGallery(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.get_treatment_type_display()}"
+
+
+class AppointmentNotification(models.Model):
+    """تسجيل الإشعارات المرسلة للمواعيد"""
+    NOTIFICATION_TYPE_CHOICES = [
+        ('sms', 'رسالة نصية'),
+        ('email', 'بريد إلكتروني'),
+        ('whatsapp', 'واتساب'),
+    ]
+    
+    STATUS_CHOICES = [
+        ('pending', 'في الانتظار'),
+        ('sent', 'تم الإرسال'),
+        ('failed', 'فشل الإرسال'),
+    ]
+    
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, related_name='notifications', verbose_name='الموعد')
+    notification_type = models.CharField(max_length=20, choices=NOTIFICATION_TYPE_CHOICES, verbose_name='نوع الإشعار')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name='الحالة')
+    message = models.TextField(verbose_name='الرسالة')
+    recipient = models.CharField(max_length=255, verbose_name='المستقبل', help_text='رقم هاتف أو بريد إلكتروني')
+    scheduled_time = models.DateTimeField(verbose_name='وقت الإرسال المجدول')
+    sent_time = models.DateTimeField(blank=True, null=True, verbose_name='وقت الإرسال الفعلي')
+    error_message = models.TextField(blank=True, null=True, verbose_name='رسالة الخطأ')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'إشعار موعد'
+        verbose_name_plural = 'إشعارات المواعيد'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.get_notification_type_display()} - {self.appointment.booking_id} - {self.get_status_display()}"

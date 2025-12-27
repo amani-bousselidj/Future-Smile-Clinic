@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Service, Patient, Appointment, Testimonial, BlogPost, ContactMessage, BeforeAfterGallery
+from .models import Service, Patient, Appointment, Testimonial, BlogPost, ContactMessage, BeforeAfterGallery, AppointmentNotification
 
 
 class ServiceSerializer(serializers.ModelSerializer):
@@ -59,6 +59,14 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
             **validated_data
         )
         
+        # Send notifications (optional - can be disabled if needed)
+        try:
+            from .notifications import NotificationService
+            NotificationService.create_appointment_notifications(appointment)
+        except Exception as e:
+            # Log error but don't fail appointment creation
+            print(f"تحذير: فشل إنشاء الإشعارات: {str(e)}")
+        
         return appointment
 
 
@@ -87,3 +95,13 @@ class BeforeAfterGallerySerializer(serializers.ModelSerializer):
     class Meta:
         model = BeforeAfterGallery
         fields = '__all__'
+
+
+class AppointmentNotificationSerializer(serializers.ModelSerializer):
+    notification_type_display = serializers.CharField(source='get_notification_type_display', read_only=True)
+    status_display = serializers.CharField(source='get_status_display', read_only=True)
+    
+    class Meta:
+        model = AppointmentNotification
+        fields = ['id', 'appointment', 'notification_type', 'notification_type_display', 'status', 'status_display', 'message', 'recipient', 'scheduled_time', 'sent_time', 'error_message', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at', 'sent_time']
