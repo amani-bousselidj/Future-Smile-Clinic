@@ -86,19 +86,21 @@ export async function apiRequest<T>(
     if (!response.ok) {
       // Handle 401 Unauthorized - likely invalid token
       if (response.status === 401 && token) {
-        console.warn("🚫 401 Unauthorized received. Invalid/expired token. Clearing auth...");
+        console.warn(
+          "🚫 401 Unauthorized received. Invalid/expired token. Clearing auth..."
+        );
         if (typeof window !== "undefined") {
           localStorage.removeItem("access_token");
           localStorage.removeItem("refresh_token");
           localStorage.removeItem("user");
         }
-        
+
         // Retry without the invalid token
         if (retries > 0) {
           return apiRequest<T>(endpoint, options, 0); // Retry once without token
         }
       }
-      
+
       const error = await response.json().catch(() => ({}));
       throw new Error(
         error.message || `HTTP error! status: ${response.status}`
@@ -228,16 +230,15 @@ export const appointmentsAPI = {
     return promise;
   },
 
-  suggestTimes: (data: {
-    appointment_date: string;
-    service: number;
-  }) => {
-    return apiRequest<Array<{
-      time: string;
-      wait_minutes: number;
-      reason: string;
-      is_peak_hour: boolean;
-    }>>("/appointments/suggest_times/", {
+  suggestTimes: (data: { appointment_date: string; service: number }) => {
+    return apiRequest<
+      Array<{
+        time: string;
+        wait_minutes: number;
+        reason: string;
+        is_peak_hour: boolean;
+      }>
+    >("/appointments/suggest_times/", {
       method: "POST",
       body: JSON.stringify(data),
     });

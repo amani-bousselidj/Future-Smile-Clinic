@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaCalendarAlt, FaPhone, FaWhatsapp, FaTooth, FaSearch } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaPhone,
+  FaWhatsapp,
+  FaTooth,
+  FaSearch,
+} from "react-icons/fa";
 
 const CTASection = () => {
   return (

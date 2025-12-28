@@ -193,7 +193,9 @@ export default function AppointmentStatusPage() {
           transition={{ duration: 0.6 }}
           className="relative z-10 text-center text-white max-w-4xl mx-auto px-4"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">تتبع حالة موعدك</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">
+            تتبع حالة موعدك
+          </h1>
           <p className="text-base md:text-lg text-blue-100">
             أدخل معرف الحجز أو رقم الهاتف لمعرفة حالة موعدك
           </p>
