@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Providers } from '@/app/providers';
 import '@/styles/globals.css';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: {
@@ -53,7 +55,13 @@ export default function RootLayout({
         <meta name="theme-color" content="#0066cc" />
       </head>
       <body className="bg-gray-50 text-gray-900">
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          <main className="min-h-[calc(100vh-16rem)]">
+            {children}
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
