@@ -29,10 +29,29 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
     patient_name = serializers.CharField(write_only=True)
     patient_phone = serializers.CharField(write_only=True)
     patient_email = serializers.EmailField(write_only=True, required=False, allow_blank=True)
+    
+    # Read-only fields for response
+    booking_id = serializers.CharField(read_only=True)
+    queue_number = serializers.IntegerField(read_only=True)
+    patient_id = serializers.IntegerField(read_only=True, source='patient.id')
+    service_name = serializers.CharField(source='service.name', read_only=True)
+    status = serializers.CharField(read_only=True)
+    estimated_wait_minutes = serializers.SerializerMethodField()
 
     class Meta:
         model = Appointment
-        fields = ['patient_name', 'patient_phone', 'patient_email', 'service', 'appointment_date', 'appointment_time', 'notes']
+        fields = ['id', 'booking_id', 'queue_number', 'patient_id', 'patient_name', 'patient_phone', 'patient_email', 
+                  'service', 'service_name', 'appointment_date', 'appointment_time', 'notes', 'status', 
+                  'estimated_wait_minutes', 'created_at']
+        read_only_fields = ['id', 'booking_id', 'queue_number', 'patient_id', 'status', 'created_at']
+
+    def get_estimated_wait_minutes(self, obj):
+        """Get estimated wait time from QueueHistory if available"""
+        try:
+            queue_history = QueueHistory.objects.filter(appointment=obj).latest('created_at')
+            return queue_history.estimated_wait_minutes
+        except:
+            return 0
 
     def create(self, validated_data):
         patient_name = validated_data.pop('patient_name')
