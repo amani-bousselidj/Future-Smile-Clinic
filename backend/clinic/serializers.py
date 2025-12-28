@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.db import transaction
 from .models import Service, Patient, Appointment, Testimonial, BlogPost, ContactMessage, BeforeAfterGallery, AppointmentNotification, QueueStatistics, QueueHistory
 
 
@@ -53,6 +54,7 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
         except:
             return 0
 
+    @transaction.atomic
     def create(self, validated_data):
         patient_name = validated_data.pop('patient_name')
         patient_phone = validated_data.pop('patient_phone')
