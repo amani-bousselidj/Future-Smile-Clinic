@@ -184,29 +184,18 @@ export default function AppointmentStatusPage() {
 
   return (
     <div className="bg-gray-50 min-h-screen rtl">
-      {/* Hero Section */}
-      <section className="relative h-80 flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1920&q=80"
-            alt="تتبع موعدك"
-            fill
-            className="object-cover"
-          />
-          <div className="absolute inset-0 animated-gradient opacity-90"></div>
-        </div>
+      {/* Hero Section - Compact and Professional */}
+      <section className="relative h-48 flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-700"></div>
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 text-center text-white px-4"
+          transition={{ duration: 0.6 }}
+          className="relative z-10 text-center text-white max-w-4xl mx-auto px-4"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            تتبع موعدك
-          </h1>
-          <div className="divider mx-auto"></div>
-          <p className="text-base sm:text-lg md:text-xl">
-            ابحث عن حالة موعدك باستخدام معرف الحجز أو رقم الهاتف
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">تتبع حالة موعدك</h1>
+          <p className="text-base md:text-lg text-blue-100">
+            أدخل معرف الحجز أو رقم الهاتف لمعرفة حالة موعدك
           </p>
         </motion.div>
       </section>
@@ -468,7 +457,7 @@ export default function AppointmentStatusPage() {
                           : "text-yellow-700"
                       }
                     >
-                      ✓ تم الحجز
+                      تم الحجز
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
@@ -494,10 +483,10 @@ export default function AppointmentStatusPage() {
                     >
                       {appointment.status === "confirmed" ||
                       appointment.status === "completed"
-                        ? "✓ تم التأكيد"
+                        ? "تم التأكيد"
                         : appointment.status === "pending"
                         ? "في الانتظار"
-                        : "✗ ملغى"}
+                        : "ملغى"}
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
@@ -516,7 +505,7 @@ export default function AppointmentStatusPage() {
                       }
                     >
                       {appointment.status === "completed"
-                        ? "✓ مكتمل"
+                        ? "مكتمل"
                         : "في الانتظار"}
                     </p>
                   </div>
@@ -535,7 +524,8 @@ export default function AppointmentStatusPage() {
                   href={`/queue-tracker?bookingId=${appointment.booking_id}`}
                   className="flex-1 bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition text-center"
                 >
-                  تتبع الطابور 🎯
+                  <FaSearch className="inline ml-2" />
+                  تتبع الطابور
                 </Link>
                 <Link
                   href="/contact"
@@ -557,7 +547,10 @@ export default function AppointmentStatusPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h3 className="font-bold text-gray-800 mb-2">💡 كيفية البحث:</h3>
+              <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <FaSearch className="text-blue-600" />
+                كيفية البحث:
+              </h3>
               <ul className="text-gray-700 space-y-2 list-disc list-inside">
                 <li>استخدم معرف الحجز (BK-YYYYMMDD-####)</li>
                 <li>أو أدخل رقم الهاتف المسجل</li>
@@ -565,7 +558,10 @@ export default function AppointmentStatusPage() {
               </ul>
             </div>
             <div>
-              <h3 className="font-bold text-gray-800 mb-2">📞 حالات الموعد:</h3>
+              <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <FaCalendarAlt className="text-blue-600" />
+                حالات الموعد:
+              </h3>
               <ul className="text-gray-700 space-y-2 list-disc list-inside">
                 <li>
                   <span className="font-semibold">قيد الانتظار:</span> لم يتم

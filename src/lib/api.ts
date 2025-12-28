@@ -227,6 +227,21 @@ export const appointmentsAPI = {
     promise.then(() => invalidateCache("appointments"));
     return promise;
   },
+
+  suggestTimes: (data: {
+    appointment_date: string;
+    service: number;
+  }) => {
+    return apiRequest<Array<{
+      time: string;
+      wait_minutes: number;
+      reason: string;
+      is_peak_hour: boolean;
+    }>>("/appointments/suggest_times/", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  },
 };
 
 // Contact API

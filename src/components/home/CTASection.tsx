@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaCalendarAlt, FaPhone, FaWhatsapp, FaTooth } from "react-icons/fa";
+import { FaCalendarAlt, FaPhone, FaWhatsapp, FaTooth, FaSearch } from "react-icons/fa";
 
 const CTASection = () => {
   return (
@@ -23,13 +23,21 @@ const CTASection = () => {
           نحن هنا لنجعل ابتسامتك أكثر إشراقًا وثقة
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 flex-wrap">
           <Link
             href="/appointment"
             className="bg-white text-primary-dark px-8 py-4 rounded-lg font-bold text-lg hover:bg-yellow-300 hover:text-primary-dark transition-all duration-300 flex items-center gap-2 shadow-xl hover:shadow-2xl hover:scale-105"
           >
             <FaCalendarAlt />
             احجز موعدك الآن
+          </Link>
+
+          <Link
+            href="/appointment-status"
+            className="bg-yellow-400 text-primary-dark px-8 py-4 rounded-lg font-bold text-lg hover:bg-yellow-300 hover:text-primary-dark transition-all duration-300 flex items-center gap-2 shadow-xl hover:shadow-2xl hover:scale-105"
+          >
+            <FaSearch />
+            تتبع موعدك
           </Link>
 
           <a

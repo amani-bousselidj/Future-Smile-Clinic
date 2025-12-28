@@ -12,6 +12,7 @@ const Header = () => {
     { name: "الرئيسية", href: "/" },
     { name: "من نحن", href: "/about" },
     { name: "خدماتنا", href: "/services" },
+    { name: "تتبع موعدك", href: "/appointment-status" },
     { name: "معرض النتائج", href: "/gallery" },
     { name: "المقالات", href: "/blog" },
     { name: "تواصل معنا", href: "/contact" },

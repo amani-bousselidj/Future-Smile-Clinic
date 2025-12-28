@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaCalendarAlt, FaArrowLeft } from "react-icons/fa";
+import { FaCalendarAlt, FaArrowLeft, FaSearch } from "react-icons/fa";
 
 const Hero = () => {
   return (
@@ -75,8 +75,16 @@ const Hero = () => {
             </Link>
 
             <Link
-              href="/services"
+              href="/appointment-status"
               className="btn-secondary inline-flex items-center justify-center gap-2"
+            >
+              <FaSearch />
+              تتبع موعدك
+            </Link>
+
+            <Link
+              href="/services"
+              className="border-2 border-white text-white px-6 py-3 rounded-full font-bold hover:bg-white hover:text-primary-dark transition-all duration-300 inline-flex items-center justify-center gap-2"
             >
               تعرف على خدماتنا
               <FaArrowLeft />

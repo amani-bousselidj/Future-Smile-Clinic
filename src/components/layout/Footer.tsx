@@ -109,6 +109,14 @@ const Footer = () => {
                   احجز موعد
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/appointment-status"
+                  className="text-gray-400 hover:text-primary-light transition"
+                >
+                  تتبع موعدك
+                </Link>
+              </li>
             </ul>
           </div>
 

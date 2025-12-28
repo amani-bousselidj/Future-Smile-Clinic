@@ -109,6 +109,96 @@ class AppointmentViewSet(viewsets.ModelViewSet):
             response['Content-Disposition'] = f'attachment; filename="appointment_{pk}.pdf"'
             return response
         return Response({"error": "Appointment not found"}, status=404)
+    
+    @action(detail=False, methods=['post'])
+    def suggest_times(self, request):
+        """
+        Suggest optimal appointment times based on date and service
+        
+        POST /api/appointments/suggest_times/
+        Body: {
+            "appointment_date": "2024-12-28",
+            "service": 1
+        }
+        
+        Returns: [
+            {
+                "time": "09:00",
+                "wait_minutes": 0,
+                "reason": "بدون انتظار - متاح الآن",
+                "is_peak_hour": false
+            },
+            ...
+        ]
+        """
+        from .queue_service import QueueService
+        from datetime import datetime, time as dt_time
+        
+        try:
+            appointment_date_str = request.data.get('appointment_date')
+            service_id = request.data.get('service')
+            
+            if not appointment_date_str or not service_id:
+                return Response({
+                    "error": "appointment_date and service are required"
+                }, status=400)
+            
+            # Parse date
+            appointment_date = datetime.strptime(appointment_date_str, '%Y-%m-%d').date()
+            
+            # Get service to extract duration
+            try:
+                service = Service.objects.get(id=service_id)
+            except Service.DoesNotExist:
+                return Response({"error": "Service not found"}, status=404)
+            
+            # All possible time slots
+            time_slots = [
+                dt_time(9, 0), dt_time(10, 0), dt_time(11, 0), dt_time(12, 0),
+                dt_time(14, 0), dt_time(15, 0), dt_time(16, 0), dt_time(17, 0)
+            ]
+            
+            suggestions = []
+            for time_slot in time_slots:
+                # Calculate wait time using existing QueueService
+                wait_minutes = QueueService.estimate_wait_time(
+                    appointment_date,
+                    time_slot,
+                    service_id
+                )
+                
+                # Check if peak hour
+                is_peak = QueueService.is_peak_hour(time_slot.hour)
+                
+                # Generate user-friendly reason
+                if wait_minutes == 0:
+                    reason = "بدون انتظار - متاح الآن"
+                elif wait_minutes < 15:
+                    reason = "انتظار قصير جداً"
+                elif wait_minutes < 30:
+                    reason = "انتظار قصير"
+                elif is_peak:
+                    reason = "ساعة ذروة - انتظار متوسط"
+                else:
+                    reason = "وقت عادي"
+                
+                suggestions.append({
+                    'time': time_slot.strftime('%H:%M'),
+                    'wait_minutes': int(wait_minutes),
+                    'reason': reason,
+                    'is_peak_hour': is_peak
+                })
+            
+            # Sort by wait time (best first)
+            suggestions.sort(key=lambda x: x['wait_minutes'])
+            
+            # Return top 3 suggestions
+            return Response(suggestions[:3])
+            
+        except Exception as e:
+            return Response({
+                "error": str(e)
+            }, status=400)
 
 
 class TestimonialViewSet(viewsets.ModelViewSet):
