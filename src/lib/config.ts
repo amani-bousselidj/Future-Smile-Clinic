@@ -4,15 +4,12 @@
  */
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  'http://localhost:8000/api';
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  'http://localhost:3000';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-const APP_NAME = 'Future Smile Clinic';
-const APP_DESCRIPTION = 'Professional Dental Care Excellence';
+const APP_NAME = "Future Smile Clinic";
+const APP_DESCRIPTION = "Professional Dental Care Excellence";
 
 export const config = {
   api: {
@@ -28,7 +25,7 @@ export const config = {
   features: {
     enableNotifications: true,
     enableAnalytics: true,
-    enableDebugMode: process.env.NODE_ENV === 'development',
+    enableDebugMode: process.env.NODE_ENV === "development",
   },
   pagination: {
     defaultPageSize: 10,

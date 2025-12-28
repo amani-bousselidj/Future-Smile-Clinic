@@ -1,14 +1,14 @@
 /**
  * Home Page - Main landing page
  */
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { Button } from '@/components/Button';
-import { Card } from '@/components/Card';
-import { useFetch } from '@/lib/hooks';
-import { LoadingSpinner } from '@/components/LoadingSpinner';
+import React from "react";
+import Link from "next/link";
+import { Button } from "@/components/Button";
+import { Card } from "@/components/Card";
+import { useFetch } from "@/lib/hooks";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 interface Service {
   id: number;
@@ -21,7 +21,9 @@ interface Service {
 }
 
 export default function HomePage() {
-  const { data: services, loading } = useFetch<{ results: Service[] }>('/api/services/?is_active=true');
+  const { data: services, loading } = useFetch<{ results: Service[] }>(
+    "/api/services/?is_active=true"
+  );
 
   return (
     <div className="w-full">
@@ -32,15 +34,17 @@ export default function HomePage() {
             Welcome to Future Smile Clinic
           </h1>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Professional dental care with modern technology and experienced doctors. 
-            Your perfect smile is just one appointment away.
+            Professional dental care with modern technology and experienced
+            doctors. Your perfect smile is just one appointment away.
           </p>
           <div className="flex gap-4 justify-center">
             <Link href="/appointments">
               <Button size="lg">Book an Appointment</Button>
             </Link>
             <Link href="/services">
-              <Button variant="ghost" size="lg">View Services</Button>
+              <Button variant="ghost" size="lg">
+                View Services
+              </Button>
             </Link>
           </div>
         </div>
@@ -52,7 +56,8 @@ export default function HomePage() {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Our Services</h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              We offer a comprehensive range of dental services to meet all your oral health needs
+              We offer a comprehensive range of dental services to meet all your
+              oral health needs
             </p>
           </div>
 
@@ -82,7 +87,9 @@ export default function HomePage() {
                     </span>
                   </div>
                   <Link href="/appointments">
-                    <Button fullWidth variant="primary">Book Now</Button>
+                    <Button fullWidth variant="primary">
+                      Book Now
+                    </Button>
                   </Link>
                 </Card>
               ))}
@@ -111,34 +118,36 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                icon: '🏥',
-                title: 'Modern Technology',
-                description: 'State-of-the-art dental equipment for best results',
+                icon: "🏥",
+                title: "Modern Technology",
+                description:
+                  "State-of-the-art dental equipment for best results",
               },
               {
-                icon: '👨‍⚕️',
-                title: 'Expert Doctors',
-                description: 'Highly qualified and experienced dental professionals',
+                icon: "👨‍⚕️",
+                title: "Expert Doctors",
+                description:
+                  "Highly qualified and experienced dental professionals",
               },
               {
-                icon: '⏰',
-                title: 'Easy Scheduling',
-                description: 'Quick and convenient appointment booking',
+                icon: "⏰",
+                title: "Easy Scheduling",
+                description: "Quick and convenient appointment booking",
               },
               {
-                icon: '💳',
-                title: 'Flexible Payment',
-                description: 'Multiple payment options and affordable pricing',
+                icon: "💳",
+                title: "Flexible Payment",
+                description: "Multiple payment options and affordable pricing",
               },
               {
-                icon: '😊',
-                title: 'Patient Comfort',
-                description: 'Compassionate care in a welcoming environment',
+                icon: "😊",
+                title: "Patient Comfort",
+                description: "Compassionate care in a welcoming environment",
               },
               {
-                icon: '📱',
-                title: 'Online Support',
-                description: '24/7 customer support for your convenience',
+                icon: "📱",
+                title: "Online Support",
+                description: "24/7 customer support for your convenience",
               },
             ].map((feature, index) => (
               <Card key={index} shadow="sm" padding="md">
@@ -156,7 +165,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold mb-6">Ready to Get Started?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Schedule your appointment today and experience the difference our care makes
+            Schedule your appointment today and experience the difference our
+            care makes
           </p>
           <Link href="/appointments">
             <Button size="lg" variant="ghost">
@@ -168,4 +178,3 @@ export default function HomePage() {
     </div>
   );
 }
-

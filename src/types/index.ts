@@ -18,7 +18,7 @@ export interface User {
   id: number;
   username: string;
   email: string;
-  role: 'admin' | 'staff' | 'patient';
+  role: "admin" | "staff" | "patient";
   full_name: string;
   avatar?: string;
   created_at: string;
@@ -62,7 +62,7 @@ export interface Appointment {
   appointment_date: string;
   appointment_time: string;
   queue_number: number;
-  status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+  status: "pending" | "confirmed" | "completed" | "cancelled";
   notes?: string;
   created_at: string;
   updated_at: string;

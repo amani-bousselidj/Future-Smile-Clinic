@@ -1,11 +1,11 @@
 /**
  * Header Component - Navigation header
  */
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { useAuth } from '@/context/AuthContext';
+import React from "react";
+import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 export function Header() {
   const { user, logout } = useAuth();
@@ -15,7 +15,10 @@ export function Header() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl text-blue-600">
+          <Link
+            href="/"
+            className="flex items-center gap-2 font-bold text-xl text-blue-600"
+          >
             <span>😊</span>
             <span>Future Smile Clinic</span>
           </Link>
@@ -25,7 +28,10 @@ export function Header() {
             <Link href="/" className="text-gray-700 hover:text-blue-600">
               Home
             </Link>
-            <Link href="/services" className="text-gray-700 hover:text-blue-600">
+            <Link
+              href="/services"
+              className="text-gray-700 hover:text-blue-600"
+            >
               Services
             </Link>
             <Link href="/about" className="text-gray-700 hover:text-blue-600">
@@ -40,7 +46,9 @@ export function Header() {
           <div className="flex items-center gap-4">
             {user ? (
               <>
-                <span className="text-gray-700">{user.full_name || user.email}</span>
+                <span className="text-gray-700">
+                  {user.full_name || user.email}
+                </span>
                 <button
                   onClick={logout}
                   className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700"

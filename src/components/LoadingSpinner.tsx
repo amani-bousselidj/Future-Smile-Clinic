@@ -1,29 +1,34 @@
 /**
  * LoadingSpinner Component
  */
-import React from 'react';
+import React from "react";
 
 interface LoadingSpinnerProps {
-  size?: 'sm' | 'md' | 'lg';
-  color?: 'blue' | 'gray' | 'white';
+  size?: "sm" | "md" | "lg";
+  color?: "blue" | "gray" | "white";
 }
 
 const sizeClasses = {
-  sm: 'w-4 h-4',
-  md: 'w-8 h-8',
-  lg: 'w-12 h-12',
+  sm: "w-4 h-4",
+  md: "w-8 h-8",
+  lg: "w-12 h-12",
 };
 
 const colorClasses = {
-  blue: 'text-blue-600',
-  gray: 'text-gray-600',
-  white: 'text-white',
+  blue: "text-blue-600",
+  gray: "text-gray-600",
+  white: "text-white",
 };
 
-export function LoadingSpinner({ size = 'md', color = 'blue' }: LoadingSpinnerProps) {
+export function LoadingSpinner({
+  size = "md",
+  color = "blue",
+}: LoadingSpinnerProps) {
   return (
     <div className="flex items-center justify-center">
-      <div className={`animate-spin ${sizeClasses[size]} ${colorClasses[color]}`}>
+      <div
+        className={`animate-spin ${sizeClasses[size]} ${colorClasses[color]}`}
+      >
         <svg
           className="w-full h-full"
           xmlns="http://www.w3.org/2000/svg"

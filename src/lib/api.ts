@@ -1,8 +1,8 @@
 /**
  * API Client - Axios wrapper with error handling and type safety
  */
-import axios, { AxiosInstance, AxiosError, AxiosResponse } from 'axios';
-import { API_BASE_URL } from '@/lib/config';
+import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
+import { API_BASE_URL } from "@/lib/config";
 
 interface ApiResponse<T> {
   data?: T;
@@ -21,14 +21,14 @@ class ApiClient {
       baseURL: API_BASE_URL,
       timeout: 30000,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 
     // Request interceptor
     this.instance.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem('access_token');
+        const token = localStorage.getItem("access_token");
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
@@ -43,8 +43,8 @@ class ApiClient {
       (error: AxiosError) => {
         if (error.response?.status === 401) {
           // Token expired or invalid
-          localStorage.removeItem('access_token');
-          window.location.href = '/login';
+          localStorage.removeItem("access_token");
+          window.location.href = "/login";
         }
         return Promise.reject(error);
       }
@@ -117,7 +117,10 @@ class ApiClient {
         success: false,
         error: {
           status: error.response?.status || 500,
-          message: error.response?.data?.error?.message || error.message || 'An error occurred',
+          message:
+            error.response?.data?.error?.message ||
+            error.message ||
+            "An error occurred",
         },
       };
     }
@@ -125,7 +128,7 @@ class ApiClient {
       success: false,
       error: {
         status: 500,
-        message: 'An unexpected error occurred',
+        message: "An unexpected error occurred",
       },
     };
   }

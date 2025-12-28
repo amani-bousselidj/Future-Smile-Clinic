@@ -1,20 +1,20 @@
 /**
  * App Context - Global state management
  */
-'use client';
+"use client";
 
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback } from "react";
 
 interface Notification {
   id: string;
-  type: 'success' | 'error' | 'info' | 'warning';
+  type: "success" | "error" | "info" | "warning";
   message: string;
   duration?: number;
 }
 
 interface AppContextType {
   notifications: Notification[];
-  addNotification: (notification: Omit<Notification, 'id'>) => void;
+  addNotification: (notification: Omit<Notification, "id">) => void;
   removeNotification: (id: string) => void;
   clearNotifications: () => void;
   isDialogOpen: boolean;
@@ -29,7 +29,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const addNotification = useCallback(
-    (notification: Omit<Notification, 'id'>) => {
+    (notification: Omit<Notification, "id">) => {
       const id = Date.now().toString();
       const newNotification: Notification = {
         ...notification,
@@ -85,7 +85,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 export function useApp() {
   const context = useContext(AppContext);
   if (context === undefined) {
-    throw new Error('useApp must be used within an AppProvider');
+    throw new Error("useApp must be used within an AppProvider");
   }
   return context;
 }

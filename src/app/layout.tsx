@@ -1,38 +1,40 @@
-import type { Metadata } from 'next';
-import { Providers } from '@/app/providers';
-import '@/styles/globals.css';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
+import type { Metadata } from "next";
+import { Providers } from "@/app/providers";
+import "@/styles/globals.css";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: {
-    default: 'Future Smile Clinic - Professional Dental Care',
-    template: '%s | Future Smile Clinic',
+    default: "Future Smile Clinic - Professional Dental Care",
+    template: "%s | Future Smile Clinic",
   },
-  description: 'Professional dental clinic providing comprehensive oral care services.',
+  description:
+    "Professional dental clinic providing comprehensive oral care services.",
   keywords: [
-    'dental clinic',
-    'dentist',
-    'oral health',
-    'dental services',
-    'teeth whitening',
-    'orthodontics',
+    "dental clinic",
+    "dentist",
+    "oral health",
+    "dental services",
+    "teeth whitening",
+    "orthodontics",
   ],
-  authors: [{ name: 'Future Smile Clinic' }],
-  creator: 'Future Smile Clinic',
+  authors: [{ name: "Future Smile Clinic" }],
+  creator: "Future Smile Clinic",
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://future-smile-clinic.vercel.app',
-    siteName: 'Future Smile Clinic',
-    title: 'Future Smile Clinic - Professional Dental Care',
-    description: 'Professional dental clinic providing comprehensive oral care services.',
+    type: "website",
+    locale: "en_US",
+    url: "https://future-smile-clinic.vercel.app",
+    siteName: "Future Smile Clinic",
+    title: "Future Smile Clinic - Professional Dental Care",
+    description:
+      "Professional dental clinic providing comprehensive oral care services.",
     images: [
       {
-        url: 'https://future-smile-clinic.vercel.app/og-image.png',
+        url: "https://future-smile-clinic.vercel.app/og-image.png",
         width: 1200,
         height: 630,
-        alt: 'Future Smile Clinic',
+        alt: "Future Smile Clinic",
       },
     ],
   },
@@ -57,9 +59,7 @@ export default function RootLayout({
       <body className="bg-gray-50 text-gray-900">
         <Providers>
           <Header />
-          <main className="min-h-[calc(100vh-16rem)]">
-            {children}
-          </main>
+          <main className="min-h-[calc(100vh-16rem)]">{children}</main>
           <Footer />
         </Providers>
       </body>
