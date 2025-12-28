@@ -100,13 +100,17 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
             **validated_data
         )
         
+        # Explicitly refresh to ensure booking_id is generated
+        appointment.refresh_from_db()
+        print(f"✅ Appointment created: ID={appointment.id}, booking_id={appointment.booking_id}")
+        
         # Create queue history and calculate wait time
         try:
             from .queue_service import QueueService
             QueueService.create_queue_history(appointment)
         except Exception as e:
             # Log error but don't fail appointment creation
-            print(f"تحذير: فشل إنشاء سجل الطابور: {str(e)}")
+            print(f"⚠️ تحذير: فشل إنشاء سجل الطابور: {str(e)}")
         
         # Send notifications (optional - can be disabled if needed)
         try:
@@ -114,8 +118,9 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
             NotificationService.create_appointment_notifications(appointment)
         except Exception as e:
             # Log error but don't fail appointment creation
-            print(f"تحذير: فشل إنشاء الإشعارات: {str(e)}")
+            print(f"⚠️ تحذير: فشل إنشاء الإشعارات: {str(e)}")
         
+        print(f"✅ Appointment fully processed: booking_id={appointment.booking_id}")
         return appointment
 
 
