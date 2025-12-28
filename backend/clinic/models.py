@@ -76,10 +76,15 @@ class Appointment(models.Model):
 
     def generate_booking_id(self):
         """Generate unique booking ID in format: BK-YYYYMMDD-####"""
-        if not self.booking_id:
-            date_str = datetime.now().strftime('%Y%m%d')
+        date_str = datetime.now().strftime('%Y%m%d')
+        # Generate unique random suffix by checking existing IDs
+        while True:
             random_suffix = ''.join(random.choices(string.digits, k=4))
-            self.booking_id = f"BK-{date_str}-{random_suffix}"
+            booking_id = f"BK-{date_str}-{random_suffix}"
+            # Check if this ID already exists
+            if not Appointment.objects.filter(booking_id=booking_id).exists():
+                self.booking_id = booking_id
+                break
 
     def calculate_queue_number(self):
         """حساب رقم الطابور بناءً على عدد المواعيد قبل هذا الموعد في نفس اليوم"""
@@ -102,10 +107,15 @@ class Appointment(models.Model):
             return None
 
     def save(self, *args, **kwargs):
+        # Generate booking_id BEFORE first save
         if not self.booking_id:
             self.generate_booking_id()
+        
+        # Calculate queue number for new appointments
         if not self.id:  # إذا كان موعد جديد
             self.calculate_queue_number()
+        
+        # Save to database
         super().save(*args, **kwargs)
 
     def __str__(self):

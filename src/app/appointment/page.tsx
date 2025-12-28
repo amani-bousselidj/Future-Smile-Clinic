@@ -101,6 +101,11 @@ export default function AppointmentPage() {
 
       // Submit to API
       const response = await appointmentsAPI.create(appointmentData);
+      
+      // Debug: Log the full response
+      console.log("📋 Full API Response:", response);
+      console.log("📋 booking_id:", response.booking_id);
+      console.log("📋 id:", response.id);
 
       // Get booking ID from response
       const id = response.booking_id || response.id;
