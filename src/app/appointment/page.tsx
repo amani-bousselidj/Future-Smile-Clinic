@@ -190,13 +190,6 @@ export default function AppointmentPage() {
     });
   };
 
-    try {
-      const apiBase =
-        process.env.NEXT_PUBLIC_API_URL ||
-        "https://future-smile-clinic.onrender.com/api";
-
-      // This would require a backend endpoint to calculate wait time
-      // For now, we'll show a simple calculation based on queue position
   return (
     <div className="bg-gray-50">
       {/* Hero Section */}
