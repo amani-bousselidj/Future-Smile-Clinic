@@ -102,10 +102,15 @@ export default function AppointmentPage() {
       console.log("📋 id:", response.id);
       console.log("📋 appointment_time:", response.appointment_time);
 
+      // Show alert for debugging
+      alert("Response received! booking_id: " + (response.booking_id || "MISSING") + ", id: " + (response.id || "MISSING"));
+
       // Validate response has required data
       if (!response || (!response.booking_id && !response.id)) {
         console.error("❌ Invalid API response:", response);
-        throw new Error("لم يتم الحصول على معرف الحجز من الخادم. الرجاء المحاولة مرة أخرى.");
+        throw new Error(
+          "لم يتم الحصول على معرف الحجز من الخادم. البيانات: " + JSON.stringify(response)
+        );
       }
 
       // Get booking ID from response
