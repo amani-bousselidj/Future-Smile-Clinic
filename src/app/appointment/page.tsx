@@ -97,8 +97,16 @@ export default function AppointmentPage() {
 
       // Debug: Log the full response
       console.log("📋 Full API Response:", response);
+      console.log("📋 Response keys:", Object.keys(response));
       console.log("📋 booking_id:", response.booking_id);
       console.log("📋 id:", response.id);
+      console.log("📋 appointment_time:", response.appointment_time);
+
+      // Validate response has required data
+      if (!response || (!response.booking_id && !response.id)) {
+        console.error("❌ Invalid API response:", response);
+        throw new Error("لم يتم الحصول على معرف الحجز من الخادم. الرجاء المحاولة مرة أخرى.");
+      }
 
       // Get booking ID from response
       const id = response.booking_id || response.id;
@@ -137,15 +145,16 @@ export default function AppointmentPage() {
     } catch (err: any) {
       console.error("❌ خطأ في الحجز:", err);
       let errorMessage = "حدث خطأ أثناء حجز الموعد. يرجى المحاولة مرة أخرى.";
-      
+
       // Show detailed error if available
       if (err.response?.data) {
         console.error("Response data:", err.response.data);
-        errorMessage = err.response.data.detail || err.response.data.error || errorMessage;
+        errorMessage =
+          err.response.data.detail || err.response.data.error || errorMessage;
       } else if (err.message) {
         errorMessage = err.message;
       }
-      
+
       setError(errorMessage);
     } finally {
       setIsLoading(false);
