@@ -122,7 +122,7 @@ export default function AppointmentPage() {
           selectedService?.name || formData.service
         );
         confirmationUrl.searchParams.set("appointmentDate", formData.date);
-        confirmationUrl.searchParams.set("appointmentTime", formData.time);
+        confirmationUrl.searchParams.set("appointmentTime", response.appointment_time || "");
 
         // Redirect after 2 seconds
         setTimeout(() => {

@@ -71,9 +71,22 @@ export default function AppointmentConfirmation() {
     );
   }
 
-  const appointmentDate = new Date(
-    `${bookingData.appointmentDate}T${bookingData.appointmentTime}`
-  );
+  // Safely create appointment date, handle invalid time values
+  let appointmentDate: Date | null = null;
+  try {
+    if (bookingData.appointmentDate && bookingData.appointmentTime) {
+      appointmentDate = new Date(
+        `${bookingData.appointmentDate}T${bookingData.appointmentTime}`
+      );
+      // Check if date is valid
+      if (isNaN(appointmentDate.getTime())) {
+        appointmentDate = null;
+      }
+    }
+  } catch (error) {
+    console.error("Error parsing date:", error);
+    appointmentDate = null;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 rtl">
