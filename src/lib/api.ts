@@ -199,7 +199,6 @@ export const appointmentsAPI = {
     patient_email?: string;
     service: number;
     appointment_date: string;
-    appointment_time: string;
     notes?: string;
   }) => {
     const promise = apiRequest<any>("/appointments/", {
