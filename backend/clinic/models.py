@@ -73,7 +73,6 @@ class Appointment(models.Model):
         verbose_name = 'حجز'
         verbose_name_plural = 'الحجوزات'
         ordering = ['-appointment_date', '-appointment_time']
-        unique_together = ['appointment_date', 'appointment_time']
 
     def generate_booking_id(self):
         """Generate unique booking ID in format: BK-YYYYMMDD-####"""
