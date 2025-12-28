@@ -122,7 +122,10 @@ export default function AppointmentPage() {
           selectedService?.name || formData.service
         );
         confirmationUrl.searchParams.set("appointmentDate", formData.date);
-        confirmationUrl.searchParams.set("appointmentTime", response.appointment_time || "");
+        confirmationUrl.searchParams.set(
+          "appointmentTime",
+          response.appointment_time || ""
+        );
 
         // Redirect after 2 seconds
         setTimeout(() => {
@@ -132,9 +135,18 @@ export default function AppointmentPage() {
         throw new Error("لم يتم الحصول على معرف الحجز");
       }
     } catch (err: any) {
-      setError(
-        err.message || "حدث خطأ أثناء حجز الموعد. يرجى المحاولة مرة أخرى."
-      );
+      console.error("❌ خطأ في الحجز:", err);
+      let errorMessage = "حدث خطأ أثناء حجز الموعد. يرجى المحاولة مرة أخرى.";
+      
+      // Show detailed error if available
+      if (err.response?.data) {
+        console.error("Response data:", err.response.data);
+        errorMessage = err.response.data.detail || err.response.data.error || errorMessage;
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
