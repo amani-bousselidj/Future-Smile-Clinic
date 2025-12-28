@@ -14,6 +14,7 @@ from .views import (
     QueueHistoryViewSet,
 )
 from .views_admin import admin_login, check_admin_exists, create_admin, admin_init
+from .deployment_check import deployment_status
 
 router = DefaultRouter()
 router.register(r'services', ServiceViewSet, basename='service')
@@ -29,6 +30,7 @@ router.register(r'queue-statistics', QueueStatisticsViewSet, basename='queuestat
 router.register(r'queue-history', QueueHistoryViewSet, basename='queuehistory')
 
 urlpatterns = [
+    path('deployment-status/', deployment_status, name='deployment-status'),
     path('admin/init/', admin_init, name='admin-init'),
     path('admin/login/', admin_login, name='admin-login'),
     path('admin/check/', check_admin_exists, name='check-admin-exists'),
