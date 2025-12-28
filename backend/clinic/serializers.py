@@ -43,7 +43,7 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
         fields = ['id', 'booking_id', 'queue_number', 'patient_id', 'patient_name', 'patient_phone', 'patient_email', 
                   'service', 'service_name', 'appointment_date', 'appointment_time', 'notes', 'status', 
                   'estimated_wait_minutes', 'created_at']
-        read_only_fields = ['id', 'booking_id', 'queue_number', 'patient_id', 'status', 'created_at']
+        read_only_fields = ['id', 'booking_id', 'queue_number', 'patient_id', 'appointment_time', 'status', 'created_at']
 
     def get_estimated_wait_minutes(self, obj):
         """Get estimated wait time from QueueHistory if available"""
@@ -72,9 +72,31 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
             patient.email = patient_email
             patient.save()
         
-        # Create appointment
+        # AI-based automatic time selection
+        from .queue_service import QueueService
+        from datetime import time
+        time_slots = [
+            time(9, 0), time(10, 0), time(11, 0), time(12, 0),
+            time(14, 0), time(15, 0), time(16, 0), time(17, 0)
+        ]
+        
+        # Find the time slot with minimum wait time
+        best_time = None
+        min_wait = float('inf')
+        for time_slot in time_slots:
+            wait = QueueService.estimate_wait_time(
+                validated_data['appointment_date'],
+                time_slot,
+                validated_data['service'].id
+            )
+            if wait < min_wait:
+                min_wait = wait
+                best_time = time_slot
+        
+        # Create appointment with AI-assigned time
         appointment = Appointment.objects.create(
             patient=patient,
+            appointment_time=best_time,
             **validated_data
         )
         

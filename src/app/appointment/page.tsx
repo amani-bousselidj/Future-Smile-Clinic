@@ -41,8 +41,6 @@ export default function AppointmentPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
   const [bookingId, setBookingId] = useState("");
-  const [suggestedTimes, setSuggestedTimes] = useState<TimeSuggestion[]>([]);
-  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
 
   // Fetch services from API
   useEffect(() => {
@@ -57,42 +55,6 @@ export default function AppointmentPage() {
     };
     fetchServices();
   }, []);
-
-  // Fetch time suggestions when date and service are selected
-  useEffect(() => {
-    const fetchTimeSuggestions = async () => {
-      if (formData.date && formData.service) {
-        setIsLoadingSuggestions(true);
-        try {
-          const selectedService = apiServices.find(
-            (s) =>
-              s.name === formData.service || s.id === parseInt(formData.service)
-          );
-
-          const suggestions = await appointmentsAPI.suggestTimes({
-            appointment_date: formData.date,
-            service: selectedService?.id || parseInt(formData.service) || 1,
-          });
-
-          setSuggestedTimes(suggestions);
-          // Auto-select the best time (first suggestion)
-          if (suggestions.length > 0) {
-            setFormData((prev) => ({ ...prev, time: suggestions[0].time }));
-          }
-        } catch (err) {
-          console.error("Failed to fetch time suggestions:", err);
-          setSuggestedTimes([]);
-        } finally {
-          setIsLoadingSuggestions(false);
-        }
-      } else {
-        setSuggestedTimes([]);
-        setFormData((prev) => ({ ...prev, time: "" }));
-      }
-    };
-
-    fetchTimeSuggestions();
-  }, [formData.date, formData.service, apiServices]);
 
   const services =
     apiServices.length > 0
@@ -127,7 +89,6 @@ export default function AppointmentPage() {
         patient_email: formData.email || undefined,
         service: selectedService?.id || 1,
         appointment_date: formData.date,
-        appointment_time: formData.time,
         notes: formData.notes || undefined,
       };
 
@@ -351,93 +312,6 @@ export default function AppointmentPage() {
                   min={new Date().toISOString().split("T")[0]}
                   className="w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-primary-light outline-none transition bg-white relative z-10"
                 />
-              </div>
-
-              {/* AI Time Suggestions */}
-              <div className="col-span-1 md:col-span-2">
-                <label className="block text-gray-700 font-medium mb-3 text-sm sm:text-base flex items-center gap-2">
-                  <FaRobot className="text-primary" />
-                  الوقت المقترح (اختيار ذكي) *
-                </label>
-
-                {isLoadingSuggestions ? (
-                  <div className="flex items-center justify-center py-8 bg-gray-50 rounded-lg">
-                    <FaSpinner className="animate-spin text-primary text-2xl ml-2" />
-                    <span className="text-gray-600">
-                      جاري البحث عن أفضل الأوقات...
-                    </span>
-                  </div>
-                ) : suggestedTimes.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    {suggestedTimes.map((suggestion, index) => (
-                      <motion.button
-                        key={suggestion.time}
-                        type="button"
-                        onClick={() =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            time: suggestion.time,
-                          }))
-                        }
-                        className={`p-4 rounded-lg border-2 transition-all text-right ${
-                          formData.time === suggestion.time
-                            ? "border-primary bg-primary/5 shadow-md"
-                            : "border-gray-200 hover:border-primary/50 hover:bg-gray-50"
-                        }`}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <FaClock
-                              className={`text-lg ${
-                                formData.time === suggestion.time
-                                  ? "text-primary"
-                                  : "text-gray-400"
-                              }`}
-                            />
-                            <span
-                              className={`font-bold text-lg ${
-                                formData.time === suggestion.time
-                                  ? "text-primary"
-                                  : "text-gray-900"
-                              }`}
-                            >
-                              {suggestion.time}
-                            </span>
-                          </div>
-                          {index === 0 && (
-                            <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">
-                              الأفضل
-                            </span>
-                          )}
-                          {suggestion.is_peak_hour && (
-                            <span className="bg-amber-100 text-amber-700 text-xs px-2 py-1 rounded-full font-medium">
-                              ذروة
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-sm text-gray-600 mb-1">
-                          {suggestion.reason}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          انتظار متوقع:{" "}
-                          <span className="font-semibold">
-                            {suggestion.wait_minutes} دقيقة
-                          </span>
-                        </p>
-                      </motion.button>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="py-8 text-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                    <FaCalendarAlt className="text-4xl text-gray-400 mx-auto mb-2" />
-                    <p className="text-gray-600">
-                      اختر التاريخ والخدمة لرؤية الأوقات المقترحة
-                    </p>
-                  </div>
-                )}
               </div>
 
               {/* Notes */}

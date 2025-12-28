@@ -14,6 +14,7 @@ import {
   FaHourglass,
   FaTimesCircle,
   FaSpinner,
+  FaRobot,
 } from "react-icons/fa";
 import { appointmentsAPI } from "../../lib/api";
 import Link from "next/link";
@@ -346,17 +347,17 @@ export default function AppointmentStatusPage() {
 
               {/* Details Grid */}
               <div className="p-6 space-y-4">
-                {/* Queue Number Badge */}
+                {/* Queue Number Badge - Prominent Display */}
                 {appointment.queue_number && appointment.queue_number > 0 && (
-                  <div className="flex items-center justify-center p-4 bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg border-2 border-purple-300">
-                    <div className="text-center">
-                      <p className="text-sm text-purple-700 font-medium">
-                        رقم الطابور
+                  <div className="flex items-center justify-center p-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl shadow-lg">
+                    <div className="text-center text-white">
+                      <p className="text-sm font-medium mb-1">
+                        ترتيبك في اليوم
                       </p>
-                      <p className="text-5xl font-bold text-purple-600">
+                      <p className="text-6xl font-bold">
                         #{appointment.queue_number}
                       </p>
-                      <p className="text-xs text-purple-600 mt-1">
+                      <p className="text-xs mt-2 opacity-90">
                         سيتم استدعاؤك قريباً
                       </p>
                     </div>
@@ -411,12 +412,23 @@ export default function AppointmentStatusPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4 p-4 bg-white bg-opacity-70 rounded-lg">
-                    <FaClock className="text-blue-600 mt-1 flex-shrink-0 text-lg" />
-                    <div>
-                      <p className="text-sm text-gray-600">وقت الموعد</p>
+                  <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-2 border-green-300">
+                    <div className="flex items-center gap-2">
+                      <FaClock className="text-green-600 text-lg" />
+                      <FaRobot className="text-green-600 text-sm" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <p className="text-sm text-gray-600">وقت الموعد</p>
+                        <span className="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full font-medium">
+                          تم تحديده تلقائياً بالذكاء الاصطناعي
+                        </span>
+                      </div>
                       <p className="text-lg font-semibold text-gray-800">
                         {appointment.appointment_time}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        تم اختيار أفضل وقت بأقل فترة انتظار
                       </p>
                     </div>
                   </div>
