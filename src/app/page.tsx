@@ -30,7 +30,9 @@ export default function HomePage() {
 
   return (
     <>
-      <LoadingSplash onComplete={() => setLoadingComplete(true)} />
+      {!loadingComplete && (
+        <LoadingSplash onComplete={() => setLoadingComplete(true)} />
+      )}
       <Header onLoadingComplete={loadingComplete} />
       <div
         className="w-full overflow-hidden transition-opacity duration-500"
