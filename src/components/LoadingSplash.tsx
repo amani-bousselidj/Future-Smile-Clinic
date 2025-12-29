@@ -21,17 +21,6 @@ export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
   const clinicName = "Future Smile Clinic";
 
   useEffect(() => {
-    // Check if loading splash has already been shown in this session
-    const alreadyShown = sessionStorage.getItem("loadingSplashShown");
-
-    if (alreadyShown) {
-      // Skip animation and mark as complete immediately
-      setPhase("hidden");
-      if (onComplete) {
-        onComplete();
-      }
-      return;
-    }
 
 
 
