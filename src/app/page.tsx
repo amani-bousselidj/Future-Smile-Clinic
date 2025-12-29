@@ -11,6 +11,7 @@ import { useFetch } from "@/lib/hooks";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { LoadingSplash } from "@/components/LoadingSplash";
 import { Header } from "@/components/Header";
+import HeroTooth from "@/components/HeroTooth";
 
 interface Service {
   id: number;
@@ -34,6 +35,7 @@ export default function HomePage() {
         <LoadingSplash onComplete={() => setLoadingComplete(true)} />
       )}
       <Header onLoadingComplete={loadingComplete} />
+      <HeroTooth />
       <div
         className="w-full overflow-hidden transition-opacity duration-500"
         style={{
