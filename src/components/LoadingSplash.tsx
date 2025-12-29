@@ -2,7 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 
-type Phase = "badge-enter" | "text-show" | "loading" | "hero-transform" | "final-zoom" | "hidden";
+type Phase =
+  | "badge-enter"
+  | "text-show"
+  | "loading"
+  | "hero-transform"
+  | "final-zoom"
+  | "hidden";
 
 export const LoadingSplash: React.FC = () => {
   const [phase, setPhase] = useState<Phase>("badge-enter");
@@ -30,12 +36,12 @@ export const LoadingSplash: React.FC = () => {
     // Phase 3: Loading bar slides (1-3s)
     let startTime = Date.now();
     const loadingDuration = 2000; // 2 seconds
-    
+
     const loadingInterval = setInterval(() => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / loadingDuration, 1);
       setLoaderPosition(progress * 100);
-      
+
       if (progress >= 1) {
         clearInterval(loadingInterval);
       }
@@ -72,8 +78,10 @@ export const LoadingSplash: React.FC = () => {
   if (phase === "hidden") return null;
 
   const getBadgeAnimation = () => {
-    if (phase === "badge-enter" || phase === "text-show" || phase === "loading") return "badgeBreathe 2.5s ease-in-out infinite";
-    if (phase === "hero-transform") return "badgeGrow 1.5s ease-in-out forwards";
+    if (phase === "badge-enter" || phase === "text-show" || phase === "loading")
+      return "badgeBreathe 2.5s ease-in-out infinite";
+    if (phase === "hero-transform")
+      return "badgeGrow 1.5s ease-in-out forwards";
     if (phase === "final-zoom") return "badgeFinalZoom 1s ease-in-out forwards";
     return "none";
   };
@@ -90,19 +98,35 @@ export const LoadingSplash: React.FC = () => {
           className="relative overflow-hidden"
           style={{
             animation: getBadgeAnimation(),
-            width: phase === "hero-transform" || phase === "final-zoom" ? "85vw" : "auto",
-            maxWidth: phase === "hero-transform" || phase === "final-zoom" ? "1200px" : "700px",
-            height: phase === "hero-transform" || phase === "final-zoom" ? "280px" : "auto",
+            width:
+              phase === "hero-transform" || phase === "final-zoom"
+                ? "85vw"
+                : "auto",
+            maxWidth:
+              phase === "hero-transform" || phase === "final-zoom"
+                ? "1200px"
+                : "700px",
+            height:
+              phase === "hero-transform" || phase === "final-zoom"
+                ? "280px"
+                : "auto",
             transition: "width 1.5s ease-in-out, height 1.5s ease-in-out",
           }}
         >
           <div
             className="relative rounded-full shadow-2xl"
             style={{
-              backgroundColor: phase === "hero-transform" || phase === "final-zoom" ? "#ffffff" : "#3A3A3A",
-              padding: phase === "hero-transform" || phase === "final-zoom" ? "0" : "28px 80px",
+              backgroundColor:
+                phase === "hero-transform" || phase === "final-zoom"
+                  ? "#ffffff"
+                  : "#3A3A3A",
+              padding:
+                phase === "hero-transform" || phase === "final-zoom"
+                  ? "0"
+                  : "28px 80px",
               borderRadius: "9999px",
-              transition: "background-color 1s ease-in-out, padding 1.5s ease-in-out",
+              transition:
+                "background-color 1s ease-in-out, padding 1.5s ease-in-out",
             }}
           >
             {/* Loading Bar Slider (White Circle) */}
@@ -121,15 +145,19 @@ export const LoadingSplash: React.FC = () => {
               <div
                 className="relative z-10 flex items-center justify-center whitespace-nowrap"
                 style={{
-                  animation: phase === "text-show" ? "textFadeIn 0.5s ease-out forwards" : "none",
+                  animation:
+                    phase === "text-show"
+                      ? "textFadeIn 0.5s ease-out forwards"
+                      : "none",
                   opacity: phase === "text-show" ? 0 : 1,
                 }}
               >
                 <span className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight">
                   {clinicName.split("").map((letter, index) => {
                     const charPosition = (index / clinicName.length) * 100;
-                    const isInverted = phase === "loading" && loaderPosition > charPosition;
-                    
+                    const isInverted =
+                      phase === "loading" && loaderPosition > charPosition;
+
                     return (
                       <span
                         key={index}
@@ -160,7 +188,8 @@ export const LoadingSplash: React.FC = () => {
                   alt="Future Smile Clinic"
                   className="w-full h-full object-cover rounded-full opacity-20"
                   onError={(e) => {
-                    e.currentTarget.src = "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=1200&h=400&fit=crop";
+                    e.currentTarget.src =
+                      "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=1200&h=400&fit=crop";
                   }}
                   style={{
                     filter: "brightness(1.2) contrast(0.9)",
@@ -186,19 +215,9 @@ export const LoadingSplash: React.FC = () => {
       </div>
 
       <style jsx>{`
-        @keyframes badgeEnter {
-          0% {
-            opacity: 0;
-            transform: scale(0.8);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-
         @keyframes badgeBreathe {
-          0%, 100% {
+          0%,
+          100% {
             transform: scale(1);
           }
           50% {
