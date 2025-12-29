@@ -50,16 +50,22 @@ export default function LoginPage() {
       </div>
 
       <div className="w-full max-w-md relative z-10">
-        <Card shadow="lg" padding="lg" className="bg-white/80 backdrop-blur-lg border-0 shadow-2xl">
+        <Card
+          shadow="lg"
+          padding="lg"
+          className="bg-white/80 backdrop-blur-lg border-0 shadow-2xl"
+        >
           <div className="text-center mb-10">
             <div className="inline-block mb-6 transform hover:scale-110 transition-transform duration-500">
-              <img 
-                src="/images/logo.png" 
-                alt="Future Smile Clinic" 
+              <img
+                src="/images/logo.png"
+                alt="Future Smile Clinic"
                 className="h-24 w-auto mx-auto drop-shadow-xl"
               />
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">أهلاً وسهلاً</h1>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+              أهلاً وسهلاً
+            </h1>
             <p className="text-gray-600 text-lg">
               سجل دخولك للمتابعة مع عيادتك
             </p>

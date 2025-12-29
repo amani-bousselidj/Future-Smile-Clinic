@@ -16,14 +16,11 @@ export function Header() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-24">
           {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center gap-4 group"
-          >
+          <Link href="/" className="flex items-center gap-4 group">
             <div className="relative transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-2">
-              <img 
-                src="/images/logo.png" 
-                alt="Future Smile Clinic Logo" 
+              <img
+                src="/images/logo.png"
+                alt="Future Smile Clinic Logo"
                 className="h-16 w-auto drop-shadow-lg"
               />
             </div>
@@ -99,7 +96,10 @@ export function Header() {
                   </Button>
                 </Link>
                 <Link href="/register">
-                  <Button size="sm" className="whitespace-nowrap bg-gradient-to-l from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 transition-all duration-300 hover:scale-105 shadow-lg">
+                  <Button
+                    size="sm"
+                    className="whitespace-nowrap bg-gradient-to-l from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 transition-all duration-300 hover:scale-105 shadow-lg"
+                  >
                     اشتراك
                   </Button>
                 </Link>
