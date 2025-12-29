@@ -62,7 +62,9 @@ export default function RegisterPage() {
               <span className="text-white font-bold text-2xl">FS</span>
             </div>
             <h1 className="text-4xl font-bold text-gray-900">إنشاء حساب</h1>
-            <p className="text-gray-600 mt-2 text-lg">انضم إلى عيادة ابتسامة المستقبل</p>
+            <p className="text-gray-600 mt-2 text-lg">
+              انضم إلى عيادة ابتسامة المستقبل
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -120,10 +122,10 @@ export default function RegisterPage() {
               placeholder="أعد إدخال كلمة المرور"
             />
 
-            <Button 
-              type="submit" 
-              fullWidth 
-              size="lg" 
+            <Button
+              type="submit"
+              fullWidth
+              size="lg"
               isLoading={loading}
               className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg"
             >
@@ -134,7 +136,10 @@ export default function RegisterPage() {
           <div className="mt-8 text-center border-t pt-6">
             <p className="text-gray-700">
               هل لديك حساب بالفعل؟{" "}
-              <Link href="/login" className="text-blue-600 font-bold hover:text-blue-700 hover:underline">
+              <Link
+                href="/login"
+                className="text-blue-600 font-bold hover:text-blue-700 hover:underline"
+              >
                 سجل دخول
               </Link>
             </p>

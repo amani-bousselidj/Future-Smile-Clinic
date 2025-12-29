@@ -112,8 +112,7 @@ export default function AppointmentsPage() {
         addNotification({
           type: "success",
           message:
-            "تم حجز الموعد بنجاح! رقم الحجز: " +
-            appointmentData.booking_id,
+            "تم حجز الموعد بنجاح! رقم الحجز: " + appointmentData.booking_id,
         });
         setTimeout(() => {
           router.push("/");
@@ -167,7 +166,8 @@ export default function AppointmentsPage() {
                 <option value="">-- اختر الخدمة --</option>
                 {services.map((service) => (
                   <option key={service.id} value={service.id}>
-                    {service.name} - {service.price_min}-{service.price_max} ريال
+                    {service.name} - {service.price_min}-{service.price_max}{" "}
+                    ريال
                   </option>
                 ))}
               </select>
@@ -188,7 +188,8 @@ export default function AppointmentsPage() {
                 <option value="">-- اختر الطبيب --</option>
                 {doctors.map((doctor) => (
                   <option key={doctor.id} value={doctor.id}>
-                    د. {doctor.first_name} {doctor.last_name} - {doctor.specialization}
+                    د. {doctor.first_name} {doctor.last_name} -{" "}
+                    {doctor.specialization}
                   </option>
                 ))}
               </select>
@@ -216,7 +217,9 @@ export default function AppointmentsPage() {
 
             {/* Patient Information */}
             <div className="border-t-2 border-gray-200 pt-8">
-              <h3 className="text-2xl font-bold mb-6 text-gray-900">بيانات المريض</h3>
+              <h3 className="text-2xl font-bold mb-6 text-gray-900">
+                بيانات المريض
+              </h3>
               <div className="space-y-5">
                 <Input
                   type="text"
@@ -263,11 +266,15 @@ export default function AppointmentsPage() {
             {/* Service Summary */}
             {selectedService && (
               <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg border-2 border-blue-100">
-                <p className="text-sm font-bold text-blue-900 mb-4">📋 ملخص الموعد</p>
+                <p className="text-sm font-bold text-blue-900 mb-4">
+                  📋 ملخص الموعد
+                </p>
                 <div className="text-base text-gray-800 space-y-3">
                   <p>
                     الخدمة:{" "}
-                    <span className="font-bold text-blue-600">{selectedService.name}</span>
+                    <span className="font-bold text-blue-600">
+                      {selectedService.name}
+                    </span>
                   </p>
                   <p>
                     المدة:{" "}
@@ -278,7 +285,8 @@ export default function AppointmentsPage() {
                   <p>
                     السعر:{" "}
                     <span className="font-bold text-blue-600">
-                      {selectedService.price_min} - {selectedService.price_max} ريال
+                      {selectedService.price_min} - {selectedService.price_max}{" "}
+                      ريال
                     </span>
                   </p>
                 </div>
@@ -286,10 +294,10 @@ export default function AppointmentsPage() {
             )}
 
             {/* Submit Button */}
-            <Button 
-              type="submit" 
-              fullWidth 
-              size="lg" 
+            <Button
+              type="submit"
+              fullWidth
+              size="lg"
               isLoading={isSubmitting}
               className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg py-4"
             >

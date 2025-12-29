@@ -31,8 +31,8 @@ export function Header() {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center gap-8">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="text-gray-700 hover:text-blue-600 font-medium transition-colors border-b-2 border-transparent hover:border-blue-600 pb-1"
             >
               الرئيسية
@@ -43,14 +43,14 @@ export function Header() {
             >
               الخدمات
             </Link>
-            <Link 
-              href="/about" 
+            <Link
+              href="/about"
               className="text-gray-700 hover:text-blue-600 font-medium transition-colors border-b-2 border-transparent hover:border-blue-600 pb-1"
             >
               عن العيادة
             </Link>
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className="text-gray-700 hover:text-blue-600 font-medium transition-colors border-b-2 border-transparent hover:border-blue-600 pb-1"
             >
               اتصل بنا
@@ -66,9 +66,9 @@ export function Header() {
                     {user.full_name || user.email}
                   </div>
                 </div>
-                <Button 
-                  variant="danger" 
-                  size="sm" 
+                <Button
+                  variant="danger"
+                  size="sm"
                   onClick={logout}
                   className="whitespace-nowrap"
                 >
@@ -78,7 +78,11 @@ export function Header() {
             ) : (
               <>
                 <Link href="/login">
-                  <Button variant="ghost" size="sm" className="whitespace-nowrap">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="whitespace-nowrap"
+                  >
                     دخول
                   </Button>
                 </Link>
@@ -90,7 +94,11 @@ export function Header() {
               </>
             )}
             <Link href="/appointments">
-              <Button variant="primary" size="sm" className="whitespace-nowrap bg-gradient-to-l from-blue-600 to-blue-500">
+              <Button
+                variant="primary"
+                size="sm"
+                className="whitespace-nowrap bg-gradient-to-l from-blue-600 to-blue-500"
+              >
                 حجز موعد
               </Button>
             </Link>

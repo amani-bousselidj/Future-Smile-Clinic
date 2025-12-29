@@ -38,16 +38,24 @@ export default function HomePage() {
             مرحباً بك في عيادة ابتسامة المستقبل
           </h1>
           <p className="text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
-            رعاية أسنان احترافية بأحدث التكنولوجيا وأطباء متخصصين وذوي خبرة عالية. ابتسامتك المثالية على بعد موعد واحد فقط
+            رعاية أسنان احترافية بأحدث التكنولوجيا وأطباء متخصصين وذوي خبرة
+            عالية. ابتسامتك المثالية على بعد موعد واحد فقط
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link href="/appointments">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+              <Button
+                size="lg"
+                className="bg-white text-blue-600 hover:bg-gray-100"
+              >
                 حجز موعد الآن
               </Button>
             </Link>
             <Link href="/services">
-              <Button variant="ghost" size="lg" className="border-2 border-white hover:bg-blue-700">
+              <Button
+                variant="ghost"
+                size="lg"
+                className="border-2 border-white hover:bg-blue-700"
+              >
                 عرض الخدمات
               </Button>
             </Link>
@@ -59,9 +67,12 @@ export default function HomePage() {
       <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold mb-4 text-gray-900">خدماتنا المتميزة</h2>
+            <h2 className="text-5xl font-bold mb-4 text-gray-900">
+              خدماتنا المتميزة
+            </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              نقدم مجموعة شاملة من الخدمات السنية المتخصصة لتلبية جميع احتياجاتك الصحية
+              نقدم مجموعة شاملة من الخدمات السنية المتخصصة لتلبية جميع احتياجاتك
+              الصحية
             </p>
           </div>
 
@@ -72,7 +83,11 @@ export default function HomePage() {
           ) : services?.results && services.results.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {services.results.slice(0, 6).map((service) => (
-                <Card key={service.id} shadow="md" className="hover:shadow-xl transition-shadow">
+                <Card
+                  key={service.id}
+                  shadow="md"
+                  className="hover:shadow-xl transition-shadow"
+                >
                   {service.image_url && (
                     <img
                       src={service.image_url}
@@ -80,7 +95,9 @@ export default function HomePage() {
                       className="w-full h-48 object-cover rounded-lg mb-4"
                     />
                   )}
-                  <h3 className="text-2xl font-bold mb-2 text-gray-900">{service.name}</h3>
+                  <h3 className="text-2xl font-bold mb-2 text-gray-900">
+                    {service.name}
+                  </h3>
                   <p className="text-gray-600 mb-4">{service.description}</p>
                   <div className="flex justify-between items-center mb-4">
                     <span className="text-blue-600 font-bold text-lg">
@@ -99,12 +116,17 @@ export default function HomePage() {
               ))}
             </div>
           ) : (
-            <p className="text-center text-gray-600">لا توجد خدمات متاحة حالياً</p>
+            <p className="text-center text-gray-600">
+              لا توجد خدمات متاحة حالياً
+            </p>
           )}
 
           <div className="text-center mt-16">
             <Link href="/services">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8">
+              <Button
+                size="lg"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8"
+              >
                 عرض جميع الخدمات
               </Button>
             </Link>
@@ -116,8 +138,12 @@ export default function HomePage() {
       <section className="py-20 bg-gradient-to-r from-blue-50 to-indigo-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold mb-4 text-gray-900">لماذا تختار عيادتنا</h2>
-            <p className="text-gray-600 text-lg">أفضل خدمات طب الأسنان في المنطقة</p>
+            <h2 className="text-5xl font-bold mb-4 text-gray-900">
+              لماذا تختار عيادتنا
+            </h2>
+            <p className="text-gray-600 text-lg">
+              أفضل خدمات طب الأسنان في المنطقة
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -125,14 +151,12 @@ export default function HomePage() {
               {
                 icon: "⚙️",
                 title: "تكنولوجيا حديثة",
-                description:
-                  "أحدث الأجهزة الطبية لضمان أفضل النتائج",
+                description: "أحدث الأجهزة الطبية لضمان أفضل النتائج",
               },
               {
                 icon: "🩺",
                 title: "أطباء متخصصون",
-                description:
-                  "فريق من الأطباء المؤهلين وذوي الخبرة العالية",
+                description: "فريق من الأطباء المؤهلين وذوي الخبرة العالية",
               },
               {
                 icon: "📅",
@@ -155,10 +179,18 @@ export default function HomePage() {
                 description: "خدمة عملاء متوفرة على مدار الساعة",
               },
             ].map((feature, index) => (
-              <Card key={index} shadow="sm" className="hover:shadow-lg transition-all">
+              <Card
+                key={index}
+                shadow="sm"
+                className="hover:shadow-lg transition-all"
+              >
                 <div className="text-5xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900">{feature.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                <h3 className="text-xl font-bold mb-3 text-gray-900">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {feature.description}
+                </p>
               </Card>
             ))}
           </div>
@@ -169,7 +201,9 @@ export default function HomePage() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold mb-4 text-gray-900">تقييمات المرضى</h2>
+            <h2 className="text-5xl font-bold mb-4 text-gray-900">
+              تقييمات المرضى
+            </h2>
             <p className="text-gray-600 text-lg">اسمع من مرضانا الراضين</p>
           </div>
 
@@ -188,12 +222,20 @@ export default function HomePage() {
                 text: "رضا تام عن الخدمات المقدمة والطاقم الطبي المميز والاحترافي",
               },
             ].map((testimonial, index) => (
-              <Card key={index} shadow="md" className="bg-gradient-to-b from-blue-50 to-white">
+              <Card
+                key={index}
+                shadow="md"
+                className="bg-gradient-to-b from-blue-50 to-white"
+              >
                 <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-bold text-lg text-gray-900">{testimonial.name}</h4>
+                  <h4 className="font-bold text-lg text-gray-900">
+                    {testimonial.name}
+                  </h4>
                   <div className="flex gap-1">
                     {[...Array(5)].map((_, i) => (
-                      <span key={i} className="text-yellow-400">⭐</span>
+                      <span key={i} className="text-yellow-400">
+                        ⭐
+                      </span>
                     ))}
                   </div>
                 </div>
@@ -215,7 +257,10 @@ export default function HomePage() {
             احجز موعدك اليوم وجرب الفرق الذي تحدثه رعايتنا الاحترافية
           </p>
           <Link href="/appointments">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-10 py-3 text-lg">
+            <Button
+              size="lg"
+              className="bg-white text-blue-600 hover:bg-gray-100 px-10 py-3 text-lg"
+            >
               احجز موعدك الآن
             </Button>
           </Link>

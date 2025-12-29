@@ -45,7 +45,9 @@ export default function ServicesPage() {
       <div className="max-w-7xl mx-auto px-4 py-16">
         {/* Category Filter */}
         <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-6 text-gray-900">فئات الخدمات</h2>
+          <h2 className="text-2xl font-bold mb-6 text-gray-900">
+            فئات الخدمات
+          </h2>
           <div className="flex gap-4 flex-wrap">
             {categories.map((category) => (
               <button
@@ -74,7 +76,9 @@ export default function ServicesPage() {
           </div>
         ) : error ? (
           <Card className="bg-red-50 border-2 border-red-300 text-center py-8">
-            <p className="text-red-700 text-lg">عذراً، لم نتمكن من تحميل الخدمات</p>
+            <p className="text-red-700 text-lg">
+              عذراً، لم نتمكن من تحميل الخدمات
+            </p>
           </Card>
         ) : filteredServices && filteredServices.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

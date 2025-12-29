@@ -107,7 +107,9 @@ export default function ContactPage() {
           {/* Contact Form */}
           <div className="lg:col-span-2">
             <Card shadow="lg" padding="lg" className="bg-white border-0">
-              <h2 className="text-3xl font-bold mb-8 text-gray-900">أرسل لنا رسالة</h2>
+              <h2 className="text-3xl font-bold mb-8 text-gray-900">
+                أرسل لنا رسالة
+              </h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <Input
@@ -177,10 +179,10 @@ export default function ContactPage() {
                   )}
                 </div>
 
-                <Button 
-                  type="submit" 
-                  fullWidth 
-                  size="lg" 
+                <Button
+                  type="submit"
+                  fullWidth
+                  size="lg"
                   isLoading={loading}
                   className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg"
                 >
@@ -193,7 +195,9 @@ export default function ContactPage() {
 
         {/* Map Section */}
         <div className="mt-20">
-          <h2 className="text-3xl font-bold mb-8 text-gray-900 text-center">موقعنا على الخريطة</h2>
+          <h2 className="text-3xl font-bold mb-8 text-gray-900 text-center">
+            موقعنا على الخريطة
+          </h2>
           <Card shadow="md" padding="none">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.1825516524!2d46.6753!3d24.7136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDQyJzcuMCJOIDQ2wrA0MCc1MC4zIkU!5e0!3m2!1sar!2ssa!4v1234567890"

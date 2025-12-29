@@ -50,7 +50,9 @@ export default function LoginPage() {
               <span className="text-white font-bold text-2xl">FS</span>
             </div>
             <h1 className="text-4xl font-bold text-gray-900">أهلاً وسهلاً</h1>
-            <p className="text-gray-600 mt-2 text-lg">سجل دخولك للمتابعة مع عيادتك</p>
+            <p className="text-gray-600 mt-2 text-lg">
+              سجل دخولك للمتابعة مع عيادتك
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -76,10 +78,10 @@ export default function LoginPage() {
               placeholder="أدخل كلمة المرور"
             />
 
-            <Button 
-              type="submit" 
-              fullWidth 
-              size="lg" 
+            <Button
+              type="submit"
+              fullWidth
+              size="lg"
               isLoading={loading}
               className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg"
             >
@@ -91,7 +93,10 @@ export default function LoginPage() {
             <div className="text-center">
               <p className="text-gray-700">
                 ليس لديك حساب؟{" "}
-                <Link href="/register" className="text-blue-600 font-bold hover:text-blue-700 hover:underline">
+                <Link
+                  href="/register"
+                  className="text-blue-600 font-bold hover:text-blue-700 hover:underline"
+                >
                   اشترك الآن
                 </Link>
               </p>

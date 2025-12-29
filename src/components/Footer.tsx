@@ -17,10 +17,13 @@ export function Footer() {
               <div className="w-10 h-10 bg-gradient-to-b from-blue-600 to-blue-400 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">FS</span>
               </div>
-              <h3 className="text-white font-bold text-lg">عيادة ابتسامة المستقبل</h3>
+              <h3 className="text-white font-bold text-lg">
+                عيادة ابتسامة المستقبل
+              </h3>
             </div>
             <p className="text-sm leading-relaxed">
-              عيادة متخصصة بأعلى معايير الجودة والاحترافية في رعاية الأسنان مع أحدث التقنيات والأطباء المتمرسين.
+              عيادة متخصصة بأعلى معايير الجودة والاحترافية في رعاية الأسنان مع
+              أحدث التقنيات والأطباء المتمرسين.
             </p>
           </div>
 
@@ -29,22 +32,34 @@ export function Footer() {
             <h4 className="text-white font-bold mb-4 text-lg">خدماتنا</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/services" className="hover:text-blue-400 transition-colors">
+                <Link
+                  href="/services"
+                  className="hover:text-blue-400 transition-colors"
+                >
                   طب الأسنان العام
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="hover:text-blue-400 transition-colors">
+                <Link
+                  href="/services"
+                  className="hover:text-blue-400 transition-colors"
+                >
                   تقويم الأسنان
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="hover:text-blue-400 transition-colors">
+                <Link
+                  href="/services"
+                  className="hover:text-blue-400 transition-colors"
+                >
                   تجميل الأسنان
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="hover:text-blue-400 transition-colors">
+                <Link
+                  href="/services"
+                  className="hover:text-blue-400 transition-colors"
+                >
                   زراعة الأسنان
                 </Link>
               </li>
@@ -56,22 +71,34 @@ export function Footer() {
             <h4 className="text-white font-bold mb-4 text-lg">روابط سريعة</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/about" className="hover:text-blue-400 transition-colors">
+                <Link
+                  href="/about"
+                  className="hover:text-blue-400 transition-colors"
+                >
                   من نحن
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-blue-400 transition-colors">
+                <Link
+                  href="/contact"
+                  className="hover:text-blue-400 transition-colors"
+                >
                   اتصل بنا
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="hover:text-blue-400 transition-colors">
+                <Link
+                  href="/privacy"
+                  className="hover:text-blue-400 transition-colors"
+                >
                   سياسة الخصوصية
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="hover:text-blue-400 transition-colors">
+                <Link
+                  href="/terms"
+                  className="hover:text-blue-400 transition-colors"
+                >
                   شروط الخدمة
                 </Link>
               </li>

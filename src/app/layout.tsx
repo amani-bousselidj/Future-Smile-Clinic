@@ -27,8 +27,7 @@ export const metadata: Metadata = {
     url: "https://future-smile-clinic.vercel.app",
     siteName: "عيادة ابتسامة المستقبل",
     title: "عيادة ابتسامة المستقبل - الرعاية السنية المتخصصة",
-    description:
-      "عيادة أسنان متخصصة توفر خدمات شاملة للعناية بالفم والأسنان.",
+    description: "عيادة أسنان متخصصة توفر خدمات شاملة للعناية بالفم والأسنان.",
     images: [
       {
         url: "https://future-smile-clinic.vercel.app/og-image.png",
@@ -55,9 +54,15 @@ export default function RootLayout({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#0066cc" />
-        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
-      <body className="bg-gray-50 text-gray-900" style={{ fontFamily: "'Cairo', sans-serif" }}>
+      <body
+        className="bg-gray-50 text-gray-900"
+        style={{ fontFamily: "'Cairo', sans-serif" }}
+      >
         <Providers>
           <Header />
           <main className="min-h-[calc(100vh-16rem)]">{children}</main>

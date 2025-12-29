@@ -99,34 +99,3 @@ export default function PrivacyPolicyPage() {
     </div>
   );
 }
-            5. Changes to This Privacy Policy
-          </h2>
-          <p>
-            We may update our Privacy Policy from time to time. We will notify
-            you of any changes by posting the new Privacy Policy on this page
-            and updating the "effective date" at the bottom of this Privacy
-            Policy.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            6. Contact Us
-          </h2>
-          <p>
-            If you have any questions about this Privacy Policy, please contact
-            us:
-          </p>
-          <ul className="list-disc list-inside mt-4 space-y-2">
-            <li>By email: privacy@futuresmileclinic.com</li>
-            <li>By phone: +1 (555) 123-4567</li>
-          </ul>
-        </section>
-
-        <div className="text-sm text-gray-500 pt-8 border-t">
-          <p>Last updated: {new Date().toLocaleDateString()}</p>
-        </div>
-      </div>
-    </div>
-  );
-}

@@ -45,7 +45,9 @@ export default function AboutPage() {
             <div className="text-blue-600 text-4xl mb-4">🎯</div>
             <h2 className="text-2xl font-bold mb-4 text-gray-900">رسالتنا</h2>
             <p className="text-gray-600 leading-relaxed text-lg">
-              تقديم رعاية أسنان استثنائية تحسن صحة أسناننا وسلامتنا العامة. نحن ملتزمون باستخدام أحدث التقنيات والأساليب لتحقيق نتائج رائعة في بيئة مريحة وحانية.
+              تقديم رعاية أسنان استثنائية تحسن صحة أسناننا وسلامتنا العامة. نحن
+              ملتزمون باستخدام أحدث التقنيات والأساليب لتحقيق نتائج رائعة في
+              بيئة مريحة وحانية.
             </p>
           </Card>
 
@@ -53,14 +55,18 @@ export default function AboutPage() {
             <div className="text-blue-600 text-4xl mb-4">🌟</div>
             <h2 className="text-2xl font-bold mb-4 text-gray-900">رؤيتنا</h2>
             <p className="text-gray-600 leading-relaxed text-lg">
-              أن نكون العيادة السنية الموثوقة بالمنطقة، معروفة بخبرتنا وعطفنا والتزامنا برضا المريض. نسعى لجعل رعاية الأسنان الجودة في متناول الجميع.
+              أن نكون العيادة السنية الموثوقة بالمنطقة، معروفة بخبرتنا وعطفنا
+              والتزامنا برضا المريض. نسعى لجعل رعاية الأسنان الجودة في متناول
+              الجميع.
             </p>
           </Card>
         </div>
 
         {/* Values */}
         <div className="mb-20">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-900">قيمنا الأساسية</h2>
+          <h2 className="text-4xl font-bold text-center mb-12 text-gray-900">
+            قيمنا الأساسية
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
               {
@@ -80,9 +86,15 @@ export default function AboutPage() {
                 desc: "أحدث التقنيات والأساليب",
               },
             ].map((value, index) => (
-              <Card key={index} shadow="sm" className="hover:shadow-md transition-shadow">
+              <Card
+                key={index}
+                shadow="sm"
+                className="hover:shadow-md transition-shadow"
+              >
                 <div className="text-5xl mb-4">{value.icon}</div>
-                <h3 className="font-bold text-lg mb-2 text-gray-900">{value.title}</h3>
+                <h3 className="font-bold text-lg mb-2 text-gray-900">
+                  {value.title}
+                </h3>
                 <p className="text-gray-600 text-base">{value.desc}</p>
               </Card>
             ))}
@@ -91,7 +103,9 @@ export default function AboutPage() {
 
         {/* Team */}
         <div className="mb-20">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-900">فريقنا الخبير</h2>
+          <h2 className="text-4xl font-bold text-center mb-12 text-gray-900">
+            فريقنا الخبير
+          </h2>
           {loading ? (
             <div className="flex justify-center py-12">
               <LoadingSpinner />
@@ -99,7 +113,11 @@ export default function AboutPage() {
           ) : doctors.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {doctors.map((doctor) => (
-                <Card key={doctor.id} shadow="md" className="hover:shadow-xl transition-shadow">
+                <Card
+                  key={doctor.id}
+                  shadow="md"
+                  className="hover:shadow-xl transition-shadow"
+                >
                   {doctor.photo && (
                     <img
                       src={doctor.photo}
@@ -113,33 +131,46 @@ export default function AboutPage() {
                   <p className="text-blue-600 font-bold mb-3 text-lg">
                     {doctor.specialization}
                   </p>
-                  {doctor.bio && <p className="text-gray-600 text-base">{doctor.bio}</p>}
+                  {doctor.bio && (
+                    <p className="text-gray-600 text-base">{doctor.bio}</p>
+                  )}
                 </Card>
               ))}
             </div>
           ) : (
-            <p className="text-center text-gray-600 text-lg">لا توجد أعضاء فريق متاحين حالياً</p>
+            <p className="text-center text-gray-600 text-lg">
+              لا توجد أعضاء فريق متاحين حالياً
+            </p>
           )}
         </div>
 
         {/* History */}
-        <Card shadow="md" className="bg-gradient-to-r from-blue-50 to-indigo-50 mb-20">
+        <Card
+          shadow="md"
+          className="bg-gradient-to-r from-blue-50 to-indigo-50 mb-20"
+        >
           <h2 className="text-3xl font-bold mb-8 text-gray-900">رحلتنا</h2>
           <div className="space-y-5 text-gray-700 text-lg">
             <p>
-              <strong className="text-blue-600">2010:</strong> تأسست عيادة ابتسامة المستقبل برؤية لإحداث ثورة في رعاية الأسنان بالمجتمع.
+              <strong className="text-blue-600">2010:</strong> تأسست عيادة
+              ابتسامة المستقبل برؤية لإحداث ثورة في رعاية الأسنان بالمجتمع.
             </p>
             <p>
-              <strong className="text-blue-600">2015:</strong> توسعنا بمرافق حديثة متطورة وإضافة متخصصين جدد لفريقنا.
+              <strong className="text-blue-600">2015:</strong> توسعنا بمرافق
+              حديثة متطورة وإضافة متخصصين جدد لفريقنا.
             </p>
             <p>
-              <strong className="text-blue-600">2018:</strong> أطلقنا مبادرة التحول الرقمي، بما في ذلك حجز المواعيد عبر الإنترنت والاستشارات الطبية عن بعد.
+              <strong className="text-blue-600">2018:</strong> أطلقنا مبادرة
+              التحول الرقمي، بما في ذلك حجز المواعيد عبر الإنترنت والاستشارات
+              الطبية عن بعد.
             </p>
             <p>
-              <strong className="text-blue-600">2023:</strong> حققنا الاعتماد كعيادة سنية رائدة وتوسعنا في خدماتنا لخدمة المزيد من المرضى.
+              <strong className="text-blue-600">2023:</strong> حققنا الاعتماد
+              كعيادة سنية رائدة وتوسعنا في خدماتنا لخدمة المزيد من المرضى.
             </p>
             <p>
-              <strong className="text-blue-600">2024:</strong> طبقنا التشخيص الذكي المتقدم وأطلقنا منصة الصحة الرقمية الشاملة.
+              <strong className="text-blue-600">2024:</strong> طبقنا التشخيص
+              الذكي المتقدم وأطلقنا منصة الصحة الرقمية الشاملة.
             </p>
           </div>
         </Card>
@@ -152,11 +183,17 @@ export default function AboutPage() {
             { number: "20+", label: "متخصص" },
             { number: "1000+", label: "عملية شهرياً" },
           ].map((stat, index) => (
-            <Card key={index} shadow="sm" className="text-center hover:shadow-md transition-shadow">
+            <Card
+              key={index}
+              shadow="sm"
+              className="text-center hover:shadow-md transition-shadow"
+            >
               <div className="text-5xl font-bold text-blue-600 mb-3">
                 {stat.number}
               </div>
-              <div className="text-gray-700 font-semibold text-lg">{stat.label}</div>
+              <div className="text-gray-700 font-semibold text-lg">
+                {stat.label}
+              </div>
             </Card>
           ))}
         </div>
