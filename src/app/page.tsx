@@ -9,6 +9,7 @@ import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { useFetch } from "@/lib/hooks";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { LoadingSplash } from "@/components/LoadingSplash";
 
 interface Service {
   id: number;
@@ -26,19 +27,25 @@ export default function HomePage() {
   );
 
   return (
-    <div className="w-full overflow-hidden bg-white">
+    <>
+      <LoadingSplash />
+      <div className="w-full overflow-hidden bg-white">
       {/* Hero Section - Premium Presentation Style */}
       <section className="relative min-h-screen bg-white overflow-hidden flex items-center">
         {/* Decorative Elements - Minimal & Premium */}
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-blue-50/40 to-transparent rounded-full -translate-y-1/2 translate-x-1/3"></div>
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-green-50/30 to-transparent rounded-full translate-y-1/2 -translate-x-1/3"></div>
-        
+
         {/* Subtle Grid Pattern */}
         <div className="absolute inset-0 opacity-[0.015]">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'linear-gradient(rgba(0,0,0,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.03) 1px, transparent 1px)',
-            backgroundSize: '50px 50px'
-          }}></div>
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(0,0,0,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.03) 1px, transparent 1px)",
+              backgroundSize: "50px 50px",
+            }}
+          ></div>
         </div>
 
         <div className="max-w-[1400px] mx-auto px-8 sm:px-12 lg:px-16 relative z-10 w-full py-20">
@@ -48,7 +55,9 @@ export default function HomePage() {
               {/* Premium Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200/50 rounded-full">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-sm font-semibold text-gray-700">عيادة أسنان بريميوم</span>
+                <span className="text-sm font-semibold text-gray-700">
+                  عيادة أسنان بريميوم
+                </span>
               </div>
 
               {/* Main Heading - Extra Large */}
@@ -59,7 +68,7 @@ export default function HomePage() {
                     تستحق الأفضل
                   </span>
                 </h1>
-                
+
                 {/* Decorative Line */}
                 <div className="flex items-center gap-3 pt-2">
                   <div className="h-1 w-20 bg-gradient-to-r from-green-500 to-blue-600 rounded-full"></div>
@@ -69,7 +78,8 @@ export default function HomePage() {
 
               {/* Description */}
               <p className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-xl font-light">
-                رعاية استثنائية لأسنانك مع أحدث التقنيات الطبية وفريق من أمهر الأطباء المتخصصين
+                رعاية استثنائية لأسنانك مع أحدث التقنيات الطبية وفريق من أمهر
+                الأطباء المتخصصين
               </p>
 
               {/* Stats - Premium Style */}
@@ -109,8 +119,18 @@ export default function HomePage() {
                   >
                     <span className="relative z-10 flex items-center justify-center gap-3">
                       احجز استشارة مجانية
-                      <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      <svg
+                        className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 19l-7-7 7-7"
+                        />
                       </svg>
                     </span>
                     <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
@@ -124,8 +144,18 @@ export default function HomePage() {
                   >
                     <span className="flex items-center justify-center gap-3">
                       عرض الخدمات
-                      <svg className="w-5 h-5 group-hover:rotate-45 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      <svg
+                        className="w-5 h-5 group-hover:rotate-45 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17 8l4 4m0 0l-4 4m4-4H3"
+                        />
                       </svg>
                     </span>
                   </Button>
@@ -137,13 +167,15 @@ export default function HomePage() {
                 {[
                   { icon: "✓", text: "معتمد دولياً" },
                   { icon: "✓", text: "ضمان مدى الحياة" },
-                  { icon: "✓", text: "فريق محترف" }
+                  { icon: "✓", text: "فريق محترف" },
                 ].map((badge, idx) => (
                   <div key={idx} className="flex items-center gap-2">
                     <div className="w-5 h-5 bg-gradient-to-br from-green-500 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
                       {badge.icon}
                     </div>
-                    <span className="text-sm font-semibold text-gray-600">{badge.text}</span>
+                    <span className="text-sm font-semibold text-gray-600">
+                      {badge.text}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -160,7 +192,8 @@ export default function HomePage() {
                       alt="عيادة ابتسامة المستقبل"
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        e.currentTarget.src = "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=900&h=1100&fit=crop";
+                        e.currentTarget.src =
+                          "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=900&h=1100&fit=crop";
                       }}
                     />
                     {/* Gradient Overlay */}
@@ -175,8 +208,12 @@ export default function HomePage() {
                       ⭐
                     </div>
                     <div>
-                      <div className="text-3xl font-black text-gray-900">4.9</div>
-                      <div className="text-xs text-gray-500 font-semibold">من 1,247 تقييم</div>
+                      <div className="text-3xl font-black text-gray-900">
+                        4.9
+                      </div>
+                      <div className="text-xs text-gray-500 font-semibold">
+                        من 1,247 تقييم
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -185,12 +222,24 @@ export default function HomePage() {
                 <div className="absolute -bottom-8 -left-8 bg-gradient-to-br from-blue-600 to-green-500 rounded-2xl p-6 shadow-2xl text-white">
                   <div className="flex items-center gap-4">
                     <div className="space-y-1">
-                      <div className="text-sm font-semibold opacity-90">تكنولوجيا متقدمة</div>
+                      <div className="text-sm font-semibold opacity-90">
+                        تكنولوجيا متقدمة
+                      </div>
                       <div className="text-2xl font-black">100%</div>
                     </div>
                     <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      <svg
+                        className="w-7 h-7"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13 10V3L4 14h7v7l9-11h-7z"
+                        />
                       </svg>
                     </div>
                   </div>
@@ -928,5 +977,6 @@ export default function HomePage() {
         </div>
       </section>
     </div>
+    </>
   );
 }
