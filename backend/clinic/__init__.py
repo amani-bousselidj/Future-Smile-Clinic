@@ -1,0 +1,3 @@
+"""
+Clinic app initialization
+"""
