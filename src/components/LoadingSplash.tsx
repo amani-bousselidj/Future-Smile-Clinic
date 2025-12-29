@@ -186,21 +186,17 @@ export const LoadingSplash: React.FC = () => {
           </div>
         </div>
 
-        {/* Subtitle Text (appears in hero-transform phase) */}
-        {(phase === "hero-transform" || phase === "final-zoom") && (
-          <p
-            className="absolute text-gray-400 text-xs sm:text-sm font-light tracking-wide text-center max-w-xl px-4"
-            style={{
-              animation: "subtitleFadeIn 1s ease-out 0.5s forwards",
-              opacity: 0,
-              top: "calc(100% + 3rem)",
-              left: "50%",
-              transform: "translateX(-50%)",
-            }}
-          >
-            Future Smile Clinic — عيادة أسنان عصرية ومريحة لكل أفراد العائلة
-          </p>
-        )}
+        {/* Subtitle Text - Always visible from first frame */}
+        <p
+          className="absolute text-gray-400 text-xs sm:text-sm font-light tracking-wide text-center max-w-xl px-4"
+          style={{
+            top: "calc(100% + 1rem)",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+        >
+          Future Smile Clinic — عيادة أسنان عصرية ومريحة لكل أفراد العائلة
+        </p>
       </div>
 
       <style jsx>{`
