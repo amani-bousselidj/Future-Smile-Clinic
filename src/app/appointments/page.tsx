@@ -47,7 +47,6 @@ export default function AppointmentsPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
-  const [loading, setLoading] = useState(true);
 
   // Load services and doctors
   React.useEffect(() => {
@@ -70,8 +69,6 @@ export default function AppointmentsPage() {
           type: "error",
           message: "Failed to load services and doctors",
         });
-      } finally {
-        setLoading(false);
       }
     };
 
