@@ -140,14 +140,15 @@ export const LoadingSplash: React.FC = () => {
             >
               <span className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight">
                 {clinicName.split("").map((letter, index) => {
-                  const charPosition = (index / clinicName.length) * 100;
+                  // Calculate more accurate character position
+                  const charPosition = ((index + 0.5) / clinicName.length) * 100;
                   const isInverted =
-                    phase === "loading" && loaderPosition > charPosition;
+                    phase === "loading" && loaderPosition >= charPosition;
 
                   return (
                     <span
                       key={index}
-                      className="transition-all duration-200"
+                      className="transition-colors duration-100"
                       style={{
                         color: isInverted ? "#1F1F1F" : "#ffffff",
                       }}
