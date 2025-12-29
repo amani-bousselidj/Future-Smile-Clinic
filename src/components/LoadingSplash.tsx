@@ -85,7 +85,6 @@ export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
     // Phase 6: Hide completely (5.5s)
     timers.push(
       setTimeout(() => {
-        sessionStorage.setItem("loadingSplashShown", "true");
         setPhase("hidden");
         // Notify parent that loading is complete
         if (onComplete) {
