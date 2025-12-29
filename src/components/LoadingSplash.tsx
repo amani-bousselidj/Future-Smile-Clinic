@@ -201,11 +201,7 @@ export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
             top: "calc(100% + 1rem)",
             left: "50%",
             transform: "translateX(-50%)",
-          }
-          50% {
-            transform: scale(1.03);
-          }
-        }
+          }}
 
         @keyframes badgeFinalZoom {
           0% {
