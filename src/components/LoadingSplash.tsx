@@ -94,19 +94,9 @@ export const LoadingSplash: React.FC = () => {
           className="relative overflow-hidden"
           style={{
             animation: getBadgeAnimation(),
-            width:
-              phase === "hero-transform" || phase === "final-zoom"
-                ? "85vw"
-                : "auto",
-            maxWidth:
-              phase === "hero-transform" || phase === "final-zoom"
-                ? "1200px"
-                : "700px",
-            height:
-              phase === "hero-transform" || phase === "final-zoom"
-                ? "280px"
-                : "auto",
-            transition: "width 1.5s ease-in-out, height 1.5s ease-in-out",
+            width: "700px",
+            maxWidth: "90vw",
+            height: "auto",
           }}
         >
           <div
@@ -116,13 +106,8 @@ export const LoadingSplash: React.FC = () => {
                 phase === "hero-transform" || phase === "final-zoom"
                   ? "#ffffff"
                   : "#3A3A3A",
-              padding:
-                phase === "hero-transform" || phase === "final-zoom"
-                  ? "0"
-                  : "28px 80px",
+              padding: "28px 80px",
               borderRadius: "9999px",
-              transition:
-                "background-color 1s ease-in-out, padding 1.5s ease-in-out",
             }}
           >
             {/* Loading Bar Slider (White Circle) */}
