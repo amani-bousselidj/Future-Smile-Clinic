@@ -85,20 +85,6 @@ export default function HomePage() {
           </svg>
         </div>
       </section>
-              </Button>
-            </Link>
-            <Link href="/services">
-              <Button
-                variant="ghost"
-                size="lg"
-                className="border-2 border-white hover:bg-blue-700"
-              >
-                عرض الخدمات
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Services Section */}
       <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
