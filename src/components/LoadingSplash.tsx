@@ -121,39 +121,42 @@ export const LoadingSplash: React.FC = () => {
               />
             )}
 
-            {/* Text Content */}
-            {(phase === "text-show" || phase === "loading") && (
-              <div
-                className="relative z-10 flex items-center justify-center whitespace-nowrap"
-                style={{
-                  animation:
-                    phase === "text-show"
-                      ? "textFadeIn 0.5s ease-out forwards"
-                      : "none",
-                  opacity: phase === "text-show" ? 0 : 1,
-                }}
-              >
-                <span className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight">
-                  {clinicName.split("").map((letter, index) => {
-                    const charPosition = (index / clinicName.length) * 100;
-                    const isInverted =
-                      phase === "loading" && loaderPosition > charPosition;
+            {/* Text Content - Always present but visibility controlled */}
+            <div
+              className="relative z-10 flex items-center justify-center whitespace-nowrap"
+              style={{
+                animation:
+                  phase === "text-show"
+                    ? "textFadeIn 0.5s ease-out forwards"
+                    : "none",
+                opacity:
+                  phase === "badge-enter"
+                    ? 0
+                    : phase === "text-show"
+                    ? 0
+                    : 1,
+              }}
+            >
+              <span className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight">
+                {clinicName.split("").map((letter, index) => {
+                  const charPosition = (index / clinicName.length) * 100;
+                  const isInverted =
+                    phase === "loading" && loaderPosition > charPosition;
 
-                    return (
-                      <span
-                        key={index}
-                        className="transition-all duration-200"
-                        style={{
-                          color: isInverted ? "#1F1F1F" : "#ffffff",
-                        }}
-                      >
-                        {letter}
-                      </span>
-                    );
-                  })}
-                </span>
-              </div>
-            )}
+                  return (
+                    <span
+                      key={index}
+                      className="transition-all duration-200"
+                      style={{
+                        color: isInverted ? "#1F1F1F" : "#ffffff",
+                      }}
+                    >
+                      {letter}
+                    </span>
+                  );
+                })}
+              </span>
+            </div>
 
             {/* Hero Image (appears in hero-transform phase) */}
             {(phase === "hero-transform" || phase === "final-zoom") && (
