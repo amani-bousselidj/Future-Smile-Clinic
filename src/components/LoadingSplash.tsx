@@ -78,12 +78,8 @@ export const LoadingSplash: React.FC = () => {
   if (phase === "hidden") return null;
 
   const getBadgeAnimation = () => {
-    if (phase === "badge-enter" || phase === "text-show" || phase === "loading")
-      return "badgeBreathe 2.5s ease-in-out infinite";
-    if (phase === "hero-transform")
-      return "badgeGrow 1.5s ease-in-out forwards";
     if (phase === "final-zoom") return "badgeFinalZoom 1s ease-in-out forwards";
-    return "none";
+    return "badgeBreathe 2.5s ease-in-out infinite";
   };
 
   return (
@@ -225,18 +221,9 @@ export const LoadingSplash: React.FC = () => {
           }
         }
 
-        @keyframes badgeGrow {
-          0% {
-            transform: scale(1);
-          }
-          100% {
-            transform: scale(1.2);
-          }
-        }
-
         @keyframes badgeFinalZoom {
           0% {
-            transform: scale(1.2);
+            transform: scale(1);
             opacity: 1;
           }
           100% {
