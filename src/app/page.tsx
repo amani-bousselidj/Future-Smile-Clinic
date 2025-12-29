@@ -27,56 +27,114 @@ export default function HomePage() {
 
   return (
     <div className="w-full overflow-hidden bg-white">
-      {/* Hero Section - Clean & Modern */}
-      <section className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 py-20">
-        {/* Subtle Background Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(59, 130, 246) 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
+      {/* Hero Section - Bold & Modern */}
+      <section className="relative min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 overflow-hidden flex items-center">
+        {/* Animated Gradient Blobs */}
+        <div className="absolute inset-0">
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-bl from-blue-500/30 to-transparent rounded-full blur-3xl animate-blob"></div>
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-indigo-500/20 to-transparent rounded-full blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/2 right-1/4 w-80 h-80 bg-gradient-to-bl from-cyan-500/15 to-transparent rounded-full blur-3xl animate-blob animation-delay-4000"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Right Side - Content */}
-            <div className="text-right">
-              <div className="mb-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left Side - Image First on Desktop */}
+            <div className="relative group order-2 lg:order-1">
+              {/* Floating Glow Container */}
+              <div className="absolute -inset-6 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-3xl blur-2xl group-hover:from-cyan-500/40 group-hover:to-blue-500/40 transition-all duration-700"></div>
+
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-cyan-400/30 group-hover:border-cyan-400/60 transition-all duration-500">
                 <img
-                  src="/images/logo.png"
-                  alt="Future Smile Clinic"
-                  className="h-24 w-auto"
+                  src="/images/clinic-hero.jpg"
+                  alt="عيادة ابتسامة المستقبل"
+                  className="w-full h-[650px] object-cover transition-transform duration-700 group-hover:scale-110"
+                  onError={(e) => {
+                    e.currentTarget.src =
+                      "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&h=600&fit=crop";
+                  }}
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent"></div>
+
+                {/* Floating Stats Card */}
+                <div className="absolute -bottom-6 -left-6 bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border border-white/50 w-56">
+                  <div className="text-center space-y-2">
+                    <div className="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-blue-600">
+                      99%
+                    </div>
+                    <div className="text-gray-700 font-bold text-sm">
+                      نسبة رضا المرضى
+                    </div>
+                    <div className="text-3xl font-black text-slate-900 mt-4">
+                      10K+
+                    </div>
+                    <div className="text-gray-600 font-bold text-sm">
+                      مريض سعيد
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side - Content */}
+            <div className="text-right order-1 lg:order-2 space-y-6">
+              <div className="inline-block">
+                <div className="px-4 py-2 bg-cyan-500/20 border border-cyan-400/50 rounded-full text-cyan-400 text-sm font-bold">
+                  عيادتك نحو الابتسامة المثالية
+                </div>
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                <span className="bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-transparent">
-                  عيادة ابتسامة المستقبل
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-tight">
+                <span className="block text-white mb-2">ابتسامتك</span>
+                <span className="block bg-gradient-to-l from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
+                  المثالية انتظرتك
                 </span>
               </h1>
 
-              <div className="mb-4 h-1 w-24 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full"></div>
+              {/* Accent Line */}
+              <div className="h-1.5 w-32 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full"></div>
 
-              <p className="text-xl md:text-2xl text-gray-700 mb-4 leading-relaxed font-medium">
-                رعاية أسنان احترافية بأحدث التكنولوجيا
+              <p className="text-xl text-blue-200 leading-relaxed font-medium max-w-xl">
+                رعاية أسنان احترافية بأحدث التكنولوجيا وفريق من الأطباء المتخصصين
               </p>
 
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                فريق من الأطباء المتخصصين وذوي الخبرة العالية يستخدمون أحدث
-                التقنيات العالمية لتقديم أفضل رعاية صحية لأسنانك
+              <p className="text-base text-gray-400 leading-relaxed max-w-xl">
+                استخدام أحدث التقنيات العالمية لتقديم أفضل رعاية صحية تضمن لك ابتسامة براقة وصحية
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Link href="/appointments">
                   <Button
                     size="lg"
-                    className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="group bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-10 py-4 font-bold shadow-lg hover:shadow-2xl transition-all duration-300 text-lg"
                   >
                     <span className="flex items-center justify-center gap-2">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
                       </svg>
-                      احجز موعد الآن
-                      <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      احجز موعدك الآن
+                      <svg
+                        className="w-4 h-4 transition-transform group-hover:translate-x-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 19l-7-7 7-7"
+                        />
                       </svg>
                     </span>
                   </Button>
@@ -84,70 +142,68 @@ export default function HomePage() {
 
                 <Link href="/services">
                   <Button
-                    variant="ghost"
                     size="lg"
-                    className="group border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3 w-full sm:w-auto transition-all duration-300"
+                    className="group border-2 border-blue-400 text-blue-400 hover:bg-blue-400/10 px-10 py-4 font-bold transition-all duration-300 text-lg"
                   >
                     <span className="flex items-center justify-center gap-2">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
                       </svg>
-                      استكشف خدماتنا
+                      اكتشف الخدمات
                     </span>
                   </Button>
                 </Link>
               </div>
 
-              {/* Trust Indicators */}
-              <div className="mt-12 grid grid-cols-2 gap-6">
-                <div className="group text-center p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-transparent hover:border-blue-200">
-                  <div className="text-3xl font-bold text-blue-600 mb-1 group-hover:scale-110 transition-transform">
-                    14+
+              {/* Trust Indicators - Vertical List */}
+              <div className="pt-8 space-y-3 max-w-xl">
+                {[
+                  "14+ سنة من الخبرة والتميز",
+                  "20+ طبيب متخصص معتمد",
+                  "تقنيات علاجية حديثة وآمنة",
+                  "ضمان الجودة والرضا التام",
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center gap-3 text-gray-300 hover:text-cyan-400 transition-colors"
+                  >
+                    <div className="w-2 h-2 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full"></div>
+                    <span className="font-medium">{item}</span>
                   </div>
-                  <div className="text-sm text-gray-600">سنة خبرة</div>
-                </div>
-                <div className="group text-center p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-transparent hover:border-blue-200">
-                  <div className="text-3xl font-bold text-blue-600 mb-1 group-hover:scale-110 transition-transform">
-                    10K+
-                  </div>
-                  <div className="text-sm text-gray-600">مريض راضٍ</div>
-                </div>
-                <div className="group text-center p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-transparent hover:border-blue-200">
-                  <div className="text-3xl font-bold text-blue-600 mb-1 group-hover:scale-110 transition-transform">
-                    20+
-                  </div>
-                  <div className="text-sm text-gray-600">طبيب متخصص</div>
-                </div>
-                <div className="group text-center p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-transparent hover:border-blue-200">
-                  <div className="text-3xl font-bold text-blue-600 mb-1 group-hover:scale-110 transition-transform">
-                    99%
-                  </div>
-                  <div className="text-sm text-gray-600">نسبة الرضا</div>
-                </div>
+                ))}
               </div>
             </div>
+          </div>
 
-            {/* Left Side - Image */}
-            <div className="relative group">
-              {/* Decorative Border */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-2xl opacity-20 group-hover:opacity-30 transition-opacity blur-xl"></div>
-              
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src="/images/clinic-hero.jpg"
-                  alt="عيادة ابتسامة المستقبل"
-                  className="w-full h-[600px] object-cover transition-transform duration-500 group-hover:scale-105"
-                  onError={(e) => {
-                    e.currentTarget.src =
-                      "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&h=600&fit=crop";
-                  }}
+          {/* Scroll Indicator */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
+            <div className="text-gray-500 text-xs font-bold uppercase tracking-wider">
+              مرر للأسفل
+            </div>
+            <div className="animate-bounce">
+              <svg
+                className="w-6 h-6 text-cyan-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent"></div>
-                
-                {/* Corner Accent */}
-                <div className="absolute top-4 left-4 w-16 h-16 border-t-4 border-l-4 border-white/50 rounded-tl-2xl"></div>
-                <div className="absolute bottom-4 right-4 w-16 h-16 border-b-4 border-r-4 border-white/50 rounded-br-2xl"></div>
-              </div>
+              </svg>
             </div>
           </div>
         </div>
