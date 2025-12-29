@@ -22,6 +22,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
       }, 100);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [onLoadingComplete]);
 
   const navItems = [
