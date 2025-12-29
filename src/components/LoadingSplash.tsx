@@ -104,8 +104,8 @@ export const LoadingSplash: React.FC = () => {
             <div
               className="absolute inset-0 bg-white rounded-full z-10"
               style={{
-                right: 0,
-                left: `${100 - loaderPosition}%`,
+                left: 0,
+                right: `${100 - loaderPosition}%`,
               }}
             />
           )}
