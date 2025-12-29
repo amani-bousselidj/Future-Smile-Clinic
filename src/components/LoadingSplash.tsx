@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 type Phase =
   | "badge-enter"
@@ -18,11 +18,13 @@ export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
   const [phase, setPhase] = useState<Phase>("badge-enter");
   const [loaderPosition, setLoaderPosition] = useState(0);
 
+  const startedRef = useRef(false);
+
   const clinicName = "Future Smile Clinic";
 
   useEffect(() => {
-
-
+    if (startedRef.current) return;
+    startedRef.current = true;
 
     const timers: NodeJS.Timeout[] = [];
 
@@ -70,7 +72,6 @@ export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
       }, 4500)
     );
 
-
     // Phase 6: Hide completely (5.5s)
     timers.push(
       setTimeout(() => {
@@ -84,6 +85,7 @@ export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
 
     return () => {
       timers.forEach((timer) => clearTimeout(timer));
+      startedRef.current = false;
     };
   }, [onComplete]);
 
@@ -231,13 +233,23 @@ export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
         }
 
         @keyframes imageFadeIn {
-          0% { opacity: 0; }
-          100% { opacity: 1; }
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
         }
 
         @keyframes subtitleFadeIn {
-          0% { opacity: 0; transform: translateY(20px); }
-          100% { opacity: 1; transform: translateY(0); }
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
       `}</style>
     </div>
