@@ -1,5 +1,5 @@
 /**
- * Contact Page
+ * Contact Page - Arabic Version
  */
 "use client";
 
@@ -28,151 +28,183 @@ export default function ContactPage() {
         await execute("post", "/api/contact-messages/", formData);
         addNotification({
           type: "success",
-          message: "Message sent successfully! We will contact you soon.",
+          message: "تم إرسال رسالتك بنجاح! سنتصل بك قريباً.",
         });
         reset();
       } catch (error) {
         addNotification({
           type: "error",
-          message: "Failed to send message. Please try again.",
+          message: "فشل إرسال الرسالة. يرجى المحاولة مرة أخرى.",
         });
         throw error;
       }
     });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Get in Touch</h1>
-        <p className="text-gray-600 text-lg">
-          Have questions? We're here to help!
-        </p>
+    <div className="w-full">
+      {/* Header */}
+      <div className="bg-gradient-to-l from-blue-600 via-blue-700 to-blue-800 text-white py-20 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl"></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h1 className="text-5xl font-bold mb-4">تواصل معنا</h1>
+          <p className="text-xl text-blue-100">
+            لديك أسئلة؟ نحن هنا للمساعدة في كل وقت
+          </p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Contact Info */}
-        <div className="lg:col-span-1 space-y-6">
-          <Card shadow="md">
-            <h3 className="text-lg font-semibold mb-2">📞 Phone</h3>
-            <p className="text-gray-600">+1 (555) 123-4567</p>
-          </Card>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Contact Info */}
+          <div className="lg:col-span-1 space-y-6">
+            <Card shadow="md" className="hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl">📞</span>
+                <h3 className="text-xl font-bold text-gray-900">الهاتف</h3>
+              </div>
+              <p className="text-gray-600 text-lg">+966 12 345 6789</p>
+            </Card>
 
-          <Card shadow="md">
-            <h3 className="text-lg font-semibold mb-2">📧 Email</h3>
-            <p className="text-gray-600">info@futuresmileclinic.com</p>
-          </Card>
+            <Card shadow="md" className="hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl">📧</span>
+                <h3 className="text-xl font-bold text-gray-900">البريد</h3>
+              </div>
+              <p className="text-gray-600 text-lg">info@futuresmile.com</p>
+            </Card>
 
-          <Card shadow="md">
-            <h3 className="text-lg font-semibold mb-2">📍 Address</h3>
-            <p className="text-gray-600">
-              123 Smile Street
-              <br />
-              Dental City, DC 12345
-              <br />
-              USA
-            </p>
-          </Card>
+            <Card shadow="md" className="hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl">📍</span>
+                <h3 className="text-xl font-bold text-gray-900">العنوان</h3>
+              </div>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                شارع الابتسامة
+                <br />
+                مدينة الأسنان، المملكة العربية السعودية
+                <br />
+                12345
+              </p>
+            </Card>
 
-          <Card shadow="md">
-            <h3 className="text-lg font-semibold mb-2">🕐 Hours</h3>
-            <p className="text-gray-600">
-              Mon-Fri: 9:00 AM - 6:00 PM
-              <br />
-              Saturday: 10:00 AM - 4:00 PM
-              <br />
-              Sunday: Closed
-            </p>
-          </Card>
-        </div>
+            <Card shadow="md" className="hover:shadow-lg transition-shadow">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl">🕐</span>
+                <h3 className="text-xl font-bold text-gray-900">الساعات</h3>
+              </div>
+              <p className="text-gray-600 text-lg leading-relaxed">
+                الأحد - الخميس: 9 صباحاً - 6 مساءً
+                <br />
+                الجمعة: 10 صباحاً - 4 مساءً
+                <br />
+                السبت: مغلق
+              </p>
+            </Card>
+          </div>
 
-        {/* Contact Form */}
-        <div className="lg:col-span-2">
-          <Card shadow="lg" padding="lg">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Contact Form */}
+          <div className="lg:col-span-2">
+            <Card shadow="lg" padding="lg" className="bg-white border-0">
+              <h2 className="text-3xl font-bold mb-8 text-gray-900">أرسل لنا رسالة</h2>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <Input
+                    type="text"
+                    name="name"
+                    label="الاسم الكامل"
+                    value={values.name || ""}
+                    onChange={handleChange}
+                    error={errors.name}
+                    required
+                    placeholder="أدخل اسمك"
+                  />
+                  <Input
+                    type="email"
+                    name="email"
+                    label="البريد الإلكتروني"
+                    value={values.email || ""}
+                    onChange={handleChange}
+                    error={errors.email}
+                    required
+                    placeholder="أدخل بريدك"
+                  />
+                </div>
+
+                <Input
+                  type="tel"
+                  name="phone"
+                  label="رقم الجوال"
+                  value={values.phone || ""}
+                  onChange={handleChange}
+                  error={errors.phone}
+                  placeholder="أدخل رقم جوالك"
+                />
+
                 <Input
                   type="text"
-                  name="name"
-                  label="Full Name"
-                  value={values.name || ""}
+                  name="subject"
+                  label="الموضوع"
+                  value={values.subject || ""}
                   onChange={handleChange}
-                  error={errors.name}
+                  error={errors.subject}
                   required
+                  placeholder="ما موضوع رسالتك؟"
                 />
-                <Input
-                  type="email"
-                  name="email"
-                  label="Email Address"
-                  value={values.email || ""}
-                  onChange={handleChange}
-                  error={errors.email}
-                  required
-                />
-              </div>
 
-              <Input
-                type="tel"
-                name="phone"
-                label="Phone Number"
-                value={values.phone || ""}
-                onChange={handleChange}
-                error={errors.phone}
-              />
+                <div>
+                  <label className="block text-lg font-bold text-gray-900 mb-3">
+                    الرسالة *
+                  </label>
+                  <textarea
+                    name="message"
+                    value={values.message || ""}
+                    onChange={handleChange}
+                    placeholder="أخبرنا عما تحتاج..."
+                    rows={6}
+                    required
+                    className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors resize-none text-right ${
+                      errors.message
+                        ? "border-red-500 focus:ring-red-500"
+                        : "border-gray-200 focus:border-blue-500"
+                    }`}
+                  />
+                  {errors.message && (
+                    <span className="text-sm text-red-600 mt-2 block">
+                      {errors.message}
+                    </span>
+                  )}
+                </div>
 
-              <Input
-                type="text"
-                name="subject"
-                label="Subject"
-                value={values.subject || ""}
-                onChange={handleChange}
-                error={errors.subject}
-                required
-              />
+                <Button 
+                  type="submit" 
+                  fullWidth 
+                  size="lg" 
+                  isLoading={loading}
+                  className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg"
+                >
+                  {loading ? "جاري الإرسال..." : "إرسال الرسالة"}
+                </Button>
+              </form>
+            </Card>
+          </div>
+        </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Message *
-                </label>
-                <textarea
-                  name="message"
-                  value={values.message || ""}
-                  onChange={handleChange}
-                  placeholder="Tell us what you need..."
-                  rows={6}
-                  required
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
-                    errors.message
-                      ? "border-red-500 focus:ring-red-500"
-                      : "border-gray-300"
-                  }`}
-                />
-                {errors.message && (
-                  <span className="text-sm text-red-600 mt-1">
-                    {errors.message}
-                  </span>
-                )}
-              </div>
-
-              <Button type="submit" fullWidth size="lg" isLoading={loading}>
-                Send Message
-              </Button>
-            </form>
+        {/* Map Section */}
+        <div className="mt-20">
+          <h2 className="text-3xl font-bold mb-8 text-gray-900 text-center">موقعنا على الخريطة</h2>
+          <Card shadow="md" padding="none">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.1825516524!2d46.6753!3d24.7136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDQyJzcuMCJOIDQ2wrA0MCc1MC4zIkU!5e0!3m2!1sar!2ssa!4v1234567890"
+              width="100%"
+              height="400"
+              loading="lazy"
+              className="rounded-lg"
+              title="موقع عيادة ابتسامة المستقبل"
+            />
           </Card>
         </div>
-      </div>
-
-      {/* Map Section */}
-      <div className="mt-16">
-        <Card shadow="md" padding="none">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.1825516524!2d-74.00601!3d40.71278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDC402sIDQyJzUwLjEiTiA3NMKwIDAn MjEuNiJX!5e0!3m2!1sen!2sus!4v1234567890"
-            width="100%"
-            height="400"
-            loading="lazy"
-            className="rounded-lg"
-            title="Future Smile Clinic Location"
-          />
-        </Card>
       </div>
     </div>
   );

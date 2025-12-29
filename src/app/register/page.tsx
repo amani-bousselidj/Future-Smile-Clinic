@@ -1,5 +1,5 @@
 /**
- * Register Page
+ * Register Page - Arabic Version
  */
 "use client";
 
@@ -29,7 +29,7 @@ export default function RegisterPage() {
   const { values, errors, loading, handleChange, handleSubmit } =
     useForm<RegisterFormData>(async (formData) => {
       if (formData.password !== formData.password_confirm) {
-        throw new Error("Passwords do not match");
+        throw new Error("كلمات المرور غير متطابقة");
       }
 
       try {
@@ -41,91 +41,109 @@ export default function RegisterPage() {
         });
         addNotification({
           type: "success",
-          message: "Account created successfully!",
+          message: "تم إنشاء حسابك بنجاح!",
         });
         router.push("/");
       } catch (error) {
         addNotification({
           type: "error",
-          message: "Registration failed. Please try again.",
+          message: "فشل التسجيل. يرجى المحاولة مرة أخرى.",
         });
         throw error;
       }
     });
 
   return (
-    <div className="min-h-[calc(100vh-16rem)] flex items-center justify-center px-4">
+    <div className="min-h-[calc(100vh-16rem)] flex items-center justify-center px-4 bg-gradient-to-b from-blue-50 to-white">
       <div className="w-full max-w-md">
-        <Card shadow="lg" padding="lg">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold">Create Account</h1>
-            <p className="text-gray-600">Join Future Smile Clinic</p>
+        <Card shadow="lg" padding="lg" className="bg-white border-0">
+          <div className="text-center mb-10">
+            <div className="inline-block w-16 h-16 bg-gradient-to-b from-blue-600 to-blue-400 rounded-xl flex items-center justify-center mb-4">
+              <span className="text-white font-bold text-2xl">FS</span>
+            </div>
+            <h1 className="text-4xl font-bold text-gray-900">إنشاء حساب</h1>
+            <p className="text-gray-600 mt-2 text-lg">انضم إلى عيادة ابتسامة المستقبل</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <Input
               type="text"
               name="full_name"
-              label="Full Name"
+              label="الاسم الكامل"
               value={values.full_name || ""}
               onChange={handleChange}
               error={errors.full_name}
               required
+              placeholder="أدخل اسمك الكامل"
             />
 
             <Input
               type="email"
               name="email"
-              label="Email Address"
+              label="البريد الإلكتروني"
               value={values.email || ""}
               onChange={handleChange}
               error={errors.email}
               required
+              placeholder="أدخل بريدك الإلكتروني"
             />
 
             <Input
               type="tel"
               name="phone"
-              label="Phone (Optional)"
+              label="رقم الجوال (اختياري)"
               value={values.phone || ""}
               onChange={handleChange}
               error={errors.phone}
+              placeholder="أدخل رقم جوالك"
             />
 
             <Input
               type="password"
               name="password"
-              label="Password"
+              label="كلمة المرور"
               value={values.password || ""}
               onChange={handleChange}
               error={errors.password}
               required
+              placeholder="أدخل كلمة مرور قوية"
             />
 
             <Input
               type="password"
               name="password_confirm"
-              label="Confirm Password"
+              label="تأكيد كلمة المرور"
               value={values.password_confirm || ""}
               onChange={handleChange}
               error={errors.password_confirm}
               required
+              placeholder="أعد إدخال كلمة المرور"
             />
 
-            <Button type="submit" fullWidth size="lg" isLoading={loading}>
-              Create Account
+            <Button 
+              type="submit" 
+              fullWidth 
+              size="lg" 
+              isLoading={loading}
+              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg"
+            >
+              {loading ? "جاري الإنشاء..." : "إنشاء الحساب"}
             </Button>
           </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-gray-600">
-              Already have an account?{" "}
-              <Link href="/login" className="text-blue-600 hover:underline">
-                Sign in
+          <div className="mt-8 text-center border-t pt-6">
+            <p className="text-gray-700">
+              هل لديك حساب بالفعل؟{" "}
+              <Link href="/login" className="text-blue-600 font-bold hover:text-blue-700 hover:underline">
+                سجل دخول
               </Link>
             </p>
           </div>
         </Card>
+
+        <p className="text-center text-gray-600 text-sm mt-6">
+          بالتسجيل في عيادة ابتسامة المستقبل، أنت توافق على شروطنا
+        </p>
       </div>
     </div>
   );

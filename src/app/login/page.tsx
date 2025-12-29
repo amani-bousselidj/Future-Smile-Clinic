@@ -1,5 +1,5 @@
 /**
- * Login Page
+ * Login Page - Arabic Version
  */
 "use client";
 
@@ -29,71 +29,88 @@ export default function LoginPage() {
         await login(formData.email, formData.password);
         addNotification({
           type: "success",
-          message: "Logged in successfully!",
+          message: "تم تسجيل الدخول بنجاح!",
         });
         router.push("/");
       } catch (error) {
         addNotification({
           type: "error",
-          message: "Invalid email or password",
+          message: "بريد إلكتروني أو كلمة مرور غير صحيحة",
         });
         throw error;
       }
     });
 
   return (
-    <div className="min-h-[calc(100vh-16rem)] flex items-center justify-center px-4">
+    <div className="min-h-[calc(100vh-16rem)] flex items-center justify-center px-4 bg-gradient-to-b from-blue-50 to-white">
       <div className="w-full max-w-md">
-        <Card shadow="lg" padding="lg">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold">Welcome Back</h1>
-            <p className="text-gray-600">Sign in to your account</p>
+        <Card shadow="lg" padding="lg" className="bg-white border-0">
+          <div className="text-center mb-10">
+            <div className="inline-block w-16 h-16 bg-gradient-to-b from-blue-600 to-blue-400 rounded-xl flex items-center justify-center mb-4">
+              <span className="text-white font-bold text-2xl">FS</span>
+            </div>
+            <h1 className="text-4xl font-bold text-gray-900">أهلاً وسهلاً</h1>
+            <p className="text-gray-600 mt-2 text-lg">سجل دخولك للمتابعة مع عيادتك</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <Input
               type="email"
               name="email"
-              label="Email Address"
+              label="البريد الإلكتروني"
               value={values.email || ""}
               onChange={handleChange}
               error={errors.email}
               required
+              placeholder="أدخل بريدك الإلكتروني"
             />
 
             <Input
               type="password"
               name="password"
-              label="Password"
+              label="كلمة المرور"
               value={values.password || ""}
               onChange={handleChange}
               error={errors.password}
               required
+              placeholder="أدخل كلمة المرور"
             />
 
-            <Button type="submit" fullWidth size="lg" isLoading={loading}>
-              Sign In
+            <Button 
+              type="submit" 
+              fullWidth 
+              size="lg" 
+              isLoading={loading}
+              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg"
+            >
+              {loading ? "جاري التحقق..." : "دخول"}
             </Button>
           </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-gray-600">
-              Don't have an account?{" "}
-              <Link href="/register" className="text-blue-600 hover:underline">
-                Sign up
-              </Link>
-            </p>
-          </div>
+          <div className="mt-8 space-y-4">
+            <div className="text-center">
+              <p className="text-gray-700">
+                ليس لديك حساب؟{" "}
+                <Link href="/register" className="text-blue-600 font-bold hover:text-blue-700 hover:underline">
+                  اشترك الآن
+                </Link>
+              </p>
+            </div>
 
-          <div className="mt-4 text-center">
-            <Link
-              href="/forgot-password"
-              className="text-sm text-gray-600 hover:text-blue-600"
-            >
-              Forgot password?
-            </Link>
+            <div className="text-center border-t pt-4">
+              <Link
+                href="/forgot-password"
+                className="text-gray-600 hover:text-blue-600 font-medium"
+              >
+                هل نسيت كلمة المرور؟
+              </Link>
+            </div>
           </div>
         </Card>
+
+        <p className="text-center text-gray-600 text-sm mt-6">
+          باستخدامك لعيادة ابتسامة المستقبل، فأنت تقبل الشروط والأحكام
+        </p>
       </div>
     </div>
   );

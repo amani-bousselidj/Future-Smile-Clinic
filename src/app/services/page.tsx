@@ -15,10 +15,10 @@ export default function ServicesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const categories = [
-    { id: "all", label: "All Services" },
-    { id: "dental", label: "Dental" },
-    { id: "cosmetic", label: "Cosmetic" },
-    { id: "orthodontic", label: "Orthodontic" },
+    { id: "all", label: "جميع الخدمات" },
+    { id: "dental", label: "طب الأسنان العام" },
+    { id: "cosmetic", label: "تجميل الأسنان" },
+    { id: "orthodontic", label: "تقويم الأسنان" },
   ];
 
   const filteredServices =
@@ -27,30 +27,34 @@ export default function ServicesPage() {
       : services?.filter((s) => s.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2">Our Services</h1>
-          <p className="text-blue-100">
-            Comprehensive dental care for your family
+      <div className="bg-gradient-to-l from-blue-600 via-blue-700 to-blue-800 text-white py-16 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-64 h-64 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl"></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <h1 className="text-5xl font-bold mb-3">خدماتنا المتخصصة</h1>
+          <p className="text-xl text-blue-100">
+            رعاية أسنان شاملة بأفضل التقنيات والأطباء المتخصصين
           </p>
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className="max-w-7xl mx-auto px-4 py-16">
         {/* Category Filter */}
-        <div className="mb-8">
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 text-gray-900">فئات الخدمات</h2>
           <div className="flex gap-4 flex-wrap">
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`px-6 py-2 rounded-lg font-medium transition-all ${
+                className={`px-6 py-3 rounded-lg font-semibold transition-all ${
                   selectedCategory === category.id
-                    ? "bg-blue-600 text-white shadow-md"
-                    : "bg-white text-gray-700 border border-gray-300 hover:border-blue-600"
+                    ? "bg-blue-600 text-white shadow-lg scale-105"
+                    : "bg-white text-gray-700 border-2 border-gray-200 hover:border-blue-600 hover:shadow-md"
                 }`}
               >
                 {category.label}
@@ -61,55 +65,59 @@ export default function ServicesPage() {
 
         {/* Services Grid */}
         {loading ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600">Loading services...</p>
+          <div className="text-center py-16">
+            <div className="inline-block">
+              <div className="animate-spin">
+                <p className="text-gray-600 text-lg">جاري تحميل الخدمات...</p>
+              </div>
+            </div>
           </div>
         ) : error ? (
-          <Card className="bg-red-50 border-red-200">
-            <p className="text-red-700">Failed to load services</p>
+          <Card className="bg-red-50 border-2 border-red-300 text-center py-8">
+            <p className="text-red-700 text-lg">عذراً، لم نتمكن من تحميل الخدمات</p>
           </Card>
         ) : filteredServices && filteredServices.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredServices.map((service) => (
               <Card
                 key={service.id}
-                className="hover:shadow-lg transition-shadow group cursor-pointer"
+                className="hover:shadow-2xl transition-all duration-300 group cursor-pointer transform hover:-translate-y-1 bg-gradient-to-b from-white to-gray-50"
               >
                 {service.image_url && (
-                  <div className="mb-4 h-40 bg-gray-200 rounded-lg overflow-hidden">
+                  <div className="mb-6 h-48 bg-gradient-to-b from-blue-100 to-blue-50 rounded-lg overflow-hidden">
                     <img
                       src={service.image_url}
                       alt={service.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                   </div>
                 )}
-                <h3 className="text-xl font-bold mb-2 text-gray-900">
+                <h3 className="text-2xl font-bold mb-3 text-gray-900">
                   {service.name}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4">
+                <p className="text-gray-600 text-base mb-6 leading-relaxed">
                   {service.description}
                 </p>
-                <div className="space-y-2 mb-4">
-                  <p className="text-sm text-gray-700">
-                    <span className="font-medium">Duration:</span>{" "}
-                    {service.duration_minutes} minutes
+                <div className="space-y-3 mb-6 bg-gray-50 p-4 rounded-lg">
+                  <p className="text-base text-gray-700">
+                    <span className="font-bold text-blue-600">المدة:</span>{" "}
+                    {service.duration_minutes} دقيقة
                   </p>
-                  <p className="text-lg font-bold text-blue-600">
-                    ${service.price_min} - ${service.price_max}
+                  <p className="text-2xl font-bold text-blue-600">
+                    {service.price_min} - {service.price_max} ريال
                   </p>
                 </div>
                 <Link href="/appointments">
-                  <Button variant="primary" fullWidth>
-                    Book Now
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 text-lg">
+                    احجز الآن
                   </Button>
                 </Link>
               </Card>
             ))}
           </div>
         ) : (
-          <Card className="text-center py-12">
-            <p className="text-gray-600">No services available</p>
+          <Card className="text-center py-16 bg-gradient-to-r from-blue-50 to-indigo-50">
+            <p className="text-gray-600 text-lg">لا توجد خدمات متاحة حالياً</p>
           </Card>
         )}
       </div>

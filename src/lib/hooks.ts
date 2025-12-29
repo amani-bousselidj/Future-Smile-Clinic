@@ -140,10 +140,11 @@ export function useForm<T extends Record<string, any>>(
           const validationErrors = JSON.parse(err.message);
           setErrors(validationErrors as Partial<Record<keyof T, string>>);
         } else {
-          const errorMessage = err instanceof Error ? err.message : "An error occurred";
-          setErrors(
-            { ["_form" as keyof T]: errorMessage } as Partial<Record<keyof T, string>>
-          );
+          const errorMessage =
+            err instanceof Error ? err.message : "An error occurred";
+          setErrors({ ["_form" as keyof T]: errorMessage } as Partial<
+            Record<keyof T, string>
+          >);
         }
       } finally {
         setLoading(false);

@@ -1,5 +1,5 @@
 /**
- * Appointments Booking Page
+ * Appointments Booking Page - Arabic Version
  */
 "use client";
 
@@ -83,7 +83,7 @@ export default function AppointmentsPage() {
       } catch (error) {
         addNotification({
           type: "error",
-          message: "Failed to load services and doctors",
+          message: "فشل تحميل الخدمات والأطباء",
         });
       }
     };
@@ -112,7 +112,7 @@ export default function AppointmentsPage() {
         addNotification({
           type: "success",
           message:
-            "Appointment booked successfully! Booking ID: " +
+            "تم حجز الموعد بنجاح! رقم الحجز: " +
             appointmentData.booking_id,
         });
         setTimeout(() => {
@@ -122,169 +122,182 @@ export default function AppointmentsPage() {
     } catch (error) {
       addNotification({
         type: "error",
-        message: "Failed to book appointment",
+        message: "فشل حجز الموعد",
       });
       throw error;
     }
   });
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Book an Appointment</h1>
-        <p className="text-gray-600">
-          Schedule your dental care with our experienced team
-        </p>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Header */}
+      <div className="bg-gradient-to-l from-blue-600 via-blue-700 to-blue-800 text-white py-16 mb-12 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 right-10 w-64 h-64 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl"></div>
+        </div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h1 className="text-5xl font-bold mb-4">احجز موعدك الآن</h1>
+          <p className="text-xl text-blue-100">
+            حدد موعداً مناسباً مع فريق أطبائنا المتخصصين
+          </p>
+        </div>
       </div>
 
-      <Card shadow="lg" padding="lg">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Service Selection */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Select Service *
-            </label>
-            <select
-              name="service_id"
-              value={values.service_id || ""}
-              onChange={(e) => {
-                handleChange(e);
-                const service = services.find(
-                  (s) => s.id === parseInt(e.target.value)
-                );
-                setSelectedService(service || null);
-              }}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Choose a service</option>
-              {services.map((service) => (
-                <option key={service.id} value={service.id}>
-                  {service.name} - ${service.price_min}-${service.price_max}
-                </option>
-              ))}
-            </select>
-          </div>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <Card shadow="lg" padding="lg" className="bg-white border-0">
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {/* Service Selection */}
+            <div>
+              <label className="block text-lg font-bold text-gray-900 mb-3">
+                اختر الخدمة *
+              </label>
+              <select
+                name="service_id"
+                value={values.service_id || ""}
+                onChange={(e) => {
+                  handleChange(e);
+                  const service = services.find(
+                    (s) => s.id === parseInt(e.target.value)
+                  );
+                  setSelectedService(service || null);
+                }}
+                required
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-right bg-gray-50"
+              >
+                <option value="">-- اختر الخدمة --</option>
+                {services.map((service) => (
+                  <option key={service.id} value={service.id}>
+                    {service.name} - {service.price_min}-{service.price_max} ريال
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          {/* Doctor Selection */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Select Doctor *
-            </label>
-            <select
-              name="doctor_id"
-              value={values.doctor_id || ""}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Choose a doctor</option>
-              {doctors.map((doctor) => (
-                <option key={doctor.id} value={doctor.id}>
-                  Dr. {doctor.first_name} {doctor.last_name} -{" "}
-                  {doctor.specialization}
-                </option>
-              ))}
-            </select>
-          </div>
+            {/* Doctor Selection */}
+            <div>
+              <label className="block text-lg font-bold text-gray-900 mb-3">
+                اختر الطبيب *
+              </label>
+              <select
+                name="doctor_id"
+                value={values.doctor_id || ""}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-right bg-gray-50"
+              >
+                <option value="">-- اختر الطبيب --</option>
+                {doctors.map((doctor) => (
+                  <option key={doctor.id} value={doctor.id}>
+                    د. {doctor.first_name} {doctor.last_name} - {doctor.specialization}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          {/* Date and Time */}
-          <div className="grid grid-cols-2 gap-4">
-            <Input
-              type="date"
-              name="appointment_date"
-              label="Appointment Date"
-              value={values.appointment_date || ""}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              type="time"
-              name="appointment_time"
-              label="Appointment Time"
-              value={values.appointment_time || ""}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* Patient Information */}
-          <div className="border-t pt-6">
-            <h3 className="text-lg font-semibold mb-4">Patient Information</h3>
-            <div className="space-y-4">
+            {/* Date and Time */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <Input
-                type="text"
-                name="patient_full_name"
-                label="Full Name"
-                value={values.patient_full_name || user?.full_name || ""}
+                type="date"
+                name="appointment_date"
+                label="تاريخ الموعد"
+                value={values.appointment_date || ""}
                 onChange={handleChange}
                 required
               />
               <Input
-                type="email"
-                name="patient_email"
-                label="Email"
-                value={values.patient_email || user?.email || ""}
-                onChange={handleChange}
-                required
-              />
-              <Input
-                type="tel"
-                name="patient_phone"
-                label="Phone Number"
-                value={values.patient_phone || ""}
+                type="time"
+                name="appointment_time"
+                label="وقت الموعد"
+                value={values.appointment_time || ""}
                 onChange={handleChange}
                 required
               />
             </div>
-          </div>
 
-          {/* Notes */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Additional Notes
-            </label>
-            <textarea
-              name="notes"
-              value={values.notes || ""}
-              onChange={handleChange}
-              placeholder="Any additional information for your appointment..."
-              rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Service Summary */}
-          {selectedService && (
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <p className="text-sm font-medium text-gray-700 mb-2">Summary</p>
-              <div className="text-sm text-gray-600 space-y-1">
-                <p>
-                  Service:{" "}
-                  <span className="font-semibold">{selectedService.name}</span>
-                </p>
-                <p>
-                  Duration:{" "}
-                  <span className="font-semibold">
-                    {selectedService.duration_minutes} minutes
-                  </span>
-                </p>
-                <p>
-                  Price:{" "}
-                  <span className="font-semibold">
-                    ${selectedService.price_min} - ${selectedService.price_max}
-                  </span>
-                </p>
+            {/* Patient Information */}
+            <div className="border-t-2 border-gray-200 pt-8">
+              <h3 className="text-2xl font-bold mb-6 text-gray-900">بيانات المريض</h3>
+              <div className="space-y-5">
+                <Input
+                  type="text"
+                  name="patient_full_name"
+                  label="الاسم الكامل"
+                  value={values.patient_full_name || user?.full_name || ""}
+                  onChange={handleChange}
+                  required
+                />
+                <Input
+                  type="email"
+                  name="patient_email"
+                  label="البريد الإلكتروني"
+                  value={values.patient_email || user?.email || ""}
+                  onChange={handleChange}
+                  required
+                />
+                <Input
+                  type="tel"
+                  name="patient_phone"
+                  label="رقم الجوال"
+                  value={values.patient_phone || ""}
+                  onChange={handleChange}
+                  required
+                />
               </div>
             </div>
-          )}
 
-          {/* Submit Button */}
-          <Button type="submit" fullWidth size="lg" isLoading={isSubmitting}>
-            Confirm Appointment
-          </Button>
-        </form>
-      </Card>
+            {/* Notes */}
+            <div>
+              <label className="block text-lg font-bold text-gray-900 mb-3">
+                ملاحظات إضافية
+              </label>
+              <textarea
+                name="notes"
+                value={values.notes || ""}
+                onChange={handleChange}
+                placeholder="أي معلومات إضافية تريد مشاركتها مع الطبيب..."
+                rows={4}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              />
+            </div>
+
+            {/* Service Summary */}
+            {selectedService && (
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg border-2 border-blue-100">
+                <p className="text-sm font-bold text-blue-900 mb-4">📋 ملخص الموعد</p>
+                <div className="text-base text-gray-800 space-y-3">
+                  <p>
+                    الخدمة:{" "}
+                    <span className="font-bold text-blue-600">{selectedService.name}</span>
+                  </p>
+                  <p>
+                    المدة:{" "}
+                    <span className="font-bold text-blue-600">
+                      {selectedService.duration_minutes} دقيقة
+                    </span>
+                  </p>
+                  <p>
+                    السعر:{" "}
+                    <span className="font-bold text-blue-600">
+                      {selectedService.price_min} - {selectedService.price_max} ريال
+                    </span>
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Submit Button */}
+            <Button 
+              type="submit" 
+              fullWidth 
+              size="lg" 
+              isLoading={isSubmitting}
+              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg py-4"
+            >
+              {isSubmitting ? "جاري حجز الموعد..." : "تأكيد حجز الموعد"}
+            </Button>
+          </form>
+        </Card>
+      </div>
     </div>
   );
 }

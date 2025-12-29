@@ -6,35 +6,35 @@ import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: {
-    default: "Future Smile Clinic - Professional Dental Care",
-    template: "%s | Future Smile Clinic",
+    default: "عيادة ابتسامة المستقبل - الرعاية السنية المتخصصة",
+    template: "%s | عيادة ابتسامة المستقبل",
   },
   description:
-    "Professional dental clinic providing comprehensive oral care services.",
+    "عيادة أسنان متخصصة توفر خدمات شاملة للعناية بالفم والأسنان بأعلى جودة واحترافية.",
   keywords: [
-    "dental clinic",
-    "dentist",
-    "oral health",
-    "dental services",
-    "teeth whitening",
-    "orthodontics",
+    "عيادة أسنان",
+    "طبيب أسنان",
+    "صحة الفم",
+    "خدمات أسنان",
+    "تبييض الأسنان",
+    "تقويم الأسنان",
   ],
-  authors: [{ name: "Future Smile Clinic" }],
-  creator: "Future Smile Clinic",
+  authors: [{ name: "عيادة ابتسامة المستقبل" }],
+  creator: "عيادة ابتسامة المستقبل",
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "ar_SA",
     url: "https://future-smile-clinic.vercel.app",
-    siteName: "Future Smile Clinic",
-    title: "Future Smile Clinic - Professional Dental Care",
+    siteName: "عيادة ابتسامة المستقبل",
+    title: "عيادة ابتسامة المستقبل - الرعاية السنية المتخصصة",
     description:
-      "Professional dental clinic providing comprehensive oral care services.",
+      "عيادة أسنان متخصصة توفر خدمات شاملة للعناية بالفم والأسنان.",
     images: [
       {
         url: "https://future-smile-clinic.vercel.app/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Future Smile Clinic",
+        alt: "عيادة ابتسامة المستقبل",
       },
     ],
   },
@@ -50,13 +50,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#0066cc" />
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="bg-gray-50 text-gray-900">
+      <body className="bg-gray-50 text-gray-900" style={{ fontFamily: "'Cairo', sans-serif" }}>
         <Providers>
           <Header />
           <main className="min-h-[calc(100vh-16rem)]">{children}</main>
