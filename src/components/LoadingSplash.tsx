@@ -79,7 +79,7 @@ export const LoadingSplash: React.FC = () => {
 
   const getBadgeAnimation = () => {
     if (phase === "final-zoom") return "badgeFinalZoom 1s ease-in-out forwards";
-    return "badgeBreathe 2.5s ease-in-out infinite";
+    return "none";
   };
 
   return (
