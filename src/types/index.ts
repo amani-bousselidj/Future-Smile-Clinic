@@ -46,6 +46,7 @@ export interface Service {
   id: number;
   name: string;
   description: string;
+  category: string;
   price_min: number;
   price_max?: number;
   duration_minutes: number;
