@@ -213,17 +213,6 @@ export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
             top: "calc(100% + 1rem)",
             left: "50%",
             transform: "translateX(-50%)",
-          }}
-        >
-          Future Smile Clinic — عيادة أسنان عصرية ومريحة لكل أفراد العائلة
-        </p>
-      </div>
-
-      <style jsx>{`
-        @keyframes badgeBreathe {
-          0%,
-          100% {
-            transform: scale(1);
           }
           50% {
             transform: scale(1.03);
@@ -271,7 +260,14 @@ export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
             transform: translateY(0);
           }
         }
-      `}</style>
-    </div>
-  );
-};
+            // Phase 6: Hide completely (5.5s)
+            timers.push(
+              setTimeout(() => {
+                setPhase("hidden");
+                // Notify parent that loading is complete
+                if (onComplete) {
+                  onComplete();
+                }
+              }, 5500)
+            );
+        }
