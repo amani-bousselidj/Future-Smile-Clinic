@@ -1,14 +1,14 @@
 /**
  * Contact Page
  */
-'use client';
+"use client";
 
-import React from 'react';
-import { Card } from '@/components/Card';
-import { Button } from '@/components/Button';
-import { Input } from '@/components/Input';
-import { useForm, useApi } from '@/lib/hooks';
-import { useApp } from '@/context/AppContext';
+import React from "react";
+import { Card } from "@/components/Card";
+import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
+import { useForm, useApi } from "@/lib/hooks";
+import { useApp } from "@/context/AppContext";
 
 interface ContactFormData {
   name: string;
@@ -22,19 +22,19 @@ export default function ContactPage() {
   const { addNotification } = useApp();
   const { execute } = useApi();
 
-  const { values, errors, loading, handleChange, handleSubmit, reset } = 
+  const { values, errors, loading, handleChange, handleSubmit, reset } =
     useForm<ContactFormData>(async (formData) => {
       try {
-        await execute('post', '/api/contact-messages/', formData);
+        await execute("post", "/api/contact-messages/", formData);
         addNotification({
-          type: 'success',
-          message: 'Message sent successfully! We will contact you soon.',
+          type: "success",
+          message: "Message sent successfully! We will contact you soon.",
         });
         reset();
       } catch (error) {
         addNotification({
-          type: 'error',
-          message: 'Failed to send message. Please try again.',
+          type: "error",
+          message: "Failed to send message. Please try again.",
         });
         throw error;
       }
@@ -65,8 +65,10 @@ export default function ContactPage() {
           <Card shadow="md">
             <h3 className="text-lg font-semibold mb-2">📍 Address</h3>
             <p className="text-gray-600">
-              123 Smile Street<br />
-              Dental City, DC 12345<br />
+              123 Smile Street
+              <br />
+              Dental City, DC 12345
+              <br />
               USA
             </p>
           </Card>
@@ -74,8 +76,10 @@ export default function ContactPage() {
           <Card shadow="md">
             <h3 className="text-lg font-semibold mb-2">🕐 Hours</h3>
             <p className="text-gray-600">
-              Mon-Fri: 9:00 AM - 6:00 PM<br />
-              Saturday: 10:00 AM - 4:00 PM<br />
+              Mon-Fri: 9:00 AM - 6:00 PM
+              <br />
+              Saturday: 10:00 AM - 4:00 PM
+              <br />
               Sunday: Closed
             </p>
           </Card>
@@ -90,7 +94,7 @@ export default function ContactPage() {
                   type="text"
                   name="name"
                   label="Full Name"
-                  value={values.name || ''}
+                  value={values.name || ""}
                   onChange={handleChange}
                   error={errors.name}
                   required
@@ -99,7 +103,7 @@ export default function ContactPage() {
                   type="email"
                   name="email"
                   label="Email Address"
-                  value={values.email || ''}
+                  value={values.email || ""}
                   onChange={handleChange}
                   error={errors.email}
                   required
@@ -110,7 +114,7 @@ export default function ContactPage() {
                 type="tel"
                 name="phone"
                 label="Phone Number"
-                value={values.phone || ''}
+                value={values.phone || ""}
                 onChange={handleChange}
                 error={errors.phone}
               />
@@ -119,7 +123,7 @@ export default function ContactPage() {
                 type="text"
                 name="subject"
                 label="Subject"
-                value={values.subject || ''}
+                value={values.subject || ""}
                 onChange={handleChange}
                 error={errors.subject}
                 required
@@ -131,26 +135,25 @@ export default function ContactPage() {
                 </label>
                 <textarea
                   name="message"
-                  value={values.message || ''}
+                  value={values.message || ""}
                   onChange={handleChange}
                   placeholder="Tell us what you need..."
                   rows={6}
                   required
                   className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
-                    errors.message ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                    errors.message
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300"
                   }`}
                 />
                 {errors.message && (
-                  <span className="text-sm text-red-600 mt-1">{errors.message}</span>
+                  <span className="text-sm text-red-600 mt-1">
+                    {errors.message}
+                  </span>
                 )}
               </div>
 
-              <Button
-                type="submit"
-                fullWidth
-                size="lg"
-                isLoading={loading}
-              >
+              <Button type="submit" fullWidth size="lg" isLoading={loading}>
                 Send Message
               </Button>
             </form>

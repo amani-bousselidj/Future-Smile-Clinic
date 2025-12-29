@@ -46,6 +46,7 @@ git push origin master
 ```
 
 ### Verification
+
 ```
 ✅ Frontend: https://future-smile-clinic.vercel.app
 ✅ Auto-redeploy on git push
@@ -78,6 +79,7 @@ git push origin master
 ```
 
 **Settings**:
+
 ```
 Name: future-smile-clinic-api
 Runtime: Python 3.10
@@ -86,6 +88,7 @@ Start Command: gunicorn future_smile.wsgi:application --bind 0.0.0.0:$PORT
 ```
 
 **Environment Variables**:
+
 ```
 DEBUG=False
 SECRET_KEY=<generate-strong-key>
@@ -107,6 +110,7 @@ python backend/manage.py seed_initial_data
 ```
 
 ### Verification
+
 ```
 ✅ API: https://your-backend-domain.onrender.com/api/
 ✅ Admin: https://your-backend-domain.onrender.com/admin/
@@ -130,7 +134,7 @@ docker-compose --version  # Should be 1.29+
 ### 2. Create docker-compose.yml
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -298,6 +302,7 @@ git push origin master
 ### Scale Application
 
 **Increase Dynos (Render)**:
+
 - In Render Dashboard → Web Service → Plan
 - Upgrade to higher tier
 - Auto-scales with traffic
@@ -309,6 +314,7 @@ git push origin master
 ### Deployment Fails
 
 **Frontend**:
+
 ```bash
 # Check build logs in Vercel dashboard
 # Common issues:
@@ -318,6 +324,7 @@ git push origin master
 ```
 
 **Backend**:
+
 ```bash
 # Check logs in Render dashboard
 # Common issues:

@@ -1,12 +1,12 @@
 /**
  * About Page
  */
-'use client';
+"use client";
 
-import React from 'react';
-import { Card } from '@/components/Card';
-import { useFetch } from '@/lib/hooks';
-import { LoadingSpinner } from '@/components/LoadingSpinner';
+import React from "react";
+import { Card } from "@/components/Card";
+import { useFetch } from "@/lib/hooks";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 interface Doctor {
   id: number;
@@ -18,7 +18,9 @@ interface Doctor {
 }
 
 export default function AboutPage() {
-  const { data: response, loading } = useFetch<{ results: Doctor[] }>('/api/doctors/');
+  const { data: response, loading } = useFetch<{ results: Doctor[] }>(
+    "/api/doctors/"
+  );
   const doctors = response?.results || [];
 
   return (
@@ -36,18 +38,19 @@ export default function AboutPage() {
         <Card shadow="md">
           <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
           <p className="text-gray-600 leading-relaxed">
-            To provide exceptional dental care that improves our patients' oral health and 
-            overall well-being. We are committed to using the latest technology and techniques 
-            to deliver outstanding results in a comfortable, caring environment.
+            To provide exceptional dental care that improves our patients' oral
+            health and overall well-being. We are committed to using the latest
+            technology and techniques to deliver outstanding results in a
+            comfortable, caring environment.
           </p>
         </Card>
 
         <Card shadow="md">
           <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
           <p className="text-gray-600 leading-relaxed">
-            To be the most trusted dental clinic in the region, known for our expertise, 
-            compassion, and commitment to patient satisfaction. We strive to make quality 
-            dental care accessible to everyone.
+            To be the most trusted dental clinic in the region, known for our
+            expertise, compassion, and commitment to patient satisfaction. We
+            strive to make quality dental care accessible to everyone.
           </p>
         </Card>
       </div>
@@ -57,10 +60,22 @@ export default function AboutPage() {
         <h2 className="text-3xl font-bold text-center mb-8">Our Core Values</h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {[
-            { title: 'Excellence', icon: '⭐', desc: 'Highest standards in everything we do' },
-            { title: 'Integrity', icon: '🤝', desc: 'Honest and ethical practices' },
-            { title: 'Compassion', icon: '❤️', desc: 'Patient-centered care' },
-            { title: 'Innovation', icon: '🔬', desc: 'Latest technology and techniques' },
+            {
+              title: "Excellence",
+              icon: "⭐",
+              desc: "Highest standards in everything we do",
+            },
+            {
+              title: "Integrity",
+              icon: "🤝",
+              desc: "Honest and ethical practices",
+            },
+            { title: "Compassion", icon: "❤️", desc: "Patient-centered care" },
+            {
+              title: "Innovation",
+              icon: "🔬",
+              desc: "Latest technology and techniques",
+            },
           ].map((value, index) => (
             <Card key={index} shadow="sm">
               <div className="text-4xl mb-3">{value.icon}</div>
@@ -92,10 +107,10 @@ export default function AboutPage() {
                 <h3 className="text-xl font-bold mb-1">
                   Dr. {doctor.first_name} {doctor.last_name}
                 </h3>
-                <p className="text-blue-600 font-semibold mb-3">{doctor.specialization}</p>
-                {doctor.bio && (
-                  <p className="text-gray-600">{doctor.bio}</p>
-                )}
+                <p className="text-blue-600 font-semibold mb-3">
+                  {doctor.specialization}
+                </p>
+                {doctor.bio && <p className="text-gray-600">{doctor.bio}</p>}
               </Card>
             ))}
           </div>
@@ -109,24 +124,25 @@ export default function AboutPage() {
         <h2 className="text-2xl font-bold mb-4">Our Journey</h2>
         <div className="space-y-4 text-gray-600">
           <p>
-            <strong>2010:</strong> Future Smile Clinic was founded with a vision to revolutionize 
-            dental care in the community.
+            <strong>2010:</strong> Future Smile Clinic was founded with a vision
+            to revolutionize dental care in the community.
           </p>
           <p>
-            <strong>2015:</strong> Expanded with new state-of-the-art facilities and additional 
-            specialists to our team.
+            <strong>2015:</strong> Expanded with new state-of-the-art facilities
+            and additional specialists to our team.
           </p>
           <p>
-            <strong>2018:</strong> Launched our digital transformation initiative, including 
-            online appointment booking and telemedicine consultations.
+            <strong>2018:</strong> Launched our digital transformation
+            initiative, including online appointment booking and telemedicine
+            consultations.
           </p>
           <p>
-            <strong>2023:</strong> Achieved accreditation as a leading dental clinic and expanded 
-            our services to serve more patients.
+            <strong>2023:</strong> Achieved accreditation as a leading dental
+            clinic and expanded our services to serve more patients.
           </p>
           <p>
-            <strong>2024:</strong> Implemented advanced AI-assisted diagnostics and launched 
-            our comprehensive digital health platform.
+            <strong>2024:</strong> Implemented advanced AI-assisted diagnostics
+            and launched our comprehensive digital health platform.
           </p>
         </div>
       </Card>
@@ -134,13 +150,15 @@ export default function AboutPage() {
       {/* Statistics */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {[
-          { number: '14+', label: 'Years Experience' },
-          { number: '10K+', label: 'Happy Patients' },
-          { number: '20+', label: 'Specialists' },
-          { number: '1000+', label: 'Procedures Monthly' },
+          { number: "14+", label: "Years Experience" },
+          { number: "10K+", label: "Happy Patients" },
+          { number: "20+", label: "Specialists" },
+          { number: "1000+", label: "Procedures Monthly" },
         ].map((stat, index) => (
           <Card key={index} shadow="sm" className="text-center">
-            <div className="text-4xl font-bold text-blue-600 mb-2">{stat.number}</div>
+            <div className="text-4xl font-bold text-blue-600 mb-2">
+              {stat.number}
+            </div>
             <div className="text-gray-600">{stat.label}</div>
           </Card>
         ))}

@@ -1,17 +1,17 @@
 /**
  * Register Page
  */
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Card } from '@/components/Card';
-import { Button } from '@/components/Button';
-import { Input } from '@/components/Input';
-import { useForm } from '@/lib/hooks';
-import { useAuth } from '@/context/AuthContext';
-import { useApp } from '@/context/AppContext';
+import React from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Card } from "@/components/Card";
+import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
+import { useForm } from "@/lib/hooks";
+import { useAuth } from "@/context/AuthContext";
+import { useApp } from "@/context/AppContext";
 
 interface RegisterFormData {
   full_name: string;
@@ -26,10 +26,10 @@ export default function RegisterPage() {
   const { register } = useAuth();
   const { addNotification } = useApp();
 
-  const { values, errors, loading, handleChange, handleSubmit } = useForm<RegisterFormData>(
-    async (formData) => {
+  const { values, errors, loading, handleChange, handleSubmit } =
+    useForm<RegisterFormData>(async (formData) => {
       if (formData.password !== formData.password_confirm) {
-        throw new Error('Passwords do not match');
+        throw new Error("Passwords do not match");
       }
 
       try {
@@ -40,19 +40,18 @@ export default function RegisterPage() {
           phone: formData.phone,
         });
         addNotification({
-          type: 'success',
-          message: 'Account created successfully!',
+          type: "success",
+          message: "Account created successfully!",
         });
-        router.push('/');
+        router.push("/");
       } catch (error) {
         addNotification({
-          type: 'error',
-          message: 'Registration failed. Please try again.',
+          type: "error",
+          message: "Registration failed. Please try again.",
         });
         throw error;
       }
-    }
-  );
+    });
 
   return (
     <div className="min-h-[calc(100vh-16rem)] flex items-center justify-center px-4">
@@ -68,7 +67,7 @@ export default function RegisterPage() {
               type="text"
               name="full_name"
               label="Full Name"
-              value={values.full_name || ''}
+              value={values.full_name || ""}
               onChange={handleChange}
               error={errors.full_name}
               required
@@ -78,7 +77,7 @@ export default function RegisterPage() {
               type="email"
               name="email"
               label="Email Address"
-              value={values.email || ''}
+              value={values.email || ""}
               onChange={handleChange}
               error={errors.email}
               required
@@ -88,7 +87,7 @@ export default function RegisterPage() {
               type="tel"
               name="phone"
               label="Phone (Optional)"
-              value={values.phone || ''}
+              value={values.phone || ""}
               onChange={handleChange}
               error={errors.phone}
             />
@@ -97,7 +96,7 @@ export default function RegisterPage() {
               type="password"
               name="password"
               label="Password"
-              value={values.password || ''}
+              value={values.password || ""}
               onChange={handleChange}
               error={errors.password}
               required
@@ -107,25 +106,20 @@ export default function RegisterPage() {
               type="password"
               name="password_confirm"
               label="Confirm Password"
-              value={values.password_confirm || ''}
+              value={values.password_confirm || ""}
               onChange={handleChange}
               error={errors.password_confirm}
               required
             />
 
-            <Button
-              type="submit"
-              fullWidth
-              size="lg"
-              isLoading={loading}
-            >
+            <Button type="submit" fullWidth size="lg" isLoading={loading}>
               Create Account
             </Button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              Already have an account?{' '}
+              Already have an account?{" "}
               <Link href="/login" className="text-blue-600 hover:underline">
                 Sign in
               </Link>

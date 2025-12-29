@@ -1,16 +1,16 @@
 /**
  * Appointments Booking Page
  */
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Card } from '@/components/Card';
-import { Button } from '@/components/Button';
-import { Input } from '@/components/Input';
-import { useApi, useForm } from '@/lib/hooks';
-import { useApp } from '@/context/AppContext';
-import { useAuth } from '@/context/AuthContext';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Card } from "@/components/Card";
+import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
+import { useApi, useForm } from "@/lib/hooks";
+import { useApp } from "@/context/AppContext";
+import { useAuth } from "@/context/AuthContext";
 
 interface Service {
   id: number;
@@ -53,8 +53,11 @@ export default function AppointmentsPage() {
   React.useEffect(() => {
     const loadData = async () => {
       try {
-        const servicesResponse = await execute('get', '/api/services/?is_active=true');
-        const doctorsResponse = await execute('get', '/api/doctors/');
+        const servicesResponse = await execute(
+          "get",
+          "/api/services/?is_active=true"
+        );
+        const doctorsResponse = await execute("get", "/api/doctors/");
 
         if (servicesResponse) {
           setServices(servicesResponse.results || []);
@@ -64,8 +67,8 @@ export default function AppointmentsPage() {
         }
       } catch (error) {
         addNotification({
-          type: 'error',
-          message: 'Failed to load services and doctors',
+          type: "error",
+          message: "Failed to load services and doctors",
         });
       } finally {
         setLoading(false);
@@ -75,31 +78,36 @@ export default function AppointmentsPage() {
     loadData();
   }, []);
 
-  const { values, handleChange, handleSubmit, loading: isSubmitting } = useForm<BookingFormData>(
-    async (formData) => {
-      try {
-        const response = await execute('post', '/api/appointments/', {
-          ...formData,
-          service_id: parseInt(formData.service_id),
-          doctor_id: parseInt(formData.doctor_id),
-        });
+  const {
+    values,
+    handleChange,
+    handleSubmit,
+    loading: isSubmitting,
+  } = useForm<BookingFormData>(async (formData) => {
+    try {
+      const response = await execute("post", "/api/appointments/", {
+        ...formData,
+        service_id: parseInt(formData.service_id),
+        doctor_id: parseInt(formData.doctor_id),
+      });
 
-        if (response) {
-          addNotification({
-            type: 'success',
-            message: 'Appointment booked successfully! Booking ID: ' + response.booking_id,
-          });
-          router.push('/');
-        }
-      } catch (error) {
+      if (response) {
         addNotification({
-          type: 'error',
-          message: 'Failed to book appointment',
+          type: "success",
+          message:
+            "Appointment booked successfully! Booking ID: " +
+            response.booking_id,
         });
-        throw error;
+        router.push("/");
       }
+    } catch (error) {
+      addNotification({
+        type: "error",
+        message: "Failed to book appointment",
+      });
+      throw error;
     }
-  );
+  });
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -119,10 +127,12 @@ export default function AppointmentsPage() {
             </label>
             <select
               name="service_id"
-              value={values.service_id || ''}
+              value={values.service_id || ""}
               onChange={(e) => {
                 handleChange(e);
-                const service = services.find(s => s.id === parseInt(e.target.value));
+                const service = services.find(
+                  (s) => s.id === parseInt(e.target.value)
+                );
                 setSelectedService(service || null);
               }}
               required
@@ -144,7 +154,7 @@ export default function AppointmentsPage() {
             </label>
             <select
               name="doctor_id"
-              value={values.doctor_id || ''}
+              value={values.doctor_id || ""}
               onChange={handleChange}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
@@ -152,7 +162,8 @@ export default function AppointmentsPage() {
               <option value="">Choose a doctor</option>
               {doctors.map((doctor) => (
                 <option key={doctor.id} value={doctor.id}>
-                  Dr. {doctor.first_name} {doctor.last_name} - {doctor.specialization}
+                  Dr. {doctor.first_name} {doctor.last_name} -{" "}
+                  {doctor.specialization}
                 </option>
               ))}
             </select>
@@ -164,7 +175,7 @@ export default function AppointmentsPage() {
               type="date"
               name="appointment_date"
               label="Appointment Date"
-              value={values.appointment_date || ''}
+              value={values.appointment_date || ""}
               onChange={handleChange}
               required
             />
@@ -172,7 +183,7 @@ export default function AppointmentsPage() {
               type="time"
               name="appointment_time"
               label="Appointment Time"
-              value={values.appointment_time || ''}
+              value={values.appointment_time || ""}
               onChange={handleChange}
               required
             />
@@ -186,7 +197,7 @@ export default function AppointmentsPage() {
                 type="text"
                 name="patient_full_name"
                 label="Full Name"
-                value={values.patient_full_name || user?.full_name || ''}
+                value={values.patient_full_name || user?.full_name || ""}
                 onChange={handleChange}
                 required
               />
@@ -194,7 +205,7 @@ export default function AppointmentsPage() {
                 type="email"
                 name="patient_email"
                 label="Email"
-                value={values.patient_email || user?.email || ''}
+                value={values.patient_email || user?.email || ""}
                 onChange={handleChange}
                 required
               />
@@ -202,7 +213,7 @@ export default function AppointmentsPage() {
                 type="tel"
                 name="patient_phone"
                 label="Phone Number"
-                value={values.patient_phone || ''}
+                value={values.patient_phone || ""}
                 onChange={handleChange}
                 required
               />
@@ -216,7 +227,7 @@ export default function AppointmentsPage() {
             </label>
             <textarea
               name="notes"
-              value={values.notes || ''}
+              value={values.notes || ""}
               onChange={handleChange}
               placeholder="Any additional information for your appointment..."
               rows={4}
@@ -229,20 +240,28 @@ export default function AppointmentsPage() {
             <div className="bg-blue-50 p-4 rounded-lg">
               <p className="text-sm font-medium text-gray-700 mb-2">Summary</p>
               <div className="text-sm text-gray-600 space-y-1">
-                <p>Service: <span className="font-semibold">{selectedService.name}</span></p>
-                <p>Duration: <span className="font-semibold">{selectedService.duration_minutes} minutes</span></p>
-                <p>Price: <span className="font-semibold">${selectedService.price_min} - ${selectedService.price_max}</span></p>
+                <p>
+                  Service:{" "}
+                  <span className="font-semibold">{selectedService.name}</span>
+                </p>
+                <p>
+                  Duration:{" "}
+                  <span className="font-semibold">
+                    {selectedService.duration_minutes} minutes
+                  </span>
+                </p>
+                <p>
+                  Price:{" "}
+                  <span className="font-semibold">
+                    ${selectedService.price_min} - ${selectedService.price_max}
+                  </span>
+                </p>
               </div>
             </div>
           )}
 
           {/* Submit Button */}
-          <Button
-            type="submit"
-            fullWidth
-            size="lg"
-            isLoading={isSubmitting}
-          >
+          <Button type="submit" fullWidth size="lg" isLoading={isSubmitting}>
             Confirm Appointment
           </Button>
         </form>
