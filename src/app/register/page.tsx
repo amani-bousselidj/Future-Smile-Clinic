@@ -54,15 +54,25 @@ export default function RegisterPage() {
     });
 
   return (
-    <div className="min-h-[calc(100vh-16rem)] flex items-center justify-center px-4 bg-gradient-to-b from-blue-50 to-white">
-      <div className="w-full max-w-md">
-        <Card shadow="lg" padding="lg" className="bg-white border-0">
+    <div className="min-h-[calc(100vh-16rem)] flex items-center justify-center px-4 bg-gradient-to-br from-blue-50 via-white to-indigo-50 relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 right-20 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"></div>
+        <div className="absolute bottom-20 left-20 w-64 h-64 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000"></div>
+      </div>
+
+      <div className="w-full max-w-md relative z-10">
+        <Card shadow="lg" padding="lg" className="bg-white/80 backdrop-blur-lg border-0 shadow-2xl">
           <div className="text-center mb-10">
-            <div className="inline-block w-16 h-16 bg-gradient-to-b from-blue-600 to-blue-400 rounded-xl flex items-center justify-center mb-4">
-              <span className="text-white font-bold text-2xl">FS</span>
+            <div className="inline-block mb-6 transform hover:scale-110 transition-transform duration-500">
+              <img 
+                src="/images/logo.png" 
+                alt="Future Smile Clinic" 
+                className="h-24 w-auto mx-auto drop-shadow-xl"
+              />
             </div>
-            <h1 className="text-4xl font-bold text-gray-900">إنشاء حساب</h1>
-            <p className="text-gray-600 mt-2 text-lg">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">إنشاء حساب</h1>
+            <p className="text-gray-600 text-lg">
               انضم إلى عيادة ابتسامة المستقبل
             </p>
           </div>

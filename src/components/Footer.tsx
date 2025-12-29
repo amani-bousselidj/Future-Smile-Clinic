@@ -8,20 +8,29 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-l from-gray-900 to-gray-800 text-gray-300 mt-16 border-t-4 border-blue-600">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 text-gray-300 mt-20 overflow-hidden">
+      {/* Decorative Top Wave */}
+      <div className="absolute top-0 left-0 right-0">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full transform rotate-180">
+          <path d="M0,64 C240,100 480,100 720,64 C960,28 1200,28 1440,64 L1440,120 L0,120 Z" fill="white"/>
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 pt-24 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* About */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-b from-blue-600 to-blue-400 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">FS</span>
-              </div>
-              <h3 className="text-white font-bold text-lg">
-                عيادة ابتسامة المستقبل
-              </h3>
+          <div className="transform hover:scale-105 transition-transform duration-300">
+            <div className="flex items-center gap-3 mb-6">
+              <img 
+                src="/images/logo.png" 
+                alt="Future Smile Clinic" 
+                className="h-12 w-auto drop-shadow-lg"
+              />
             </div>
-            <p className="text-sm leading-relaxed">
+            <h3 className="text-white font-bold text-xl mb-4">
+              عيادة ابتسامة المستقبل
+            </h3>
+            <p className="text-base leading-relaxed text-gray-400">
               عيادة متخصصة بأعلى معايير الجودة والاحترافية في رعاية الأسنان مع
               أحدث التقنيات والأطباء المتمرسين.
             </p>

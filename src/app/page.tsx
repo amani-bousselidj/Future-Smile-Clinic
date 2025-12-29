@@ -26,28 +26,65 @@ export default function HomePage() {
   );
 
   return (
-    <div className="w-full">
+    <div className="w-full overflow-hidden">
       {/* Hero Section */}
-      <section className="bg-gradient-to-l from-blue-600 via-blue-700 to-blue-800 text-white py-24 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 right-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl"></div>
-          <div className="absolute bottom-20 left-10 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl"></div>
+      <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white py-32 overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 right-10 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+          <div className="absolute bottom-20 left-10 w-96 h-96 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h1 className="text-6xl font-bold mb-6 leading-tight">
-            مرحباً بك في عيادة ابتسامة المستقبل
-          </h1>
-          <p className="text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
-            رعاية أسنان احترافية بأحدث التكنولوجيا وأطباء متخصصين وذوي خبرة
-            عالية. ابتسامتك المثالية على بعد موعد واحد فقط
-          </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <Link href="/appointments">
-              <Button
-                size="lg"
-                className="bg-white text-blue-600 hover:bg-gray-100"
-              >
-                حجز موعد الآن
+
+        {/* Content */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center">
+            {/* Logo */}
+            <div className="mb-8 flex justify-center animate-fade-in-down">
+              <img 
+                src="/images/logo.png" 
+                alt="Future Smile Clinic" 
+                className="h-32 w-auto drop-shadow-2xl transform hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+
+            <h1 className="text-7xl font-extrabold mb-6 leading-tight animate-fade-in-up bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white">
+              مرحباً بك في عيادة ابتسامة المستقبل
+            </h1>
+            <p className="text-2xl mb-10 max-w-3xl mx-auto leading-relaxed animate-fade-in text-blue-50">
+              رعاية أسنان احترافية بأحدث التكنولوجيا وأطباء متخصصين وذوي خبرة عالية
+              <br />
+              <span className="font-bold text-white">ابتسامتك المثالية على بعد موعد واحد فقط</span>
+            </p>
+            <div className="flex gap-6 justify-center flex-wrap animate-fade-in-up animation-delay-500">
+              <Link href="/appointments">
+                <Button
+                  size="lg"
+                  className="bg-white text-blue-700 hover:bg-blue-50 px-10 py-4 text-xl font-bold shadow-2xl hover:shadow-blue-400/50 transform hover:scale-110 transition-all duration-300"
+                >
+                  ⭐ حجز موعد الآن
+                </Button>
+              </Link>
+              <Link href="/services">
+                <Button
+                  variant="ghost"
+                  size="lg"
+                  className="border-3 border-white text-white hover:bg-white hover:text-blue-700 px-10 py-4 text-xl font-bold shadow-2xl transform hover:scale-110 transition-all duration-300"
+                >
+                  استكشف خدماتنا
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Wave Separator */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+            <path d="M0,64 C240,100 480,100 720,64 C960,28 1200,28 1440,64 L1440,120 L0,120 Z" fill="white"/>
+          </svg>
+        </div>
+      </section>
               </Button>
             </Link>
             <Link href="/services">

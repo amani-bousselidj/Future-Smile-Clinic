@@ -12,20 +12,28 @@ export function Header() {
   const { user, logout } = useAuth();
 
   return (
-    <header className="bg-gradient-to-l from-blue-50 to-white shadow-lg sticky top-0 z-40 border-b-2 border-blue-600">
+    <header className="bg-white/95 backdrop-blur-md shadow-xl sticky top-0 z-50 border-b-4 border-blue-500">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-24">
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-3 font-bold text-2xl text-blue-700 hover:text-blue-800 transition-colors"
+            className="flex items-center gap-4 group"
           >
-            <div className="w-12 h-12 bg-gradient-to-b from-blue-600 to-blue-400 rounded-lg flex items-center justify-center">
-              <span className="text-white text-xl font-bold">FS</span>
+            <div className="relative transform transition-all duration-300 group-hover:scale-110 group-hover:rotate-2">
+              <img 
+                src="/images/logo.png" 
+                alt="Future Smile Clinic Logo" 
+                className="h-16 w-auto drop-shadow-lg"
+              />
             </div>
-            <div className="hidden sm:block">
-              <div className="text-base font-bold">عيادة ابتسامة</div>
-              <div className="text-xs text-blue-500">المستقبل</div>
+            <div className="hidden lg:block">
+              <div className="text-lg font-bold text-blue-700 group-hover:text-blue-800 transition-colors">
+                عيادة ابتسامة المستقبل
+              </div>
+              <div className="text-xs text-blue-500 font-medium tracking-wider">
+                YOUR SMILE OUR CARE
+              </div>
             </div>
           </Link>
 
@@ -33,27 +41,31 @@ export function Header() {
           <div className="hidden md:flex items-center gap-8">
             <Link
               href="/"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors border-b-2 border-transparent hover:border-blue-600 pb-1"
+              className="relative text-gray-700 hover:text-blue-600 font-semibold transition-all duration-300 group"
             >
-              الرئيسية
+              <span className="relative z-10">الرئيسية</span>
+              <span className="absolute bottom-0 right-0 w-0 h-0.5 bg-gradient-to-l from-blue-600 to-blue-400 group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link
               href="/services"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors border-b-2 border-transparent hover:border-blue-600 pb-1"
+              className="relative text-gray-700 hover:text-blue-600 font-semibold transition-all duration-300 group"
             >
-              الخدمات
+              <span className="relative z-10">الخدمات</span>
+              <span className="absolute bottom-0 right-0 w-0 h-0.5 bg-gradient-to-l from-blue-600 to-blue-400 group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link
               href="/about"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors border-b-2 border-transparent hover:border-blue-600 pb-1"
+              className="relative text-gray-700 hover:text-blue-600 font-semibold transition-all duration-300 group"
             >
-              عن العيادة
+              <span className="relative z-10">عن العيادة</span>
+              <span className="absolute bottom-0 right-0 w-0 h-0.5 bg-gradient-to-l from-blue-600 to-blue-400 group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link
               href="/contact"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors border-b-2 border-transparent hover:border-blue-600 pb-1"
+              className="relative text-gray-700 hover:text-blue-600 font-semibold transition-all duration-300 group"
             >
-              اتصل بنا
+              <span className="relative z-10">اتصل بنا</span>
+              <span className="absolute bottom-0 right-0 w-0 h-0.5 bg-gradient-to-l from-blue-600 to-blue-400 group-hover:w-full transition-all duration-300"></span>
             </Link>
           </div>
 
@@ -81,13 +93,13 @@ export function Header() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="whitespace-nowrap"
+                    className="whitespace-nowrap hover:bg-blue-50 transition-all duration-300 hover:scale-105"
                   >
                     دخول
                   </Button>
                 </Link>
                 <Link href="/register">
-                  <Button size="sm" className="whitespace-nowrap">
+                  <Button size="sm" className="whitespace-nowrap bg-gradient-to-l from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 transition-all duration-300 hover:scale-105 shadow-lg">
                     اشتراك
                   </Button>
                 </Link>
@@ -97,7 +109,7 @@ export function Header() {
               <Button
                 variant="primary"
                 size="sm"
-                className="whitespace-nowrap bg-gradient-to-l from-blue-600 to-blue-500"
+                className="whitespace-nowrap bg-gradient-to-l from-blue-600 via-blue-500 to-blue-600 hover:from-blue-700 hover:via-blue-600 hover:to-blue-700 transition-all duration-300 hover:scale-105 shadow-xl animate-pulse"
               >
                 حجز موعد
               </Button>
