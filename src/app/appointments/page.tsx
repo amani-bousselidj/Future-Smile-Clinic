@@ -38,6 +38,16 @@ interface BookingFormData {
   notes: string;
 }
 
+interface AppointmentResponse {
+  id: number;
+  booking_id: string;
+  service: number;
+  doctor: number;
+  appointment_date: string;
+  appointment_time: string;
+  status: string;
+}
+
 export default function AppointmentsPage() {
   const router = useRouter();
   const { user } = useAuth();
@@ -59,11 +69,15 @@ export default function AppointmentsPage() {
         const doctorsResponse = await execute("get", "/api/doctors/");
 
         if (servicesResponse) {
-          const servicesList = Array.isArray(servicesResponse) ? servicesResponse : (servicesResponse as any)?.results || [];
+          const servicesList = Array.isArray(servicesResponse)
+            ? servicesResponse
+            : (servicesResponse as any)?.results || [];
           setServices(servicesList);
         }
         if (doctorsResponse) {
-          const doctorsList = Array.isArray(doctorsResponse) ? doctorsResponse : (doctorsResponse as any)?.results || [];
+          const doctorsList = Array.isArray(doctorsResponse)
+            ? doctorsResponse
+            : (doctorsResponse as any)?.results || [];
           setDoctors(doctorsList);
         }
       } catch (error) {
@@ -91,11 +105,12 @@ export default function AppointmentsPage() {
       });
 
       if (response) {
+        const appointmentData = response as AppointmentResponse;
         addNotification({
           type: "success",
           message:
             "Appointment booked successfully! Booking ID: " +
-            response.booking_id,
+            appointmentData.booking_id,
         });
         router.push("/");
       }
