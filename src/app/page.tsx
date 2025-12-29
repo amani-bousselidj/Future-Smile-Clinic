@@ -28,8 +28,13 @@ export default function HomePage() {
   return (
     <div className="w-full overflow-hidden bg-white">
       {/* Hero Section - Clean & Modern */}
-      <section className="relative bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 py-20">
+        {/* Subtle Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(59, 130, 246) 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Right Side - Content */}
             <div className="text-right">
@@ -40,17 +45,22 @@ export default function HomePage() {
                   className="h-24 w-auto"
                 />
               </div>
-              
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                عيادة ابتسامة المستقبل
+
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                <span className="bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 bg-clip-text text-transparent">
+                  عيادة ابتسامة المستقبل
+                </span>
               </h1>
-              
-              <p className="text-xl md:text-2xl text-gray-700 mb-4 leading-relaxed">
+
+              <div className="mb-4 h-1 w-24 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full"></div>
+
+              <p className="text-xl md:text-2xl text-gray-700 mb-4 leading-relaxed font-medium">
                 رعاية أسنان احترافية بأحدث التكنولوجيا
               </p>
-              
+
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                فريق من الأطباء المتخصصين وذوي الخبرة العالية يستخدمون أحدث التقنيات العالمية لتقديم أفضل رعاية صحية لأسنانك
+                فريق من الأطباء المتخصصين وذوي الخبرة العالية يستخدمون أحدث
+                التقنيات العالمية لتقديم أفضل رعاية صحية لأسنانك
               </p>
 
               {/* CTA Buttons */}
@@ -58,9 +68,17 @@ export default function HomePage() {
                 <Link href="/appointments">
                   <Button
                     size="lg"
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 w-full sm:w-auto"
+                    className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300"
                   >
-                    احجز موعد الآن
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      احجز موعد الآن
+                      <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </span>
                   </Button>
                 </Link>
 
@@ -68,46 +86,67 @@ export default function HomePage() {
                   <Button
                     variant="ghost"
                     size="lg"
-                    className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-3 w-full sm:w-auto"
+                    className="group border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3 w-full sm:w-auto transition-all duration-300"
                   >
-                    استكشف خدماتنا
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      استكشف خدماتنا
+                    </span>
                   </Button>
                 </Link>
               </div>
 
               {/* Trust Indicators */}
               <div className="mt-12 grid grid-cols-2 gap-6">
-                <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                  <div className="text-3xl font-bold text-blue-600 mb-1">14+</div>
+                <div className="group text-center p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-transparent hover:border-blue-200">
+                  <div className="text-3xl font-bold text-blue-600 mb-1 group-hover:scale-110 transition-transform">
+                    14+
+                  </div>
                   <div className="text-sm text-gray-600">سنة خبرة</div>
                 </div>
-                <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                  <div className="text-3xl font-bold text-blue-600 mb-1">10K+</div>
+                <div className="group text-center p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-transparent hover:border-blue-200">
+                  <div className="text-3xl font-bold text-blue-600 mb-1 group-hover:scale-110 transition-transform">
+                    10K+
+                  </div>
                   <div className="text-sm text-gray-600">مريض راضٍ</div>
                 </div>
-                <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                  <div className="text-3xl font-bold text-blue-600 mb-1">20+</div>
+                <div className="group text-center p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-transparent hover:border-blue-200">
+                  <div className="text-3xl font-bold text-blue-600 mb-1 group-hover:scale-110 transition-transform">
+                    20+
+                  </div>
                   <div className="text-sm text-gray-600">طبيب متخصص</div>
                 </div>
-                <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                  <div className="text-3xl font-bold text-blue-600 mb-1">99%</div>
+                <div className="group text-center p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-transparent hover:border-blue-200">
+                  <div className="text-3xl font-bold text-blue-600 mb-1 group-hover:scale-110 transition-transform">
+                    99%
+                  </div>
                   <div className="text-sm text-gray-600">نسبة الرضا</div>
                 </div>
               </div>
             </div>
 
             {/* Left Side - Image */}
-            <div className="relative">
+            <div className="relative group">
+              {/* Decorative Border */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-2xl opacity-20 group-hover:opacity-30 transition-opacity blur-xl"></div>
+              
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img
                   src="/images/clinic-hero.jpg"
                   alt="عيادة ابتسامة المستقبل"
-                  className="w-full h-[600px] object-cover"
+                  className="w-full h-[600px] object-cover transition-transform duration-500 group-hover:scale-105"
                   onError={(e) => {
-                    e.currentTarget.src = "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&h=600&fit=crop";
+                    e.currentTarget.src =
+                      "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&h=600&fit=crop";
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent"></div>
+                
+                {/* Corner Accent */}
+                <div className="absolute top-4 left-4 w-16 h-16 border-t-4 border-l-4 border-white/50 rounded-tl-2xl"></div>
+                <div className="absolute bottom-4 right-4 w-16 h-16 border-b-4 border-r-4 border-white/50 rounded-br-2xl"></div>
               </div>
             </div>
           </div>

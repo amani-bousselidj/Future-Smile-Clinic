@@ -13,19 +13,17 @@ export function Header() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3 group">
             <img
               src="/images/logo.png"
               alt="Future Smile Clinic Logo"
-              className="h-14 w-auto"
+              className="h-14 w-auto transition-transform duration-300 group-hover:scale-105"
             />
             <div className="hidden lg:block">
-              <div className="text-lg font-bold text-gray-900">
+              <div className="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
                 عيادة ابتسامة المستقبل
               </div>
-              <div className="text-xs text-gray-500">
-                YOUR SMILE OUR CARE
-              </div>
+              <div className="text-xs text-gray-500">YOUR SMILE OUR CARE</div>
             </div>
           </Link>
 
@@ -33,27 +31,31 @@ export function Header() {
           <div className="hidden md:flex items-center gap-8">
             <Link
               href="/"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+              className="relative text-gray-700 hover:text-blue-600 font-medium transition-colors pb-1"
             >
               الرئيسية
+              <span className="absolute bottom-0 right-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link
               href="/services"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+              className="relative text-gray-700 hover:text-blue-600 font-medium transition-colors pb-1"
             >
               الخدمات
+              <span className="absolute bottom-0 right-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 hover:w-full"></span>
             </Link>
             <Link
               href="/about"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+              className="relative text-gray-700 hover:text-blue-600 font-medium transition-colors pb-1"
             >
               عن العيادة
+              <span className="absolute bottom-0 right-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 hover:w-full"></span>
             </Link>
             <Link
               href="/contact"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
+              className="relative text-gray-700 hover:text-blue-600 font-medium transition-colors pb-1"
             >
               اتصل بنا
+              <span className="absolute bottom-0 right-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 hover:w-full"></span>
             </Link>
           </div>
 
