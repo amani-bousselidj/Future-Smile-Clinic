@@ -17,10 +17,27 @@ interface LoadingSplashProps {
 export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
   const [phase, setPhase] = useState<Phase>("badge-enter");
   const [loaderPosition, setLoaderPosition] = useState(0);
+  const [hasShown, setHasShown] = useState(false);
 
   const clinicName = "Future Smile Clinic";
 
   useEffect(() => {
+    // Check if loading splash has already been shown in this session
+    const alreadyShown = sessionStorage.getItem("loadingSplashShown");
+    
+    if (alreadyShown) {
+      // Skip animation and mark as complete immediately
+      setPhase("hidden");
+      if (onComplete) {
+        onComplete();
+      }
+      return;
+    }
+
+    // Mark as shown for this session
+    sessionStorage.setItem("loadingSplashShown", "true");
+    setHasShown(true);
+
     const timers: NodeJS.Timeout[] = [];
 
     // Phase 1: Text appears after 0.5s
