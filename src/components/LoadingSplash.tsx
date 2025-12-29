@@ -113,9 +113,9 @@ export const LoadingSplash: React.FC = () => {
             {/* Loading Bar Slider (White Circle) */}
             {phase === "loading" && (
               <div
-                className="absolute top-0 bottom-0 left-0 bg-white rounded-full transition-all duration-100"
+                className="absolute inset-0 bg-white rounded-full overflow-hidden"
                 style={{
-                  width: `${loaderPosition}%`,
+                  clipPath: `inset(0 ${100 - loaderPosition}% 0 0)`,
                   zIndex: 1,
                 }}
               />
