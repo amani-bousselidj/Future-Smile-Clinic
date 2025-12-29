@@ -14,10 +14,10 @@ interface LoadingSplashProps {
   onComplete?: () => void;
 }
 
+
 export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
   const [phase, setPhase] = useState<Phase>("badge-enter");
   const [loaderPosition, setLoaderPosition] = useState(0);
-  const [hasShown, setHasShown] = useState(false);
 
   const clinicName = "Future Smile Clinic";
 
