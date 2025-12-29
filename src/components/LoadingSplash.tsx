@@ -30,24 +30,24 @@ export const LoadingSplash: React.FC = () => {
     timers.push(
       setTimeout(() => {
         setPhase("loading");
+        
+        // Start loading bar animation from 0
+        let startTime = Date.now();
+        const loadingDuration = 2000; // 2 seconds
+
+        const loadingInterval = setInterval(() => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / loadingDuration, 1);
+          setLoaderPosition(progress * 100);
+
+          if (progress >= 1) {
+            clearInterval(loadingInterval);
+          }
+        }, 16);
+
+        timers.push(loadingInterval as any);
       }, 1000)
     );
-
-    // Phase 3: Loading bar slides (1-3s)
-    let startTime = Date.now();
-    const loadingDuration = 2000; // 2 seconds
-
-    const loadingInterval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / loadingDuration, 1);
-      setLoaderPosition(progress * 100);
-
-      if (progress >= 1) {
-        clearInterval(loadingInterval);
-      }
-    }, 16);
-
-    timers.push(loadingInterval as any);
 
     // Phase 4: Transform to hero with image (3-4.5s)
     timers.push(
