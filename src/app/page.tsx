@@ -3,13 +3,14 @@
  */
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
 import { useFetch } from "@/lib/hooks";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { LoadingSplash } from "@/components/LoadingSplash";
+import { Header } from "@/components/Header";
 
 interface Service {
   id: number;
@@ -22,14 +23,22 @@ interface Service {
 }
 
 export default function HomePage() {
+  const [loadingComplete, setLoadingComplete] = useState(false);
   const { data: services, loading } = useFetch<{ results: Service[] }>(
     "/api/services/?is_active=true"
   );
 
   return (
     <>
-      <LoadingSplash />
-      <div className="w-full overflow-hidden bg-white">
+      <LoadingSplash onComplete={() => setLoadingComplete(true)} />
+      <Header onLoadingComplete={loadingComplete} />
+      <div 
+        className="w-full overflow-hidden transition-opacity duration-500"
+        style={{
+          backgroundColor: "#F8F9FA",
+          opacity: loadingComplete ? 1 : 0,
+        }}
+      >
         {/* Hero Section - Premium Presentation Style */}
         <section className="relative min-h-screen bg-white overflow-hidden flex items-center">
           {/* Decorative Elements - Minimal & Premium */}

@@ -10,7 +10,11 @@ type Phase =
   | "final-zoom"
   | "hidden";
 
-export const LoadingSplash: React.FC = () => {
+interface LoadingSplashProps {
+  onComplete?: () => void;
+}
+
+export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
   const [phase, setPhase] = useState<Phase>("badge-enter");
   const [loaderPosition, setLoaderPosition] = useState(0);
 
@@ -30,7 +34,7 @@ export const LoadingSplash: React.FC = () => {
     timers.push(
       setTimeout(() => {
         setPhase("loading");
-        
+
         // Start loading bar animation from 0
         let startTime = Date.now();
         const loadingDuration = 2000; // 2 seconds
@@ -67,13 +71,17 @@ export const LoadingSplash: React.FC = () => {
     timers.push(
       setTimeout(() => {
         setPhase("hidden");
+        // Notify parent that loading is complete
+        if (onComplete) {
+          onComplete();
+        }
       }, 5500)
     );
 
     return () => {
       timers.forEach((timer) => clearTimeout(timer));
     };
-  }, []);
+  }, [onComplete]);
 
   if (phase === "hidden") return null;
 
@@ -121,7 +129,6 @@ export const LoadingSplash: React.FC = () => {
               borderRadius: "9999px",
             }}
           >
-
             {/* Text Content - Always present but visibility controlled */}
             <div
               className="relative z-10 flex items-center justify-center whitespace-nowrap"
@@ -131,17 +138,14 @@ export const LoadingSplash: React.FC = () => {
                     ? "textFadeIn 0.5s ease-out forwards"
                     : "none",
                 opacity:
-                  phase === "badge-enter"
-                    ? 0
-                    : phase === "text-show"
-                    ? 0
-                    : 1,
+                  phase === "badge-enter" ? 0 : phase === "text-show" ? 0 : 1,
               }}
             >
               <span className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight">
                 {clinicName.split("").map((letter, index) => {
                   // Calculate more accurate character position
-                  const charPosition = ((index + 0.5) / clinicName.length) * 100;
+                  const charPosition =
+                    ((index + 0.5) / clinicName.length) * 100;
                   const isInverted =
                     phase === "loading" && loaderPosition >= charPosition;
 
