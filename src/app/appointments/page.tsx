@@ -91,6 +91,8 @@ export default function AppointmentsPage() {
     loadData();
   }, []);
 
+  const appointmentResponseRef = React.useRef<AppointmentResponse | null>(null);
+
   const {
     values,
     handleChange,
@@ -106,13 +108,16 @@ export default function AppointmentsPage() {
 
       if (response) {
         const appointmentData = response as AppointmentResponse;
+        appointmentResponseRef.current = appointmentData;
         addNotification({
           type: "success",
           message:
             "Appointment booked successfully! Booking ID: " +
             appointmentData.booking_id,
         });
-        router.push("/");
+        setTimeout(() => {
+          router.push("/");
+        }, 1000);
       }
     } catch (error) {
       addNotification({
