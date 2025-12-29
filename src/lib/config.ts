@@ -6,7 +6,8 @@
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 const APP_NAME = "Future Smile Clinic";
 const APP_DESCRIPTION = "Professional Dental Care Excellence";

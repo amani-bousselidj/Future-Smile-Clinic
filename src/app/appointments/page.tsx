@@ -59,10 +59,12 @@ export default function AppointmentsPage() {
         const doctorsResponse = await execute("get", "/api/doctors/");
 
         if (servicesResponse) {
-          setServices(servicesResponse.results || []);
+          const servicesList = Array.isArray(servicesResponse) ? servicesResponse : (servicesResponse as any)?.results || [];
+          setServices(servicesList);
         }
         if (doctorsResponse) {
-          setDoctors(doctorsResponse.results || []);
+          const doctorsList = Array.isArray(doctorsResponse) ? doctorsResponse : (doctorsResponse as any)?.results || [];
+          setDoctors(doctorsList);
         }
       } catch (error) {
         addNotification({
