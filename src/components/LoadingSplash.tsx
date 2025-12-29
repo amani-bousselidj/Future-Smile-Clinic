@@ -102,7 +102,7 @@ export const LoadingSplash: React.FC = () => {
           {/* Loading Bar Slider - Full width overlay */}
           {phase === "loading" && (
             <div
-              className="absolute inset-0 bg-white rounded-full z-10"
+              className="absolute top-0 right-0 bottom-0 bg-white rounded-full z-10"
               style={{
                 width: `${loaderPosition}%`,
               }}
