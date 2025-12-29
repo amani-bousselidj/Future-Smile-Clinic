@@ -1,7 +1,7 @@
 /**
  * API Client - Axios wrapper with error handling and type safety
  */
-import axios, { AxiosInstance, AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosError } from "axios";
 import { API_BASE_URL } from "@/lib/config";
 
 interface ApiResponse<T> {
