@@ -84,11 +84,11 @@ export const LoadingSplash: React.FC = () => {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#1F1F1F] transition-opacity duration-700 ${
+      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-[#1F1F1F] transition-opacity duration-700 ${
         phase === "final-zoom" ? "opacity-0" : "opacity-100"
       }`}
     >
-      <div className="relative flex flex-col items-center gap-16">
+      <div className="relative">
         {/* Main Badge/Capsule */}
         <div
           className="relative overflow-hidden"
@@ -189,10 +189,13 @@ export const LoadingSplash: React.FC = () => {
         {/* Subtitle Text (appears in hero-transform phase) */}
         {(phase === "hero-transform" || phase === "final-zoom") && (
           <p
-            className="text-gray-400 text-xs sm:text-sm font-light tracking-wide text-center max-w-xl px-4"
+            className="absolute text-gray-400 text-xs sm:text-sm font-light tracking-wide text-center max-w-xl px-4"
             style={{
               animation: "subtitleFadeIn 1s ease-out 0.5s forwards",
               opacity: 0,
+              top: "calc(100% + 3rem)",
+              left: "50%",
+              transform: "translateX(-50%)",
             }}
           >
             Future Smile Clinic — عيادة أسنان عصرية ومريحة لكل أفراد العائلة
