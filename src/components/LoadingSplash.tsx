@@ -13,21 +13,21 @@ export const LoadingSplash: React.FC = () => {
   useEffect(() => {
     const timers: NodeJS.Timeout[] = [];
 
-    // Phase 1: Badge enters and breathes (0-1s)
+    // Phase 1: Text appears after 0.5s
     timers.push(
       setTimeout(() => {
         setPhase("text-show");
-      }, 1000)
+      }, 500)
     );
 
-    // Phase 2: Text appears (1-1.5s)
+    // Phase 2: Loading starts (0.5-1s)
     timers.push(
       setTimeout(() => {
         setPhase("loading");
-      }, 1500)
+      }, 1000)
     );
 
-    // Phase 3: Loading bar slides (1.5-3.5s)
+    // Phase 3: Loading bar slides (1-3s)
     let startTime = Date.now();
     const loadingDuration = 2000; // 2 seconds
     
@@ -43,25 +43,25 @@ export const LoadingSplash: React.FC = () => {
 
     timers.push(loadingInterval as any);
 
-    // Phase 4: Transform to hero with image (3.5-5s)
+    // Phase 4: Transform to hero with image (3-4.5s)
     timers.push(
       setTimeout(() => {
         setPhase("hero-transform");
-      }, 3500)
+      }, 3000)
     );
 
-    // Phase 5: Final zoom out (5-6s)
+    // Phase 5: Final zoom out (4.5-5.5s)
     timers.push(
       setTimeout(() => {
         setPhase("final-zoom");
-      }, 5000)
+      }, 4500)
     );
 
-    // Phase 6: Hide completely (6s)
+    // Phase 6: Hide completely (5.5s)
     timers.push(
       setTimeout(() => {
         setPhase("hidden");
-      }, 6000)
+      }, 5500)
     );
 
     return () => {
@@ -72,8 +72,7 @@ export const LoadingSplash: React.FC = () => {
   if (phase === "hidden") return null;
 
   const getBadgeAnimation = () => {
-    if (phase === "badge-enter") return "badgeEnter 0.7s ease-in-out forwards";
-    if (phase === "text-show" || phase === "loading") return "badgeBreathe 2.5s ease-in-out infinite";
+    if (phase === "badge-enter" || phase === "text-show" || phase === "loading") return "badgeBreathe 2.5s ease-in-out infinite";
     if (phase === "hero-transform") return "badgeGrow 1.5s ease-in-out forwards";
     if (phase === "final-zoom") return "badgeFinalZoom 1s ease-in-out forwards";
     return "none";
