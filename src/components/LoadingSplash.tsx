@@ -14,7 +14,6 @@ interface LoadingSplashProps {
   onComplete?: () => void;
 }
 
-
 export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
   const [phase, setPhase] = useState<Phase>("badge-enter");
   const [loaderPosition, setLoaderPosition] = useState(0);
@@ -24,7 +23,7 @@ export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
   useEffect(() => {
     // Check if loading splash has already been shown in this session
     const alreadyShown = sessionStorage.getItem("loadingSplashShown");
-    
+
     if (alreadyShown) {
       // Skip animation and mark as complete immediately
       setPhase("hidden");
@@ -34,8 +33,7 @@ export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
       return;
     }
 
-    // Mark as shown for this session
-    sessionStorage.setItem("loadingSplashShown", "true");
+
 
     const timers: NodeJS.Timeout[] = [];
 
@@ -83,9 +81,11 @@ export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
       }, 4500)
     );
 
+
     // Phase 6: Hide completely (5.5s)
     timers.push(
       setTimeout(() => {
+        sessionStorage.setItem("loadingSplashShown", "true");
         setPhase("hidden");
         // Notify parent that loading is complete
         if (onComplete) {
