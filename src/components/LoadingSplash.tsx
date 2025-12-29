@@ -36,7 +36,6 @@ export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
 
     // Mark as shown for this session
     sessionStorage.setItem("loadingSplashShown", "true");
-    setHasShown(true);
 
     const timers: NodeJS.Timeout[] = [];
 
