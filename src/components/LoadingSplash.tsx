@@ -99,6 +99,16 @@ export const LoadingSplash: React.FC = () => {
             height: "auto",
           }}
         >
+          {/* Loading Bar Slider - Full width overlay */}
+          {phase === "loading" && (
+            <div
+              className="absolute inset-0 bg-white rounded-full z-10"
+              style={{
+                width: `${loaderPosition}%`,
+              }}
+            />
+          )}
+
           <div
             className="relative rounded-full shadow-2xl"
             style={{
@@ -110,16 +120,6 @@ export const LoadingSplash: React.FC = () => {
               borderRadius: "9999px",
             }}
           >
-            {/* Loading Bar Slider (White Circle) */}
-            {phase === "loading" && (
-              <div
-                className="absolute inset-0 bg-white rounded-full overflow-hidden"
-                style={{
-                  clipPath: `inset(0 ${100 - loaderPosition}% 0 0)`,
-                  zIndex: 1,
-                }}
-              />
-            )}
 
             {/* Text Content - Always present but visibility controlled */}
             <div
