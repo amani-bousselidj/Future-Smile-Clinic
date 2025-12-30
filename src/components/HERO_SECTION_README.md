@@ -30,6 +30,24 @@ Performance recommendations to hit Lighthouse targets:
   ```
 - Keep the hero HTML minimal and avoid large render-blocking scripts.
 
+Image conversion helper:
+
+1. Install `sharp` as a dev dependency:
+
+```bash
+npm install --save-dev sharp
+```
+
+2. Run the conversion script (created at `scripts/convert-images.js`) to generate WebP fallbacks:
+
+```bash
+node scripts/convert-images.js
+```
+
+Notes:
+- On Windows you may need build tools for `sharp` when installing; using Node 18+ and npm should simplify this.
+- If you cannot install `sharp` locally, use an online converter or a desktop tool (Squoosh) and place optimized `background.webp` and `tooth.webp` into `/public/images`.
+
 How to test locally:
 
 1. Run `npm run build` then `npm start` or `next build && next start`.
