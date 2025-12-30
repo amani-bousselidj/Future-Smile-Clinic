@@ -55,8 +55,7 @@
 
 /* Default (mobile-first): tooth uses 50vw but capped so it doesn't blow up */
 .tooth img {
-  width: 50vw;
-  max-width: 520px;
+  width: 60vw; /* fallback mobile-first */
   height: auto;
   object-fit: contain;
   display: block;
@@ -156,8 +155,7 @@
   }
 
   .tooth img {
-    width: 50vw;
-    max-width: 520px;
+    width: 60vw;
   }
 
   .headlineWrap {
@@ -174,9 +172,7 @@
     transform: none;
   }
   .tooth img {
-    /* prefer roughly 45-55% of viewport but capped to avoid large jumps */
-    width: 55vw;
-    max-width: 640px;
+    width: 35vw;
   }
   .headlineWrap {
     padding: 16vh 14px 6vh;
@@ -192,8 +188,7 @@
     transform: none;
   }
   .tooth img {
-    width: 30vw;
-    max-width: 480px;
+    width: 18vw;
   }
 }
 
