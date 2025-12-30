@@ -155,8 +155,8 @@
   }
 
   .tooth img {
-    /* force strong presence on phones */
-    width: 92vw;
+  /* force strong presence on phones */
+  width: 60vw;
     max-width: none;
     height: auto;
     display: block;
