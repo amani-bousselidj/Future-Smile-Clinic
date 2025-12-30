@@ -166,10 +166,12 @@
 /* Medium screens: stabilize size around 774px viewport */
 @media (min-width: 641px) and (max-width: 1023px) {
   .tooth {
-    position: relative;
-    top: auto;
-    left: auto;
-    transform: none;
+  position: absolute;
+  bottom: 8%;
+  left: 8%;
+  transform: translate(0, 0);
+  z-index: 5;
+  pointer-events: none;
   }
   .tooth img {
     width: 35vw;
@@ -182,13 +184,15 @@
 /* Desktop: much smaller, stable */
 @media (min-width: 1024px) {
   .tooth {
-    position: relative;
-    top: auto;
-    left: auto;
-    transform: none;
+  position: absolute;
+  bottom: 6%;
+  left: 6%;
+  transform: translate(0, 0);
+  z-index: 5;
+  pointer-events: none;
   }
   .tooth img {
-    width: 18vw;
+  width: 18vw;
   }
 }
 
