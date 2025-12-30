@@ -54,8 +54,9 @@
 }
 
 .tooth img {
-  /* responsive tooth sizing: grows on small screens but caps on large */
-  width: clamp(300px, 60vw, 640px);
+  /* increase tooth size: make it more prominent on mobile and mid screens */
+  /* min 360px, prefer 75vw on small screens, cap at 900px on large */
+  width: clamp(360px, 75vw, 900px);
   height: auto;
   object-fit: contain;
   display: block;
