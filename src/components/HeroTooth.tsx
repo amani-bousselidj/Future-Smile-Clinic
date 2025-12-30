@@ -20,16 +20,16 @@ export default function HeroTooth(): JSX.Element {
         ticking = true;
         rafRef.current = requestAnimationFrame(() => {
           const y = lastY;
-          if (bgRef.current) {
-            // background moves slower = parallax depth 0.25
-            bgRef.current.style.transform = `translate3d(0, ${y * 0.25}px, 0)`;
-          }
-          if (toothRef.current) {
-            // tooth layer moves a bit more (creates depth)
-            toothRef.current.style.transform = `translate3d(0, ${
-              y * 0.45
-            }px, 0)`;
-          }
+            if (bgRef.current) {
+              // background moves slower = subtle parallax depth
+              const bgFactor = window.innerWidth >= 768 ? 0.2 : 0; // disable on small
+              bgRef.current.style.transform = `translate3d(0, ${y * bgFactor}px, 0)`;
+            }
+            if (toothRef.current) {
+              // tooth should have very subtle movement on large screens and none on small
+              const toothFactor = window.innerWidth >= 1024 ? 0.15 : window.innerWidth >= 768 ? 0.06 : 0;
+              toothRef.current.style.transform = `translate3d(0, ${y * toothFactor}px, 0)`;
+            }
           ticking = false;
         });
       }
