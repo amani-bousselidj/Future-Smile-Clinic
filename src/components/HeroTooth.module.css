@@ -143,6 +143,18 @@
   }
 }
 
+/* Mobile-specific tweaks */
+@media (max-width: 640px) {
+  .tooth img {
+    /* prefer larger presence on phones */
+    width: clamp(420px, 92vw, 1200px);
+  }
+
+  .headlineWrap {
+    padding: 16vh 12px 6vh;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .inView,
   .offset {
