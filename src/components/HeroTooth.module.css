@@ -145,13 +145,25 @@
 
 /* Mobile-specific tweaks */
 @media (max-width: 640px) {
+  .tooth {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    z-index: 5;
+    pointer-events: none;
+  }
+
   .tooth img {
-    /* prefer larger presence on phones */
-    width: clamp(420px, 92vw, 1200px);
+    /* force strong presence on phones */
+    width: 92vw;
+    max-width: none;
+    height: auto;
+    display: block;
   }
 
   .headlineWrap {
-    padding: 16vh 12px 6vh;
+    padding: 18vh 12px 6vh;
   }
 }
 
