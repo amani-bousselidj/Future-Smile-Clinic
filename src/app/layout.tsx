@@ -58,6 +58,9 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
+        {/* Preload hero images for better LCP */}
+        <link rel="preload" as="image" href="/images/background.webp" type="image/webp" />
+        <link rel="preload" as="image" href="/images/tooth.webp" type="image/webp" />
       </head>
       <body
         className="bg-gray-50 text-gray-900"
