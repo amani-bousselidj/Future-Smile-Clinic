@@ -26,7 +26,9 @@ export default function HeroTooth(): JSX.Element {
           }
           if (toothRef.current) {
             // tooth layer moves a bit more (creates depth)
-            toothRef.current.style.transform = `translate3d(0, ${y * 0.45}px, 0)`;
+            toothRef.current.style.transform = `translate3d(0, ${
+              y * 0.45
+            }px, 0)`;
           }
           ticking = false;
         });
@@ -70,7 +72,7 @@ export default function HeroTooth(): JSX.Element {
             alt="Clinic background"
             loading="eager"
             decoding="async"
-            fetchpriority="high"
+            fetchPriority="high"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         </picture>
@@ -92,7 +94,12 @@ export default function HeroTooth(): JSX.Element {
             alt="tooth"
             loading="lazy"
             decoding="async"
-            style={{ maxWidth: "48vw", width: "520px", height: "auto", objectFit: "contain" }}
+            style={{
+              maxWidth: "48vw",
+              width: "520px",
+              height: "auto",
+              objectFit: "contain",
+            }}
           />
         </picture>
       </div>
@@ -101,17 +108,32 @@ export default function HeroTooth(): JSX.Element {
       <div className={`${styles.layer} ${styles.foreground}`}>
         <nav className={styles.navBar} aria-label="Primary">
           <div className={styles.links} role="menubar">
-            <a className={styles.link} href="#about">Про клініку</a>
-            <a className={styles.link} href="#services">Послуги</a>
-            <a className={styles.link} href="#doctors">Лікарі</a>
-            <a className={styles.link} href="#stories">Історії пацієнтів</a>
-            <a className={styles.link} href="#book">Запис Онлайн</a>
+            <a className={styles.link} href="#about">
+              Про клініку
+            </a>
+            <a className={styles.link} href="#services">
+              Послуги
+            </a>
+            <a className={styles.link} href="#doctors">
+              Лікарі
+            </a>
+            <a className={styles.link} href="#stories">
+              Історії пацієнтів
+            </a>
+            <a className={styles.link} href="#book">
+              Запис Онлайн
+            </a>
           </div>
         </nav>
 
         <div className={styles.headlineWrap} aria-hidden={false}>
-          <div className={`${styles.headline} ${styles.offset}`}>КОМФОРТНА СТОМАТОЛО</div>
-          <div className={styles.subline}>Сучасна клініка — індивідуальний підхід, безболісні процедури, привітний колектив.</div>
+          <div className={`${styles.headline} ${styles.offset}`}>
+            КОМФОРТНА СТОМАТОЛО
+          </div>
+          <div className={styles.subline}>
+            Сучасна клініка — індивідуальний підхід, безболісні процедури,
+            привітний колектив.
+          </div>
         </div>
       </div>
     </section>
