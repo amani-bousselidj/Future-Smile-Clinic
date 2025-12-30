@@ -3,8 +3,15 @@
  * Centralized environment variable access with type safety
  */
 
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+// Ensure API_BASE_URL does not contain a trailing `/api` to avoid accidental duplicate paths
+// Use NEXT_PUBLIC_API_URL without `/api` suffix (e.g. https://example.com)
+// Remove any trailing '/api' or trailing slash from the provided URL to avoid '/api/api' when
+// frontend code calls endpoints like '/api/services/'.
+export const API_BASE_URL = (() => {
+  const raw = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  // strip trailing '/api' or '/api/'
+  return raw.replace(/\/api\/?$/i, "").replace(/\/$/, "");
+})();
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";

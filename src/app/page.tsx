@@ -201,7 +201,7 @@ export default function HomePage() {
                   <div className="relative rounded-[2rem] overflow-hidden shadow-2xl">
                     <div className="aspect-[4/5] relative">
                       <img
-                        src="/images/clinic-hero.jpg"
+                        src="/images/clinic-hero.png"
                         alt="عيادة ابتسامة المستقبل"
                         className="w-full h-full object-cover"
                         onError={(e) => {

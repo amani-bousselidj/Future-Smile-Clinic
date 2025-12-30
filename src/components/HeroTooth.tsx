@@ -66,7 +66,7 @@ export default function HeroTooth(): JSX.Element {
       {/* Layer 1 — Background (z-index:1) */}
       <div className={`${styles.layer} ${styles.bg}`} ref={bgRef} aria-hidden>
         <picture>
-          <source type="image/webp" srcSet="/images/background.webp" />
+          <source type="image/png" srcSet="/images/background.png" />
           <img
             src="/images/background.png"
             alt="Clinic background"
@@ -88,7 +88,7 @@ export default function HeroTooth(): JSX.Element {
       {/* Layer 3 — Tooth image (z-index:3) */}
       <div className={`${styles.layer} ${styles.tooth}`} ref={toothRef}>
         <picture>
-          <source type="image/webp" srcSet="/images/tooth.webp" />
+          <source type="image/png" srcSet="/images/tooth.png" />
           <img
             src="/images/tooth.png"
             alt="tooth"
