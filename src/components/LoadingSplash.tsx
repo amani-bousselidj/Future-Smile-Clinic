@@ -180,7 +180,7 @@ export const LoadingSplash: React.FC<LoadingSplashProps> = ({ onComplete }) => {
                 }}
               >
                 <img
-                      src="/images/clinic-hero.png"
+                  src="/images/clinic-hero.png"
                   alt="Future Smile Clinic"
                   className="w-full h-full object-cover rounded-full opacity-20"
                   onError={(e) => {

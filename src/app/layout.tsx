@@ -59,8 +59,18 @@ export default function RootLayout({
           rel="stylesheet"
         />
         {/* Preload hero images for better LCP */}
-  <link rel="preload" as="image" href="/images/background.png" type="image/png" />
-  <link rel="preload" as="image" href="/images/tooth.png" type="image/png" />
+        <link
+          rel="preload"
+          as="image"
+          href="/images/background.png"
+          type="image/png"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/images/tooth.png"
+          type="image/png"
+        />
       </head>
       <body
         className="bg-gray-50 text-gray-900"
