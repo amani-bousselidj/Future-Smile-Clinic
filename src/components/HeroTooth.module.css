@@ -53,9 +53,10 @@
   display: block;
 }
 
+/* Default (mobile-first): tooth uses 50vw but capped so it doesn't blow up */
 .tooth img {
-  /* desktop: make tooth much smaller */
-  width: clamp(240px, 30vw, 480px);
+  width: 50vw;
+  max-width: 520px;
   height: auto;
   object-fit: contain;
   display: block;
@@ -143,6 +144,7 @@
 }
 
 /* Mobile-specific tweaks */
+/* Mobile: keep absolute to overlap nicely */
 @media (max-width: 640px) {
   .tooth {
     position: absolute;
@@ -154,15 +156,44 @@
   }
 
   .tooth img {
-    /* force strong presence on phones */
     width: 50vw;
-    max-width: none;
-    height: auto;
-    display: block;
+    max-width: 520px;
   }
 
   .headlineWrap {
     padding: 18vh 12px 6vh;
+  }
+}
+
+/* Medium screens: stabilize size around 774px viewport */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .tooth {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+  }
+  .tooth img {
+    /* prefer roughly 45-55% of viewport but capped to avoid large jumps */
+    width: 55vw;
+    max-width: 640px;
+  }
+  .headlineWrap {
+    padding: 16vh 14px 6vh;
+  }
+}
+
+/* Desktop: much smaller, stable */
+@media (min-width: 1024px) {
+  .tooth {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+  }
+  .tooth img {
+    width: 30vw;
+    max-width: 480px;
   }
 }
 
