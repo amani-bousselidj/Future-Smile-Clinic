@@ -45,6 +45,7 @@ node scripts/convert-images.js
 ```
 
 Notes:
+
 - On Windows you may need build tools for `sharp` when installing; using Node 18+ and npm should simplify this.
 - If you cannot install `sharp` locally, use an online converter or a desktop tool (Squoosh) and place optimized `background.webp` and `tooth.webp` into `/public/images`.
 
