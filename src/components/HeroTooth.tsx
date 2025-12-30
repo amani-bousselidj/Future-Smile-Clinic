@@ -8,43 +8,10 @@ export default function HeroTooth(): JSX.Element {
   const bgRef = useRef<HTMLDivElement | null>(null);
   const toothRef = useRef<HTMLDivElement | null>(null);
   const textRef = useRef<HTMLDivElement | null>(null);
-  const rafRef = useRef<number | null>(null);
+  // parallax removed; rafRef not needed
 
   useEffect(() => {
-    let lastY = window.scrollY;
-    let ticking = false;
-
-    function onScroll() {
-      lastY = window.scrollY;
-      if (!ticking) {
-        ticking = true;
-        rafRef.current = requestAnimationFrame(() => {
-          const y = lastY;
-          if (bgRef.current) {
-            // background moves slower = subtle parallax depth
-            const bgFactor = window.innerWidth >= 768 ? 0.2 : 0; // disable on small
-            bgRef.current.style.transform = `translate3d(0, ${
-              y * bgFactor
-            }px, 0)`;
-          }
-          if (toothRef.current) {
-            // tooth should have very subtle movement on large screens and none on small
-            const toothFactor =
-              window.innerWidth >= 1024
-                ? 0.15
-                : window.innerWidth >= 768
-                ? 0.06
-                : 0;
-            toothRef.current.style.transform = `translate3d(0, ${
-              y * toothFactor
-            }px, 0)`;
-          }
-          ticking = false;
-        });
-      }
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true });
+  // Parallax disabled: keep background and tooth static for consistent layout
 
     // IntersectionObserver for reveal animations
     const io = new IntersectionObserver(
@@ -64,8 +31,7 @@ export default function HeroTooth(): JSX.Element {
     }
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      // No scroll listener (parallax disabled). Clean up observer only.
       io.disconnect();
     };
   }, []);
