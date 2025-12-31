@@ -60,7 +60,8 @@ export default function HeroTooth(): JSX.Element {
         const distanceFromRootBottomToBgBottom =
           rootRect.bottom - bgRect.bottom;
 
-        const clamped = Math.max(0, distanceFromRootBottomToBgBottom + gap);
+  // allow negative values so the tooth can be positioned above the root
+  const clamped = Math.round(distanceFromRootBottomToBgBottom + gap);
 
         toothEl.style.position = "absolute";
         toothEl.style.bottom = `${clamped}px`;
