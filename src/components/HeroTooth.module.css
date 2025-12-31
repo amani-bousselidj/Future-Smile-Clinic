@@ -62,8 +62,8 @@
 
 .tooth img {
   /* fixed tooth size across all screens */
-  width: 360px;
-  max-width: 360px;
+  width: 180px;
+  max-width: 180px;
   height: auto;
   object-fit: contain;
   display: block;
@@ -162,8 +162,8 @@
   }
 
   .tooth img {
-    width: 360px;
-    max-width: 360px;
+    width: 180px;
+    max-width: 180px;
   }
 
   .headlineWrap {
@@ -182,8 +182,8 @@
     pointer-events: none;
   }
   .tooth img {
-    width: 360px;
-    max-width: 360px;
+    width: 180px;
+    max-width: 180px;
   }
   .headlineWrap {
     padding: 16vh 14px 6vh;
@@ -200,8 +200,8 @@
     pointer-events: none;
   }
   .tooth img {
-    width: 360px;
-    max-width: 360px;
+    width: 180px;
+    max-width: 180px;
   }
 }
 
