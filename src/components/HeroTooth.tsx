@@ -54,7 +54,7 @@ export default function HeroTooth(): JSX.Element {
         const bgRect = bgEl.getBoundingClientRect();
 
         // Desired gap in pixels between bottom of tooth and bottom of background
-        const gap = 20;
+        const gap = 2;
 
         // distance from root bottom to background bottom
         const distanceFromRootBottomToBgBottom =
