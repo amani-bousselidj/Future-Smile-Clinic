@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { Button } from "@/components/Button";
 import styles from "./HeroTooth.module.css";
 
 export default function HeroTooth(): JSX.Element {
@@ -147,30 +146,26 @@ export default function HeroTooth(): JSX.Element {
       {/* Booking button: centered under hero on small screens, fixed bottom-right on large screens */}
       <div className={styles.ctaWrapper}>
         <div className="absolute left-1/2 bottom-6 transform -translate-x-1/2 lg:fixed lg:bottom-10 lg:right-10 lg:left-auto lg:translate-x-0">
-          <Link href="/appointments">
-            <Button
-              size="lg"
-              className={`${styles.heroButton} group relative bg-white text-transparent font-bold overflow-hidden`}
-            >
-              <span className="relative z-10 flex items-center justify-center gap-3 bg-clip-text text-transparent bg-gradient-to-l from-blue-600 via-green-500 to-blue-600">
-                احجز موعد
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-              </span>
-              <div className="absolute inset-0 bg-white/0 group-hover:bg-gradient-to-l group-hover:from-blue-600 group-hover:via-green-500 group-hover:to-blue-600 transition-colors duration-300"></div>
-              <div className="absolute inset-0 flex items-center justify-center group-hover:text-white pointer-events-none"></div>
-            </Button>
+          <Link
+            href="/appointments"
+            className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gray-800 text-white whitespace-nowrap shadow-sm"
+          >
+            <span>حجز موعد</span>
+            <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center">
+              <svg
+                className="w-3 h-3 text-gray-800"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </div>
           </Link>
         </div>
       </div>
