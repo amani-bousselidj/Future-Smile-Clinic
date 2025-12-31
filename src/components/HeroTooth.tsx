@@ -39,15 +39,19 @@ export default function HeroTooth(): JSX.Element {
   useEffect(() => {
     // JS-based positioning: ensure the bottom of the tooth is always 20px
     // above the bottom of the decorative circle (data-hero-circle).
-    const toothEl = toothRef.current;
-    const rootEl = rootRef.current;
-    if (!toothEl || !rootEl) return;
+    // Do not capture refs here; re-read inside updateToothPosition to
+    // satisfy TypeScript that elements may be null at runtime.
 
     let ro: ResizeObserver | null = null;
 
     function updateToothPosition() {
+      const toothEl = toothRef.current;
+      const rootEl = rootRef.current;
+      if (!toothEl || !rootEl) return;
       try {
-        const circle = document.querySelector('[data-hero-circle]') as HTMLElement | null;
+        const circle = document.querySelector(
+          "[data-hero-circle]"
+        ) as HTMLElement | null;
         if (!circle) return;
 
         const rootRect = rootEl.getBoundingClientRect();
@@ -57,7 +61,8 @@ export default function HeroTooth(): JSX.Element {
         // and set tooth bottom so its bottom sits 20px above the circle bottom.
         // toothBottomPx is measured relative to the root container.
         const gap = 20; // pixels desired between tooth bottom and circle bottom
-        const distanceFromRootBottomToCircleBottom = rootRect.bottom - circleRect.bottom;
+        const distanceFromRootBottomToCircleBottom =
+          rootRect.bottom - circleRect.bottom;
 
         // If circle extends beyond root (negative), clamp to 0.
         const clamped = Math.max(0, distanceFromRootBottomToCircleBottom + gap);
@@ -75,11 +80,14 @@ export default function HeroTooth(): JSX.Element {
     updateToothPosition();
 
     // Observe resizes on the circle element and the root container
-    const circleEl = document.querySelector('[data-hero-circle]') as HTMLElement | null;
+    const circleEl = document.querySelector(
+      "[data-hero-circle]"
+    ) as HTMLElement | null;
     try {
       ro = new ResizeObserver(() => updateToothPosition());
-      if (circleEl) ro.observe(circleEl);
-      ro.observe(rootEl);
+  if (circleEl) ro.observe(circleEl);
+  const currentRoot = rootRef.current;
+  if (currentRoot) ro.observe(currentRoot);
     } catch (e) {
       // ResizeObserver might not be available in some envs; fall back to window resize
       window.addEventListener("resize", updateToothPosition);
