@@ -154,16 +154,15 @@
 /* Mobile: keep absolute to overlap nicely */
 @media (max-width: 640px) {
   .tooth {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -40%);
-    z-index: 5;
-    pointer-events: none;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 5;
+  pointer-events: none;
   }
 
   .tooth img {
-  max-width: clamp(300px, 60vw, 800px);
+    max-width: clamp(300px, 60vw, 800px);
   }
 
   .headlineWrap {
@@ -175,17 +174,14 @@
 @media (min-width: 641px) and (max-width: 1023px) {
   .tooth {
     position: absolute;
-    /* place tooth so its bottom is 20px above the circle's visual bottom
-       circle: height 500px + translateY(50%) => visual bottom at +250px
-       so use 250px + 20px = 270px */
-    bottom: calc(250px + 20px);
+  /* vertical placement is handled by JS to keep a single source of truth */
     left: 8%;
     transform: translate(0, 0);
     z-index: 5;
     pointer-events: none;
   }
   .tooth img {
-  max-width: clamp(340px, 35vw, 900px);
+    max-width: clamp(340px, 35vw, 900px);
   }
   .headlineWrap {
     padding: 16vh 14px 6vh;
@@ -196,14 +192,13 @@
 @media (min-width: 1024px) {
   .tooth {
     position: absolute;
-    bottom: calc(250px + 20px);
     left: 6%;
     transform: translate(0, 0);
     z-index: 5;
     pointer-events: none;
   }
   .tooth img {
-  max-width: clamp(300px, 18vw, 700px);
+    max-width: clamp(300px, 18vw, 700px);
   }
 }
 
