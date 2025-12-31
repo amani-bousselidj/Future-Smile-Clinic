@@ -54,7 +54,7 @@ export default function HeroTooth(): JSX.Element {
         const bgRect = bgEl.getBoundingClientRect();
 
         // Desired gap in pixels between bottom of tooth and bottom of background
-        const gap = -165;
+        const gap = 0;
 
         // distance from root bottom to background bottom
         const distanceFromRootBottomToBgBottom =
@@ -63,14 +63,14 @@ export default function HeroTooth(): JSX.Element {
         // allow negative values so the tooth can be positioned above the root
         const clamped = Math.round(distanceFromRootBottomToBgBottom + gap);
 
-  toothEl.style.position = "absolute";
-  // Clear any CSS vertical offsets so JS is the single source of truth
-  toothEl.style.top = "auto";
-  toothEl.style.bottom = "auto";
-  // Center horizontally by default; JS controls vertical position
-  toothEl.style.left = "50%";
-  toothEl.style.transform = "translate(-50%, 0)";
-  toothEl.style.bottom = `${clamped}px`;
+        toothEl.style.position = "absolute";
+        // Clear any CSS vertical offsets so JS is the single source of truth
+        toothEl.style.top = "auto";
+        toothEl.style.bottom = "auto";
+        // Center horizontally by default; JS controls vertical position
+        toothEl.style.left = "50%";
+        toothEl.style.transform = "translate(-50%, 0)";
+        toothEl.style.bottom = `${clamped}px`;
       } catch (e) {
         // silent fail
       }

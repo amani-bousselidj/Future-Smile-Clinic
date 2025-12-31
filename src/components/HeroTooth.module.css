@@ -154,11 +154,11 @@
 /* Mobile: keep absolute to overlap nicely */
 @media (max-width: 640px) {
   .tooth {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
-  z-index: 5;
-  pointer-events: none;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 5;
+    pointer-events: none;
   }
 
   .tooth img {
@@ -174,7 +174,7 @@
 @media (min-width: 641px) and (max-width: 1023px) {
   .tooth {
     position: absolute;
-  /* vertical placement is handled by JS to keep a single source of truth */
+    /* vertical placement is handled by JS to keep a single source of truth */
     left: 8%;
     transform: translate(0, 0);
     z-index: 5;
