@@ -254,7 +254,14 @@
 
 /* CTA wrapper for hero booking button to ensure visibility and correct stacking */
 .ctaWrapper {
-  position: relative;
+  /* On small screens, anchor inside the hero so the inner .absolute centers at the hero bottom */
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none; /* allow clicks to pass unless on the button */
   z-index: 40; /* above foreground layers */
 }
 
@@ -264,6 +271,8 @@
     right: 2.5rem; /* 10 */
     bottom: 2.5rem; /* 10 */
     left: auto;
+    justify-content: flex-end;
+    pointer-events: auto;
   }
 }
 
