@@ -150,7 +150,7 @@ export default function HeroTooth(): JSX.Element {
           <Link href="/appointments">
             <Button
               size="lg"
-              className={`${styles.heroButton} bg-gradient-to-l from-blue-600 via-green-500 to-blue-600 text-white`}
+              className={`${styles.heroButton} bg-gray-800 text-white border border-gray-700`}
             >
               احجز موعد
             </Button>
