@@ -74,6 +74,12 @@
   display: block;
   position: relative;
   z-index: 2;
+  /* blend with background: slightly desaturate and lower contrast */
+  filter: saturate(0.95) contrast(0.98) brightness(1);
+  mix-blend-mode: multiply;
+  /* soft edge mask so tooth blends into background edges */
+  -webkit-mask-image: radial-gradient(circle at 50% 75%, rgba(0,0,0,1) 65%, rgba(0,0,0,0.6) 80%, rgba(0,0,0,0) 100%);
+  mask-image: radial-gradient(circle at 50% 75%, rgba(0,0,0,1) 65%, rgba(0,0,0,0.6) 80%, rgba(0,0,0,0) 100%);
 }
 
 .bigText {
@@ -226,6 +232,20 @@
   z-index: 1;
   pointer-events: none;
   opacity: 0.9;
+}
+
+/* subtle warm tint behind the tooth to fuse with background colors */
+.tooth::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 18%);
+  width: 110%;
+  height: 80%;
+  background: radial-gradient(closest-side at 40% 30%, rgba(255,240,230,0.04), rgba(200,230,255,0) 60%);
+  z-index: 0;
+  pointer-events: none;
 }
 
 @media (max-width: 640px) {
