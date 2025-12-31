@@ -124,8 +124,16 @@ export default function HeroTooth(): JSX.Element {
 
       {/* Layer 2 — Text behind tooth (z-index:2) */}
       <div className={`${styles.layer} ${styles.textBehind}`} aria-hidden>
-        <div ref={textRef} className={styles.bigText}>
-          FUTURE SMILE CLINIC
+        <div ref={textRef} className={`${styles.bigText}`}>
+          {"FUTURE SMILE CLINIC".split("").map((ch, i) => (
+            <span
+              key={`ch-${i}`}
+              style={{ animationDelay: `${i * 55}ms` }}
+              aria-hidden={ch === " "}
+            >
+              {ch}
+            </span>
+          ))}
         </div>
       </div>
 
