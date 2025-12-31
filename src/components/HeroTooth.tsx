@@ -150,9 +150,26 @@ export default function HeroTooth(): JSX.Element {
           <Link href="/appointments">
             <Button
               size="lg"
-              className={`${styles.heroButton} bg-gray-800 text-white border border-gray-700`}
+              className={`${styles.heroButton} group relative bg-white text-transparent font-bold overflow-hidden`}
             >
-              احجز موعد
+              <span className="relative z-10 flex items-center justify-center gap-3 bg-clip-text text-transparent bg-gradient-to-l from-blue-600 via-green-500 to-blue-600">
+                احجز موعد
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </span>
+              <div className="absolute inset-0 bg-white/0 group-hover:bg-gradient-to-l group-hover:from-blue-600 group-hover:via-green-500 group-hover:to-blue-600 transition-colors duration-300"></div>
+              <div className="absolute inset-0 flex items-center justify-center group-hover:text-white pointer-events-none"></div>
             </Button>
           </Link>
         </div>
