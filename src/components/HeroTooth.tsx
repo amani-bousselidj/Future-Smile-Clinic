@@ -27,8 +27,10 @@ export default function HeroTooth(): JSX.Element {
     );
 
     if (textRef.current) {
-      // Make the background text visible immediately (no offset)
-      io.observe(textRef.current);
+  // Make the background text visible immediately and run animation on refresh
+  const el = textRef.current;
+  el.classList.add("inView");
+  io.observe(el);
     }
 
     return () => {
