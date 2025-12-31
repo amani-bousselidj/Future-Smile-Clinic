@@ -162,7 +162,7 @@
   }
 
   .tooth img {
-    width: clamp(300px, 65vw, 900px);
+    width: clamp(260px, 58vw, 820px);
     max-width: 100%;
   }
 
@@ -182,7 +182,7 @@
     pointer-events: none;
   }
   .tooth img {
-    width: clamp(360px, 38vw, 1000px);
+    width: clamp(320px, 36vw, 880px);
     max-width: 100%;
   }
   .headlineWrap {
@@ -200,7 +200,7 @@
     pointer-events: none;
   }
   .tooth img {
-    width: clamp(320px, 20vw, 800px);
+    width: clamp(300px, 18vw, 760px);
     max-width: 100%;
   }
 }
