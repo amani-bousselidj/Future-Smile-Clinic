@@ -200,7 +200,7 @@
     pointer-events: none;
   }
   .tooth img {
-    width: clamp(300px, 18vw, 760px);
+  width: clamp(260px, 14vw, 560px);
     max-width: 100%;
   }
 }
