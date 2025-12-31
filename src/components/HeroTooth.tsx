@@ -11,7 +11,7 @@ export default function HeroTooth(): JSX.Element {
   // parallax removed; rafRef not needed
 
   useEffect(() => {
-  // Parallax disabled: keep background and tooth static for consistent layout
+    // Parallax disabled: keep background and tooth static for consistent layout
 
     // IntersectionObserver for reveal animations
     const io = new IntersectionObserver(
@@ -74,37 +74,6 @@ export default function HeroTooth(): JSX.Element {
       </div>
 
       {/* Layer 4 — Foreground: nav + front text (z-index:4) */}
-      <div className={`${styles.layer} ${styles.foreground}`}>
-        <nav className={styles.navBar} aria-label="Primary">
-          <div className={styles.links} role="menubar">
-            <a className={styles.link} href="#about">
-              Про клініку
-            </a>
-            <a className={styles.link} href="#services">
-              Послуги
-            </a>
-            <a className={styles.link} href="#doctors">
-              Лікарі
-            </a>
-            <a className={styles.link} href="#stories">
-              Історії пацієнтів
-            </a>
-            <a className={styles.link} href="#book">
-              Запис Онлайн
-            </a>
-          </div>
-        </nav>
-
-        <div className={styles.headlineWrap} aria-hidden={false}>
-          <div className={`${styles.headline} ${styles.offset}`}>
-            КОМФОРТНА СТОМАТОЛО
-          </div>
-          <div className={styles.subline}>
-            Сучасна клініка — індивідуальний підхід, безболісні процедури,
-            привітний колектив.
-          </div>
-        </div>
-      </div>
     </section>
   );
 }
