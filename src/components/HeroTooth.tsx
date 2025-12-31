@@ -66,7 +66,8 @@ export default function HeroTooth(): JSX.Element {
         toothEl.style.position = "absolute";
         // On small screens we previously set `top` via CSS; clear it so `bottom` wins
         if (typeof window !== "undefined" && window.innerWidth <= 640) {
-          toothEl.style.top = "";
+          // set to 'auto' so it doesn't override bottom
+          toothEl.style.top = "auto";
           toothEl.style.left = "50%";
           toothEl.style.transform = "translate(-50%, 0)";
         }
