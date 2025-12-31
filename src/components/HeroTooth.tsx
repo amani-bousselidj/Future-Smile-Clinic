@@ -1,6 +1,8 @@
 ﻿"use client";
 
 import React, { useEffect, useRef } from "react";
+import Link from "next/link";
+import { Button } from "@/components/Button";
 import styles from "./HeroTooth.module.css";
 
 export default function HeroTooth(): JSX.Element {
@@ -142,6 +144,17 @@ export default function HeroTooth(): JSX.Element {
       </div>
 
       {/* Layer 4 — Foreground: nav + front text (z-index:4) */}
+      {/* Booking button: centered under hero on small screens, fixed bottom-right on large screens */}
+      <div className="z-40">
+        <div className="absolute left-1/2 bottom-6 transform -translate-x-1/2 lg:fixed lg:bottom-10 lg:right-10 lg:left-auto lg:translate-x-0">
+          <Link href="/appointments">
+            <Button size="lg" className="px-6 py-3 bg-gradient-to-r from-blue-600 to-green-500 text-white shadow-xl">
+              احجز موعد
+            </Button>
+          </Link>
+        </div>
+      </div>
     </section>
   );
 }
+
