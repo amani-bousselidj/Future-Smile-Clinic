@@ -74,7 +74,7 @@
   display: block;
   position: relative;
   z-index: 2;
-    /* no blend/mask — keep image natural so JS-controlled bottom and shadow visible */
+  /* no blend/mask — keep image natural so JS-controlled bottom and shadow visible */
 }
 
 .bigText {
@@ -250,6 +250,21 @@
   );
   z-index: 0;
   pointer-events: none;
+}
+
+/* CTA wrapper for hero booking button to ensure visibility and correct stacking */
+.ctaWrapper {
+  position: relative;
+  z-index: 40; /* above foreground layers */
+}
+
+@media (min-width: 1024px) {
+  .ctaWrapper {
+    position: fixed;
+    right: 2.5rem; /* 10 */
+    bottom: 2.5rem; /* 10 */
+    left: auto;
+  }
 }
 
 @media (max-width: 640px) {
