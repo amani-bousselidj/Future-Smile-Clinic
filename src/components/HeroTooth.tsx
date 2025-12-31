@@ -36,6 +36,68 @@ export default function HeroTooth(): JSX.Element {
     };
   }, []);
 
+  useEffect(() => {
+    // JS-based positioning: ensure the bottom of the tooth is always 20px
+    // above the bottom of the decorative circle (data-hero-circle).
+    const toothEl = toothRef.current;
+    const rootEl = rootRef.current;
+    if (!toothEl || !rootEl) return;
+
+    let ro: ResizeObserver | null = null;
+
+    function updateToothPosition() {
+      try {
+        const circle = document.querySelector('[data-hero-circle]') as HTMLElement | null;
+        if (!circle) return;
+
+        const rootRect = rootEl.getBoundingClientRect();
+        const circleRect = circle.getBoundingClientRect();
+
+        // Compute the distance from the root's bottom to the circle's bottom
+        // and set tooth bottom so its bottom sits 20px above the circle bottom.
+        // toothBottomPx is measured relative to the root container.
+        const gap = 20; // pixels desired between tooth bottom and circle bottom
+        const distanceFromRootBottomToCircleBottom = rootRect.bottom - circleRect.bottom;
+
+        // If circle extends beyond root (negative), clamp to 0.
+        const clamped = Math.max(0, distanceFromRootBottomToCircleBottom + gap);
+
+        // Position the tooth element by setting its inline bottom style
+        // so it's anchored inside the root container.
+        toothEl.style.position = "absolute";
+        toothEl.style.bottom = `${clamped}px`;
+      } catch (e) {
+        // silent fail
+      }
+    }
+
+    // Initial positioning
+    updateToothPosition();
+
+    // Observe resizes on the circle element and the root container
+    const circleEl = document.querySelector('[data-hero-circle]') as HTMLElement | null;
+    try {
+      ro = new ResizeObserver(() => updateToothPosition());
+      if (circleEl) ro.observe(circleEl);
+      ro.observe(rootEl);
+    } catch (e) {
+      // ResizeObserver might not be available in some envs; fall back to window resize
+      window.addEventListener("resize", updateToothPosition);
+    }
+
+    // Also listen for window resize to be safe
+    window.addEventListener("resize", updateToothPosition);
+
+    return () => {
+      if (ro) {
+        try {
+          ro.disconnect();
+        } catch (e) {}
+      }
+      window.removeEventListener("resize", updateToothPosition);
+    };
+  }, []);
+
   return (
     <section className={styles.hero} ref={rootRef} aria-label="Hero Section">
       {/* Layer 1 — Background (z-index:1) */}

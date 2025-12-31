@@ -259,7 +259,7 @@ export default function HomePage() {
                   </div>
 
                   {/* Decorative Circle */}
-                  <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-br from-blue-100/30 to-green-100/30 rounded-full blur-3xl"></div>
+                  <div data-hero-circle className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-br from-blue-100/30 to-green-100/30 rounded-full blur-3xl"></div>
                 </div>
               </div>
             </div>
