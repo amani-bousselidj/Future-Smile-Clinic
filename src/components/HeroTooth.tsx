@@ -27,7 +27,7 @@ export default function HeroTooth(): JSX.Element {
     );
 
     if (textRef.current) {
-      textRef.current.classList.add("offset");
+      // Make the background text visible immediately (no offset)
       io.observe(textRef.current);
     }
 
@@ -125,7 +125,7 @@ export default function HeroTooth(): JSX.Element {
       {/* Layer 2 — Text behind tooth (z-index:2) */}
       <div className={`${styles.layer} ${styles.textBehind}`} aria-hidden>
         <div ref={textRef} className={styles.bigText}>
-          КОМФОРТНА СТОМАТОЛО
+          FUTURE SMILE CLINIC
         </div>
       </div>
 
