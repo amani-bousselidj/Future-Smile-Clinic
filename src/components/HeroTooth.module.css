@@ -61,7 +61,7 @@
 }
 
 .tooth img {
-  /* fixed tooth size across all screens */
+  /* fixed tooth size: default 180px */
   width: 180px;
   max-width: 180px;
   height: auto;
@@ -200,8 +200,8 @@
     pointer-events: none;
   }
   .tooth img {
-    width: 180px;
-    max-width: 180px;
+    width: 200px;
+    max-width: 200px;
   }
 }
 
