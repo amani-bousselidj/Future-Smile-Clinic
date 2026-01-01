@@ -51,7 +51,7 @@ export default function HeroTooth(): JSX.Element {
             span.style.transition = "opacity 420ms ease, transform 420ms cubic-bezier(0.2,0.9,0.2,1)";
             span.style.opacity = "1";
             span.style.transform = "translateY(0)";
-          }, delay + 50);
+          }, delay);
         });
       }
     }
