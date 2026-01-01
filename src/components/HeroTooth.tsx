@@ -27,10 +27,22 @@ export default function HeroTooth(): JSX.Element {
     );
 
     if (textRef.current) {
-  // Make the background text visible immediately and run animation on refresh
-  const el = textRef.current;
-  el.classList.add("inView");
-  io.observe(el);
+      // Make the background text visible immediately and run animation on refresh
+      const el = textRef.current;
+      el.classList.add("inView");
+      io.observe(el);
+      // JS fallback: if CSS rules keep opacity 0, force reveal with staggered inline styles
+      const letters = Array.from(el.querySelectorAll("span")) as HTMLElement[];
+      if (letters.length) {
+        letters.forEach((span, idx) => {
+          const delay = idx * 55;
+          setTimeout(() => {
+            span.style.transition = "opacity 420ms ease, transform 420ms cubic-bezier(0.2,0.9,0.2,1)";
+            span.style.opacity = "1";
+            span.style.transform = "translateY(0)";
+          }, delay + 50);
+        });
+      }
     }
 
     return () => {
