@@ -34,6 +34,17 @@ export default function HeroTooth(): JSX.Element {
       // JS fallback: if CSS rules keep opacity 0, force reveal with staggered inline styles
       const letters = Array.from(el.querySelectorAll("span")) as HTMLElement[];
       if (letters.length) {
+        // set initial inline state to ensure we can animate from JS
+        letters.forEach((span) => {
+          span.style.opacity = "0";
+          span.style.transform = "translateY(.6em)";
+          span.style.transition = "none";
+        });
+
+        // force reflow so transitions will apply
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        el.offsetHeight;
+
         letters.forEach((span, idx) => {
           const delay = idx * 55;
           setTimeout(() => {
