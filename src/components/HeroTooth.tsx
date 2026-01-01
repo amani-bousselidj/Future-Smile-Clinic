@@ -8,47 +8,6 @@ export default function HeroTooth(): JSX.Element {
   const rootRef = useRef<HTMLElement | null>(null);
   const bgRef = useRef<HTMLDivElement | null>(null);
   const toothRef = useRef<HTMLDivElement | null>(null);
-  const textRef = useRef<HTMLDivElement | null>(null);
-  // parallax removed; rafRef not needed
-
-  // Letter-by-letter reveal animation on mount
-  useEffect(() => {
-    console.log("Effect started, textRef:", textRef.current);
-    
-    if (!textRef.current) {
-      console.log("textRef is null!");
-      return;
-    }
-
-    // Small delay to ensure DOM is ready and loading is complete
-    const startDelay = setTimeout(() => {
-      const letters = Array.from(
-        textRef.current!.querySelectorAll("span")
-      ) as HTMLElement[];
-
-      console.log("Found letters:", letters.length);
-
-      if (letters.length === 0) return;
-
-      // Set initial state for all letters
-      letters.forEach((span) => {
-        span.style.opacity = "0";
-        span.style.display = "inline-block";
-        span.style.transform = "translateY(0.5em)";
-      });
-
-      // Animate each letter with stagger
-      letters.forEach((span, index) => {
-        setTimeout(() => {
-          span.style.transition = "opacity 0.4s ease, transform 0.4s ease";
-          span.style.opacity = "1";
-          span.style.transform = "translateY(0)";
-        }, index * 50);
-      });
-    }, 100);
-
-    return () => clearTimeout(startDelay);
-  }, []);
 
   useEffect(() => {
     // JS-based positioning: ensure the bottom of the tooth is always 20px
@@ -133,21 +92,6 @@ export default function HeroTooth(): JSX.Element {
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         </picture>
-      </div>
-
-      {/* Layer 2 — Text behind tooth (z-index:2) */}
-      <div className={`${styles.layer} ${styles.textBehind}`} aria-hidden>
-        <div ref={textRef} className={`${styles.bigText}`}>
-          {"FUTURE SMILE CLINIC".split("").map((ch, i) => (
-            <span
-              key={`ch-${i}`}
-              style={{ animationDelay: `${i * 55}ms` }}
-              aria-hidden={ch === " "}
-            >
-              {ch}
-            </span>
-          ))}
-        </div>
       </div>
 
       {/* Layer 3 — Tooth image (z-index:3) */}

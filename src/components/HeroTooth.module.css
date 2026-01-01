@@ -18,13 +18,6 @@
 .bg {
   z-index: 1;
 }
-.textBehind {
-  z-index: 2;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .tooth {
   z-index: 3;
   display: flex;
@@ -77,28 +70,6 @@
   /* no blend/mask — keep image natural so JS-controlled bottom and shadow visible */
 }
 
-.bigText {
-  font-weight: 900;
-  font-size: 5.5rem; /* requested size */
-  line-height: 1;
-  color: #1f2937; /* requested gray color */
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transform: translateY(-3vh); /* raise slightly */
-  text-align: center;
-  padding: 0 12px;
-}
-
-/* Basic span styling - animation controlled by JS */
-.bigText span {
-  display: inline-block;
-}
-
-/* keep space characters properly sized */
-.bigText span[aria-hidden="true"] {
-  width: 0.4em;
-}
-
 .navBar {
   position: absolute;
   top: 12px;
@@ -143,17 +114,8 @@
 
 /* Larger screens */
 @media (min-width: 640px) {
-  .bigText {
-    font-size: 6.5rem;
-  }
   .headline {
     font-size: 1.75rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .bigText {
-    font-size: 9.5rem;
   }
 }
 
