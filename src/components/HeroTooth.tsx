@@ -11,55 +11,29 @@ export default function HeroTooth(): JSX.Element {
   const textRef = useRef<HTMLDivElement | null>(null);
   // parallax removed; rafRef not needed
 
+  // Letter-by-letter reveal animation on mount
   useEffect(() => {
-    // Parallax disabled: keep background and tooth static for consistent layout
+    if (!textRef.current) return;
 
-    // IntersectionObserver for reveal animations
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const el = entry.target as HTMLElement;
-          if (entry.isIntersecting) el.classList.add("inView");
-          else el.classList.remove("inView");
-        });
-      },
-      { threshold: 0.2 }
-    );
+    const letters = Array.from(
+      textRef.current.querySelectorAll("span")
+    ) as HTMLElement[];
 
-    if (textRef.current) {
-      // Make the background text visible immediately and run animation on refresh
-      const el = textRef.current;
-      el.classList.add("inView");
-      io.observe(el);
-      // JS fallback: if CSS rules keep opacity 0, force reveal with staggered inline styles
-      const letters = Array.from(el.querySelectorAll("span")) as HTMLElement[];
-      if (letters.length) {
-        // set initial inline state to ensure we can animate from JS
-        letters.forEach((span) => {
-          span.style.opacity = "0";
-          span.style.transform = "translateY(.6em)";
-          span.style.transition = "none";
-        });
+    // Set initial state for all letters
+    letters.forEach((span) => {
+      span.style.opacity = "0";
+      span.style.display = "inline-block";
+      span.style.transform = "translateY(0.5em)";
+    });
 
-        // force reflow so transitions will apply
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        el.offsetHeight;
-
-        letters.forEach((span, idx) => {
-          const delay = idx * 55;
-          setTimeout(() => {
-            span.style.transition = "opacity 420ms ease, transform 420ms cubic-bezier(0.2,0.9,0.2,1)";
-            span.style.opacity = "1";
-            span.style.transform = "translateY(0)";
-          }, delay);
-        });
-      }
-    }
-
-    return () => {
-      // No scroll listener (parallax disabled). Clean up observer only.
-      io.disconnect();
-    };
+    // Animate each letter with stagger
+    letters.forEach((span, index) => {
+      setTimeout(() => {
+        span.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+        span.style.opacity = "1";
+        span.style.transform = "translateY(0)";
+      }, index * 50);
+    });
   }, []);
 
   useEffect(() => {
