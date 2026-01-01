@@ -13,7 +13,12 @@ export default function HeroTooth(): JSX.Element {
 
   // Letter-by-letter reveal animation on mount
   useEffect(() => {
-    if (!textRef.current) return;
+    console.log("Effect started, textRef:", textRef.current);
+    
+    if (!textRef.current) {
+      console.log("textRef is null!");
+      return;
+    }
 
     // Small delay to ensure DOM is ready and loading is complete
     const startDelay = setTimeout(() => {
