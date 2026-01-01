@@ -15,25 +15,34 @@ export default function HeroTooth(): JSX.Element {
   useEffect(() => {
     if (!textRef.current) return;
 
-    const letters = Array.from(
-      textRef.current.querySelectorAll("span")
-    ) as HTMLElement[];
+    // Small delay to ensure DOM is ready and loading is complete
+    const startDelay = setTimeout(() => {
+      const letters = Array.from(
+        textRef.current!.querySelectorAll("span")
+      ) as HTMLElement[];
 
-    // Set initial state for all letters
-    letters.forEach((span) => {
-      span.style.opacity = "0";
-      span.style.display = "inline-block";
-      span.style.transform = "translateY(0.5em)";
-    });
+      console.log("Found letters:", letters.length);
 
-    // Animate each letter with stagger
-    letters.forEach((span, index) => {
-      setTimeout(() => {
-        span.style.transition = "opacity 0.4s ease, transform 0.4s ease";
-        span.style.opacity = "1";
-        span.style.transform = "translateY(0)";
-      }, index * 50);
-    });
+      if (letters.length === 0) return;
+
+      // Set initial state for all letters
+      letters.forEach((span) => {
+        span.style.opacity = "0";
+        span.style.display = "inline-block";
+        span.style.transform = "translateY(0.5em)";
+      });
+
+      // Animate each letter with stagger
+      letters.forEach((span, index) => {
+        setTimeout(() => {
+          span.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+          span.style.opacity = "1";
+          span.style.transform = "translateY(0)";
+        }, index * 50);
+      });
+    }, 100);
+
+    return () => clearTimeout(startDelay);
   }, []);
 
   useEffect(() => {
