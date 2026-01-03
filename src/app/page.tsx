@@ -11,6 +11,7 @@ import { useFetch } from "@/lib/hooks";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { LoadingSplash } from "@/components/LoadingSplash";
 import { Header } from "@/components/Header";
+import { FullPageScroller } from "@/components/FullPageScroller";
 import HeroTooth from "@/components/HeroTooth";
 
 interface Service {
@@ -35,16 +36,17 @@ export default function HomePage() {
         <LoadingSplash onComplete={() => setLoadingComplete(true)} />
       )}
       <Header onLoadingComplete={loadingComplete} />
-      <HeroTooth loadingComplete={loadingComplete} />
-      <div
-        className="w-full h-screen overflow-y-auto overflow-x-hidden snap-y snap-mandatory transition-opacity duration-500"
-        style={{
-          backgroundColor: "#F8F9FA",
-          opacity: loadingComplete ? 1 : 0,
-        }}
-      >
-        {/* Hero Section - Premium Presentation Style */}
-        <section className="relative min-h-screen h-screen snap-start bg-white overflow-hidden flex items-center">
+      <FullPageScroller enabled={loadingComplete}>
+        <HeroTooth loadingComplete={loadingComplete} />
+        <div
+          className="w-full overflow-x-hidden transition-opacity duration-500"
+          style={{
+            backgroundColor: "#F8F9FA",
+            opacity: loadingComplete ? 1 : 0,
+          }}
+        >
+          {/* Hero Section - Premium Presentation Style */}
+          <section className="relative min-h-screen bg-white overflow-hidden flex items-center">
           {/* Decorative Elements - Minimal & Premium */}
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-blue-50/40 to-transparent rounded-full -translate-y-1/2 translate-x-1/3"></div>
           <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-green-50/30 to-transparent rounded-full translate-y-1/2 -translate-x-1/3"></div>
@@ -1000,7 +1002,8 @@ export default function HomePage() {
             </svg>
           </div>
         </section>
-      </div>
+        </div>
+      </FullPageScroller>
     </>
   );
 }
