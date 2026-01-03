@@ -30,7 +30,7 @@ function HomePage() {
   );
 
   return (
-    <>
+    <div>
       {!loadingComplete && (
         <LoadingSplash onComplete={() => setLoadingComplete(true)} />
       )}
@@ -1046,7 +1046,7 @@ function HomePage() {
           </div>
         </section>
       </div>
-    </>
+    </div>
   );
 }
 
