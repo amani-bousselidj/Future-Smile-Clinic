@@ -45,6 +45,7 @@
   line-height: 1;
   white-space: nowrap;
   overflow: visible;
+  direction: ltr;
 }
 
 .letter {

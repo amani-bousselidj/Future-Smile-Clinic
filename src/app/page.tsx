@@ -35,7 +35,7 @@ export default function HomePage() {
         <LoadingSplash onComplete={() => setLoadingComplete(true)} />
       )}
       <Header onLoadingComplete={loadingComplete} />
-      <HeroTooth />
+      <HeroTooth loadingComplete={loadingComplete} />
       <div
         className="w-full overflow-hidden transition-opacity duration-500"
         style={{

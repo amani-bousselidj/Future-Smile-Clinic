@@ -4,22 +4,31 @@ import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import styles from "./HeroTooth.module.css";
 
-export default function HeroTooth(): JSX.Element {
+interface HeroToothProps {
+  loadingComplete?: boolean;
+}
+
+export default function HeroTooth({ loadingComplete = false }: HeroToothProps): JSX.Element {
   const textRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!loadingComplete) return;
+    
     const textEl = textRef.current;
     if (!textEl) return;
 
     const letters = textEl.querySelectorAll<HTMLSpanElement>(`.${styles.letter}`);
     
-    letters.forEach((letter, index) => {
-      setTimeout(() => {
-        letter.style.opacity = "1";
-        letter.style.transform = "translateY(0)";
-      }, index * 50); // 50ms delay between each letter
-    });
-  }, []);
+    // Small delay before starting animation
+    setTimeout(() => {
+      letters.forEach((letter, index) => {
+        setTimeout(() => {
+          letter.style.opacity = "1";
+          letter.style.transform = "translateY(0)";
+        }, index * 50); // 50ms delay between each letter
+      });
+    }, 300); // Wait 300ms after loading completes
+  }, [loadingComplete]);
 
   const text = "FUTURE SMILE CLINIC";
 
