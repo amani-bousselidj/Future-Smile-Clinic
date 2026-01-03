@@ -1,14 +1,43 @@
 ﻿"use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import styles from "./HeroTooth.module.css";
 
 export default function HeroTooth(): JSX.Element {
+  const textRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const textEl = textRef.current;
+    if (!textEl) return;
+
+    const letters = textEl.querySelectorAll<HTMLSpanElement>(`.${styles.letter}`);
+    
+    letters.forEach((letter, index) => {
+      setTimeout(() => {
+        letter.style.opacity = "1";
+        letter.style.transform = "translateY(0)";
+      }, index * 50); // 50ms delay between each letter
+    });
+  }, []);
+
+  const text = "FUTURE SMILE CLINIC";
+
   return (
     <section className={styles.hero} aria-label="Hero Section">
       {/* Background with gradient overlay */}
       <div className={styles.gradientBg} aria-hidden />
+
+      {/* Text layer behind tooth */}
+      <div className={styles.textLayer} ref={textRef} aria-hidden>
+        <div className={styles.brandText}>
+          {text.split("").map((char, index) => (
+            <span key={index} className={styles.letter}>
+              {char === " " ? "\u00A0" : char}
+            </span>
+          ))}
+        </div>
+      </div>
 
       {/* Hero image with tooth */}
       <div className={`${styles.layer} ${styles.heroImage}`} aria-hidden>
