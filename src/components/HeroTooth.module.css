@@ -3,7 +3,26 @@
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
-  background-color: #071428;
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #c5d1d6 30%,
+    #c5d1d6 70%,
+    #ffffff 100%
+  );
+}
+
+/* Gradient overlay for soft background */
+.gradientBg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    rgba(197, 209, 214, 0.2) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(197, 209, 214, 0.15) 100%
+  );
+  z-index: 0;
 }
 
 .layer {
@@ -15,59 +34,27 @@
   will-change: transform, opacity;
 }
 
-.bg {
+.heroImage {
   z-index: 1;
-}
-.tooth {
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  inset: 0;
+  min-height: 100vh;
 }
 
-/* Ensure pseudo-element shadow sits under the image */
-.tooth {
-  position: relative;
+.heroImage img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
 }
+
 .foreground {
   z-index: 4;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.bg {
-  /* ensure background layer fills the entire viewport and stays behind other layers */
-  inset: 0;
-  min-height: 100vh;
-}
-
-.bg img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Default (mobile-first): tooth uses 50vw but capped so it doesn't blow up */
-.tooth {
-  /* ensure the tooth container doesn't stretch to fill the full inset of .layer */
-  width: auto;
-  height: auto;
-}
-
-.tooth img {
-  /* fixed tooth size: default 180px */
-  width: 180px;
-  max-width: 180px;
-  height: auto;
-  object-fit: contain;
-  display: block;
-  position: relative;
-  z-index: 2;
-  /* no blend/mask — keep image natural so JS-controlled bottom and shadow visible */
 }
 
 .navBar {
@@ -79,6 +66,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 12px;
+  z-index: 50;
 }
 
 .links {
@@ -87,11 +75,11 @@
   align-items: center;
 }
 .link {
-  color: #fff;
+  color: #353535;
   text-decoration: none;
   padding: 6px 10px;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.8);
   font-weight: 600;
   font-size: 14px;
 }
@@ -99,15 +87,16 @@
 .headlineWrap {
   text-align: center;
   padding: 20vh 16px 8vh;
+  z-index: 50;
 }
 .headline {
   font-size: 1.25rem;
   font-weight: 800;
-  color: #fff;
+  color: #353535;
   margin-bottom: 8px;
 }
 .subline {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(53, 53, 53, 0.8);
   max-width: 760px;
   margin: 0 auto;
 }
@@ -117,100 +106,6 @@
   .headline {
     font-size: 1.75rem;
   }
-}
-
-/* Mobile-specific tweaks */
-/* Mobile: keep absolute to overlap nicely */
-@media (max-width: 640px) {
-  .tooth {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
-    z-index: 5;
-    pointer-events: none;
-  }
-
-  .tooth img {
-    width: 180px;
-    max-width: 180px;
-  }
-
-  .headlineWrap {
-    padding: 18vh 12px 6vh;
-  }
-}
-
-/* Medium screens: stabilize size around 774px viewport */
-@media (min-width: 641px) and (max-width: 1023px) {
-  .tooth {
-    position: absolute;
-    /* vertical placement is handled by JS to keep a single source of truth */
-    left: 8%;
-    transform: translate(0, 0);
-    z-index: 5;
-    pointer-events: none;
-  }
-  .tooth img {
-    width: 180px;
-    max-width: 180px;
-  }
-  .headlineWrap {
-    padding: 16vh 14px 6vh;
-  }
-}
-
-/* Desktop: much smaller, stable */
-@media (min-width: 1024px) {
-  .tooth {
-    position: absolute;
-    left: 6%;
-    transform: translate(0, 0);
-    z-index: 5;
-    pointer-events: none;
-  }
-  .tooth img {
-    width: 225px;
-    max-width: 225px;
-  }
-}
-
-/* Soft lower-left shadow for the tooth to look more realistic */
-.tooth::after {
-  content: "";
-  position: absolute;
-  left: 6%; /* relative to the tooth box */
-  bottom: -10px;
-  width: 60%;
-  height: 26px;
-  background: radial-gradient(
-    ellipse at 20% 70%,
-    rgba(0, 0, 0, 0.28),
-    rgba(0, 0, 0, 0.06) 60%,
-    transparent 80%
-  );
-  filter: blur(6px);
-  transform: translateX(-10%);
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.9;
-}
-
-/* subtle warm tint behind the tooth to fuse with background colors */
-.tooth::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translate(-50%, 18%);
-  width: 110%;
-  height: 80%;
-  background: radial-gradient(
-    closest-side at 40% 30%,
-    rgba(255, 240, 230, 0.04),
-    rgba(200, 230, 255, 0) 60%
-  );
-  z-index: 0;
-  pointer-events: none;
 }
 
 /* CTA wrapper for hero booking button to ensure visibility and correct stacking */
@@ -223,7 +118,7 @@
   display: flex;
   justify-content: center;
   pointer-events: auto; /* allow button clicks */
-  z-index: 40; /* above foreground layers */
+  z-index: 50; /* above foreground layers */
 }
 
 @media (min-width: 1024px) {
@@ -242,14 +137,4 @@
   padding: 0.75rem 1.5rem; /* px-6 py-3 */
   border-radius: 0.5rem; /* rounded-md */
   box-shadow: 0 10px 25px rgba(13, 42, 76, 0.15);
-}
-
-@media (max-width: 640px) {
-  .tooth::after {
-    width: 70%;
-    height: 18px;
-    bottom: -8px;
-    filter: blur(4px);
-    opacity: 0.8;
-  }
 }
