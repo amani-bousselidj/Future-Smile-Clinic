@@ -37,7 +37,7 @@ export default function HomePage() {
       <Header onLoadingComplete={loadingComplete} />
       <HeroTooth loadingComplete={loadingComplete} />
       <div
-        className="w-full h-screen overflow-y-scroll snap-y snap-mandatory transition-opacity duration-500"
+        className="w-full h-screen overflow-y-auto overflow-x-hidden snap-y snap-mandatory transition-opacity duration-500"
         style={{
           backgroundColor: "#F8F9FA",
           opacity: loadingComplete ? 1 : 0,
