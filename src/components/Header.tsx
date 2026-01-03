@@ -144,7 +144,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
 
       {/* Mobile Nav Sidebar - Creative Design */}
       <div
-        className={`md:hidden fixed top-0 right-0 h-screen w-[280px] bg-white/10 backdrop-blur-2xl shadow-2xl z-50 transition-transform duration-500 ease-out ${
+        className={`md:hidden fixed top-0 right-0 h-screen w-[280px] bg-white/10 backdrop-blur-2xl shadow-2xl z-[100] transition-transform duration-500 ease-out ${
           mobileOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -212,9 +212,8 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
           <Link
             href="/appointments"
             onClick={() => setMobileOpen(false)}
-            className="relative overflow-hidden mt-6 py-4 px-6 bg-gradient-to-r from-[#1e3a8a] to-[#3b82f6] rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group z-20"
+            className="relative overflow-hidden mt-6 py-4 px-6 bg-gray-900 rounded-2xl shadow-lg hover:shadow-xl hover:bg-gray-800 transition-all duration-300 group"
           >
-            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
             <div className="relative flex items-center justify-between text-white">
               <span className="font-semibold">احجز موعدك الآن</span>
               <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:rotate-[360deg] transition-transform duration-500">
