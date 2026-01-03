@@ -142,14 +142,6 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
         </div>
       </div>
       
-      {/* Mobile Nav Overlay */}
-      {mobileOpen && (
-        <div 
-          className="md:hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-40 transition-opacity duration-300"
-          onClick={() => setMobileOpen(false)}
-        />
-      )}
-      
       {/* Mobile Nav Sidebar */}
       <div 
         className={`md:hidden fixed top-0 right-0 h-full w-[85%] max-w-[320px] bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-lg shadow-2xl z-50 transition-transform duration-500 ease-out ${
