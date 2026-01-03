@@ -174,27 +174,6 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
 
         {/* Content */}
         <div className="relative h-full flex flex-col pt-24 pb-8 px-6 z-10 overflow-y-auto">
-          {/* Logo area */}
-          <div className="mb-10">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4 shadow-lg">
-              <svg
-                className="w-8 h-8 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <h3 className="text-xl font-bold text-gray-800">Future Smile</h3>
-            <p className="text-sm text-gray-600 mt-1">ابتسامتك المثالية</p>
-          </div>
-
           {/* Navigation */}
           <nav className="flex-1 space-y-2">
             {navItems.map((item, index) => (
@@ -207,8 +186,8 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
                 }}
                 className={`group flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all duration-300 ${
                   activeTab === item.id
-                    ? "bg-white/70 backdrop-blur-sm shadow-lg text-blue-600"
-                    : "text-gray-700 hover:bg-white/40"
+                    ? "bg-gradient-to-r from-[#1e3a8a]/20 to-[#3b82f6]/20 backdrop-blur-sm shadow-lg text-[#1e3a8a]"
+                    : "text-gray-800 hover:bg-white/30"
                 }`}
                 style={{
                   animationDelay: `${index * 80}ms`,
@@ -220,8 +199,8 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
                 <div
                   className={`w-2 h-2 rounded-full transition-all ${
                     activeTab === item.id
-                      ? "bg-blue-600 scale-100"
-                      : "bg-gray-400 scale-0 group-hover:scale-100"
+                      ? "bg-[#1e3a8a] scale-100"
+                      : "bg-gray-500 scale-0 group-hover:scale-100"
                   }`}
                 ></div>
                 <span className="text-[15px] font-medium">{item.label}</span>
@@ -233,7 +212,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
           <Link
             href="/appointments"
             onClick={() => setMobileOpen(false)}
-            className="relative overflow-hidden mt-6 py-4 px-6 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group"
+            className="relative overflow-hidden mt-6 py-4 px-6 bg-gradient-to-r from-[#1e3a8a] to-[#3b82f6] rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group z-20"
           >
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
             <div className="relative flex items-center justify-between text-white">
@@ -274,7 +253,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
                 <a
                   key={idx}
                   href="#"
-                  className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-gray-700 hover:bg-white/40 hover:scale-110 transition-all duration-300"
+                  className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-gray-800 hover:bg-[#1e3a8a]/20 hover:scale-110 transition-all duration-300"
                 >
                   <svg
                     className="w-4 h-4"
