@@ -44,12 +44,22 @@
   color: #353535;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  line-height: 1;
+  line-height: 1.1;
   white-space: nowrap;
   overflow: visible;
   direction: ltr;
   width: 100%;
   text-align: center;
+}
+
+/* Mobile screens: allow text wrapping and increase size */
+@media (max-width: 768px) {
+  .brandText {
+    font-size: clamp(2rem, 12vw, 4rem);
+    white-space: normal;
+    line-height: 1.2;
+    word-spacing: 0.2em;
+  }
 }
 
 .letter {
