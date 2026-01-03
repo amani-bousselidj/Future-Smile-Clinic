@@ -8,17 +8,21 @@ interface HeroToothProps {
   loadingComplete?: boolean;
 }
 
-export default function HeroTooth({ loadingComplete = false }: HeroToothProps): JSX.Element {
+export default function HeroTooth({
+  loadingComplete = false,
+}: HeroToothProps): JSX.Element {
   const textRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!loadingComplete) return;
-    
+
     const textEl = textRef.current;
     if (!textEl) return;
 
-    const letters = textEl.querySelectorAll<HTMLSpanElement>(`.${styles.letter}`);
-    
+    const letters = textEl.querySelectorAll<HTMLSpanElement>(
+      `.${styles.letter}`
+    );
+
     // Small delay before starting animation
     setTimeout(() => {
       letters.forEach((letter, index) => {
@@ -66,29 +70,27 @@ export default function HeroTooth({ loadingComplete = false }: HeroToothProps): 
       {/* Layer 4 — Foreground: nav + front text (z-index:4) */}
       {/* Booking button: centered under hero on small screens, fixed bottom-right on large screens */}
       <div className={styles.ctaWrapper}>
-        <div className="absolute left-1/2 bottom-6 transform -translate-x-1/2 lg:fixed lg:bottom-10 lg:right-10 lg:left-auto lg:translate-x-0">
-          <Link
-            href="/appointments"
-            className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gray-800 text-white whitespace-nowrap shadow-sm"
-          >
-            <span>حجز موعد</span>
-            <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center">
-              <svg
-                className="w-3 h-3 text-gray-800"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2.5}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </div>
-          </Link>
-        </div>
+        <Link
+          href="/appointments"
+          className={styles.ctaButton}
+        >
+          <span>حجز موعد</span>
+          <div className={styles.ctaIcon}>
+            <svg
+              className="w-3 h-3 text-gray-800"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </div>
+        </Link>
       </div>
     </section>
   );
