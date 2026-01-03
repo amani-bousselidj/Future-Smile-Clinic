@@ -36,7 +36,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out"
+      className="fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-out"
       style={{
         transform: isVisible ? "translateY(0)" : "translateY(-20px)",
         opacity: isVisible ? 1 : 0,
