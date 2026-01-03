@@ -28,27 +28,28 @@
 /* Text layer behind tooth */
 .textLayer {
   position: absolute;
-  inset: 0;
+  bottom: 35%;
+  left: 0;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 0.5;
   padding: 0 1rem;
-  margin-top: -10vh;
 }
 
 .brandText {
-  font-size: clamp(2rem, 8vw, 6rem);
+  font-size: clamp(3.5rem, 11vw, 8rem);
   font-weight: 900;
   color: #353535;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.05em;
   line-height: 1;
   white-space: nowrap;
   overflow: hidden;
   direction: ltr;
-  max-width: 100%;
-  text-overflow: ellipsis;
+  width: 95%;
+  text-align: center;
 }
 
 .letter {
