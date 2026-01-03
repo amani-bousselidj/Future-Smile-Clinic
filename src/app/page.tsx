@@ -41,7 +41,6 @@ export default function HomePage() {
       <div 
         className="h-screen overflow-y-scroll snap-y snap-mandatory"
         style={{
-          scrollBehavior: 'smooth',
           opacity: loadingComplete ? 1 : 0,
         }}
       >
