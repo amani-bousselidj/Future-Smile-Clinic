@@ -152,14 +152,14 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
       
       {/* Mobile Nav Sidebar */}
       <div 
-        className={`md:hidden fixed top-0 right-0 h-full w-[85%] max-w-[320px] bg-white/10 backdrop-blur-xl shadow-2xl z-50 transition-transform duration-500 ease-out ${
+        className={`md:hidden fixed top-0 right-0 h-full w-[85%] max-w-[320px] bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-lg shadow-2xl z-50 transition-transform duration-500 ease-out ${
           mobileOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* Close Button */}
         <button
           onClick={() => setMobileOpen(false)}
-          className="absolute top-4 left-4 p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all duration-200"
+          className="absolute top-4 left-4 p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-all duration-200"
           aria-label="Close menu"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -172,7 +172,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
           {/* Logo/Title */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-1">Future Smile</h2>
-            <p className="text-sm text-gray-400">ابتسامتك تبدأ هنا</p>
+            <p className="text-sm text-gray-300">ابتسامتك تبدأ هنا</p>
           </div>
 
           {/* Navigation Items */}
@@ -188,7 +188,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
                 className={`block px-5 py-4 rounded-xl text-right transition-all duration-300 transform hover:translate-x-[-4px] ${
                   activeTab === item.id
                     ? "bg-white text-gray-900 shadow-lg font-semibold"
-                    : "text-gray-300 hover:bg-white/10 hover:text-white"
+                    : "text-white hover:bg-white/20"
                 }`}
                 style={{
                   animationDelay: `${index * 50}ms`,
