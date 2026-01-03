@@ -30,7 +30,7 @@ export default function HomePage() {
   );
 
   return (
-    <>
+    <React.Fragment>
       {!loadingComplete && (
         <LoadingSplash onComplete={() => setLoadingComplete(true)} />
       )}
@@ -1046,6 +1046,6 @@ export default function HomePage() {
           </div>
         </section>
       </div>
-    </>
+    </React.Fragment>
   );
 }
