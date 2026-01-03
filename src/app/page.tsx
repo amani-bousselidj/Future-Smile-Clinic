@@ -25,9 +25,28 @@ interface Service {
 
 export default function HomePage() {
   const [loadingComplete, setLoadingComplete] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const { data: services, loading } = useFetch<{ results: Service[] }>(
     "/api/services/?is_active=true"
   );
+
+  const totalSlides = 2; // Hero + Content sections
+
+  const nextSlide = () => {
+    if (currentSlide < totalSlides - 1) {
+      setCurrentSlide(currentSlide + 1);
+    }
+  };
+
+  const prevSlide = () => {
+    if (currentSlide > 0) {
+      setCurrentSlide(currentSlide - 1);
+    }
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
 
   return (
     <>
@@ -36,13 +55,20 @@ export default function HomePage() {
       )}
       <Header onLoadingComplete={loadingComplete} />
       <HeroTooth loadingComplete={loadingComplete} />
-      <div
-        className="w-full overflow-hidden transition-opacity duration-500"
-        style={{
-          backgroundColor: "#F8F9FA",
-          opacity: loadingComplete ? 1 : 0,
-        }}
-      >
+      
+      {/* Slides Container */}
+      <div className="relative w-full h-screen overflow-hidden">
+        {/* Slide Wrapper */}
+        <div
+          className="flex w-full h-full transition-transform duration-700 ease-in-out"
+          style={{
+            transform: `translateX(${currentSlide * 100}%)`,
+            opacity: loadingComplete ? 1 : 0,
+          }}
+        >
+          {/* Slide 1: Hero Section */}
+          <div className="min-w-full h-full flex-shrink-0">
+            <div className="w-full h-full" style={{ backgroundColor: "#F8F9FA" }}>
         {/* Hero Section - Premium Presentation Style */}
         <section className="relative min-h-screen bg-white overflow-hidden flex items-center">
           {/* Decorative Elements - Minimal & Premium */}
@@ -1000,6 +1026,68 @@ export default function HomePage() {
             </svg>
           </div>
         </section>
+            </div>
+          </div>
+
+          {/* Slide 2: Services & Other Content */}
+          <div className="min-w-full h-full flex-shrink-0">
+            <div className="w-full h-full overflow-y-auto" style={{ backgroundColor: "#FFFFFF" }}>
+              <div className="min-h-screen flex items-center justify-center">
+                <div className="text-center space-y-6 p-12">
+                  <h2 className="text-6xl font-bold text-gray-900">خدماتنا</h2>
+                  <p className="text-2xl text-gray-600">قريباً...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation Controls */}
+        {loadingComplete && (
+          <>
+            {/* Left Arrow (Next) */}
+            {currentSlide < totalSlides - 1 && (
+              <button
+                onClick={nextSlide}
+                className="fixed left-8 top-1/2 -translate-y-1/2 z-50 w-14 h-14 rounded-full bg-gray-900/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-gray-900 hover:scale-110 transition-all duration-300 shadow-2xl"
+                aria-label="Next slide"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+            )}
+
+            {/* Right Arrow (Previous) */}
+            {currentSlide > 0 && (
+              <button
+                onClick={prevSlide}
+                className="fixed right-8 top-1/2 -translate-y-1/2 z-50 w-14 h-14 rounded-full bg-gray-900/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-gray-900 hover:scale-110 transition-all duration-300 shadow-2xl"
+                aria-label="Previous slide"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            )}
+
+            {/* Slide Indicators */}
+            <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex gap-3">
+              {Array.from({ length: totalSlides }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={`transition-all duration-300 rounded-full ${
+                    currentSlide === index
+                      ? "w-12 h-3 bg-gray-900"
+                      : "w-3 h-3 bg-gray-400 hover:bg-gray-600"
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </>
   );
