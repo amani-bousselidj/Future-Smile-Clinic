@@ -23,14 +23,14 @@ interface Service {
   image_url?: string;
 }
 
-export default function HomePage() {
+function HomePage() {
   const [loadingComplete, setLoadingComplete] = useState(false);
   const { data: services, loading } = useFetch<{ results: Service[] }>(
     "/api/services/?is_active=true"
   );
 
   return (
-    <React.Fragment>
+    <>
       {!loadingComplete && (
         <LoadingSplash onComplete={() => setLoadingComplete(true)} />
       )}
@@ -1046,6 +1046,8 @@ export default function HomePage() {
           </div>
         </section>
       </div>
-    </React.Fragment>
+    </>
   );
 }
+
+export default HomePage;
