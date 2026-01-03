@@ -144,7 +144,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
 
       {/* Mobile Nav Sidebar - Creative Design */}
       <div
-        className={`md:hidden fixed top-0 right-0 h-full w-[280px] bg-white/10 backdrop-blur-2xl shadow-2xl z-50 transition-transform duration-500 ease-out ${
+        className={`md:hidden fixed top-0 right-0 h-full w-[280px] bg-white/10 backdrop-blur-2xl shadow-2xl z-50 transition-transform duration-500 ease-out overflow-hidden ${
           mobileOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
