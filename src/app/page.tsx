@@ -23,34 +23,28 @@ interface Service {
   image_url?: string;
 }
 
-function HomePage() {
+export default function HomePage() {
   const [loadingComplete, setLoadingComplete] = useState(false);
-  const serviceData = useFetch<{ results: Service[] }>(
+  const { data: services, loading } = useFetch<{ results: Service[] }>(
     "/api/services/?is_active=true"
   );
-  const services = serviceData.data;
-  const loading = serviceData.loading;
 
-  const mainContent = (
-    <div>
+  return (
+    <>
       {!loadingComplete && (
         <LoadingSplash onComplete={() => setLoadingComplete(true)} />
       )}
       <Header onLoadingComplete={loadingComplete} />
       <HeroTooth loadingComplete={loadingComplete} />
-      
-      {/* Scroll Snap Container - PowerPoint Style */}
-      <div 
-        className="h-screen overflow-y-scroll snap-y snap-mandatory"
+      <div
+        className="w-full overflow-hidden transition-opacity duration-500"
         style={{
+          backgroundColor: "#F8F9FA",
           opacity: loadingComplete ? 1 : 0,
         }}
       >
-        {/* Section 1: Hero Section */}
-        <section className="h-screen snap-start snap-always">
-          <div className="w-full h-full" style={{ backgroundColor: "#F8F9FA" }}>
-            {/* Hero Section - Premium Presentation Style */}
-            <div className="relative h-full bg-white overflow-hidden flex items-center">
+        {/* Hero Section - Premium Presentation Style */}
+        <section className="relative min-h-screen bg-white overflow-hidden flex items-center">
           {/* Decorative Elements - Minimal & Premium */}
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-blue-50/40 to-transparent rounded-full -translate-y-1/2 translate-x-1/3"></div>
           <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-green-50/30 to-transparent rounded-full translate-y-1/2 -translate-x-1/3"></div>
@@ -1005,53 +999,8 @@ function HomePage() {
               <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,64C960,75,1056,85,1152,80C1248,75,1344,53,1392,42.7L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
             </svg>
           </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 2: Services */}
-        <section className="h-screen snap-start snap-always bg-white flex items-center justify-center">
-          <div className="text-center space-y-8 p-12">
-            <h2 className="text-7xl font-black text-gray-900">خدماتنا المميزة</h2>
-            <p className="text-3xl text-gray-600">أحدث التقنيات في طب الأسنان</p>
-            <div className="pt-8">
-              <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-600 to-green-500 text-white rounded-full text-xl font-bold">
-                <span>اسكرول للأسفل لرؤية المزيد</span>
-                <svg className="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 3: About */}
-        <section className="h-screen snap-start snap-always bg-gradient-to-br from-blue-50 to-green-50 flex items-center justify-center">
-          <div className="text-center space-y-8 p-12">
-            <h2 className="text-7xl font-black text-gray-900">من نحن</h2>
-            <p className="text-3xl text-gray-600 max-w-3xl mx-auto">
-              فريق من أمهر الأطباء والمتخصصين في مجال طب الأسنان
-            </p>
-          </div>
-        </section>
-
-        {/* Section 4: Contact */}
-        <section className="h-screen snap-start snap-always bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center">
-          <div className="text-center space-y-8 p-12">
-            <h2 className="text-7xl font-black text-white">تواصل معنا</h2>
-            <p className="text-3xl text-gray-300">نحن هنا للإجابة على جميع استفساراتك</p>
-            <div className="pt-8">
-              <button className="px-12 py-5 bg-white text-gray-900 rounded-full text-2xl font-bold hover:scale-105 transition-transform duration-300">
-                احجز موعدك الآن
-              </button>
-            </div>
-          </div>
         </section>
       </div>
-    </div>
+    </>
   );
-  
-  return mainContent;
 }
-
-export default HomePage;
