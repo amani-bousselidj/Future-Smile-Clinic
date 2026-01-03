@@ -258,7 +258,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
             transform: translateX(0);
           }
         }
-      `}</style>
+
         @keyframes slideIn {
           from {
             opacity: 0;
