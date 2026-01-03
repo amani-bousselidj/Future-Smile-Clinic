@@ -25,11 +25,13 @@ interface Service {
 
 function HomePage() {
   const [loadingComplete, setLoadingComplete] = useState(false);
-  const { data: services, loading } = useFetch<{ results: Service[] }>(
+  const serviceData = useFetch<{ results: Service[] }>(
     "/api/services/?is_active=true"
   );
+  const services = serviceData.data;
+  const loading = serviceData.loading;
 
-  return (
+  const mainContent = (
     <div>
       {!loadingComplete && (
         <LoadingSplash onComplete={() => setLoadingComplete(true)} />
@@ -1048,6 +1050,8 @@ function HomePage() {
       </div>
     </div>
   );
+  
+  return mainContent;
 }
 
 export default HomePage;
