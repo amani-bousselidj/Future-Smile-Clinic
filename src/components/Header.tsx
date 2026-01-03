@@ -35,6 +35,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
   ];
 
   return (
+    <>
     <header
       className="fixed top-0 left-0 right-0 z-40 transition-all duration-500 ease-out"
       style={{
@@ -141,6 +142,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
           </button>
         </div>
       </div>
+    </header>
 
       {/* Mobile Nav Sidebar - Creative Design */}
       <div
@@ -294,6 +296,6 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
           }
         }
       `}</style>
-    </header>
+    </>
   );
 }
