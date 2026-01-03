@@ -47,8 +47,8 @@ export default function HomePage() {
         {/* Section 1: Hero Section */}
         <section className="h-screen snap-start snap-always">
           <div className="w-full h-full" style={{ backgroundColor: "#F8F9FA" }}>
-        {/* Hero Section - Premium Presentation Style */}
-        <section className="relative min-h-screen bg-white overflow-hidden flex items-center">
+            {/* Hero Section - Premium Presentation Style */}
+            <div className="relative h-full bg-white overflow-hidden flex items-center">
           {/* Decorative Elements - Minimal & Premium */}
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-blue-50/40 to-transparent rounded-full -translate-y-1/2 translate-x-1/3"></div>
           <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-green-50/30 to-transparent rounded-full translate-y-1/2 -translate-x-1/3"></div>
@@ -1003,7 +1003,8 @@ export default function HomePage() {
               <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,64C960,75,1056,85,1152,80C1248,75,1344,53,1392,42.7L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
             </svg>
           </div>
-        </section>
+            </div>
+          </div>
         </section>
 
         {/* Section 2: Services */}
