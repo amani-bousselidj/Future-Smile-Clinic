@@ -56,9 +56,9 @@
 /* Mobile screens: allow text wrapping and increase size */
 @media (max-width: 768px) {
   .textLayer {
-    bottom: 65%;
+    bottom: 70%;
   }
-  
+
   .brandText {
     font-size: clamp(2rem, 12vw, 4rem);
     white-space: normal;
