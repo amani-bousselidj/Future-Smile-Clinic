@@ -25,28 +25,9 @@ interface Service {
 
 export default function HomePage() {
   const [loadingComplete, setLoadingComplete] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0);
   const { data: services, loading } = useFetch<{ results: Service[] }>(
     "/api/services/?is_active=true"
   );
-
-  const totalSlides = 2; // Hero + Content sections
-
-  const nextSlide = () => {
-    if (currentSlide < totalSlides - 1) {
-      setCurrentSlide(currentSlide + 1);
-    }
-  };
-
-  const prevSlide = () => {
-    if (currentSlide > 0) {
-      setCurrentSlide(currentSlide - 1);
-    }
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
 
   return (
     <>
@@ -56,19 +37,17 @@ export default function HomePage() {
       <Header onLoadingComplete={loadingComplete} />
       <HeroTooth loadingComplete={loadingComplete} />
       
-      {/* Slides Container */}
-      <div className="relative w-full h-screen overflow-hidden">
-        {/* Slide Wrapper */}
-        <div
-          className="flex w-full h-full transition-transform duration-700 ease-in-out"
-          style={{
-            transform: `translateX(${currentSlide * 100}%)`,
-            opacity: loadingComplete ? 1 : 0,
-          }}
-        >
-          {/* Slide 1: Hero Section */}
-          <div className="min-w-full h-full flex-shrink-0">
-            <div className="w-full h-full" style={{ backgroundColor: "#F8F9FA" }}>
+      {/* Scroll Snap Container - PowerPoint Style */}
+      <div 
+        className="h-screen overflow-y-scroll snap-y snap-mandatory"
+        style={{
+          scrollBehavior: 'smooth',
+          opacity: loadingComplete ? 1 : 0,
+        }}
+      >
+        {/* Section 1: Hero Section */}
+        <section className="h-screen snap-start snap-always">
+          <div className="w-full h-full" style={{ backgroundColor: "#F8F9FA" }}>
         {/* Hero Section - Premium Presentation Style */}
         <section className="relative min-h-screen bg-white overflow-hidden flex items-center">
           {/* Decorative Elements - Minimal & Premium */}
@@ -1026,68 +1005,46 @@ export default function HomePage() {
             </svg>
           </div>
         </section>
-            </div>
-          </div>
+        </section>
 
-          {/* Slide 2: Services & Other Content */}
-          <div className="min-w-full h-full flex-shrink-0">
-            <div className="w-full h-full overflow-y-auto" style={{ backgroundColor: "#FFFFFF" }}>
-              <div className="min-h-screen flex items-center justify-center">
-                <div className="text-center space-y-6 p-12">
-                  <h2 className="text-6xl font-bold text-gray-900">خدماتنا</h2>
-                  <p className="text-2xl text-gray-600">قريباً...</p>
-                </div>
+        {/* Section 2: Services */}
+        <section className="h-screen snap-start snap-always bg-white flex items-center justify-center">
+          <div className="text-center space-y-8 p-12">
+            <h2 className="text-7xl font-black text-gray-900">خدماتنا المميزة</h2>
+            <p className="text-3xl text-gray-600">أحدث التقنيات في طب الأسنان</p>
+            <div className="pt-8">
+              <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-600 to-green-500 text-white rounded-full text-xl font-bold">
+                <span>اسكرول للأسفل لرؤية المزيد</span>
+                <svg className="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Navigation Controls */}
-        {loadingComplete && (
-          <>
-            {/* Left Arrow (Next) */}
-            {currentSlide < totalSlides - 1 && (
-              <button
-                onClick={nextSlide}
-                className="fixed left-8 top-1/2 -translate-y-1/2 z-50 w-14 h-14 rounded-full bg-gray-900/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-gray-900 hover:scale-110 transition-all duration-300 shadow-2xl"
-                aria-label="Next slide"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
-                </svg>
+        {/* Section 3: About */}
+        <section className="h-screen snap-start snap-always bg-gradient-to-br from-blue-50 to-green-50 flex items-center justify-center">
+          <div className="text-center space-y-8 p-12">
+            <h2 className="text-7xl font-black text-gray-900">من نحن</h2>
+            <p className="text-3xl text-gray-600 max-w-3xl mx-auto">
+              فريق من أمهر الأطباء والمتخصصين في مجال طب الأسنان
+            </p>
+          </div>
+        </section>
+
+        {/* Section 4: Contact */}
+        <section className="h-screen snap-start snap-always bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center">
+          <div className="text-center space-y-8 p-12">
+            <h2 className="text-7xl font-black text-white">تواصل معنا</h2>
+            <p className="text-3xl text-gray-300">نحن هنا للإجابة على جميع استفساراتك</p>
+            <div className="pt-8">
+              <button className="px-12 py-5 bg-white text-gray-900 rounded-full text-2xl font-bold hover:scale-105 transition-transform duration-300">
+                احجز موعدك الآن
               </button>
-            )}
-
-            {/* Right Arrow (Previous) */}
-            {currentSlide > 0 && (
-              <button
-                onClick={prevSlide}
-                className="fixed right-8 top-1/2 -translate-y-1/2 z-50 w-14 h-14 rounded-full bg-gray-900/80 backdrop-blur-sm flex items-center justify-center text-white hover:bg-gray-900 hover:scale-110 transition-all duration-300 shadow-2xl"
-                aria-label="Previous slide"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            )}
-
-            {/* Slide Indicators */}
-            <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex gap-3">
-              {Array.from({ length: totalSlides }).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  className={`transition-all duration-300 rounded-full ${
-                    currentSlide === index
-                      ? "w-12 h-3 bg-gray-900"
-                      : "w-3 h-3 bg-gray-400 hover:bg-gray-600"
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
             </div>
-          </>
-        )}
+          </div>
+        </section>
       </div>
     </>
   );
