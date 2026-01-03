@@ -28,14 +28,14 @@
 /* Text layer behind tooth */
 .textLayer {
   position: absolute;
-  bottom: 35%;
+  bottom: 63%;
   left: 0;
   right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 0.5;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
 }
 
 .brandText {
@@ -46,9 +46,9 @@
   letter-spacing: 0.05em;
   line-height: 1;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: visible;
   direction: ltr;
-  width: 95%;
+  width: 100%;
   text-align: center;
 }
 
