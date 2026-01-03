@@ -144,7 +144,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
 
       {/* Mobile Nav Sidebar - Creative Design */}
       <div
-        className={`md:hidden fixed top-0 right-0 h-full w-[280px] bg-white/10 backdrop-blur-2xl shadow-2xl z-50 transition-transform duration-500 ease-out overflow-hidden ${
+        className={`md:hidden fixed top-0 right-0 h-screen w-[280px] bg-white/10 backdrop-blur-2xl shadow-2xl z-50 transition-transform duration-500 ease-out ${
           mobileOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -173,7 +173,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
         </button>
 
         {/* Content */}
-        <div className="relative h-full flex flex-col pt-24 pb-8 px-6 z-10">
+        <div className="relative h-full flex flex-col pt-24 pb-8 px-6 z-10 overflow-y-auto">
           {/* Logo area */}
           <div className="mb-10">
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4 shadow-lg">
