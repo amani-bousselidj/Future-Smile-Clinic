@@ -34,44 +34,41 @@ export default function HeroTooth({
     }, 300); // Wait 300ms after loading completes
   }, [loadingComplete]);
 
-  const fullText = "FUTURE SMILE CLINIC";
-  const compactText = "FUTURE SMILE CLINIC";
+  const textTop = "FUTURE SMILE";
+  const textBottom = "CLINIC";
   const brandRef = React.useRef<HTMLDivElement | null>(null);
-  const fullInnerRef = React.useRef<HTMLSpanElement | null>(null);
-  const compactInnerRef = React.useRef<HTMLSpanElement | null>(null);
+  const brandInnerRef = React.useRef<HTMLSpanElement | null>(null);
 
   // Fit the brand text by applying a horizontal scale so the phrase fills the available header width
   React.useEffect(() => {
     if (!loadingComplete) return;
     const el = brandRef.current;
-    const fullInner = fullInnerRef.current;
-    const compactInner = compactInnerRef.current;
-    if (!el || !fullInner || !compactInner) return;
+    const inner = brandInnerRef.current;
+    if (!el || !inner) return;
 
     let timer: any = null;
     const fit = () => {
       // Make the phrase fill the full width of the letters div itself.
       // The parent container handles header alignment; this element should just fill 100%.
       const containerWidth = el.clientWidth;
-      const useCompact = window.innerWidth <= 520;
-      const activeInner = useCompact ? compactInner : fullInner;
-      const inactiveInner = useCompact ? fullInner : compactInner;
-
-      // Reset inactive variant so it doesn't affect layout/measurement
-      inactiveInner.style.transform = "";
-
-      // Measure actual text width using the shrink-to-fit inner wrapper
-      const textWidth = activeInner.scrollWidth;
-      if (!textWidth || !containerWidth) return;
-
-      const scaleX = containerWidth / textWidth;
+      const isSmall = window.innerWidth <= 520;
 
       // Make letters a bit taller without changing their font-size.
       const scaleY = 1.28;
 
-      activeInner.style.whiteSpace = "nowrap";
-      activeInner.style.transformOrigin = "center";
-      activeInner.style.transform = `scaleX(${scaleX}) scaleY(${scaleY})`;
+      if (isSmall) {
+        // On small screens we want 2 lines; do not stretch horizontally.
+        inner.style.transformOrigin = "center";
+        inner.style.transform = `scaleY(${scaleY})`;
+        return;
+      }
+
+      // Desktop: stretch horizontally to fill the full width.
+      const textWidth = inner.scrollWidth;
+      if (!textWidth || !containerWidth) return;
+      const scaleX = containerWidth / textWidth;
+      inner.style.transformOrigin = "center";
+      inner.style.transform = `scaleX(${scaleX}) scaleY(${scaleY})`;
     };
 
     fit();
@@ -95,23 +92,16 @@ export default function HeroTooth({
       <div className={styles.textLayer} ref={textRef} aria-hidden>
         <div className={styles.brandContainer}>
           <div className={styles.brandText} ref={brandRef}>
-            <span
-              className={`${styles.brandInner} ${styles.fullOnly}`}
-              ref={fullInnerRef}
-            >
-              {fullText.split("").map((char, index) => (
-                <span key={`f-${index}`} className={styles.letter}>
-                  {char === " " ? "\u00A0" : char}
+            <span className={styles.brandInner} ref={brandInnerRef}>
+              {textTop.split("").map((char, index) => (
+                <span key={`t-${index}`} className={styles.letter}>
+                  {char === " " ? " " : char}
                 </span>
               ))}
-            </span>
-            <span
-              className={`${styles.brandInner} ${styles.compactOnly}`}
-              ref={compactInnerRef}
-            >
-              {compactText.split("").map((char, index) => (
-                <span key={`c-${index}`} className={styles.letter}>
-                  {char === " " ? "\u00A0" : char}
+              <span className={styles.break} aria-hidden />
+              {textBottom.split("").map((char, index) => (
+                <span key={`b-${index}`} className={styles.letter}>
+                  {char}
                 </span>
               ))}
             </span>
