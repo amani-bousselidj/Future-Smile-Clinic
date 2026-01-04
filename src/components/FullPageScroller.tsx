@@ -12,12 +12,14 @@ type FullPageScrollerProps = {
   children: React.ReactNode;
   enabled?: boolean;
   durationMs?: number;
+  scrollableSlideIndex?: number;
 };
 
 export function FullPageScroller({
   children,
   enabled = true,
   durationMs = 700,
+  scrollableSlideIndex = -1,
 }: FullPageScrollerProps) {
   const slides = useMemo(() => React.Children.toArray(children), [children]);
   const [index, setIndex] = useState(0);
@@ -62,25 +64,34 @@ export function FullPageScroller({
       if (!enabled) return;
       if (slides.length <= 1) return;
 
+      // We are in "presentation mode" — block native scrolling entirely.
+      e.preventDefault();
+
       // Trackpads can generate tiny deltas; ignore noise
       const dy = e.deltaY;
       if (Math.abs(dy) < 12) return;
 
       const dir: "up" | "down" = dy > 0 ? "down" : "up";
 
-      // At the bounds, never block the default scroll behavior.
+      // At the bounds, do nothing (still no native scroll).
       if (dir === "up" && index === 0) return;
       if (dir === "down" && index === slides.length - 1) return;
 
-      // If current slide can scroll internally, allow normal scroll
-      if (canScrollWithinSlide(dir)) return;
+      // If current slide can scroll internally, keep it (only when explicitly enabled).
+      if (scrollableSlideIndex === index && canScrollWithinSlide(dir)) return;
 
       // Otherwise, treat it as slide navigation
-      e.preventDefault();
       if (dir === "down") go(index + 1);
       else go(index - 1);
     },
-    [enabled, slides.length, canScrollWithinSlide, go, index]
+    [
+      enabled,
+      slides.length,
+      scrollableSlideIndex,
+      canScrollWithinSlide,
+      go,
+      index,
+    ]
   );
 
   const onKeyDown = useCallback(
@@ -89,13 +100,13 @@ export function FullPageScroller({
       if (slides.length <= 1) return;
 
       if (e.key === "ArrowDown" || e.key === "PageDown") {
-        if (index >= slides.length - 1) return;
         e.preventDefault();
+        if (index >= slides.length - 1) return;
         go(index + 1);
       }
       if (e.key === "ArrowUp" || e.key === "PageUp") {
-        if (index <= 0) return;
         e.preventDefault();
+        if (index <= 0) return;
         go(index - 1);
       }
     },
@@ -131,30 +142,65 @@ export function FullPageScroller({
       if (dir === "down" && index === slides.length - 1) return;
 
       // If slide can scroll, let it
-      if (canScrollWithinSlide(dir)) return;
+      if (scrollableSlideIndex === index && canScrollWithinSlide(dir)) return;
 
       if (dir === "down") go(index + 1);
       else go(index - 1);
     },
-    [enabled, slides.length, canScrollWithinSlide, go, index]
+    [
+      enabled,
+      slides.length,
+      scrollableSlideIndex,
+      canScrollWithinSlide,
+      go,
+      index,
+    ]
+  );
+
+  const onTouchMove = useCallback(
+    (e: TouchEvent) => {
+      if (!enabled) return;
+      // Prevent native touch scrolling while in presentation mode.
+      e.preventDefault();
+    },
+    [enabled]
   );
 
   useEffect(() => {
     // Only attach listeners when enabled; keep them passive:false so we can preventDefault.
     if (!enabled) return;
 
+    const prevHtmlOverflow = document.documentElement.style.overflow;
+    const prevBodyOverflow = document.body.style.overflow;
+    const prevHtmlOverscroll = (document.documentElement.style as any)
+      .overscrollBehavior;
+    const prevBodyOverscroll = (document.body.style as any).overscrollBehavior;
+
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    (document.documentElement.style as any).overscrollBehavior = "none";
+    (document.body.style as any).overscrollBehavior = "none";
+
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKeyDown, { passive: false });
     window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
     window.addEventListener("touchend", onTouchEnd, { passive: true });
 
     return () => {
       window.removeEventListener("wheel", onWheel as any);
       window.removeEventListener("keydown", onKeyDown as any);
       window.removeEventListener("touchstart", onTouchStart as any);
+      window.removeEventListener("touchmove", onTouchMove as any);
       window.removeEventListener("touchend", onTouchEnd as any);
+
+      document.documentElement.style.overflow = prevHtmlOverflow;
+      document.body.style.overflow = prevBodyOverflow;
+      (document.documentElement.style as any).overscrollBehavior =
+        prevHtmlOverscroll;
+      (document.body.style as any).overscrollBehavior = prevBodyOverscroll;
     };
-  }, [enabled, onWheel, onKeyDown, onTouchStart, onTouchEnd]);
+  }, [enabled, onWheel, onKeyDown, onTouchStart, onTouchMove, onTouchEnd]);
 
   return (
     <div className="relative h-screen w-full overflow-hidden">
@@ -174,7 +220,7 @@ export function FullPageScroller({
             }}
             className="h-screen w-full"
             style={{
-              overflowY: i === 1 ? "auto" : "hidden",
+              overflowY: i === scrollableSlideIndex ? "auto" : "hidden",
               overflowX: "hidden",
               WebkitOverflowScrolling: "touch",
             }}

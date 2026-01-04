@@ -12,6 +12,7 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { LoadingSplash } from "@/components/LoadingSplash";
 import { Header } from "@/components/Header";
 import { FullPageScroller } from "@/components/FullPageScroller";
+import { Footer } from "@/components/Footer";
 import HeroTooth from "@/components/HeroTooth";
 
 interface Service {
@@ -36,10 +37,10 @@ export default function HomePage() {
         <LoadingSplash onComplete={() => setLoadingComplete(true)} />
       )}
       <Header onLoadingComplete={loadingComplete} />
-      <FullPageScroller enabled={loadingComplete}>
+      <FullPageScroller enabled={loadingComplete} scrollableSlideIndex={-1}>
         <HeroTooth loadingComplete={loadingComplete} />
         <div
-          className="w-full overflow-x-hidden transition-opacity duration-500"
+          className="w-full h-screen overflow-hidden overflow-x-hidden transition-opacity duration-500"
           style={{
             backgroundColor: "#F8F9FA",
             opacity: loadingComplete ? 1 : 0,
@@ -47,239 +48,242 @@ export default function HomePage() {
         >
           {/* Hero Section - Premium Presentation Style */}
           <section className="relative min-h-screen bg-white overflow-hidden flex items-center">
-          {/* Decorative Elements - Minimal & Premium */}
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-blue-50/40 to-transparent rounded-full -translate-y-1/2 translate-x-1/3"></div>
-          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-green-50/30 to-transparent rounded-full translate-y-1/2 -translate-x-1/3"></div>
+            {/* Decorative Elements - Minimal & Premium */}
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-blue-50/40 to-transparent rounded-full -translate-y-1/2 translate-x-1/3"></div>
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-green-50/30 to-transparent rounded-full translate-y-1/2 -translate-x-1/3"></div>
 
-          {/* Subtle Grid Pattern */}
-          <div className="absolute inset-0 opacity-[0.015]">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgba(0,0,0,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.03) 1px, transparent 1px)",
-                backgroundSize: "50px 50px",
-              }}
-            ></div>
-          </div>
+            {/* Subtle Grid Pattern */}
+            <div className="absolute inset-0 opacity-[0.015]">
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(rgba(0,0,0,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.03) 1px, transparent 1px)",
+                  backgroundSize: "50px 50px",
+                }}
+              ></div>
+            </div>
 
-          <div className="max-w-[1400px] mx-auto px-8 sm:px-12 lg:px-16 relative z-10 w-full py-20">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
-              {/* Right Side - Content (Takes 6 columns) */}
-              <div className="lg:col-span-6 text-right space-y-8">
-                {/* Premium Badge */}
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200/50 rounded-full">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-sm font-semibold text-gray-700">
-                    عيادة أسنان بريميوم
-                  </span>
-                </div>
-
-                {/* Main Heading - Extra Large */}
-                <div className="space-y-4">
-                  <h1 className="text-6xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight">
-                    <span className="block text-gray-900">ابتسامتك</span>
-                    <span className="block bg-gradient-to-l from-blue-600 via-green-500 to-blue-600 bg-clip-text text-transparent mt-2">
-                      تستحق الأفضل
+            <div className="max-w-[1400px] mx-auto px-8 sm:px-12 lg:px-16 relative z-10 w-full py-20">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
+                {/* Right Side - Content (Takes 6 columns) */}
+                <div className="lg:col-span-6 text-right space-y-8">
+                  {/* Premium Badge */}
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-50 to-blue-50 border border-green-200/50 rounded-full">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-sm font-semibold text-gray-700">
+                      عيادة أسنان بريميوم
                     </span>
-                  </h1>
-
-                  {/* Decorative Line */}
-                  <div className="flex items-center gap-3 pt-2">
-                    <div className="h-1 w-20 bg-gradient-to-r from-green-500 to-blue-600 rounded-full"></div>
-                    <div className="h-1 w-12 bg-gradient-to-r from-blue-600 to-transparent rounded-full"></div>
                   </div>
-                </div>
 
-                {/* Description */}
-                <p className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-xl font-light">
-                  رعاية استثنائية لأسنانك مع أحدث التقنيات الطبية وفريق من أمهر
-                  الأطباء المتخصصين
-                </p>
-
-                {/* Stats - Premium Style */}
-                <div className="grid grid-cols-3 gap-6 py-6 max-w-2xl">
-                  <div className="text-center space-y-1">
-                    <div className="text-4xl md:text-5xl font-black bg-gradient-to-br from-blue-600 to-green-500 bg-clip-text text-transparent">
-                      14+
-                    </div>
-                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                      سنة خبرة
-                    </div>
-                  </div>
-                  <div className="text-center space-y-1 border-x border-gray-200">
-                    <div className="text-4xl md:text-5xl font-black bg-gradient-to-br from-green-500 to-blue-600 bg-clip-text text-transparent">
-                      10K+
-                    </div>
-                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                      عميل سعيد
-                    </div>
-                  </div>
-                  <div className="text-center space-y-1">
-                    <div className="text-4xl md:text-5xl font-black bg-gradient-to-br from-blue-600 to-green-500 bg-clip-text text-transparent">
-                      99%
-                    </div>
-                    <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                      رضا العملاء
-                    </div>
-                  </div>
-                </div>
-
-                {/* CTA Buttons - Premium */}
-                <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <Link href="/appointments">
-                    <Button
-                      size="lg"
-                      className="group relative bg-gradient-to-r from-blue-600 to-green-500 hover:from-blue-700 hover:to-green-600 text-white px-10 py-5 font-bold shadow-xl hover:shadow-2xl transition-all duration-500 text-lg overflow-hidden"
-                    >
-                      <span className="relative z-10 flex items-center justify-center gap-3">
-                        احجز استشارة مجانية
-                        <svg
-                          className="w-5 h-5 group-hover:translate-x-1 transition-transform"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15 19l-7-7 7-7"
-                          />
-                        </svg>
+                  {/* Main Heading - Extra Large */}
+                  <div className="space-y-4">
+                    <h1 className="text-6xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight">
+                      <span className="block text-gray-900">ابتسامتك</span>
+                      <span className="block bg-gradient-to-l from-blue-600 via-green-500 to-blue-600 bg-clip-text text-transparent mt-2">
+                        تستحق الأفضل
                       </span>
-                      <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-                    </Button>
-                  </Link>
+                    </h1>
 
-                  <Link href="/services">
-                    <Button
-                      size="lg"
-                      className="group bg-white border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white px-10 py-5 font-bold transition-all duration-300 text-lg"
-                    >
-                      <span className="flex items-center justify-center gap-3">
-                        عرض الخدمات
-                        <svg
-                          className="w-5 h-5 group-hover:rotate-45 transition-transform"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M17 8l4 4m0 0l-4 4m4-4H3"
-                          />
-                        </svg>
-                      </span>
-                    </Button>
-                  </Link>
+                    {/* Decorative Line */}
+                    <div className="flex items-center gap-3 pt-2">
+                      <div className="h-1 w-20 bg-gradient-to-r from-green-500 to-blue-600 rounded-full"></div>
+                      <div className="h-1 w-12 bg-gradient-to-r from-blue-600 to-transparent rounded-full"></div>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-xl font-light">
+                    رعاية استثنائية لأسنانك مع أحدث التقنيات الطبية وفريق من
+                    أمهر الأطباء المتخصصين
+                  </p>
+
+                  {/* Stats - Premium Style */}
+                  <div className="grid grid-cols-3 gap-6 py-6 max-w-2xl">
+                    <div className="text-center space-y-1">
+                      <div className="text-4xl md:text-5xl font-black bg-gradient-to-br from-blue-600 to-green-500 bg-clip-text text-transparent">
+                        14+
+                      </div>
+                      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        سنة خبرة
+                      </div>
+                    </div>
+                    <div className="text-center space-y-1 border-x border-gray-200">
+                      <div className="text-4xl md:text-5xl font-black bg-gradient-to-br from-green-500 to-blue-600 bg-clip-text text-transparent">
+                        10K+
+                      </div>
+                      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        عميل سعيد
+                      </div>
+                    </div>
+                    <div className="text-center space-y-1">
+                      <div className="text-4xl md:text-5xl font-black bg-gradient-to-br from-blue-600 to-green-500 bg-clip-text text-transparent">
+                        99%
+                      </div>
+                      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        رضا العملاء
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CTA Buttons - Premium */}
+                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                    <Link href="/appointments">
+                      <Button
+                        size="lg"
+                        className="group relative bg-gradient-to-r from-blue-600 to-green-500 hover:from-blue-700 hover:to-green-600 text-white px-10 py-5 font-bold shadow-xl hover:shadow-2xl transition-all duration-500 text-lg overflow-hidden"
+                      >
+                        <span className="relative z-10 flex items-center justify-center gap-3">
+                          احجز استشارة مجانية
+                          <svg
+                            className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M15 19l-7-7 7-7"
+                            />
+                          </svg>
+                        </span>
+                        <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                      </Button>
+                    </Link>
+
+                    <Link href="/services">
+                      <Button
+                        size="lg"
+                        className="group bg-white border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white px-10 py-5 font-bold transition-all duration-300 text-lg"
+                      >
+                        <span className="flex items-center justify-center gap-3">
+                          عرض الخدمات
+                          <svg
+                            className="w-5 h-5 group-hover:rotate-45 transition-transform"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M17 8l4 4m0 0l-4 4m4-4H3"
+                            />
+                          </svg>
+                        </span>
+                      </Button>
+                    </Link>
+                  </div>
+
+                  {/* Trust Badges */}
+                  <div className="flex flex-wrap items-center gap-6 pt-4">
+                    {[
+                      { icon: "✓", text: "معتمد دولياً" },
+                      { icon: "✓", text: "ضمان مدى الحياة" },
+                      { icon: "✓", text: "فريق محترف" },
+                    ].map((badge, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <div className="w-5 h-5 bg-gradient-to-br from-green-500 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                          {badge.icon}
+                        </div>
+                        <span className="text-sm font-semibold text-gray-600">
+                          {badge.text}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                {/* Trust Badges */}
-                <div className="flex flex-wrap items-center gap-6 pt-4">
-                  {[
-                    { icon: "✓", text: "معتمد دولياً" },
-                    { icon: "✓", text: "ضمان مدى الحياة" },
-                    { icon: "✓", text: "فريق محترف" },
-                  ].map((badge, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <div className="w-5 h-5 bg-gradient-to-br from-green-500 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                        {badge.icon}
+                {/* Left Side - Premium Image (Takes 6 columns) */}
+                <div className="lg:col-span-6 relative order-first lg:order-last">
+                  <div className="relative">
+                    {/* Main Image Container */}
+                    <div className="relative rounded-[2rem] overflow-hidden shadow-2xl">
+                      <div className="aspect-[4/5] relative">
+                        <img
+                          src="/images/clinic-hero.png"
+                          alt="عيادة ابتسامة المستقبل"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src =
+                              "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=900&h=1100&fit=crop";
+                          }}
+                        />
+                        {/* Gradient Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 via-transparent to-transparent"></div>
                       </div>
-                      <span className="text-sm font-semibold text-gray-600">
-                        {badge.text}
-                      </span>
                     </div>
-                  ))}
-                </div>
-              </div>
 
-              {/* Left Side - Premium Image (Takes 6 columns) */}
-              <div className="lg:col-span-6 relative order-first lg:order-last">
-                <div className="relative">
-                  {/* Main Image Container */}
-                  <div className="relative rounded-[2rem] overflow-hidden shadow-2xl">
-                    <div className="aspect-[4/5] relative">
-                      <img
-                        src="/images/clinic-hero.png"
-                        alt="عيادة ابتسامة المستقبل"
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.currentTarget.src =
-                            "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=900&h=1100&fit=crop";
-                        }}
-                      />
-                      {/* Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 via-transparent to-transparent"></div>
-                    </div>
-                  </div>
-
-                  {/* Floating Card - Top Right */}
-                  <div className="absolute -top-6 -right-6 bg-white rounded-2xl p-6 shadow-2xl border border-gray-100 backdrop-blur-sm">
-                    <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-blue-600 rounded-xl flex items-center justify-center text-white text-2xl font-black">
-                        ⭐
-                      </div>
-                      <div>
-                        <div className="text-3xl font-black text-gray-900">
-                          4.9
+                    {/* Floating Card - Top Right */}
+                    <div className="absolute -top-6 -right-6 bg-white rounded-2xl p-6 shadow-2xl border border-gray-100 backdrop-blur-sm">
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-blue-600 rounded-xl flex items-center justify-center text-white text-2xl font-black">
+                          ⭐
                         </div>
-                        <div className="text-xs text-gray-500 font-semibold">
-                          من 1,247 تقييم
+                        <div>
+                          <div className="text-3xl font-black text-gray-900">
+                            4.9
+                          </div>
+                          <div className="text-xs text-gray-500 font-semibold">
+                            من 1,247 تقييم
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Floating Card - Bottom Left */}
-                  <div className="absolute -bottom-8 -left-8 bg-gradient-to-br from-blue-600 to-green-500 rounded-2xl p-6 shadow-2xl text-white">
-                    <div className="flex items-center gap-4">
-                      <div className="space-y-1">
-                        <div className="text-sm font-semibold opacity-90">
-                          تكنولوجيا متقدمة
+                    {/* Floating Card - Bottom Left */}
+                    <div className="absolute -bottom-8 -left-8 bg-gradient-to-br from-blue-600 to-green-500 rounded-2xl p-6 shadow-2xl text-white">
+                      <div className="flex items-center gap-4">
+                        <div className="space-y-1">
+                          <div className="text-sm font-semibold opacity-90">
+                            تكنولوجيا متقدمة
+                          </div>
+                          <div className="text-2xl font-black">100%</div>
                         </div>
-                        <div className="text-2xl font-black">100%</div>
-                      </div>
-                      <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                        <svg
-                          className="w-7 h-7"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M13 10V3L4 14h7v7l9-11h-7z"
-                          />
-                        </svg>
+                        <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                          <svg
+                            className="w-7 h-7"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M13 10V3L4 14h7v7l9-11h-7z"
+                            />
+                          </svg>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Decorative Circle */}
-                  <div
-                    data-hero-circle
-                    className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-br from-blue-100/30 to-green-100/30 rounded-full blur-3xl"
-                  ></div>
+                    {/* Decorative Circle */}
+                    <div
+                      data-hero-circle
+                      className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-br from-blue-100/30 to-green-100/30 rounded-full blur-3xl"
+                    ></div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Scroll Indicator - Minimal */}
-          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-            <div className="w-6 h-10 border-2 border-gray-300 rounded-full flex justify-center pt-2">
-              <div className="w-1 h-2 bg-gray-400 rounded-full"></div>
+            {/* Scroll Indicator - Minimal */}
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+              <div className="w-6 h-10 border-2 border-gray-300 rounded-full flex justify-center pt-2">
+                <div className="w-1 h-2 bg-gray-400 rounded-full"></div>
+              </div>
             </div>
-          </div>
-        </section>
-
+          </section>
+        </div>
         {/* Services Section - Enhanced */}
-        <section className="py-24 bg-gradient-to-b from-white via-gray-50 to-white relative">
+        <section
+          className="py-24 bg-gradient-to-b from-white via-gray-50 to-white relative"
+          style={{ opacity: loadingComplete ? 1 : 0 }}
+        >
           {/* Decorative Elements */}
           <div className="absolute top-0 left-0 w-64 h-64 bg-blue-100 rounded-full filter blur-3xl opacity-30"></div>
           <div className="absolute bottom-0 right-0 w-64 h-64 bg-indigo-100 rounded-full filter blur-3xl opacity-30"></div>
@@ -445,7 +449,10 @@ export default function HomePage() {
         </section>
 
         {/* Features Section - Enhanced */}
-        <section className="py-24 bg-gradient-to-b from-gray-900 via-blue-900 to-indigo-900 relative overflow-hidden">
+        <section
+          className="py-24 bg-gradient-to-b from-gray-900 via-blue-900 to-indigo-900 relative overflow-hidden"
+          style={{ opacity: loadingComplete ? 1 : 0 }}
+        >
           {/* Animated Background */}
           <div className="absolute inset-0">
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
@@ -688,7 +695,10 @@ export default function HomePage() {
         </section>
 
         {/* Testimonials Section - Enhanced */}
-        <section className="py-24 bg-gradient-to-b from-white to-gray-50 relative">
+        <section
+          className="py-24 bg-gradient-to-b from-white to-gray-50 relative"
+          style={{ opacity: loadingComplete ? 1 : 0 }}
+        >
           {/* Decorative Elements */}
           <div className="absolute top-1/4 right-0 w-64 h-64 bg-blue-100 rounded-full filter blur-3xl opacity-20"></div>
           <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-indigo-100 rounded-full filter blur-3xl opacity-20"></div>
@@ -847,7 +857,10 @@ export default function HomePage() {
         </section>
 
         {/* CTA Section - Enhanced */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 py-24">
+        <section
+          className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 py-24"
+          style={{ opacity: loadingComplete ? 1 : 0 }}
+        >
           {/* Animated Background */}
           <div className="absolute inset-0">
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full filter blur-3xl opacity-10 animate-blob"></div>
@@ -1002,6 +1015,13 @@ export default function HomePage() {
             </svg>
           </div>
         </section>
+
+        {/* Footer (Last Slide) */}
+        <div
+          className="h-full flex flex-col justify-end bg-gray-50"
+          style={{ opacity: loadingComplete ? 1 : 0 }}
+        >
+          <Footer />
         </div>
       </FullPageScroller>
     </>
