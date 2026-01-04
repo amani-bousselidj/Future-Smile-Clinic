@@ -90,7 +90,7 @@ export default function HeroTooth({
     <section className={styles.hero} aria-label="Hero Section">
       {/* Header - only in first slide */}
       {showHeader && <Header onLoadingComplete={loadingComplete} />}
-      
+
       {/* Background with gradient overlay */}
       <div className={styles.gradientBg} aria-hidden />
 
