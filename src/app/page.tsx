@@ -26,7 +26,7 @@ export default function HomePage() {
   const { data: services, loading } = useFetch<{ results: Service[] }>(
     "/api/services/?is_active=true"
   );
-  
+
   // Transform services data for ServicesSection component
   const transformedServices = services?.results.map((service) => ({
     id: service.id,
@@ -41,12 +41,10 @@ export default function HomePage() {
       {!loadingComplete && (
         <LoadingSplash onComplete={() => setLoadingComplete(true)} />
       )}
-      <Header onLoadingComplete={loadingComplete} />
       <FullPageScroller enabled={loadingComplete} scrollableSlideIndex={-1}>
-        <HeroTooth loadingComplete={loadingComplete} />
+        <HeroTooth loadingComplete={loadingComplete} showHeader={true} />
         <ServicesSection services={transformedServices} loading={loading} />
       </FullPageScroller>
     </>
   );
-
 }

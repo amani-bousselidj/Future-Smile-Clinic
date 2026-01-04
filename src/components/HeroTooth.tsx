@@ -2,14 +2,17 @@
 
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
+import { Header } from "./Header";
 import styles from "./HeroTooth.module.css";
 
 interface HeroToothProps {
   loadingComplete?: boolean;
+  showHeader?: boolean;
 }
 
 export default function HeroTooth({
   loadingComplete = false,
+  showHeader = false,
 }: HeroToothProps): JSX.Element {
   const textRef = useRef<HTMLDivElement>(null);
 
@@ -85,6 +88,9 @@ export default function HeroTooth({
 
   return (
     <section className={styles.hero} aria-label="Hero Section">
+      {/* Header - only in first slide */}
+      {showHeader && <Header onLoadingComplete={loadingComplete} />}
+      
       {/* Background with gradient overlay */}
       <div className={styles.gradientBg} aria-hidden />
 

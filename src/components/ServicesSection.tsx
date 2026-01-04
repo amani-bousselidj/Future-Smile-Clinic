@@ -23,14 +23,57 @@ export default function ServicesSection({
 }: ServicesSectionProps) {
   const [activeServiceId, setActiveServiceId] = useState<number | null>(null);
 
+  // Dummy data for preview
+  const dummyServices: Service[] = [
+    {
+      id: 1,
+      title: "تبييض الأسنان",
+      description: "احصل على ابتسامة بيضاء مشرقة باستخدام أحدث تقنيات التبييض الآمنة والفعالة. نتائج فورية ودائمة.",
+      price: 15000,
+    },
+    {
+      id: 2,
+      title: "تقويم الأسنان",
+      description: "تصحيح وضع الأسنان باستخدام تقنيات التقويم الشفاف أو المعدني. نتائج مضمونة مع متابعة دورية.",
+      price: 80000,
+    },
+    {
+      id: 3,
+      title: "زراعة الأسنان",
+      description: "زراعة الأسنان المفقودة بتقنية حديثة وآمنة. نستخدم أفضل الغرسات العالمية لضمان النجاح.",
+      price: 120000,
+    },
+    {
+      id: 4,
+      title: "تنظيف الأسنان",
+      description: "تنظيف عميق واحترافي للأسنان واللثة. إزالة الجير والبلاك مع تلميع الأسنان.",
+      price: 5000,
+    },
+    {
+      id: 5,
+      title: "علاج الجذور",
+      description: "علاج العصب وإنقاذ الأسنان المتضررة. نستخدم أحدث التقنيات لضمان علاج خالٍ من الألم.",
+      price: 25000,
+    },
+    {
+      id: 6,
+      title: "تركيبات الأسنان",
+      description: "تركيبات ثابتة ومتحركة بجودة عالية. تيجان وجسور بمواد طبية متطورة.",
+      price: 35000,
+    },
+  ];
+
+  // Use dummy data if no services provided
+  const displayServices = services && services.length > 0 ? services : dummyServices;
+
   // Set first service as active on mount
   React.useEffect(() => {
-    if (services && services.length > 0 && !activeServiceId) {
-      setActiveServiceId(services[0].id);
+    if (displayServices && displayServices.length > 0 && !activeServiceId) {
+      setActiveServiceId(displayServices[0].id);
     }
-  }, [services, activeServiceId]);
+  }, [displayServices, activeServiceId]);
 
-  const activeService = services?.find((s) => s.id === activeServiceId);
+  const activeService = displayServices?.find((s) => s.id === activeServiceId);
 
   if (loading) {
     return (
@@ -58,7 +101,7 @@ export default function ServicesSection({
           {/* Services List - Left Side */}
           <div className="lg:col-span-5 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100">
             <div className="space-y-3">
-              {services?.map((service) => (
+              {displayServices?.map((service) => (
                 <button
                   key={service.id}
                   onClick={() => setActiveServiceId(service.id)}
