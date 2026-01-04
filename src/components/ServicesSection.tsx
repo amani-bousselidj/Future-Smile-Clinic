@@ -216,9 +216,6 @@ export default function ServicesSection({
                     </div>
                   )}
                 </div>
-                <button className="px-6 py-3 bg-gradient-to-r from-gray-700 to-gray-600 text-white rounded-xl hover:shadow-xl transition-all duration-300 font-bold">
-                  احجز موعد الآن
-                </button>
               </>
             )}
           </div>
