@@ -26,7 +26,7 @@ export default function HomePage() {
   const { data: services, loading } = useFetch<{ results: Service[] }>(
     "/api/services/?is_active=true"
   );
-
+  
   // Transform services data for ServicesSection component
   const transformedServices = services?.results.map((service) => ({
     id: service.id,
@@ -48,3 +48,5 @@ export default function HomePage() {
       </FullPageScroller>
     </>
   );
+
+}
