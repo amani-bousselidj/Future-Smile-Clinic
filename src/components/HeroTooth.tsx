@@ -36,26 +36,29 @@ export default function HeroTooth({
 
   const text = "FUTURE SMILE CLINIC";
   const brandRef = React.useRef<HTMLDivElement | null>(null);
+  const brandInnerRef = React.useRef<HTMLSpanElement | null>(null);
 
   // Fit the brand text by applying a horizontal scale so the phrase fills the available header width
   React.useEffect(() => {
     if (!loadingComplete) return;
     const el = brandRef.current;
-    if (!el) return;
+    const inner = brandInnerRef.current;
+    if (!el || !inner) return;
 
     let timer: any = null;
     const fit = () => {
       // Make the phrase fill the full width of the letters div itself.
       // The parent container handles header alignment; this element should just fill 100%.
       const containerWidth = el.clientWidth;
-      const textWidth = el.scrollWidth;
+      // Measure actual text width using the shrink-to-fit inner wrapper
+      const textWidth = inner.scrollWidth;
       if (!textWidth || !containerWidth) return;
 
       const scaleX = containerWidth / textWidth;
 
-      el.style.whiteSpace = "nowrap";
-      el.style.transformOrigin = "center";
-      el.style.transform = `scaleX(${scaleX}) scaleY(1.15)`;
+      inner.style.whiteSpace = "nowrap";
+      inner.style.transformOrigin = "center";
+      inner.style.transform = `scaleX(${scaleX}) scaleY(1.15)`;
     };
 
     fit();
@@ -79,11 +82,13 @@ export default function HeroTooth({
       <div className={styles.textLayer} ref={textRef} aria-hidden>
         <div className={styles.brandContainer}>
           <div className={styles.brandText} ref={brandRef}>
-            {text.split("").map((char, index) => (
-              <span key={index} className={styles.letter}>
-                {char === " " ? "\u00A0" : char}
-              </span>
-            ))}
+            <span className={styles.brandInner} ref={brandInnerRef}>
+              {text.split("").map((char, index) => (
+                <span key={index} className={styles.letter}>
+                  {char === " " ? "\u00A0" : char}
+                </span>
+              ))}
+            </span>
           </div>
         </div>
       </div>
