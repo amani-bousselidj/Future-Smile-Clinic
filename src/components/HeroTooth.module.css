@@ -49,6 +49,10 @@
   overflow: visible;
   direction: ltr;
   width: 100%;
+  max-width: 1280px; /* match header max width */
+  margin: 0 auto;
+  padding: 0 1.5rem; /* align with header px-6 */
+  box-sizing: border-box;
   text-align: center;
   transform: scaleY(1.15);
 }

@@ -70,10 +70,7 @@ export default function HeroTooth({
       {/* Layer 4 — Foreground: nav + front text (z-index:4) */}
       {/* Booking button: centered under hero on small screens, fixed bottom-right on large screens */}
       <div className={styles.ctaWrapper}>
-        <Link
-          href="/appointments"
-          className={styles.ctaButton}
-        >
+        <Link href="/appointments" className={styles.ctaButton}>
           <span>حجز موعد</span>
           <div className={styles.ctaIcon}>
             <svg
