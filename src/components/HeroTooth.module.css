@@ -188,9 +188,10 @@
 }
 
 /* CTA wrapper for hero booking button to ensure visibility and correct stacking */
-    white-space: nowrap;
+.ctaWrapper {
   position: absolute;
   left: 0;
+  right: 0;
   bottom: 7.5rem;
   display: flex;
   justify-content: center;
