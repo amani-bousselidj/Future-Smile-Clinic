@@ -45,45 +45,17 @@ export default function HeroTooth({
 
     let timer: any = null;
     const fit = () => {
-      // Try to measure the inner header available width (container minus left/right items)
-      const headerInner = document.querySelector(
-        "[data-header-inner]"
-      ) as HTMLElement | null;
-      const headerLeft = headerInner?.querySelector(
-        "[data-header-left]"
-      ) as HTMLElement | null;
-      const headerRight = headerInner?.querySelector(
-        "[data-header-right]"
-      ) as HTMLElement | null;
-
-      const headerInnerWidth = headerInner
-        ? headerInner.clientWidth
-        : el.parentElement
-        ? el.parentElement.clientWidth
-        : el.clientWidth;
-      const leftW = headerLeft ? headerLeft.offsetWidth : 0;
-      const rightW = headerRight ? headerRight.offsetWidth : 0;
-
-      const availableWidth = Math.max(
-        64,
-        headerInnerWidth - leftW - rightW - 32
-      ); // small margin buffer
-
+      // Make the phrase fill the full width of the letters div itself.
+      // The parent container handles header alignment; this element should just fill 100%.
+      const containerWidth = el.clientWidth;
       const textWidth = el.scrollWidth;
-      if (!textWidth || !availableWidth) return;
+      if (!textWidth || !containerWidth) return;
 
-      // compute scale so full phrase fills the available header inner width
-      const scaleX = availableWidth / textWidth;
-
-      // cap excessive distortion
-      const cappedScaleX = Math.max(0.8, Math.min(1.25, scaleX));
+      const scaleX = containerWidth / textWidth;
 
       el.style.whiteSpace = "nowrap";
       el.style.transformOrigin = "center";
-      el.style.transform = `scaleX(${cappedScaleX}) scaleY(1.15)`;
-      // ensure element has same visual width as available area
-      el.style.maxWidth = `${availableWidth}px`;
-      el.style.display = "inline-block";
+      el.style.transform = `scaleX(${scaleX}) scaleY(1.15)`;
     };
 
     fit();
@@ -105,12 +77,14 @@ export default function HeroTooth({
 
       {/* Text layer behind tooth */}
       <div className={styles.textLayer} ref={textRef} aria-hidden>
-        <div className={styles.brandText} ref={brandRef}>
-          {text.split("").map((char, index) => (
-            <span key={index} className={styles.letter}>
-              {char === " " ? "\u00A0" : char}
-            </span>
-          ))}
+        <div className={styles.brandContainer}>
+          <div className={styles.brandText} ref={brandRef}>
+            {text.split("").map((char, index) => (
+              <span key={index} className={styles.letter}>
+                {char === " " ? "\u00A0" : char}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
