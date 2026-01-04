@@ -65,6 +65,24 @@
   will-change: transform;
 }
 
+.fullOnly {
+  display: inline-block;
+}
+
+.compactOnly {
+  display: none;
+}
+
+@media (max-width: 520px) {
+  .fullOnly {
+    display: none;
+  }
+
+  .compactOnly {
+    display: inline-block;
+  }
+}
+
 /* Mobile screens: allow text wrapping and increase size */
 @media (max-width: 768px) {
   .textLayer {
@@ -170,10 +188,9 @@
 }
 
 /* CTA wrapper for hero booking button to ensure visibility and correct stacking */
-.ctaWrapper {
+    white-space: nowrap;
   position: absolute;
   left: 0;
-  right: 0;
   bottom: 7.5rem;
   display: flex;
   justify-content: center;

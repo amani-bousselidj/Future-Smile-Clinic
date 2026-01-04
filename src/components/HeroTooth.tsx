@@ -34,31 +34,44 @@ export default function HeroTooth({
     }, 300); // Wait 300ms after loading completes
   }, [loadingComplete]);
 
-  const text = "FUTURE SMILE CLINIC";
+  const fullText = "FUTURE SMILE CLINIC";
+  const compactText = "FUTURE SMILE";
   const brandRef = React.useRef<HTMLDivElement | null>(null);
-  const brandInnerRef = React.useRef<HTMLSpanElement | null>(null);
+  const fullInnerRef = React.useRef<HTMLSpanElement | null>(null);
+  const compactInnerRef = React.useRef<HTMLSpanElement | null>(null);
 
   // Fit the brand text by applying a horizontal scale so the phrase fills the available header width
   React.useEffect(() => {
     if (!loadingComplete) return;
     const el = brandRef.current;
-    const inner = brandInnerRef.current;
-    if (!el || !inner) return;
+    const fullInner = fullInnerRef.current;
+    const compactInner = compactInnerRef.current;
+    if (!el || !fullInner || !compactInner) return;
 
     let timer: any = null;
     const fit = () => {
       // Make the phrase fill the full width of the letters div itself.
       // The parent container handles header alignment; this element should just fill 100%.
       const containerWidth = el.clientWidth;
+      const useCompact = window.innerWidth <= 520;
+      const activeInner = useCompact ? compactInner : fullInner;
+      const inactiveInner = useCompact ? fullInner : compactInner;
+
+      // Reset inactive variant so it doesn't affect layout/measurement
+      inactiveInner.style.transform = "";
+
       // Measure actual text width using the shrink-to-fit inner wrapper
-      const textWidth = inner.scrollWidth;
+      const textWidth = activeInner.scrollWidth;
       if (!textWidth || !containerWidth) return;
 
       const scaleX = containerWidth / textWidth;
 
-      inner.style.whiteSpace = "nowrap";
-      inner.style.transformOrigin = "center";
-      inner.style.transform = `scaleX(${scaleX}) scaleY(1.15)`;
+      // Make letters a bit taller without changing their font-size.
+      const scaleY = 1.28;
+
+      activeInner.style.whiteSpace = "nowrap";
+      activeInner.style.transformOrigin = "center";
+      activeInner.style.transform = `scaleX(${scaleX}) scaleY(${scaleY})`;
     };
 
     fit();
@@ -82,9 +95,19 @@ export default function HeroTooth({
       <div className={styles.textLayer} ref={textRef} aria-hidden>
         <div className={styles.brandContainer}>
           <div className={styles.brandText} ref={brandRef}>
-            <span className={styles.brandInner} ref={brandInnerRef}>
-              {text.split("").map((char, index) => (
-                <span key={index} className={styles.letter}>
+            <span className={`${styles.brandInner} ${styles.fullOnly}`} ref={fullInnerRef}>
+              {fullText.split("").map((char, index) => (
+                <span key={`f-${index}`} className={styles.letter}>
+                  {char === " " ? "\u00A0" : char}
+                </span>
+              ))}
+            </span>
+            <span
+              className={`${styles.brandInner} ${styles.compactOnly}`}
+              ref={compactInnerRef}
+            >
+              {compactText.split("").map((char, index) => (
+                <span key={`c-${index}`} className={styles.letter}>
                   {char === " " ? "\u00A0" : char}
                 </span>
               ))}
