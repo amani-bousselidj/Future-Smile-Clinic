@@ -37,7 +37,7 @@ export default function HeroTooth({
   const text = "FUTURE SMILE CLINIC";
   const brandRef = React.useRef<HTMLDivElement | null>(null);
 
-  // Fit the brand text by applying a horizontal scale so the phrase fills the available width
+  // Fit the brand text by applying a horizontal scale so the phrase fills the available header width
   React.useEffect(() => {
     if (!loadingComplete) return;
     const el = brandRef.current;
@@ -50,18 +50,11 @@ export default function HeroTooth({
       const textWidth = el.scrollWidth;
       if (!textWidth || !containerWidth) return;
 
-      // On small screens we keep normal scaling (allow wrapping), on desktop we stretch
-      if (window.innerWidth < 768) {
-        el.style.transform = "scaleY(1.25)";
-        el.style.whiteSpace = "normal";
-        el.style.letterSpacing = "";
-        return;
-      }
-
+      // Always force nowrap and compute scaleX to fill the container width.
       const scaleX = containerWidth / textWidth;
-      el.style.transform = `scaleX(${scaleX}) scaleY(1.15)`;
-      el.style.transformOrigin = "center";
       el.style.whiteSpace = "nowrap";
+      el.style.transformOrigin = "center";
+      el.style.transform = `scaleX(${scaleX}) scaleY(1.15)`;
     };
 
     fit();
