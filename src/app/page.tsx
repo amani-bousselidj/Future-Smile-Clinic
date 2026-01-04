@@ -6,7 +6,6 @@
 import React, { useState } from "react";
 import { useFetch } from "@/lib/hooks";
 import { LoadingSplash } from "@/components/LoadingSplash";
-import { Header } from "@/components/Header";
 import { FullPageScroller } from "@/components/FullPageScroller";
 import HeroTooth from "@/components/HeroTooth";
 import { ServicesSection } from "@/components";
