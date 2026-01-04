@@ -35,7 +35,7 @@ export default function HeroTooth({
   }, [loadingComplete]);
 
   const fullText = "FUTURE SMILE CLINIC";
-  const compactText = "FUTURE SMILE";
+  const compactText = "FUTURE SMILE CLINIC";
   const brandRef = React.useRef<HTMLDivElement | null>(null);
   const fullInnerRef = React.useRef<HTMLSpanElement | null>(null);
   const compactInnerRef = React.useRef<HTMLSpanElement | null>(null);
@@ -95,7 +95,10 @@ export default function HeroTooth({
       <div className={styles.textLayer} ref={textRef} aria-hidden>
         <div className={styles.brandContainer}>
           <div className={styles.brandText} ref={brandRef}>
-            <span className={`${styles.brandInner} ${styles.fullOnly}`} ref={fullInnerRef}>
+            <span
+              className={`${styles.brandInner} ${styles.fullOnly}`}
+              ref={fullInnerRef}
+            >
               {fullText.split("").map((char, index) => (
                 <span key={`f-${index}`} className={styles.letter}>
                   {char === " " ? "\u00A0" : char}

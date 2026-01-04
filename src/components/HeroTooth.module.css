@@ -70,7 +70,16 @@
 }
 
 .compactOnly {
-  display: none;
+  display: inline-block;
+  font-size: clamp(1.1rem, 7vw, 2.1rem);
+  letter-spacing: 0.01em;
+  word-spacing: 0.05em;
+  max-width: 100vw;
+  white-space: normal;
+  line-height: 1.15;
+  text-align: center;
+  overflow: visible;
+  text-overflow: unset;
 }
 
 @media (max-width: 520px) {
