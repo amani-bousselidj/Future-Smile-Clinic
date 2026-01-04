@@ -19,9 +19,9 @@ export default function ServicesSection({
   services,
   loading,
 }: ServicesSectionProps) {
-  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [activeServiceId, setActiveServiceId] = useState<number | null>(1);
 
-  // Dummy data for preview
+  // Dummy data for preview with images
   const dummyServices: Service[] = [
     {
       id: 1,
@@ -29,6 +29,7 @@ export default function ServicesSection({
       description:
         "احصل على ابتسامة بيضاء مشرقة باستخدام أحدث تقنيات التبييض الآمنة والفعالة. نتائج فورية ودائمة.",
       price: 15000,
+      image: "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=800",
     },
     {
       id: 2,
@@ -36,6 +37,7 @@ export default function ServicesSection({
       description:
         "تصحيح وضع الأسنان باستخدام تقنيات التقويم الشفاف أو المعدني. نتائج مضمونة مع متابعة دورية.",
       price: 80000,
+      image: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800",
     },
     {
       id: 3,
@@ -43,6 +45,7 @@ export default function ServicesSection({
       description:
         "زراعة الأسنان المفقودة بتقنية حديثة وآمنة. نستخدم أفضل الغرسات العالمية لضمان النجاح.",
       price: 120000,
+      image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800",
     },
     {
       id: 4,
@@ -50,6 +53,7 @@ export default function ServicesSection({
       description:
         "تنظيف عميق واحترافي للأسنان واللثة. إزالة الجير والبلاك مع تلميع الأسنان.",
       price: 5000,
+      image: "https://images.unsplash.com/photo-1609619385002-f40499ef5a5c?w=800",
     },
     {
       id: 5,
@@ -57,6 +61,7 @@ export default function ServicesSection({
       description:
         "علاج العصب وإنقاذ الأسنان المتضررة. نستخدم أحدث التقنيات لضمان علاج خالٍ من الألم.",
       price: 25000,
+      image: "https://images.unsplash.com/photo-1598256989800-fe5f95da9787?w=800",
     },
     {
       id: 6,
@@ -64,6 +69,7 @@ export default function ServicesSection({
       description:
         "تركيبات ثابتة ومتحركة بجودة عالية. تيجان وجسور بمواد طبية متطورة.",
       price: 35000,
+      image: "https://images.unsplash.com/photo-1606811971618-4486d9d8f37a?w=800",
     },
   ];
 
@@ -71,106 +77,151 @@ export default function ServicesSection({
   const displayServices =
     services && services.length > 0 ? services : dummyServices;
 
-  const toggleExpand = (id: number) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
+  const activeService = displayServices?.find((s) => s.id === activeServiceId);
 
   if (loading) {
     return (
-      <div className="h-screen w-full flex items-center justify-center" style={{
-        background: "linear-gradient(135deg, #ffffff 0%, #c5d1d6 30%, #c5d1d6 70%, #ffffff 100%)"
-      }}>
+      <div
+        className="h-screen w-full flex items-center justify-center"
+        style={{
+          background:
+            "linear-gradient(135deg, #ffffff 0%, #c5d1d6 30%, #c5d1d6 70%, #ffffff 100%)",
+        }}
+      >
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-600"></div>
       </div>
     );
   }
 
   return (
-    <div 
-      className="h-screen w-full overflow-hidden flex items-center justify-center"
+    <div
+      className="h-screen w-full overflow-hidden relative"
       style={{
-        background: "linear-gradient(135deg, #ffffff 0%, #c5d1d6 30%, #c5d1d6 70%, #ffffff 100%)"
+        background:
+          "linear-gradient(135deg, #ffffff 0%, #c5d1d6 30%, #c5d1d6 70%, #ffffff 100%)",
       }}
     >
       {/* Gradient overlay matching HeroTooth */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse at 50% 40%, rgba(197, 209, 214, 0.2) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(197, 209, 214, 0.15) 100%)",
+          background:
+            "radial-gradient(ellipse at 50% 40%, rgba(197, 209, 214, 0.2) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(197, 209, 214, 0.15) 100%)",
           zIndex: 0,
         }}
       />
 
-      <div className="relative z-10 w-full max-w-3xl mx-auto px-6 py-12">
+      <div className="relative z-10 h-full flex flex-col px-6 py-8 max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-3">
+        <div className="mb-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
             خدماتنا الطبية
           </h2>
-          <p className="text-lg text-gray-600">
+          <p className="text-base text-gray-600">
             نقدم أفضل خدمات العناية بالأسنان
           </p>
         </div>
 
-        {/* Services Accordion */}
-        <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-          {displayServices?.map((service) => {
-            const isExpanded = expandedId === service.id;
-            return (
-              <div
-                key={service.id}
-                className="bg-white/80 backdrop-blur-sm rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
-              >
-                {/* Service Header - Clickable */}
+        {/* Two Columns Layout */}
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0">
+          {/* Right Side - Services List */}
+          <div className="flex flex-col gap-2 overflow-hidden">
+            {displayServices?.map((service) => {
+              const isActive = activeServiceId === service.id;
+              return (
                 <button
-                  onClick={() => toggleExpand(service.id)}
-                  className="w-full px-5 py-4 text-right flex items-center justify-between hover:bg-gray-50/50 rounded-lg transition-colors duration-200"
-                >
-                  <div className="flex items-center gap-3">
-                    {service.price && (
-                      <span className="text-lg font-bold text-gray-700">
-                        {service.price.toLocaleString()} دج
-                      </span>
-                    )}
-                    <svg
-                      className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${
-                        isExpanded ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-800">
-                    {service.title}
-                  </h3>
-                </button>
-
-                {/* Service Details - Expandable */}
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    isExpanded ? "max-h-96" : "max-h-0"
+                  key={service.id}
+                  onClick={() => setActiveServiceId(service.id)}
+                  className={`text-right p-3 rounded-xl transition-all duration-300 ${
+                    isActive
+                      ? "bg-white/90 shadow-lg scale-[1.02]"
+                      : "bg-white/60 hover:bg-white/75 shadow-md"
                   }`}
                 >
-                  <div className="px-5 pb-4 pt-2 border-t border-gray-200">
-                    <p className="text-gray-700 leading-relaxed text-right">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      {service.price && (
+                        <span
+                          className={`text-sm font-bold ${
+                            isActive ? "text-gray-800" : "text-gray-600"
+                          }`}
+                        >
+                          {service.price.toLocaleString()} دج
+                        </span>
+                      )}
+                      <svg
+                        className={`w-4 h-4 transition-transform duration-300 ${
+                          isActive ? "text-gray-800 rotate-180" : "text-gray-400"
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </div>
+                    <h3
+                      className={`text-lg font-bold ${
+                        isActive ? "text-gray-800" : "text-gray-700"
+                      }`}
+                    >
+                      {service.title}
+                    </h3>
+                  </div>
+                  {/* Show description when active */}
+                  {isActive && (
+                    <p className="text-sm text-gray-600 mt-2 text-right leading-relaxed">
                       {service.description}
                     </p>
-                    <button className="mt-4 px-6 py-2 bg-gradient-to-r from-gray-700 to-gray-600 text-white rounded-lg hover:shadow-lg transition-all duration-300 w-full md:w-auto">
-                      احجز الآن
-                    </button>
-                  </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Left Side - Service Image */}
+          <div className="flex flex-col gap-4">
+            {activeService && (
+              <>
+                <div className="flex-1 relative rounded-2xl overflow-hidden shadow-2xl bg-white/50">
+                  {activeService.image ? (
+                    <img
+                      src={activeService.image}
+                      alt={activeService.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center bg-white/70">
+                      <div className="text-center">
+                        <svg
+                          className="w-20 h-20 mx-auto text-gray-300 mb-3"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          />
+                        </svg>
+                        <p className="text-gray-500 text-sm">صورة الخدمة</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            );
-          })}
+                <button className="px-6 py-3 bg-gradient-to-r from-gray-700 to-gray-600 text-white rounded-xl hover:shadow-xl transition-all duration-300 font-bold">
+                  احجز موعد الآن
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
