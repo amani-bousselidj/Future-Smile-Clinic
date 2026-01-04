@@ -94,8 +94,15 @@ export default function HeroTooth({
           <div className={styles.brandText} ref={brandRef}>
             <span className={styles.brandInner} ref={brandInnerRef}>
               {textTop.split("").map((char, index) => (
-                <span key={`t-${index}`} className={styles.letter}>
-                  {char === " " ? " " : char}
+                <span
+                  key={`t-${index}`}
+                  className={
+                    char === " "
+                      ? `${styles.letter} ${styles.space}`
+                      : styles.letter
+                  }
+                >
+                  {char === " " ? "\u00A0" : char}
                 </span>
               ))}
               <span className={styles.break} aria-hidden />
