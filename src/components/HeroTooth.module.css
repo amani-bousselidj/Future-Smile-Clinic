@@ -69,6 +69,10 @@
   display: none;
 }
 
+.desktopGap {
+  display: inline-block;
+}
+
 /* Mobile screens: allow text wrapping and increase size */
 @media (max-width: 768px) {
   .textLayer {
@@ -97,6 +101,10 @@
     display: block;
     width: 100%;
     height: 0;
+  }
+
+  .desktopGap {
+    display: none;
   }
 }
 

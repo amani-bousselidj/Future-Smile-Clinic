@@ -106,6 +106,12 @@ export default function HeroTooth({
                 </span>
               ))}
               <span className={styles.break} aria-hidden />
+              <span
+                className={`${styles.letter} ${styles.space} ${styles.desktopGap}`}
+                aria-hidden
+              >
+                {"\u00A0"}
+              </span>
               {textBottom.split("").map((char, index) => (
                 <span key={`b-${index}`} className={styles.letter}>
                   {char}
