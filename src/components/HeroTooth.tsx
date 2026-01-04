@@ -35,6 +35,8 @@ export default function HeroTooth({
   }, [loadingComplete]);
 
   const text = "FUTURE SMILE CLINIC";
+  // Render only letters (exclude spaces) so we can distribute them evenly across the line
+  const lettersOnly = text.replace(/\s+/g, "").split("");
 
   return (
     <section className={styles.hero} aria-label="Hero Section">
@@ -44,9 +46,9 @@ export default function HeroTooth({
       {/* Text layer behind tooth */}
       <div className={styles.textLayer} ref={textRef} aria-hidden>
         <div className={styles.brandText}>
-          {text.split("").map((char, index) => (
+          {lettersOnly.map((char, index) => (
             <span key={index} className={styles.letter}>
-              {char === " " ? "\u00A0" : char}
+              {char}
             </span>
           ))}
         </div>
