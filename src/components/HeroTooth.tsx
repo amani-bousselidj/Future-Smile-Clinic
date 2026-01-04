@@ -35,8 +35,46 @@ export default function HeroTooth({
   }, [loadingComplete]);
 
   const text = "FUTURE SMILE CLINIC";
-  // Render only letters (exclude spaces) so we can distribute them evenly across the line
-  const lettersOnly = text.replace(/\s+/g, "").split("");
+  const brandRef = React.useRef<HTMLDivElement | null>(null);
+
+  // Fit the brand text by applying a horizontal scale so the phrase fills the available width
+  React.useEffect(() => {
+    if (!loadingComplete) return;
+    const el = brandRef.current;
+    if (!el) return;
+
+    let timer: any = null;
+    const fit = () => {
+      const parent = el.parentElement as HTMLElement | null;
+      const containerWidth = parent ? parent.clientWidth : el.clientWidth;
+      const textWidth = el.scrollWidth;
+      if (!textWidth || !containerWidth) return;
+
+      // On small screens we keep normal scaling (allow wrapping), on desktop we stretch
+      if (window.innerWidth < 768) {
+        el.style.transform = "scaleY(1.25)";
+        el.style.whiteSpace = "normal";
+        el.style.letterSpacing = "";
+        return;
+      }
+
+      const scaleX = containerWidth / textWidth;
+      el.style.transform = `scaleX(${scaleX}) scaleY(1.15)`;
+      el.style.transformOrigin = "center";
+      el.style.whiteSpace = "nowrap";
+    };
+
+    fit();
+    const onResize = () => {
+      clearTimeout(timer);
+      timer = setTimeout(fit, 80);
+    };
+    window.addEventListener("resize", onResize);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [loadingComplete]);
 
   return (
     <section className={styles.hero} aria-label="Hero Section">
@@ -45,10 +83,10 @@ export default function HeroTooth({
 
       {/* Text layer behind tooth */}
       <div className={styles.textLayer} ref={textRef} aria-hidden>
-        <div className={styles.brandText}>
-          {lettersOnly.map((char, index) => (
+        <div className={styles.brandText} ref={brandRef}>
+          {text.split("").map((char, index) => (
             <span key={index} className={styles.letter}>
-              {char}
+              {char === " " ? "\u00A0" : char}
             </span>
           ))}
         </div>

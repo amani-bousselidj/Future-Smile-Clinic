@@ -69,9 +69,8 @@
     line-height: 1.2;
     word-spacing: 0.2em;
     transform: scaleY(1.25);
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* distribute letters across the width */
+    display: inline-block;
+    text-align: center;
   }
 }
 
@@ -108,9 +107,6 @@
 }
 
 .foreground {
-  display: block;
-  flex: 1 1 auto;
-  text-align: center;
   z-index: 4;
   display: flex;
   align-items: center;
@@ -124,9 +120,7 @@
   right: 12px;
   display: flex;
   justify-content: space-between;
-  display: inline-block; /* revert to inline behavior on small screens */
-  text-align: center; /* center text on small screens */
-  justify-content: normal; /* reset justify content */
+  align-items: center;
 }
 
 .links {
