@@ -43,10 +43,16 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
           opacity: isVisible ? 1 : 0,
         }}
       >
-        <div className="mx-auto px-6 py-4 max-w-[1280px]">
+        <div
+          data-header-inner="true"
+          className="mx-auto px-6 py-4 max-w-[1280px]"
+        >
           <div className="flex items-center justify-between gap-8">
             {/* Left: Clinic Name */}
-            <div className="text-[17px] font-medium text-gray-800 whitespace-nowrap">
+            <div
+              data-header-left="true"
+              className="text-[17px] font-medium text-gray-800 whitespace-nowrap"
+            >
               Future Smile Clinic
             </div>
 
@@ -81,6 +87,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
 
             {/* Right: Booking Button (hidden on small screens) */}
             <Link
+              data-header-right="true"
               href="/appointments"
               className="hidden md:flex items-center gap-2 px-6 py-2.5 rounded-full bg-white border border-gray-300 
                      text-[15px] font-medium text-gray-800 whitespace-nowrap

@@ -45,16 +45,45 @@ export default function HeroTooth({
 
     let timer: any = null;
     const fit = () => {
-      const parent = el.parentElement as HTMLElement | null;
-      const containerWidth = parent ? parent.clientWidth : el.clientWidth;
-      const textWidth = el.scrollWidth;
-      if (!textWidth || !containerWidth) return;
+      // Try to measure the inner header available width (container minus left/right items)
+      const headerInner = document.querySelector(
+        "[data-header-inner]"
+      ) as HTMLElement | null;
+      const headerLeft = headerInner?.querySelector(
+        "[data-header-left]"
+      ) as HTMLElement | null;
+      const headerRight = headerInner?.querySelector(
+        "[data-header-right]"
+      ) as HTMLElement | null;
 
-      // Always force nowrap and compute scaleX to fill the container width.
-      const scaleX = containerWidth / textWidth;
+      const headerInnerWidth = headerInner
+        ? headerInner.clientWidth
+        : el.parentElement
+        ? el.parentElement.clientWidth
+        : el.clientWidth;
+      const leftW = headerLeft ? headerLeft.offsetWidth : 0;
+      const rightW = headerRight ? headerRight.offsetWidth : 0;
+
+      const availableWidth = Math.max(
+        64,
+        headerInnerWidth - leftW - rightW - 32
+      ); // small margin buffer
+
+      const textWidth = el.scrollWidth;
+      if (!textWidth || !availableWidth) return;
+
+      // compute scale so full phrase fills the available header inner width
+      const scaleX = availableWidth / textWidth;
+
+      // cap excessive distortion
+      const cappedScaleX = Math.max(0.8, Math.min(1.25, scaleX));
+
       el.style.whiteSpace = "nowrap";
       el.style.transformOrigin = "center";
-      el.style.transform = `scaleX(${scaleX}) scaleY(1.15)`;
+      el.style.transform = `scaleX(${cappedScaleX}) scaleY(1.15)`;
+      // ensure element has same visual width as available area
+      el.style.maxWidth = `${availableWidth}px`;
+      el.style.display = "inline-block";
     };
 
     fit();
