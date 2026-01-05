@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 interface Doctor {
   id: number;
@@ -11,6 +11,9 @@ interface Doctor {
 }
 
 export default function DoctorsSection() {
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5;
+
   const doctors: Doctor[] = [
     {
       id: 1,
@@ -49,6 +52,23 @@ export default function DoctorsSection() {
     },
   ];
 
+  const totalPages = Math.ceil(doctors.length / itemsPerPage);
+  const startIndex = currentPage * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentDoctors = doctors.slice(startIndex, endIndex);
+
+  const nextPage = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <div
       className="h-screen w-full overflow-hidden relative"
@@ -74,30 +94,91 @@ export default function DoctorsSection() {
           <p className="text-base text-gray-600">فريق متخصص بخبرة عالية</p>
         </div>
 
-        <div className="flex-1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 items-start content-start overflow-y-auto pb-4">
-          {doctors.map((doctor) => (
-            <a
-              key={doctor.id}
-              href={doctor.link}
-              className="group relative rounded-2xl overflow-hidden shadow-lg bg-white/60 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl"
-            >
-              <div className="relative aspect-[3/4] w-full overflow-hidden">
-                <img
-                  src={doctor.image}
-                  alt={doctor.name}
-                  className="h-full w-full object-cover object-center filter grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-110"
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-3 text-white">
-                  <h3 className="text-base font-bold mb-1">{doctor.name}</h3>
-                  <p className="text-xs opacity-90 mb-2">{doctor.role}</p>
-                  <span className="inline-block text-xs bg-white/20 px-2 py-1 rounded backdrop-blur-sm hover:bg-white/30 transition-colors">
-                    عرض التفاصيل ←
-                  </span>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {currentDoctors.map((doctor) => (
+              <a
+                key={doctor.id}
+                href={doctor.link}
+                className="group block relative rounded-2xl overflow-hidden shadow-lg bg-white/60 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+              >
+                <div className="relative aspect-[3/4] w-full overflow-hidden">
+                  <img
+                    src={doctor.image}
+                    alt={doctor.name}
+                    className="h-full w-full object-cover object-center filter grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-x-0 bottom-0 p-3 text-white">
+                    <h3 className="text-base font-bold mb-1">{doctor.name}</h3>
+                    <p className="text-xs opacity-90">{doctor.role}</p>
+                  </div>
                 </div>
-              </div>
-            </a>
-          ))}
+              </a>
+            ))}
+          </div>
         </div>
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-4 mt-6">
+            <button
+              onClick={prevPage}
+              disabled={currentPage === 0}
+              className="px-4 py-2 bg-white/60 backdrop-blur-sm rounded-lg shadow-md hover:bg-white/80 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <div className="flex gap-2">
+              {Array.from({ length: totalPages }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentPage(index)}
+                  className={`w-10 h-10 rounded-lg transition-all ${
+                    currentPage === index
+                      ? "bg-gray-700 text-white shadow-lg"
+                      : "bg-white/60 hover:bg-white/80"
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={nextPage}
+              disabled={currentPage === totalPages - 1}
+              className="px-4 py-2 bg-white/60 backdrop-blur-sm rounded-lg shadow-md hover:bg-white/80 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
