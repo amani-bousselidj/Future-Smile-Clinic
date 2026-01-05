@@ -12,7 +12,20 @@ interface Doctor {
 
 export default function DoctorsSection() {
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 5;
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Adaptive items per page based on screen size
+  const itemsPerPage = isMobile ? 4 : 5;
+
+  // Detect screen size
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const doctors: Doctor[] = [
     {
@@ -131,24 +144,24 @@ export default function DoctorsSection() {
           </p>
         </div>
 
-        <div className="flex-1 flex items-center justify-center">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="flex-1 flex items-center justify-center px-2 sm:px-0">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6 w-full max-w-6xl">
             {currentDoctors.map((doctor) => (
               <div
                 key={doctor.id}
-                className="group relative rounded-2xl overflow-hidden shadow-lg bg-white/60 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+                className="group relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg bg-white/60 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl"
               >
                 {/* Link button in top-left corner */}
                 <a
                   href={doctor.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="absolute top-3 left-3 z-20 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white hover:scale-110 transition-all duration-300"
+                  className="absolute top-2 left-2 sm:top-3 sm:left-3 z-20 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white hover:scale-110 transition-all duration-300"
                   onClick={(e) => e.stopPropagation()}
                   aria-label={`عرض ملف ${doctor.name}`}
                 >
                   <svg
-                    className="w-5 h-5 text-gray-700"
+                    className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -169,9 +182,9 @@ export default function DoctorsSection() {
                     className="h-full w-full object-cover object-center filter grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-100 transition-opacity duration-300" />
-                  <div className="absolute inset-x-0 bottom-0 p-3 text-white">
-                    <h3 className="text-base font-bold mb-1">{doctor.name}</h3>
-                    <p className="text-xs opacity-90">{doctor.role}</p>
+                  <div className="absolute inset-x-0 bottom-0 p-2 sm:p-3 text-white">
+                    <h3 className="text-sm sm:text-base font-bold mb-0.5 sm:mb-1 leading-tight">{doctor.name}</h3>
+                    <p className="text-[10px] sm:text-xs opacity-90 leading-tight">{doctor.role}</p>
                   </div>
                 </div>
               </div>
@@ -181,14 +194,15 @@ export default function DoctorsSection() {
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-4 mt-6">
+          <div className="flex items-center justify-center gap-2 sm:gap-4 mt-4 sm:mt-6 px-2">
             <button
               onClick={prevPage}
               disabled={currentPage === 0}
-              className="px-4 py-2 bg-white/60 backdrop-blur-sm rounded-lg shadow-md hover:bg-white/80 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-3 sm:px-4 py-2 bg-white/60 backdrop-blur-sm rounded-lg shadow-md hover:bg-white/80 transition-all disabled:opacity-40 disabled:cursor-not-allowed text-gray-700"
+              aria-label="الصفحة السابقة"
             >
               <svg
-                className="w-5 h-5"
+                className="w-4 h-4 sm:w-5 sm:h-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -202,16 +216,17 @@ export default function DoctorsSection() {
               </svg>
             </button>
 
-            <div className="flex gap-2">
+            <div className="flex gap-1.5 sm:gap-2">
               {Array.from({ length: totalPages }).map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentPage(index)}
-                  className={`w-10 h-10 rounded-lg transition-all ${
+                  className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg transition-all text-sm sm:text-base font-medium ${
                     currentPage === index
-                      ? "bg-gray-700 text-white shadow-lg"
-                      : "bg-white/60 hover:bg-white/80"
+                      ? "bg-gray-700 text-white shadow-lg scale-110"
+                      : "bg-white/60 hover:bg-white/80 text-gray-700"
                   }`}
+                  aria-label={`الصفحة ${index + 1}`}
                 >
                   {index + 1}
                 </button>
@@ -221,10 +236,11 @@ export default function DoctorsSection() {
             <button
               onClick={nextPage}
               disabled={currentPage === totalPages - 1}
-              className="px-4 py-2 bg-white/60 backdrop-blur-sm rounded-lg shadow-md hover:bg-white/80 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-3 sm:px-4 py-2 bg-white/60 backdrop-blur-sm rounded-lg shadow-md hover:bg-white/80 transition-all disabled:opacity-40 disabled:cursor-not-allowed text-gray-700"
+              aria-label="الصفحة التالية"
             >
               <svg
-                className="w-5 h-5"
+                className="w-4 h-4 sm:w-5 sm:h-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

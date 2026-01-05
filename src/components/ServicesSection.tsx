@@ -111,38 +111,38 @@ export default function ServicesSection({
         }}
       />
 
-      <div className="relative z-10 h-full flex flex-col px-6 py-8 max-w-7xl mx-auto">
+      <div className="relative z-10 h-full flex flex-col px-4 sm:px-6 py-6 sm:py-8 max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+        <div className="mb-4 sm:mb-6 text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-1.5 sm:mb-2 px-2">
             خدمات شاملة لصحة فمك وأسنانك
           </h2>
-          <p className="text-base text-gray-600">
+          <p className="text-sm sm:text-base text-gray-600 px-4">
             نستخدم أحدث التقنيات العالمية لنمنحك ابتسامة صحية ومشرقة
           </p>
         </div>
 
-        {/* Two Columns Layout */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0">
+        {/* Two Columns Layout - Responsive */}
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 min-h-0">
           {/* Right Side - Services List */}
-          <div className="flex flex-col gap-2 overflow-hidden">
+          <div className="flex flex-col gap-1.5 sm:gap-2 overflow-y-auto overflow-x-hidden pr-1 sm:pr-2 max-h-[60vh] lg:max-h-full">
             {displayServices?.map((service) => {
               const isActive = activeServiceId === service.id;
               return (
                 <button
                   key={service.id}
                   onClick={() => setActiveServiceId(service.id)}
-                  className={`text-right p-3 rounded-xl transition-all duration-300 ${
+                  className={`text-right p-2.5 sm:p-3 rounded-lg sm:rounded-xl transition-all duration-300 ${
                     isActive
                       ? "bg-white/90 shadow-lg scale-[1.02]"
                       : "bg-white/60 hover:bg-white/75 shadow-md"
                   }`}
                 >
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-between gap-2 sm:gap-3">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
                       {service.price && (
                         <span
-                          className={`text-sm font-bold ${
+                          className={`text-xs sm:text-sm font-bold ${
                             isActive ? "text-gray-800" : "text-gray-600"
                           }`}
                         >
@@ -150,7 +150,7 @@ export default function ServicesSection({
                         </span>
                       )}
                       <svg
-                        className={`w-4 h-4 transition-transform duration-300 ${
+                        className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-300 ${
                           isActive ? "text-gray-800 rotate-180" : "text-gray-400"
                         }`}
                         fill="none"
@@ -166,7 +166,7 @@ export default function ServicesSection({
                       </svg>
                     </div>
                     <h3
-                      className={`text-lg font-bold ${
+                      className={`text-base sm:text-lg font-bold ${
                         isActive ? "text-gray-800" : "text-gray-700"
                       }`}
                     >
@@ -175,7 +175,7 @@ export default function ServicesSection({
                   </div>
                   {/* Show description when active */}
                   {isActive && (
-                    <p className="text-sm text-gray-600 mt-2 text-right leading-relaxed">
+                    <p className="text-xs sm:text-sm text-gray-600 mt-1.5 sm:mt-2 text-right leading-relaxed">
                       {service.description}
                     </p>
                   )}
