@@ -7,6 +7,7 @@ interface PopularService {
   title: string;
   description: string;
   position: { top: string; left: string };
+  image: string;
 }
 
 export default function PopularServicesSection() {
@@ -18,28 +19,32 @@ export default function PopularServicesSection() {
       title: "طقم الأسنان",
       description:
         "استعادة كاملة للأسنان المفقودة باستخدام طقم الأسنان، تركيب مريح مع مظهر طبيعي.",
-      position: { top: "15%", left: "8%" },
+      position: { top: "15%", left: "5%" },
+      image: "/images/services/dentures.png",
     },
     {
       id: 2,
       title: "نظافة مهنية",
       description:
         "إزالة الجير باستخدام الموجات فوق الصوتية، التلميع، الفلورايد، التوصيات الشخصية للحفاظ على ابتسامة صحية.",
-      position: { top: "22%", left: "68%" },
+      position: { top: "20%", left: "75%" },
+      image: "/images/services/tooth.png",
     },
     {
       id: 3,
       title: "طب الأسنان التجميلي",
       description:
         "الفينير، تبييض الأسنان، الترميم، تغيير الشكل واللون، استعادة الابتسامة المثالية، المظهر الطبيعي.",
-      position: { top: "58%", left: "12%" },
+      position: { top: "65%", left: "8%" },
+      image: "/images/services/tooth.png",
     },
     {
       id: 4,
       title: "تقويم الأسنان",
       description:
         "تقويم الأسنان باستخدام الأجهزة الشفافة (الإلاينر) أو البراكت، تصحيح التراكم، تحسين الوظائف والجمالية للابتسامة.",
-      position: { top: "60%", left: "63%" },
+      position: { top: "65%", left: "70%" },
+      image: "/images/services/aligners.png",
     },
   ];
 
@@ -82,6 +87,29 @@ export default function PopularServicesSection() {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
           }
+          @keyframes circularRise {
+            0% {
+              transform: translate(-50%, -50%) translateY(100vh) scale(0.5) rotate(0deg);
+              opacity: 0;
+            }
+            20% {
+              opacity: 1;
+            }
+            50% {
+              transform: translate(-50%, -50%) translateY(0) scale(1) rotate(180deg);
+            }
+            80% {
+              opacity: 1;
+            }
+            100% {
+              transform: translate(-50%, -50%) translateY(-100vh) scale(0.5) rotate(360deg);
+              opacity: 0;
+            }
+          }
+          .tooth-element {
+            animation: circularRise 8s ease-in-out infinite;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+          }
         `
       }} />
 
@@ -96,6 +124,26 @@ export default function PopularServicesSection() {
 
         {/* Randomly Positioned Cards */}
         <div className="relative h-[calc(100%-200px)]">
+          {/* Center Tooth Elements */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 md:w-80 md:h-80 pointer-events-none">
+            {services.map((service) => {
+              const isActive = activeServiceId === service.id;
+              return (
+                <img
+                  key={service.id}
+                  src={service.image}
+                  alt={service.title}
+                  className={`tooth-element absolute top-1/2 left-1/2 w-48 h-48 md:w-64 md:h-64 object-contain transition-opacity duration-500 ${
+                    isActive ? "opacity-100" : "opacity-0"
+                  }`}
+                  style={{
+                    animationDelay: `${service.id * 0.5}s`,
+                  }}
+                />
+              );
+            })}
+          </div>
+
           {services.map((service) => {
             const isActive = activeServiceId === service.id;
             return (
@@ -119,7 +167,7 @@ export default function PopularServicesSection() {
                 {/* Title */}
                 <h3
                   className={`text-lg sm:text-xl md:text-2xl font-bold mb-3 transition-colors duration-500 ${
-                    isActive ? "text-white" : "text-white/90"
+                    isActive ? "text-gray-800" : "text-gray-700"
                   }`}
                 >
                   {service.title}
@@ -129,8 +177,8 @@ export default function PopularServicesSection() {
                 <p
                   className={`text-xs sm:text-sm md:text-base leading-relaxed transition-all duration-500 ${
                     isActive
-                      ? "text-white/95 opacity-100"
-                      : "text-white/70 opacity-90"
+                      ? "text-gray-700 opacity-100"
+                      : "text-gray-600 opacity-90"
                   }`}
                 >
                   {service.description}
