@@ -148,22 +148,6 @@ export default function DoctorsSection() {
   };
 
   return (
-    <>
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.5s ease-out;
-        }
-      `}</style>
     <div
       className="h-screen w-full overflow-hidden relative"
       style={{
@@ -171,6 +155,23 @@ export default function DoctorsSection() {
           "linear-gradient(135deg, #ffffff 0%, #c5d1d6 30%, #c5d1d6 70%, #ffffff 100%)",
       }}
     >
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out;
+          }
+        `
+      }} />
       <div
         className="absolute inset-0 pointer-events-none"
         style={{

@@ -94,19 +94,6 @@ export default function ServicesSection({
   }
 
   return (
-    <>
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: scale(1.05);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-      `}</style>
     <div
       className="h-screen w-full overflow-hidden relative"
       style={{
@@ -114,6 +101,20 @@ export default function ServicesSection({
           "linear-gradient(135deg, #ffffff 0%, #c5d1d6 30%, #c5d1d6 70%, #ffffff 100%)",
       }}
     >
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @keyframes fadeInScale {
+            from {
+              opacity: 0;
+              transform: scale(1.05);
+            }
+            to {
+              opacity: 1;
+              transform: scale(1);
+            }
+          }
+        `
+      }} />
       {/* Gradient overlay matching HeroTooth */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -208,7 +209,9 @@ export default function ServicesSection({
                       src={activeService.image}
                       alt={activeService.title}
                       className="w-full h-full object-cover transition-all duration-700 ease-in-out"
-                      style={{ animation: 'fadeIn 0.5s ease-in' }}
+                      style={{ 
+                        animation: 'fadeInScale 0.5s ease-in',
+                      }}
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center bg-white/70">
