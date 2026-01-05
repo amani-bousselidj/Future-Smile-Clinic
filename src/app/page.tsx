@@ -8,7 +8,7 @@ import { useFetch } from "@/lib/hooks";
 import { LoadingSplash } from "@/components/LoadingSplash";
 import { FullPageScroller } from "@/components/FullPageScroller";
 import HeroTooth from "@/components/HeroTooth";
-import { ServicesSection, DoctorsSection } from "@/components";
+import { ServicesSection, DoctorsSection, PopularServicesSection } from "@/components";
 
 interface Service {
   id: number;
@@ -44,6 +44,7 @@ export default function HomePage() {
         <HeroTooth loadingComplete={loadingComplete} showHeader={true} />
         <ServicesSection services={transformedServices} loading={loading} />
         <DoctorsSection />
+        <PopularServicesSection />
       </FullPageScroller>
     </>
   );

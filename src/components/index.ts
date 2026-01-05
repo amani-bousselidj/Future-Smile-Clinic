@@ -11,3 +11,4 @@ export { LoadingSpinner } from "./LoadingSpinner";
 export { LoadingSplash } from "./LoadingSplash";
 export { default as ServicesSection } from "./ServicesSection";
 export { default as DoctorsSection } from "./DoctorsSection";
+export { default as PopularServicesSection } from "./PopularServicesSection";
