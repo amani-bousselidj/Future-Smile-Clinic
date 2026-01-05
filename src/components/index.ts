@@ -10,3 +10,4 @@ export { Footer } from "./Footer";
 export { LoadingSpinner } from "./LoadingSpinner";
 export { LoadingSplash } from "./LoadingSplash";
 export { default as ServicesSection } from "./ServicesSection";
+export { default as DoctorsSection } from "./DoctorsSection";
