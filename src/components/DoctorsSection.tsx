@@ -14,45 +14,38 @@ export default function DoctorsSection() {
   const doctors: Doctor[] = [
     {
       id: 1,
-      name: "د. سامي بلحسن",
-      role: "استشاري زراعة أسنان",
-      image: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=900",
-      link: "#doctor-1",
+      name: "د. سارة أحمد",
+      role: "استشارية طب الأسنان",
+      image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&h=800&fit=crop",
+      link: "/doctors/sarah-ahmed",
     },
     {
       id: 2,
-      name: "د. مريم بوزيد",
-      role: "تقويم الأسنان الشفاف",
-      image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=900",
-      link: "#doctor-2",
+      name: "د. مريم الخليلي",
+      role: "أخصائية تقويم الأسنان",
+      image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=600&h=800&fit=crop",
+      link: "/doctors/mariam-khalili",
     },
     {
       id: 3,
-      name: "د. كريم شريف",
-      role: "جراحة وجه وفكين",
-      image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=900",
-      link: "#doctor-3",
+      name: "د. عمر السيد",
+      role: "استشاري جراحة الفم والفكين",
+      image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&h=800&fit=crop",
+      link: "/doctors/omar-elsayed",
     },
     {
       id: 4,
-      name: "د. ليلى حمدي",
-      role: "تجميل الأسنان والابتسامة",
-      image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=900",
-      link: "#doctor-4",
+      name: "د. أحمد كريم",
+      role: "أخصائي زراعة الأسنان",
+      image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=600&h=800&fit=crop",
+      link: "/doctors/ahmed-karim",
     },
     {
       id: 5,
-      name: "د. أنس بوشيخي",
-      role: "علاج جذور وأعصاب",
-      image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=900",
-      link: "#doctor-5",
-    },
-    {
-      id: 6,
-      name: "د. سارة زروقي",
-      role: "طب أسنان الأطفال",
-      image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=900",
-      link: "#doctor-6",
+      name: "د. كريم بشير",
+      role: "أخصائي تجميل الأسنان",
+      image: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=600&h=800&fit=crop",
+      link: "/doctors/karim-bashir",
     },
   ];
 
@@ -81,23 +74,25 @@ export default function DoctorsSection() {
           <p className="text-base text-gray-600">فريق متخصص بخبرة عالية</p>
         </div>
 
-        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 min-h-0">
+        <div className="flex-1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 items-start content-start overflow-y-auto pb-4">
           {doctors.map((doctor) => (
             <a
               key={doctor.id}
               href={doctor.link}
-              className="group relative rounded-2xl overflow-hidden shadow-lg bg-white/60 backdrop-blur-sm transition-transform duration-500 hover:scale-105"
+              className="group relative rounded-2xl overflow-hidden shadow-lg bg-white/60 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl"
             >
-              <div className="relative h-64 w-full overflow-hidden">
+              <div className="relative aspect-[3/4] w-full overflow-hidden">
                 <img
                   src={doctor.image}
                   alt={doctor.name}
-                  className="h-full w-full object-cover filter grayscale transition duration-500 group-hover:grayscale-0 group-hover:scale-110"
+                  className="h-full w-full object-cover object-center filter grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-110"
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 text-white">
-                  <h3 className="text-lg font-bold">{doctor.name}</h3>
-                  <p className="text-sm opacity-90">{doctor.role}</p>
-                  <span className="text-xs underline opacity-80">تفاصيل الطبيب</span>
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-3 text-white">
+                  <h3 className="text-base font-bold mb-1">{doctor.name}</h3>
+                  <p className="text-xs opacity-90 mb-2">{doctor.role}</p>
+                  <span className="inline-block text-xs bg-white/20 px-2 py-1 rounded backdrop-blur-sm hover:bg-white/30 transition-colors">
+                    عرض التفاصيل ←
+                  </span>
                 </div>
               </div>
             </a>
