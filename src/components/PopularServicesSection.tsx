@@ -6,7 +6,7 @@ interface PopularService {
   id: number;
   title: string;
   description: string;
-  icon: string;
+  position: { top: string; left: string };
 }
 
 export default function PopularServicesSection() {
@@ -18,28 +18,28 @@ export default function PopularServicesSection() {
       title: "طقم الأسنان",
       description:
         "استعادة كاملة للأسنان المفقودة باستخدام طقم الأسنان، تركيب مريح مع مظهر طبيعي.",
-      icon: "🦷",
+      position: { top: "15%", left: "8%" },
     },
     {
       id: 2,
       title: "نظافة مهنية",
       description:
         "إزالة الجير باستخدام الموجات فوق الصوتية، التلميع، الفلورايد، التوصيات الشخصية للحفاظ على ابتسامة صحية.",
-      icon: "✨",
+      position: { top: "22%", left: "68%" },
     },
     {
       id: 3,
       title: "طب الأسنان التجميلي",
       description:
         "الفينير، تبييض الأسنان، الترميم، تغيير الشكل واللون، استعادة الابتسامة المثالية، المظهر الطبيعي.",
-      icon: "💎",
+      position: { top: "58%", left: "12%" },
     },
     {
       id: 4,
       title: "تقويم الأسنان",
       description:
         "تقويم الأسنان باستخدام الأجهزة الشفافة (الإلاينر) أو البراكت، تصحيح التراكم، تحسين الوظائف والجمالية للابتسامة.",
-      icon: "🦷",
+      position: { top: "60%", left: "63%" },
     },
   ];
 
@@ -78,105 +78,88 @@ export default function PopularServicesSection() {
           .active-card {
             animation: pulseGlow 2s ease-in-out infinite;
           }
+          @keyframes shine {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+          }
         `
       }} />
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900/70 via-gray-800/60 to-gray-900/70" />
-
-      {/* Radial gradient overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 60%)",
-        }}
-      />
-
-      <div className="relative z-10 h-full flex flex-col px-4 sm:px-6 py-8 sm:py-12 max-w-7xl mx-auto">
+      <div className="relative z-10 h-full">
         {/* Header */}
-        <div className="mb-8 sm:mb-12 text-center">
+        <div className="pt-8 sm:pt-12 pb-6 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg">
             خدمات شائعة
           </h2>
           <div className="w-20 h-1 bg-blue-500 mx-auto rounded-full" />
         </div>
 
-        {/* Services Grid */}
-        <div className="flex-1 flex items-center justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full max-w-6xl">
-            {services.map((service, index) => {
-              const isActive = activeServiceId === service.id;
-              return (
-                <button
-                  key={service.id}
-                  onClick={() => setActiveServiceId(service.id)}
-                  className={`group relative p-6 sm:p-8 rounded-2xl sm:rounded-3xl backdrop-blur-lg transition-all duration-700 ${
-                    isActive
-                      ? "bg-white/25 border-2 border-white/40 active-card scale-105"
-                      : "bg-white/10 border border-white/20 hover:bg-white/15 hover:scale-102"
+        {/* Randomly Positioned Cards */}
+        <div className="relative h-[calc(100%-200px)]">
+          {services.map((service, index) => {
+            const isActive = activeServiceId === service.id;
+            return (
+              <button
+                key={service.id}
+                onClick={() => setActiveServiceId(service.id)}
+                className={`group absolute p-5 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl backdrop-blur-lg transition-all duration-700 w-[85%] sm:w-[40%] md:w-[30%] lg:w-[22%] ${
+                  isActive
+                    ? "bg-white/25 border-2 border-white/40 active-card scale-105 z-20"
+                    : "bg-white/10 border border-white/20 hover:bg-white/15 hover:scale-102 z-10"
+                }`}
+                style={{
+                  top: service.position.top,
+                  left: service.position.left,
+                  transform: isActive ? 'scale(1.05)' : 'scale(1)',
+                  boxShadow: isActive
+                    ? "0 20px 60px rgba(0, 0, 0, 0.3)"
+                    : "0 8px 32px rgba(0, 0, 0, 0.2)",
+                }}
+              >
+                {/* Title */}
+                <h3
+                  className={`text-lg sm:text-xl md:text-2xl font-bold mb-3 transition-colors duration-500 ${
+                    isActive ? "text-white" : "text-white/90"
                   }`}
-                  style={{
-                    animationDelay: `${index * 100}ms`,
-                    boxShadow: isActive
-                      ? "0 20px 60px rgba(0, 0, 0, 0.3)"
-                      : "0 8px 32px rgba(0, 0, 0, 0.2)",
-                  }}
                 >
-                  {/* Icon */}
+                  {service.title}
+                </h3>
+
+                {/* Description */}
+                <p
+                  className={`text-xs sm:text-sm md:text-base leading-relaxed transition-all duration-500 ${
+                    isActive
+                      ? "text-white/95 opacity-100"
+                      : "text-white/70 opacity-90"
+                  }`}
+                >
+                  {service.description}
+                </p>
+
+                {/* Active Indicator */}
+                {isActive && (
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-blue-400 rounded-full shadow-lg" />
+                )}
+
+                {/* Shine Effect on Hover */}
+                <div className="absolute inset-0 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                   <div
-                    className={`text-5xl sm:text-6xl mb-4 transition-transform duration-500 ${
-                      isActive ? "scale-110" : "group-hover:scale-105"
-                    }`}
-                  >
-                    {service.icon}
-                  </div>
-
-                  {/* Title */}
-                  <h3
-                    className={`text-xl sm:text-2xl font-bold mb-3 transition-colors duration-500 ${
-                      isActive ? "text-white" : "text-white/90"
-                    }`}
-                  >
-                    {service.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p
-                    className={`text-sm sm:text-base leading-relaxed transition-all duration-500 ${
-                      isActive
-                        ? "text-white/95 opacity-100"
-                        : "text-white/70 opacity-90"
-                    }`}
-                  >
-                    {service.description}
-                  </p>
-
-                  {/* Active Indicator */}
-                  {isActive && (
-                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-blue-400 rounded-full shadow-lg" />
-                  )}
-
-                  {/* Shine Effect on Hover */}
-                  <div className="absolute inset-0 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                    <div
-                      className="absolute inset-0 rounded-2xl sm:rounded-3xl"
-                      style={{
-                        background:
-                          "linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%)",
-                        backgroundSize: "200% 200%",
-                        animation: "shine 3s ease-in-out infinite",
-                      }}
-                    />
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+                    className="absolute inset-0 rounded-2xl sm:rounded-3xl"
+                    style={{
+                      background:
+                        "linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%)",
+                      backgroundSize: "200% 200%",
+                      animation: "shine 3s ease-in-out infinite",
+                    }}
+                  />
+                </div>
+              </button>
+            );
+          })}
         </div>
 
         {/* Progress Indicators */}
-        <div className="flex justify-center gap-2 mt-8">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex justify-center gap-2">
           {services.map((service) => (
             <button
               key={service.id}
@@ -191,15 +174,6 @@ export default function PopularServicesSection() {
           ))}
         </div>
       </div>
-
-      <style dangerouslySetInnerHTML={{
-        __html: `
-          @keyframes shine {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-          }
-        `
-      }} />
     </div>
   );
 }
