@@ -115,10 +115,10 @@ export default function ServicesSection({
         {/* Header */}
         <div className="mb-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
-            خدماتنا الطبية
+            خدمات شاملة لصحة فمك وأسنانك
           </h2>
           <p className="text-base text-gray-600">
-            نقدم أفضل خدمات العناية بالأسنان
+            نستخدم أحدث التقنيات العالمية لنمنحك ابتسامة صحية ومشرقة
           </p>
         </div>
 

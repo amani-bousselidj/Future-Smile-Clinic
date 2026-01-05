@@ -50,6 +50,41 @@ export default function DoctorsSection() {
       image: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=600&h=800&fit=crop",
       link: "/doctors/karim-bashir",
     },
+    {
+      id: 6,
+      name: "د. ليلى حسن",
+      role: "أخصائية طب أسنان الأطفال",
+      image: "https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?w=600&h=800&fit=crop",
+      link: "/doctors/layla-hassan",
+    },
+    {
+      id: 7,
+      name: "د. يوسف الصالح",
+      role: "استشاري علاج اللثة",
+      image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600&h=800&fit=crop",
+      link: "/doctors/youssef-saleh",
+    },
+    {
+      id: 8,
+      name: "د. نور الدين مراد",
+      role: "أخصائي تركيبات الأسنان",
+      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=800&fit=crop",
+      link: "/doctors/noureddine-mourad",
+    },
+    {
+      id: 9,
+      name: "د. فاطمة الزهراء",
+      role: "استشارية علاج الجذور",
+      image: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=600&h=800&fit=crop",
+      link: "/doctors/fatima-zahra",
+    },
+    {
+      id: 10,
+      name: "د. محمد علي",
+      role: "أخصائي جراحة الفكين",
+      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=800&fit=crop",
+      link: "/doctors/mohamed-ali",
+    },
   ];
 
   const totalPages = Math.ceil(doctors.length / itemsPerPage);
@@ -89,19 +124,44 @@ export default function DoctorsSection() {
       <div className="relative z-10 h-full flex flex-col px-6 py-8 max-w-7xl mx-auto">
         <div className="mb-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
-            أطباؤنا وخبراؤنا
+            نخبة من أفضل أطباء الأسنان
           </h2>
-          <p className="text-base text-gray-600">فريق متخصص بخبرة عالية</p>
+          <p className="text-base text-gray-600">
+            فريق طبي متميز بخبرات عالمية وشهادات معتمدة لخدمتكم
+          </p>
         </div>
 
         <div className="flex-1 flex items-center justify-center">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {currentDoctors.map((doctor) => (
-              <a
+              <div
                 key={doctor.id}
-                href={doctor.link}
-                className="group block relative rounded-2xl overflow-hidden shadow-lg bg-white/60 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+                className="group relative rounded-2xl overflow-hidden shadow-lg bg-white/60 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl"
               >
+                {/* Link button in top-left corner */}
+                <a
+                  href={doctor.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute top-3 left-3 z-20 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white hover:scale-110 transition-all duration-300"
+                  onClick={(e) => e.stopPropagation()}
+                  aria-label={`عرض ملف ${doctor.name}`}
+                >
+                  <svg
+                    className="w-5 h-5 text-gray-700"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    />
+                  </svg>
+                </a>
+
                 <div className="relative aspect-[3/4] w-full overflow-hidden">
                   <img
                     src={doctor.image}
@@ -114,7 +174,7 @@ export default function DoctorsSection() {
                     <p className="text-xs opacity-90">{doctor.role}</p>
                   </div>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         </div>
