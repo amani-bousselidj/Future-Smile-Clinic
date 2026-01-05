@@ -96,7 +96,7 @@ export default function PopularServicesSection() {
 
         {/* Randomly Positioned Cards */}
         <div className="relative h-[calc(100%-200px)]">
-          {services.map((service, index) => {
+          {services.map((service) => {
             const isActive = activeServiceId === service.id;
             return (
               <button
