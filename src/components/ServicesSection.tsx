@@ -94,6 +94,19 @@ export default function ServicesSection({
   }
 
   return (
+    <>
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: scale(1.05);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+      `}</style>
     <div
       className="h-screen w-full overflow-hidden relative"
       style={{
@@ -122,10 +135,10 @@ export default function ServicesSection({
           </p>
         </div>
 
-        {/* Two Columns Layout - Responsive */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 min-h-0">
+        {/* Two Columns Layout - Responsive with proper spacing */}
+        <div className="flex-1 flex flex-col lg:grid lg:grid-cols-2 gap-4 sm:gap-6 min-h-0 overflow-hidden">
           {/* Right Side - Services List */}
-          <div className="flex flex-col gap-1.5 sm:gap-2 overflow-y-auto overflow-x-hidden pr-1 sm:pr-2 max-h-[60vh] lg:max-h-full">
+          <div className="flex flex-col gap-1.5 sm:gap-2 overflow-y-auto pr-1 sm:pr-2 lg:max-h-full" style={{ maxHeight: 'calc(100vh - 240px)' }}>
             {displayServices?.map((service) => {
               const isActive = activeServiceId === service.id;
               return (
@@ -184,16 +197,18 @@ export default function ServicesSection({
             })}
           </div>
 
-          {/* Left Side - Service Image */}
-          <div className="flex flex-col gap-4">
+          {/* Left Side - Service Image with smooth transition */}
+          <div className="hidden lg:flex flex-col gap-4">
             {activeService && (
               <>
-                <div className="flex-1 relative rounded-2xl overflow-hidden shadow-2xl bg-white/50">
+                <div className="flex-1 relative rounded-2xl overflow-hidden shadow-2xl bg-white/50 transition-opacity duration-500">
                   {activeService.image ? (
                     <img
+                      key={activeService.id}
                       src={activeService.image}
                       alt={activeService.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-all duration-700 ease-in-out"
+                      style={{ animation: 'fadeIn 0.5s ease-in' }}
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center bg-white/70">

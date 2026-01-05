@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 interface Doctor {
   id: number;
@@ -13,9 +13,15 @@ interface Doctor {
 export default function DoctorsSection() {
   const [currentPage, setCurrentPage] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   
   // Adaptive items per page based on screen size
   const itemsPerPage = isMobile ? 4 : 5;
+
+  // Minimum swipe distance (in px)
+  const minSwipeDistance = 50;
 
   // Detect screen size
   React.useEffect(() => {
@@ -26,6 +32,30 @@ export default function DoctorsSection() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe && currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+    if (isRightSwipe && currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   const doctors: Doctor[] = [
     {
@@ -118,6 +148,22 @@ export default function DoctorsSection() {
   };
 
   return (
+    <>
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-out;
+        }
+      `}</style>
     <div
       className="h-screen w-full overflow-hidden relative"
       style={{
@@ -145,11 +191,22 @@ export default function DoctorsSection() {
         </div>
 
         <div className="flex-1 flex items-center justify-center px-2 sm:px-0">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6 w-full max-w-6xl">
-            {currentDoctors.map((doctor) => (
+          <div 
+            ref={containerRef}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6 w-full max-w-6xl transition-all duration-500 ease-in-out"
+            style={{ opacity: 1 }}
+          >
+            {currentDoctors.map((doctor, index) => (
               <div
                 key={doctor.id}
-                className="group relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg bg-white/60 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+                className="group relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg bg-white/60 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl animate-fadeIn"
+                style={{ 
+                  animationDelay: `${index * 50}ms`,
+                  animationFillMode: 'both'
+                }}
               >
                 {/* Link button in top-left corner */}
                 <a
