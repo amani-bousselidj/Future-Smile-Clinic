@@ -48,13 +48,37 @@ const SERVICES: PopularService[] = [
 export default function PopularServicesSection() {
   const [activeServiceId, setActiveServiceId] = useState<number>(1);
   const [animationKey, setAnimationKey] = useState<number>(0);
+  const [isSectionActive, setIsSectionActive] = useState(false);
 
+  const sectionRef = useRef<HTMLDivElement | null>(null);
   const cardRefs = useRef<Record<number, HTMLButtonElement | null>>({});
 
   const services = SERVICES;
 
   const activeService =
     services.find((s) => s.id === activeServiceId) ?? services[0];
+
+  // Only run auto-rotate / auto-centering when this section is actually on screen.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setIsSectionActive(true);
+      return;
+    }
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        const active = Boolean(entry?.isIntersecting) && (entry?.intersectionRatio ?? 0) >= 0.6;
+        setIsSectionActive(active);
+      },
+      { threshold: [0, 0.6, 1] }
+    );
+
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   const isMobile = useCallback(() => {
     if (typeof window === "undefined") return false;
@@ -68,6 +92,7 @@ export default function PopularServicesSection() {
       setAnimationKey((prev) => prev + 1);
 
       // On mobile, ensure the pressed card becomes the one in front (centered)
+      if (!isSectionActive) return;
       if (!isMobile()) return;
 
       requestAnimationFrame(() => {
@@ -75,11 +100,13 @@ export default function PopularServicesSection() {
         el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
       });
     },
-    [isMobile]
+    [isMobile, isSectionActive]
   );
 
   // Auto-rotate active service every 3.5 seconds
   useEffect(() => {
+    if (!isSectionActive) return;
+
     const interval = setInterval(() => {
       setActiveServiceId((prevId) => {
         const currentIndex = services.findIndex((s) => s.id === prevId);
@@ -101,10 +128,11 @@ export default function PopularServicesSection() {
     }, 3500);
 
     return () => clearInterval(interval);
-  }, [services]);
+  }, [isSectionActive, services]);
 
   return (
     <div
+      ref={sectionRef}
       className="h-screen w-full overflow-hidden relative"
       style={{
         backgroundImage: "url('/images/clinic-background.jpg')",
