@@ -20,7 +20,8 @@ export default function ServicesSection({
   loading,
 }: ServicesSectionProps) {
   const [activeServiceId, setActiveServiceId] = useState<number | null>(1);
-  const [imageKey, setImageKey] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   // Dummy data for preview with images
   const dummyServices: Service[] = [
@@ -79,11 +80,44 @@ export default function ServicesSection({
     services && services.length > 0 ? services : dummyServices;
 
   const activeService = displayServices?.find((s) => s.id === activeServiceId);
+  const currentIndex = displayServices.findIndex((s) => s.id === activeServiceId);
 
-  // Trigger animation when service changes
-  useEffect(() => {
-    setImageKey((prev) => prev + 1);
-  }, [activeServiceId]);
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && currentIndex < displayServices.length - 1) {
+      setActiveServiceId(displayServices[currentIndex + 1].id);
+    }
+    if (isRightSwipe && currentIndex > 0) {
+      setActiveServiceId(displayServices[currentIndex - 1].id);
+    }
+  };
+
+  const nextService = () => {
+    if (currentIndex < displayServices.length - 1) {
+      setActiveServiceId(displayServices[currentIndex + 1].id);
+    }
+  };
+
+  const prevService = () => {
+    if (currentIndex > 0) {
+      setActiveServiceId(displayServices[currentIndex - 1].id);
+    }
+  };
 
   if (loading) {
     return (
@@ -109,26 +143,25 @@ export default function ServicesSection({
     >
       <style dangerouslySetInnerHTML={{
         __html: `
-          @keyframes arcUp {
-            0% {
+          @keyframes slideIn {
+            from {
               opacity: 0;
-              transform: translate(-50%, 100%) scale(0.3);
+              transform: translateX(-30px) scale(0.95);
             }
-            50% {
+            to {
               opacity: 1;
-              transform: translate(-50%, -120%) scale(1);
-            }
-            100% {
-              opacity: 0;
-              transform: translate(-50%, 100%) scale(0.3);
+              transform: translateX(0) scale(1);
             }
           }
-          .arc-animation {
-            animation: arcUp 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+          }
+          .service-card-active {
+            animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
           }
         `
       }} />
-      
       {/* Gradient overlay */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -139,94 +172,117 @@ export default function ServicesSection({
         }}
       />
 
-      <div className="relative z-10 h-full flex flex-col px-6 py-8 max-w-7xl mx-auto">
+      <div className="relative z-10 h-full flex flex-col px-4 sm:px-6 py-6 sm:py-8 max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
-            خدماتنا الطبية
+        <div className="mb-6 sm:mb-8 text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+            خدمات شاملة لصحة فمك وأسنانك
           </h2>
-          <p className="text-base text-gray-600">
-            نقدم أفضل خدمات العناية بالأسنان
+          <p className="text-sm sm:text-base text-gray-600">
+            نستخدم أحدث التقنيات العالمية لنمنحك ابتسامة صحية ومشرقة
           </p>
         </div>
 
-        {/* Two Columns Layout */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0 relative">
-          {/* Right Side - Services List */}
-          <div className="flex flex-col gap-2 overflow-hidden">
-            {displayServices?.map((service) => {
-              const isActive = activeServiceId === service.id;
-              return (
-                <button
-                  key={service.id}
-                  onClick={() => setActiveServiceId(service.id)}
-                  className={`text-right p-3 rounded-xl transition-all duration-300 ${
-                    isActive
-                      ? "bg-white/90 shadow-lg scale-[1.02]"
-                      : "bg-white/60 hover:bg-white/75 shadow-md"
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
-                      {service.price && (
-                        <span
-                          className={`text-sm font-bold ${
-                            isActive ? "text-gray-800" : "text-gray-600"
-                          }`}
-                        >
-                          {service.price.toLocaleString()} دج
-                        </span>
-                      )}
-                      <svg
-                        className={`w-4 h-4 transition-transform duration-300 ${
-                          isActive ? "text-gray-800 rotate-180" : "text-gray-400"
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </div>
-                    <h3
-                      className={`text-lg font-bold ${
-                        isActive ? "text-gray-800" : "text-gray-700"
-                      }`}
-                    >
-                      {service.title}
-                    </h3>
-                  </div>
-                  {/* Show description when active */}
-                  {isActive && (
-                    <p className="text-sm text-gray-600 mt-2 text-right leading-relaxed">
-                      {service.description}
-                    </p>
+        {/* Main Service Card with Image Background */}
+        <div 
+          className="flex-1 flex items-center justify-center"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
+          {activeService && (
+            <div className="w-full max-w-5xl h-full max-h-[60vh] relative service-card-active">
+              {/* Large Card with Background Image */}
+              <div className="relative h-full rounded-3xl overflow-hidden shadow-2xl group">
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0">
+                  {activeService.image && (
+                    <img
+                      src={activeService.image}
+                      alt={activeService.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
                   )}
-                </button>
-              );
-            })}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/30" />
+                </div>
+
+                {/* Content Overlay */}
+                <div className="relative h-full flex flex-col justify-end p-6 sm:p-8 md:p-12 text-white">
+                  {/* Price Badge */}
+                  {activeService.price && (
+                    <div className="absolute top-6 left-6 bg-white/95 backdrop-blur-sm rounded-2xl px-5 py-3 shadow-xl">
+                      <div className="text-gray-800 font-bold text-xl sm:text-2xl">
+                        {activeService.price.toLocaleString()} <span className="text-base">دج</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Title */}
+                  <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-lg">
+                    {activeService.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-base sm:text-lg md:text-xl text-white/95 leading-relaxed max-w-3xl mb-6 drop-shadow">
+                    {activeService.description}
+                  </p>
+
+                  {/* CTA Button */}
+                  <div>
+                    <button className="inline-flex items-center gap-3 bg-white text-gray-900 px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:bg-gray-100 hover:scale-105 transition-all duration-300">
+                      <span>احجز الآن</span>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Navigation Dots & Arrows */}
+        <div className="flex items-center justify-center gap-6 mt-6">
+          {/* Prev Button */}
+          <button
+            onClick={prevService}
+            disabled={currentIndex === 0}
+            className="p-3 bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:bg-white hover:scale-110 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            aria-label="الخدمة السابقة"
+          >
+            <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          {/* Dots */}
+          <div className="flex gap-2">
+            {displayServices.map((service, idx) => (
+              <button
+                key={service.id}
+                onClick={() => setActiveServiceId(service.id)}
+                className={`transition-all duration-300 rounded-full ${
+                  service.id === activeServiceId
+                    ? "w-12 h-3 bg-gray-800"
+                    : "w-3 h-3 bg-white/60 hover:bg-white/90"
+                }`}
+                aria-label={`خدمة ${idx + 1}`}
+              />
+            ))}
           </div>
 
-          {/* Left Side - Animated Image with Arc Path */}
-          <div className="relative flex items-center justify-center">
-            {activeService?.image && (
-              <div
-                key={imageKey}
-                className="absolute left-1/2 bottom-0 w-48 h-48 arc-animation"
-              >
-                <img
-                  src={activeService.image}
-                  alt={activeService.title}
-                  className="w-full h-full object-cover rounded-full shadow-2xl border-4 border-white/80"
-                />
-              </div>
-            )}
-          </div>
+          {/* Next Button */}
+          <button
+            onClick={nextService}
+            disabled={currentIndex === displayServices.length - 1}
+            className="p-3 bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:bg-white hover:scale-110 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            aria-label="الخدمة التالية"
+          >
+            <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
