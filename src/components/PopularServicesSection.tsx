@@ -176,7 +176,7 @@ export default function PopularServicesSection() {
       <div className="relative z-10 h-full">
         {/* Header */}
         <div className="pt-8 sm:pt-12 pb-6 text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-3 drop-shadow-lg">
             خدمات شائعة
           </h2>
           <div className="w-20 h-1 bg-blue-500 mx-auto rounded-full" />
