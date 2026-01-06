@@ -137,8 +137,11 @@ export default function PopularServicesSection() {
             )}
           </div>
 
-          {/* Cards: stacked on mobile, absolute on larger screens */}
-          <div className="mt-auto mb-16 sm:mb-0 flex flex-col items-center gap-3 sm:block">
+          {/* Cards: horizontal swipe on mobile, absolute on larger screens */}
+          <div
+            className="mt-auto mb-16 sm:mb-0 flex flex-row gap-3 overflow-x-auto touch-pan-x snap-x snap-mandatory scroll-smooth pb-3 sm:block sm:overflow-visible"
+            dir="rtl"
+          >
             {services.map((service) => {
               const isActive = activeServiceId === service.id;
               return (
@@ -148,7 +151,7 @@ export default function PopularServicesSection() {
                     setActiveServiceId(service.id);
                     setAnimationKey((prev) => prev + 1);
                   }}
-                  className={`group w-full max-w-md sm:max-w-none sm:absolute p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl backdrop-blur-lg transition-all duration-700 sm:w-[40%] md:w-[30%] lg:w-[22%] ${
+                  className={`group flex-none snap-center w-[85vw] max-w-sm sm:max-w-none sm:absolute p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl backdrop-blur-lg transition-all duration-700 sm:w-[40%] md:w-[30%] lg:w-[22%] ${
                     isActive
                       ? "bg-white/25 border-2 border-white/40 active-card scale-[1.02] sm:scale-105 z-20"
                       : "bg-white/10 border border-white/20 hover:bg-white/15 z-10"
