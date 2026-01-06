@@ -13,22 +13,6 @@ interface PopularService {
 export default function PopularServicesSection() {
   const [activeServiceId, setActiveServiceId] = useState<number>(1);
 
-  // Calculate semicircular path positions for tooth images
-  const getPathPosition = (index: number, total: number) => {
-    // Angle from 0 to 180 degrees (semicircle from bottom-left to bottom-right)
-    const angle = (index / (total - 1)) * Math.PI;
-    
-    // Radius of the semicircle (percentage of screen)
-    const radiusX = 35; // horizontal radius
-    const radiusY = 25; // vertical radius
-    
-    // Calculate position
-    const x = 50 + radiusX * Math.cos(angle + Math.PI); // Start from left
-    const y = 70 - radiusY * Math.sin(angle); // Start from bottom
-    
-    return { x: `${x}%`, y: `${y}%` };
-  };
-
   const services: PopularService[] = [
     {
       id: 1,
@@ -103,6 +87,23 @@ export default function PopularServicesSection() {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
           }
+          @keyframes smartTransition {
+            0% {
+              opacity: 0;
+              transform: translate(-50%, -50%) scale(0.8) rotateY(-90deg);
+            }
+            50% {
+              opacity: 1;
+              transform: translate(-50%, -50%) scale(1.1) rotateY(0deg);
+            }
+            100% {
+              opacity: 1;
+              transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+            }
+          }
+          .tooth-center-active {
+            animation: smartTransition 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+          }
         `
       }} />
 
@@ -117,10 +118,9 @@ export default function PopularServicesSection() {
 
         {/* Randomly Positioned Cards */}
         <div className="relative h-[calc(100%-200px)]">
-          {/* Semicircular Path Tooth Elements */}
-          <div className="absolute inset-0 pointer-events-none">
-            {services.map((service, index) => {
-              const pathPos = getPathPosition(index, services.length);
+          {/* Center Tooth Image */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20">
+            {services.map((service) => {
               const isActive = activeServiceId === service.id;
               
               return (
@@ -128,14 +128,12 @@ export default function PopularServicesSection() {
                   key={service.id}
                   src={service.image}
                   alt={service.title}
-                  className="absolute w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain transition-all duration-1000 ease-in-out"
+                  className={`absolute top-1/2 left-1/2 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] object-contain transition-opacity duration-500 ${
+                    isActive ? "opacity-100 tooth-center-active" : "opacity-0"
+                  }`}
                   style={{
-                    left: pathPos.x,
-                    top: pathPos.y,
-                    transform: `translate(-50%, -50%) scale(${isActive ? 1.2 : 0.9}) ${isActive ? 'rotate(0deg)' : 'rotate(-10deg)'}`,
-                    opacity: isActive ? 1 : 0.6,
-                    filter: `drop-shadow(0 ${isActive ? '15' : '8'}px ${isActive ? '40' : '20'}px rgba(0, 0, 0, 0.3))`,
-                    zIndex: isActive ? 30 : 10,
+                    transform: 'translate(-50%, -50%)',
+                    filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.4))',
                   }}
                 />
               );
