@@ -15,3 +15,4 @@ export { default as PopularServicesSection } from "./PopularServicesSection";
 export { default as BeforeAfterSection } from "./BeforeAfterSection";
 export { default as PhilosophySection } from "./PhilosophySection";
 export { default as BookingSection } from "./BookingSection";
+export { default as FooterSection } from "./FooterSection";

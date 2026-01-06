@@ -8,7 +8,7 @@ import { useFetch } from "@/lib/hooks";
 import { LoadingSplash } from "@/components/LoadingSplash";
 import { FullPageScroller } from "@/components/FullPageScroller";
 import HeroTooth from "@/components/HeroTooth";
-import { ServicesSection, DoctorsSection, PopularServicesSection, BeforeAfterSection, PhilosophySection, BookingSection } from "@/components";
+import { ServicesSection, DoctorsSection, PopularServicesSection, BeforeAfterSection, PhilosophySection, BookingSection, FooterSection } from "@/components";
 
 interface Service {
   id: number;
@@ -48,6 +48,7 @@ export default function HomePage() {
         <BeforeAfterSection />
         <PhilosophySection />
         <BookingSection />
+        <FooterSection />
       </FullPageScroller>
     </>
   );
