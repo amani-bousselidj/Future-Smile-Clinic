@@ -121,7 +121,7 @@ export default function PopularServicesSection() {
         </div>
 
         {/* Randomly Positioned Cards */}
-        <div className="relative h-[calc(100%-200px)]">
+        <div className="relative h-[calc(100%-200px)] flex flex-col px-4 sm:px-0">
           {/* Center Image (no path) */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
             {activeService?.image && (
@@ -137,69 +137,67 @@ export default function PopularServicesSection() {
             )}
           </div>
 
-          {services.map((service) => {
-            const isActive = activeServiceId === service.id;
-            return (
-              <button
-                key={service.id}
-                onClick={() => {
-                  setActiveServiceId(service.id);
-                  setAnimationKey((prev) => prev + 1);
-                }}
-                className={`group absolute p-5 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl backdrop-blur-lg transition-all duration-700 w-[85%] sm:w-[40%] md:w-[30%] lg:w-[22%] ${
-                  isActive
-                    ? "bg-white/25 border-2 border-white/40 active-card scale-105 z-20"
-                    : "bg-white/10 border border-white/20 hover:bg-white/15 hover:scale-102 z-10"
-                }`}
-                style={{
-                  top: service.position.top,
-                  left: service.position.left,
-                  transform: isActive ? 'scale(1.05)' : 'scale(1)',
-                  boxShadow: isActive
-                    ? "0 20px 60px rgba(0, 0, 0, 0.3)"
-                    : "0 8px 32px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                {/* Title */}
-                <h3
-                  className={`text-lg sm:text-xl md:text-2xl font-bold mb-3 transition-colors duration-500 ${
-                    isActive ? "text-gray-800" : "text-gray-700"
-                  }`}
-                >
-                  {service.title}
-                </h3>
-
-                {/* Description */}
-                <p
-                  className={`text-xs sm:text-sm md:text-base leading-relaxed transition-all duration-500 ${
+          {/* Cards: stacked on mobile, absolute on larger screens */}
+          <div className="mt-auto mb-16 sm:mb-0 flex flex-col items-center gap-3 sm:block">
+            {services.map((service) => {
+              const isActive = activeServiceId === service.id;
+              return (
+                <button
+                  key={service.id}
+                  onClick={() => {
+                    setActiveServiceId(service.id);
+                    setAnimationKey((prev) => prev + 1);
+                  }}
+                  className={`group w-full max-w-md sm:max-w-none sm:absolute p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl backdrop-blur-lg transition-all duration-700 sm:w-[40%] md:w-[30%] lg:w-[22%] ${
                     isActive
-                      ? "text-gray-700 opacity-100"
-                      : "text-gray-600 opacity-90"
+                      ? "bg-white/25 border-2 border-white/40 active-card scale-[1.02] sm:scale-105 z-20"
+                      : "bg-white/10 border border-white/20 hover:bg-white/15 z-10"
                   }`}
+                  style={{
+                    top: service.position.top,
+                    left: service.position.left,
+                    boxShadow: isActive
+                      ? "0 20px 60px rgba(0, 0, 0, 0.3)"
+                      : "0 8px 32px rgba(0, 0, 0, 0.2)",
+                  }}
                 >
-                  {service.description}
-                </p>
+                  <h3
+                    className={`text-base sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 transition-colors duration-500 ${
+                      isActive ? "text-gray-800" : "text-gray-700"
+                    }`}
+                  >
+                    {service.title}
+                  </h3>
 
-                {/* Active Indicator */}
-                {isActive && (
-                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-blue-400 rounded-full shadow-lg" />
-                )}
+                  <p
+                    className={`text-xs sm:text-sm md:text-base leading-relaxed transition-all duration-500 ${
+                      isActive
+                        ? "text-gray-700 opacity-100"
+                        : "text-gray-600 opacity-90"
+                    }`}
+                  >
+                    {service.description}
+                  </p>
 
-                {/* Shine Effect on Hover */}
-                <div className="absolute inset-0 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                  <div
-                    className="absolute inset-0 rounded-2xl sm:rounded-3xl"
-                    style={{
-                      background:
-                        "linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%)",
-                      backgroundSize: "200% 200%",
-                      animation: "shine 3s ease-in-out infinite",
-                    }}
-                  />
-                </div>
-              </button>
-            );
-          })}
+                  {isActive && (
+                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-blue-400 rounded-full shadow-lg" />
+                  )}
+
+                  <div className="absolute inset-0 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                    <div
+                      className="absolute inset-0 rounded-2xl sm:rounded-3xl"
+                      style={{
+                        background:
+                          "linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%)",
+                        backgroundSize: "200% 200%",
+                        animation: "shine 3s ease-in-out infinite",
+                      }}
+                    />
+                  </div>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Progress Indicators */}
