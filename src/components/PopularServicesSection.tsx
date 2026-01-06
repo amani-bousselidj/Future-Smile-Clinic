@@ -51,7 +51,10 @@ export default function PopularServicesSection() {
 
   const services = SERVICES;
 
-  // Auto-rotate active service every 2.4 seconds
+  const activeService =
+    services.find((s) => s.id === activeServiceId) ?? services[0];
+
+  // Auto-rotate active service every 3.5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveServiceId((prevId) => {
@@ -61,7 +64,7 @@ export default function PopularServicesSection() {
         setAnimationKey((prev) => prev + 1);
         return services[nextIndex].id;
       });
-    }, 2400);
+    }, 3500);
 
     return () => clearInterval(interval);
   }, [services]);
@@ -92,34 +95,18 @@ export default function PopularServicesSection() {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
           }
-          @keyframes circularPath {
-            0% {
-              transform: translate(-50%, -50%) translateX(-150px) translateY(120px) scale(0.55);
+          @keyframes softSwap {
+            from {
               opacity: 0;
+              transform: translateY(10px) scale(0.98);
             }
-            35% {
-              transform: translate(-50%, -50%) translateX(-60px) translateY(-35px) scale(0.8);
-              opacity: 0;
-            }
-            45% {
-              transform: translate(-50%, -50%) translateX(0) translateY(0) scale(1);
+            to {
               opacity: 1;
-            }
-            55% {
-              transform: translate(-50%, -50%) translateX(0) translateY(0) scale(1);
-              opacity: 1;
-            }
-            65% {
-              transform: translate(-50%, -50%) translateX(60px) translateY(-35px) scale(0.8);
-              opacity: 0;
-            }
-            100% {
-              transform: translate(-50%, -50%) translateX(150px) translateY(120px) scale(0.55);
-              opacity: 0;
+              transform: translateY(0) scale(1);
             }
           }
-          .tooth-path {
-            animation: circularPath 2.2s ease-in-out forwards;
+          .tooth-swap {
+            animation: softSwap 520ms ease-out both;
           }
         `
       }} />
@@ -135,23 +122,19 @@ export default function PopularServicesSection() {
 
         {/* Randomly Positioned Cards */}
         <div className="relative h-[calc(100%-200px)]">
-          {/* Center Tooth Image - Only Active One Visible */}
-          <div className="absolute top-1/2 left-1/2 pointer-events-none z-20">
-            {services.map((service) => {
-              const isActive = activeServiceId === service.id;
-              
-              return isActive ? (
-                <img
-                  key={`${service.id}-${animationKey}`}
-                  src={service.image}
-                  alt={service.title}
-                  className="tooth-path absolute top-0 left-0 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] object-contain"
-                  style={{
-                    filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.4))',
-                  }}
-                />
-              ) : null;
-            })}
+          {/* Center Image (no path) */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+            {activeService?.image && (
+              <img
+                key={`${activeService.id}-${animationKey}`}
+                src={activeService.image}
+                alt={activeService.title}
+                className="tooth-swap w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] object-contain"
+                style={{
+                  filter: "drop-shadow(0 25px 50px rgba(0, 0, 0, 0.4))",
+                }}
+              />
+            )}
           </div>
 
           {services.map((service) => {
