@@ -21,8 +21,6 @@ export default function ServicesSection({
 }: ServicesSectionProps) {
   const [activeServiceId, setActiveServiceId] = useState<number | null>(1);
   const [imageKey, setImageKey] = useState(0);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   // Dummy data for preview with images
   const dummyServices: Service[] = [
@@ -81,44 +79,6 @@ export default function ServicesSection({
     services && services.length > 0 ? services : dummyServices;
 
   const activeService = displayServices?.find((s) => s.id === activeServiceId);
-  const currentIndex = displayServices.findIndex((s) => s.id === activeServiceId);
-
-  const minSwipeDistance = 50;
-
-  const onTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-
-    if (isLeftSwipe && currentIndex < displayServices.length - 1) {
-      setActiveServiceId(displayServices[currentIndex + 1].id);
-    }
-    if (isRightSwipe && currentIndex > 0) {
-      setActiveServiceId(displayServices[currentIndex - 1].id);
-    }
-  };
-
-  const nextService = () => {
-    if (currentIndex < displayServices.length - 1) {
-      setActiveServiceId(displayServices[currentIndex + 1].id);
-    }
-  };
-
-  const prevService = () => {
-    if (currentIndex > 0) {
-      setActiveServiceId(displayServices[currentIndex - 1].id);
-    }
-  };
 
   // Trigger animation when service changes
   useEffect(() => {
