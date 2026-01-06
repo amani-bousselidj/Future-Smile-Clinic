@@ -129,7 +129,7 @@ export default function PopularServicesSection() {
                 key={`${activeService.id}-${animationKey}`}
                 src={activeService.image}
                 alt={activeService.title}
-                className="tooth-swap w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-[24rem] lg:h-[24rem] object-contain"
+                className="tooth-swap w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-[12rem] lg:h-[12rem] object-contain"
                 style={{
                   filter: "drop-shadow(0 25px 50px rgba(0, 0, 0, 0.4))",
                 }}
