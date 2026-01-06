@@ -47,17 +47,17 @@ export default function PhilosophySection() {
       </div>
 
       {/* Main Content Container */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-24 py-12 sm:py-16">
-        <div className="max-w-2xl">
+      <div className="relative z-10 flex-1 flex flex-col justify-center items-start px-6 sm:px-12 md:px-16 lg:px-24 py-12 sm:py-16">
+        <div className="max-w-2xl text-right">
           {/* Main Title */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4 sm:mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4 sm:mb-6 leading-tight text-right">
             فلسفة عيادة
             <br />
             <span className="text-gray-700">FUTURE SMILE</span>
           </h1>
 
           {/* Description */}
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-6 sm:mb-8 leading-relaxed max-w-xl">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-6 sm:mb-8 leading-relaxed max-w-xl text-right">
             Future Smile — المكان الذي تتحقق فيه الابتسامة المثالية، والنتيجة تمنح
             الثقة والراحة
           </p>
