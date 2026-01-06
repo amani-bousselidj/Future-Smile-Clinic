@@ -10,69 +10,58 @@ interface PopularService {
   image: string;
 }
 
+const SERVICES: PopularService[] = [
+  {
+    id: 1,
+    title: "طقم الأسنان",
+    description:
+      "استعادة كاملة للأسنان المفقودة باستخدام طقم الأسنان، تركيب مريح مع مظهر طبيعي.",
+    position: { top: "15%", left: "5%" },
+    image: "/images/services/dentures.png",
+  },
+  {
+    id: 2,
+    title: "نظافة مهنية",
+    description:
+      "إزالة الجير باستخدام الموجات فوق الصوتية، التلميع، الفلورايد، التوصيات الشخصية للحفاظ على ابتسامة صحية.",
+    position: { top: "20%", left: "75%" },
+    image: "/images/services/tooth.png",
+  },
+  {
+    id: 3,
+    title: "طب الأسنان التجميلي",
+    description:
+      "الفينير، تبييض الأسنان، الترميم، تغيير الشكل واللون، استعادة الابتسامة المثالية، المظهر الطبيعي.",
+    position: { top: "65%", left: "8%" },
+    image: "/images/services/tooth.png",
+  },
+  {
+    id: 4,
+    title: "تقويم الأسنان",
+    description:
+      "تقويم الأسنان باستخدام الأجهزة الشفافة (الإلاينر) أو البراكت، تصحيح التراكم، تحسين الوظائف والجمالية للابتسامة.",
+    position: { top: "65%", left: "70%" },
+    image: "/images/services/aligners.png",
+  },
+];
+
 export default function PopularServicesSection() {
   const [activeServiceId, setActiveServiceId] = useState<number>(1);
   const [animationKey, setAnimationKey] = useState<number>(0);
 
-  // Auto-rotate active service every 3 seconds
+  const services = SERVICES;
+
+  // Auto-rotate active service every 2.4 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveServiceId((prevId) => {
         const currentIndex = services.findIndex((s) => s.id === prevId);
-        const nextIndex = (currentIndex + 1) % services.length;
+        const safeCurrentIndex = currentIndex < 0 ? 0 : currentIndex;
+        const nextIndex = (safeCurrentIndex + 1) % services.length;
         setAnimationKey((prev) => prev + 1);
         return services[nextIndex].id;
       });
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const services: PopularService[] = [
-    {
-      id: 1,
-      title: "طقم الأسنان",
-      description:
-        "استعادة كاملة للأسنان المفقودة باستخدام طقم الأسنان، تركيب مريح مع مظهر طبيعي.",
-      position: { top: "15%", left: "5%" },
-      image: "/images/services/dentures.png",
-    },
-    {
-      id: 2,
-      title: "نظافة مهنية",
-      description:
-        "إزالة الجير باستخدام الموجات فوق الصوتية، التلميع، الفلورايد، التوصيات الشخصية للحفاظ على ابتسامة صحية.",
-      position: { top: "20%", left: "75%" },
-      image: "/images/services/tooth.png",
-    },
-    {
-      id: 3,
-      title: "طب الأسنان التجميلي",
-      description:
-        "الفينير، تبييض الأسنان، الترميم، تغيير الشكل واللون، استعادة الابتسامة المثالية، المظهر الطبيعي.",
-      position: { top: "65%", left: "8%" },
-      image: "/images/services/tooth.png",
-    },
-    {
-      id: 4,
-      title: "تقويم الأسنان",
-      description:
-        "تقويم الأسنان باستخدام الأجهزة الشفافة (الإلاينر) أو البراكت، تصحيح التراكم، تحسين الوظائف والجمالية للابتسامة.",
-      position: { top: "65%", left: "70%" },
-      image: "/images/services/aligners.png",
-    },
-  ];
-
-  // Auto-rotate active service every 3 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveServiceId((prevId) => {
-        const currentIndex = services.findIndex((s) => s.id === prevId);
-        const nextIndex = (currentIndex + 1) % services.length;
-        setAnimationKey((prev) => prev + 1);
-        return services[nextIndex].id;
-      });
-    }, 3000);
+    }, 2400);
 
     return () => clearInterval(interval);
   }, [services]);
@@ -105,28 +94,32 @@ export default function PopularServicesSection() {
           }
           @keyframes circularPath {
             0% {
-              transform: translate(-50%, -50%) translateX(-200px) translateY(150px) scale(0.5);
+              transform: translate(-50%, -50%) translateX(-150px) translateY(120px) scale(0.55);
               opacity: 0;
             }
-            25% {
-              transform: translate(-50%, -50%) translateX(-100px) translateY(-50px) scale(0.7);
-              opacity: 0.3;
+            35% {
+              transform: translate(-50%, -50%) translateX(-60px) translateY(-35px) scale(0.8);
+              opacity: 0;
             }
-            50% {
+            45% {
               transform: translate(-50%, -50%) translateX(0) translateY(0) scale(1);
               opacity: 1;
             }
-            75% {
-              transform: translate(-50%, -50%) translateX(100px) translateY(-50px) scale(0.7);
-              opacity: 0.3;
+            55% {
+              transform: translate(-50%, -50%) translateX(0) translateY(0) scale(1);
+              opacity: 1;
+            }
+            65% {
+              transform: translate(-50%, -50%) translateX(60px) translateY(-35px) scale(0.8);
+              opacity: 0;
             }
             100% {
-              transform: translate(-50%, -50%) translateX(200px) translateY(150px) scale(0.5);
+              transform: translate(-50%, -50%) translateX(150px) translateY(120px) scale(0.55);
               opacity: 0;
             }
           }
           .tooth-path {
-            animation: circularPath 3s ease-in-out forwards;
+            animation: circularPath 2.2s ease-in-out forwards;
           }
         `
       }} />
@@ -231,7 +224,10 @@ export default function PopularServicesSection() {
           {services.map((service) => (
             <button
               key={service.id}
-              onClick={() => setActiveServiceId(service.id)}
+              onClick={() => {
+                setActiveServiceId(service.id);
+                setAnimationKey((prev) => prev + 1);
+              }}
               className={`h-2 rounded-full transition-all duration-500 ${
                 service.id === activeServiceId
                   ? "w-8 bg-blue-400"
