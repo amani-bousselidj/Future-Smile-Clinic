@@ -25,6 +25,8 @@ export function FullPageScroller({
   const [index, setIndex] = useState(0);
   const animatingRef = useRef(false);
   const touchStartYRef = useRef<number | null>(null);
+  const touchStartXRef = useRef<number | null>(null);
+  const horizontalGestureRef = useRef(false);
   const slideRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   const go = useCallback(
@@ -116,7 +118,10 @@ export function FullPageScroller({
   const onTouchStart = useCallback(
     (e: TouchEvent) => {
       if (!enabled) return;
-      touchStartYRef.current = e.touches[0]?.clientY ?? null;
+      const t = e.touches[0];
+      touchStartYRef.current = t?.clientY ?? null;
+      touchStartXRef.current = t?.clientX ?? null;
+      horizontalGestureRef.current = false;
     },
     [enabled]
   );
@@ -126,8 +131,18 @@ export function FullPageScroller({
       if (!enabled) return;
       if (slides.length <= 1) return;
 
+      // If the user was swiping horizontally (e.g., inside a horizontal carousel),
+      // do not treat it as slide navigation.
+      if (horizontalGestureRef.current) {
+        touchStartYRef.current = null;
+        touchStartXRef.current = null;
+        horizontalGestureRef.current = false;
+        return;
+      }
+
       const startY = touchStartYRef.current;
       touchStartYRef.current = null;
+      touchStartXRef.current = null;
       if (startY == null) return;
 
       const endY = e.changedTouches[0]?.clientY;
@@ -160,10 +175,31 @@ export function FullPageScroller({
   const onTouchMove = useCallback(
     (e: TouchEvent) => {
       if (!enabled) return;
-      // Prevent native touch scrolling while in presentation mode.
+
+      // Allow native scroll inside a designated scrollable slide.
+      if (scrollableSlideIndex === index) return;
+
+      const startX = touchStartXRef.current;
+      const startY = touchStartYRef.current;
+      const t = e.touches[0];
+      const x = t?.clientX;
+      const y = t?.clientY;
+
+      if (startX != null && startY != null && x != null && y != null) {
+        const dx = x - startX;
+        const dy = y - startY;
+
+        // If gesture is primarily horizontal, allow it (so inner carousels can scroll).
+        if (Math.abs(dx) > Math.abs(dy) + 8) {
+          horizontalGestureRef.current = true;
+          return;
+        }
+      }
+
+      // Otherwise, prevent native touch scrolling while in presentation mode.
       e.preventDefault();
     },
-    [enabled]
+    [enabled, index, scrollableSlideIndex]
   );
 
   useEffect(() => {
