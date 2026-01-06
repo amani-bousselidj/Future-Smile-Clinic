@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 interface PopularService {
   id: number;
@@ -49,10 +49,34 @@ export default function PopularServicesSection() {
   const [activeServiceId, setActiveServiceId] = useState<number>(1);
   const [animationKey, setAnimationKey] = useState<number>(0);
 
+  const cardRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+
   const services = SERVICES;
 
   const activeService =
     services.find((s) => s.id === activeServiceId) ?? services[0];
+
+  const isMobile = useCallback(() => {
+    if (typeof window === "undefined") return false;
+    // Tailwind `sm:` breakpoint is 640px
+    return !window.matchMedia("(min-width: 640px)").matches;
+  }, []);
+
+  const activateService = useCallback(
+    (id: number) => {
+      setActiveServiceId(id);
+      setAnimationKey((prev) => prev + 1);
+
+      // On mobile, ensure the pressed card becomes the one in front (centered)
+      if (!isMobile()) return;
+
+      requestAnimationFrame(() => {
+        const el = cardRefs.current[id];
+        el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      });
+    },
+    [isMobile]
+  );
 
   // Auto-rotate active service every 3.5 seconds
   useEffect(() => {
@@ -62,7 +86,17 @@ export default function PopularServicesSection() {
         const safeCurrentIndex = currentIndex < 0 ? 0 : currentIndex;
         const nextIndex = (safeCurrentIndex + 1) % services.length;
         setAnimationKey((prev) => prev + 1);
-        return services[nextIndex].id;
+        const nextId = services[nextIndex].id;
+
+        // Keep the active card in front on mobile while auto-rotating
+        if (typeof window !== "undefined" && !window.matchMedia("(min-width: 640px)").matches) {
+          requestAnimationFrame(() => {
+            const el = cardRefs.current[nextId];
+            el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+          });
+        }
+
+        return nextId;
       });
     }, 3500);
 
@@ -147,9 +181,11 @@ export default function PopularServicesSection() {
               return (
                 <button
                   key={service.id}
+                  ref={(el) => {
+                    cardRefs.current[service.id] = el;
+                  }}
                   onClick={() => {
-                    setActiveServiceId(service.id);
-                    setAnimationKey((prev) => prev + 1);
+                    activateService(service.id);
                   }}
                   className={`group flex-none snap-center w-[85vw] max-w-sm sm:max-w-none sm:absolute p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl backdrop-blur-lg transition-all duration-700 sm:w-[40%] md:w-[30%] lg:w-[22%] ${
                     isActive
@@ -209,8 +245,7 @@ export default function PopularServicesSection() {
             <button
               key={service.id}
               onClick={() => {
-                setActiveServiceId(service.id);
-                setAnimationKey((prev) => prev + 1);
+                activateService(service.id);
               }}
               className={`h-2 rounded-full transition-all duration-500 ${
                 service.id === activeServiceId
