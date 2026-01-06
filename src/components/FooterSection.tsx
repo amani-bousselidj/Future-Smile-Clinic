@@ -7,11 +7,11 @@ export default function FooterSection() {
   const currentYear = new Date().getFullYear();
 
   const navLinks = [
-    { title: "عن العيادة", href: "/about" },
+    { title: "الصفحة الرئيسية", href: "/" },
     { title: "الخدمات", href: "/services" },
     { title: "الأطباء", href: "/doctors" },
-    { title: "قصص المرضى", href: "/testimonials" },
-    { title: "الفيديوهات", href: "/videos" },
+    { title: "نتائج قبل وبعد", href: "/" },
+    { title: "احجز موعد", href: "/appointments" },
   ];
 
   return (
@@ -132,7 +132,7 @@ export default function FooterSection() {
           </Link>
           <p className="text-left">
             WEBSITE DEVELOPMENT:{" "}
-            <span className="font-semibold text-white">YOUR NAME</span>
+            <span className="font-semibold text-white">ِAmani Bousselidj</span>
           </p>
         </div>
       </div>
