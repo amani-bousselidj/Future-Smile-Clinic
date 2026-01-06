@@ -33,7 +33,7 @@ const SERVICES: PopularService[] = [
     description:
       "الفينير، تبييض الأسنان، الترميم، تغيير الشكل واللون، استعادة الابتسامة المثالية، المظهر الطبيعي.",
     position: { top: "65%", left: "8%" },
-    image: "/images/services/tooth.png",
+    image: "/images/services/implant.png",
   },
   {
     id: 4,
