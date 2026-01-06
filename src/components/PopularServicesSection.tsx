@@ -12,6 +12,21 @@ interface PopularService {
 
 export default function PopularServicesSection() {
   const [activeServiceId, setActiveServiceId] = useState<number>(1);
+  const [animationKey, setAnimationKey] = useState<number>(0);
+
+  // Auto-rotate active service every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveServiceId((prevId) => {
+        const currentIndex = services.findIndex((s) => s.id === prevId);
+        const nextIndex = (currentIndex + 1) % services.length;
+        setAnimationKey((prev) => prev + 1);
+        return services[nextIndex].id;
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const services: PopularService[] = [
     {
@@ -48,15 +63,16 @@ export default function PopularServicesSection() {
     },
   ];
 
-  // Auto-rotate active service every 4 seconds
+  // Auto-rotate active service every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveServiceId((prevId) => {
         const currentIndex = services.findIndex((s) => s.id === prevId);
         const nextIndex = (currentIndex + 1) % services.length;
+        setAnimationKey((prev) => prev + 1);
         return services[nextIndex].id;
       });
-    }, 4000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [services]);
@@ -87,22 +103,30 @@ export default function PopularServicesSection() {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
           }
-          @keyframes smartTransition {
+          @keyframes circularPath {
             0% {
+              transform: translate(-50%, -50%) translateX(-200px) translateY(150px) scale(0.5);
               opacity: 0;
-              transform: translate(-50%, -50%) scale(0.8) rotateY(-90deg);
+            }
+            25% {
+              transform: translate(-50%, -50%) translateX(-100px) translateY(-50px) scale(0.7);
+              opacity: 0.3;
             }
             50% {
+              transform: translate(-50%, -50%) translateX(0) translateY(0) scale(1);
               opacity: 1;
-              transform: translate(-50%, -50%) scale(1.1) rotateY(0deg);
+            }
+            75% {
+              transform: translate(-50%, -50%) translateX(100px) translateY(-50px) scale(0.7);
+              opacity: 0.3;
             }
             100% {
-              opacity: 1;
-              transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+              transform: translate(-50%, -50%) translateX(200px) translateY(150px) scale(0.5);
+              opacity: 0;
             }
           }
-          .tooth-center-active {
-            animation: smartTransition 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+          .tooth-path {
+            animation: circularPath 3s ease-in-out forwards;
           }
         `
       }} />
@@ -118,25 +142,22 @@ export default function PopularServicesSection() {
 
         {/* Randomly Positioned Cards */}
         <div className="relative h-[calc(100%-200px)]">
-          {/* Center Tooth Image */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20">
+          {/* Center Tooth Image - Only Active One Visible */}
+          <div className="absolute top-1/2 left-1/2 pointer-events-none z-20">
             {services.map((service) => {
               const isActive = activeServiceId === service.id;
               
-              return (
+              return isActive ? (
                 <img
-                  key={service.id}
+                  key={`${service.id}-${animationKey}`}
                   src={service.image}
                   alt={service.title}
-                  className={`absolute top-1/2 left-1/2 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] object-contain transition-opacity duration-500 ${
-                    isActive ? "opacity-100 tooth-center-active" : "opacity-0"
-                  }`}
+                  className="tooth-path absolute top-0 left-0 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem] object-contain"
                   style={{
-                    transform: 'translate(-50%, -50%)',
                     filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.4))',
                   }}
                 />
-              );
+              ) : null;
             })}
           </div>
 
@@ -145,7 +166,10 @@ export default function PopularServicesSection() {
             return (
               <button
                 key={service.id}
-                onClick={() => setActiveServiceId(service.id)}
+                onClick={() => {
+                  setActiveServiceId(service.id);
+                  setAnimationKey((prev) => prev + 1);
+                }}
                 className={`group absolute p-5 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl backdrop-blur-lg transition-all duration-700 w-[85%] sm:w-[40%] md:w-[30%] lg:w-[22%] ${
                   isActive
                     ? "bg-white/25 border-2 border-white/40 active-card scale-105 z-20"
