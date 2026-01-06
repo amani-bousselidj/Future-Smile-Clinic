@@ -100,24 +100,16 @@ export default function BeforeAfterSection() {
   const visibleCases = cases.slice(startIndex, startIndex + itemsPerPage);
 
   return (
-    <div className="h-screen w-full bg-gradient-to-br from-blue-50 via-white to-blue-50 flex flex-col items-center justify-center px-4 py-8 sm:py-12 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 2px 2px, rgb(59, 130, 246) 1px, transparent 0)',
-          backgroundSize: '48px 48px'
-        }} />
-      </div>
-
+    <div className="h-screen w-full bg-white flex flex-col items-center justify-center px-4 py-8 sm:py-12 relative overflow-hidden">
       {/* Header */}
       <div className="text-center mb-6 sm:mb-10 z-10">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 text-gray-800">
           نتائج قبل وبعد
         </h2>
         <p className="text-gray-600 text-sm sm:text-base md:text-lg max-w-2xl mx-auto">
           شاهد التحولات الرائعة التي حققناها لمرضانا
         </p>
-        <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto mt-3 sm:mt-4 rounded-full" />
+        <div className="w-20 h-1 bg-blue-500 mx-auto mt-3 rounded-full" />
       </div>
 
       {/* Cases Grid */}
@@ -147,7 +139,7 @@ export default function BeforeAfterSection() {
               onClick={() => setCurrentPage(index)}
               className={`transition-all duration-300 rounded-full ${
                 index === currentPage
-                  ? "w-8 sm:w-10 h-2 sm:h-2.5 bg-gradient-to-r from-blue-500 to-cyan-500"
+                  ? "w-8 sm:w-10 h-2 sm:h-2.5 bg-blue-500"
                   : "w-2 sm:w-2.5 h-2 sm:h-2.5 bg-gray-300 hover:bg-gray-400"
               }`}
               aria-label={`الصفحة ${index + 1}`}
@@ -224,13 +216,12 @@ function BeforeAfterCard({
         {/* Before Image (Clipped Overlay) */}
         <div
           className="absolute inset-0 overflow-hidden"
-          style={{ width: `${sliderPosition}%` }}
+          style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
         >
           <img
             src={beforeImage}
             alt={`${title} - قبل`}
             className="absolute inset-0 w-full h-full object-cover"
-            style={{ width: `${(containerRef.current?.offsetWidth || 0)}px` }}
             draggable={false}
           />
         </div>
