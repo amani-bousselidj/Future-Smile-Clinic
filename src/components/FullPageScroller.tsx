@@ -206,6 +206,32 @@ export function FullPageScroller({
     // Only attach listeners when enabled; keep them passive:false so we can preventDefault.
     if (!enabled) return;
 
+    const prevScrollRestoration =
+      typeof history !== "undefined" ? history.scrollRestoration : undefined;
+    if (typeof history !== "undefined") {
+      try {
+        history.scrollRestoration = "manual";
+      } catch {
+        // ignore
+      }
+    }
+
+    // Ensure we always start at the top when entering "presentation mode".
+    // Otherwise a refresh can restore a previous scrollY and then get "stuck"
+    // once overflow is locked.
+    try {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      requestAnimationFrame(() => {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      });
+    } catch {
+      // ignore
+    }
+
     const prevHtmlOverflow = document.documentElement.style.overflow;
     const prevBodyOverflow = document.body.style.overflow;
     const prevHtmlOverscroll = (document.documentElement.style as any)
@@ -235,6 +261,14 @@ export function FullPageScroller({
       (document.documentElement.style as any).overscrollBehavior =
         prevHtmlOverscroll;
       (document.body.style as any).overscrollBehavior = prevBodyOverscroll;
+
+      if (typeof history !== "undefined" && prevScrollRestoration) {
+        try {
+          history.scrollRestoration = prevScrollRestoration;
+        } catch {
+          // ignore
+        }
+      }
     };
   }, [enabled, onWheel, onKeyDown, onTouchStart, onTouchMove, onTouchEnd]);
 
