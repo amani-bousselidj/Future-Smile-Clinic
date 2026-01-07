@@ -173,7 +173,7 @@ REST_FRAMEWORK = {
 # CORS Configuration
 CORS_ALLOWED_ORIGINS = [o.strip() for o in config(
     'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:3000,http://localhost:8000,https://future-smile-clinic.vercel.app'
+    default='http://localhost:3000,http://localhost:8000,https://future-smile-clinic.vercel.app,https://future-smile-clinic-production.up.railway.app'
 ).split(',') if o.strip()]
 
 CORS_ALLOW_CREDENTIALS = True
