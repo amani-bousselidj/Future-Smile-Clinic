@@ -34,6 +34,12 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
   ];
 
   const goToSection = (sectionIndex: number) => {
+    // Navigate to home if not already there
+    if (window.location.pathname !== "/") {
+      window.location.href = "/#section-" + sectionIndex;
+      return;
+    }
+    
     window.dispatchEvent(
       new CustomEvent("fps:go", {
         detail: { index: sectionIndex },
