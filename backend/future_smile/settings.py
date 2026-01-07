@@ -13,17 +13,24 @@ PROJECT_ROOT = BASE_DIR.parent
 
 # Security Settings
 SECRET_KEY = config('SECRET_KEY', default='dev-secret-key-change-in-production')
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config(
-    'ALLOWED_HOSTS',
-    default='localhost,127.0.0.1,testserver,*.onrender.com,*.vercel.app'
-).split(',')
+# Hosts: set ALLOWED_HOSTS on Render to your service hostname
+# Example: ALLOWED_HOSTS=my-clinic-api.onrender.com
+ALLOWED_HOSTS = [h.strip() for h in config('ALLOWED_HOSTS', default='localhost,127.0.0.1,testserver').split(',') if h.strip()]
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://future-smile-clinic.vercel.app',
-    'https://*.onrender.com',
-]
+# Render exposes the external hostname via env var; add it automatically if present.
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME and RENDER_EXTERNAL_HOSTNAME not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+# CSRF: set to your frontend + backend origins in production.
+# Example: CSRF_TRUSTED_ORIGINS=https://future-smile-clinic.vercel.app,https://my-clinic-api.onrender.com
+CSRF_TRUSTED_ORIGINS = [o.strip() for o in config('CSRF_TRUSTED_ORIGINS', default='https://future-smile-clinic.vercel.app').split(',') if o.strip()]
+if RENDER_EXTERNAL_HOSTNAME:
+    render_origin = f"https://{RENDER_EXTERNAL_HOSTNAME}"
+    if render_origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(render_origin)
 
 # Application definition
 INSTALLED_APPS = [
@@ -163,11 +170,10 @@ REST_FRAMEWORK = {
 }
 
 # CORS Configuration
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://localhost:8000',
-    'https://future-smile-clinic.vercel.app',
-]
+CORS_ALLOWED_ORIGINS = [o.strip() for o in config(
+    'CORS_ALLOWED_ORIGINS',
+    default='http://localhost:3000,http://localhost:8000,https://future-smile-clinic.vercel.app'
+).split(',') if o.strip()]
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -215,6 +221,9 @@ SECURE_CONTENT_SECURITY_POLICY = {
 
 # Production settings
 if not DEBUG:
+    # Render runs behind a proxy; respect X-Forwarded-Proto to detect HTTPS.
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    USE_X_FORWARDED_HOST = True
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
