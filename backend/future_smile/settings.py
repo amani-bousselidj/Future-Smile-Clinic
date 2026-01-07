@@ -13,11 +13,11 @@ PROJECT_ROOT = BASE_DIR.parent
 
 # Security Settings
 SECRET_KEY = config('SECRET_KEY', default='dev-secret-key-change-in-production')
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
-    default='localhost,127.0.0.1,*.onrender.com,*.vercel.app'
+    default='localhost,127.0.0.1,testserver,*.onrender.com,*.vercel.app'
 ).split(',')
 
 CSRF_TRUSTED_ORIGINS = [

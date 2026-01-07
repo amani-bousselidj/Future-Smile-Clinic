@@ -113,12 +113,29 @@ class ApiClient {
 
   private handleError(error: any): ApiResponse<never> {
     if (axios.isAxiosError(error)) {
+      const data: any = error.response?.data;
+      const drfValidationMessage = (() => {
+        if (!data || typeof data !== "object") return null;
+        if (typeof data.detail === "string") return data.detail;
+        if (typeof data.error === "string") return data.error;
+        // DRF field errors: { field: ["msg"] }
+        const entries = Object.entries(data) as Array<[string, any]>;
+        const first = entries.find(([, v]) => Array.isArray(v) && v.length > 0);
+        if (first) {
+          const [field, messages] = first;
+          const msg = Array.isArray(messages) ? messages[0] : String(messages);
+          return `${field}: ${msg}`;
+        }
+        return null;
+      })();
+
       return {
         success: false,
         error: {
           status: error.response?.status || 500,
           message:
-            error.response?.data?.error?.message ||
+            drfValidationMessage ||
+            data?.error?.message ||
             error.message ||
             "An error occurred",
         },

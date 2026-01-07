@@ -1,20 +1,103 @@
 "use client";
 
 import React, { useState } from "react";
+import { useApi } from "@/lib/hooks";
+import { useApp } from "@/context/AppContext";
+
+type Service = {
+  id: number;
+  name: string;
+  is_active?: boolean;
+};
 
 export default function BookingSection() {
+  const { addNotification } = useApp();
+  const { execute, loading: apiLoading } = useApi();
+
+  const [services, setServices] = useState<Service[]>([]);
+  const [servicesLoading, setServicesLoading] = useState(true);
+  const [servicesError, setServicesError] = useState<string | null>(null);
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    service: "",
+    service_id: "",
+    appointment_date: "",
+    appointment_time: "",
     comment: "",
     agreeToPrivacy: false,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  React.useEffect(() => {
+    let mounted = true;
+    const loadServices = async () => {
+      setServicesLoading(true);
+      setServicesError(null);
+      try {
+        const response = await execute("get", "/api/services/?is_active=true");
+        const list = Array.isArray(response)
+          ? (response as Service[])
+          : ((response as any)?.results as Service[]) || [];
+        if (!mounted) return;
+        setServices(list);
+      } catch (err) {
+        if (!mounted) return;
+        const message =
+          err instanceof Error ? err.message : "فشل تحميل قائمة الخدمات";
+        setServicesError(message);
+      } finally {
+        if (mounted) setServicesLoading(false);
+      }
+    };
+    loadServices();
+    return () => {
+      mounted = false;
+    };
+  }, [execute]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
+
+    if (!formData.agreeToPrivacy) return;
+    if (servicesLoading) return;
+    if (!formData.service_id) {
+      addNotification({ type: "error", message: "يرجى اختيار الخدمة" });
+      return;
+    }
+
+    try {
+      const payload = {
+        patient_name: formData.name,
+        patient_phone: formData.phone,
+        service_id: parseInt(formData.service_id, 10),
+        appointment_date: formData.appointment_date,
+        appointment_time: formData.appointment_time,
+        notes: formData.comment,
+      };
+
+      const response = await execute("post", "/api/appointments/", payload);
+      const bookingId = (response as any)?.booking_id;
+
+      addNotification({
+        type: "success",
+        message: bookingId
+          ? `تم إرسال طلب الحجز بنجاح! رقم الحجز: ${bookingId}`
+          : "تم إرسال طلب الحجز بنجاح!",
+      });
+
+      setFormData({
+        name: "",
+        phone: "",
+        service_id: "",
+        appointment_date: "",
+        appointment_time: "",
+        comment: "",
+        agreeToPrivacy: false,
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "فشل حجز الموعد";
+      addNotification({ type: "error", message });
+    }
   };
 
   const handleChange = (
@@ -114,10 +197,11 @@ export default function BookingSection() {
                 </label>
                 <select
                   id="service"
-                  name="service"
-                  value={formData.service}
+                  name="service_id"
+                  value={formData.service_id}
                   onChange={handleChange}
                   required
+                  disabled={servicesLoading || !!servicesError}
                   className="w-full px-4 py-3 sm:py-4 bg-white border border-gray-200 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none cursor-pointer text-sm sm:text-base"
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
@@ -128,16 +212,57 @@ export default function BookingSection() {
                   }}
                 >
                   <option value="" disabled>
-                    الخدمة المطلوبة
+                    {servicesLoading
+                      ? "جاري تحميل الخدمات..."
+                      : servicesError
+                        ? "تعذر تحميل الخدمات"
+                        : "الخدمة المطلوبة"}
                   </option>
-                  <option value="consultation">استشارة عامة</option>
-                  <option value="cleaning">تنظيف الأسنان</option>
-                  <option value="whitening">تبييض الأسنان</option>
-                  <option value="implants">زراعة الأسنان</option>
-                  <option value="braces">تقويم الأسنان</option>
-                  <option value="cosmetic">طب الأسنان التجميلي</option>
-                  <option value="other">أخرى</option>
+                  {services.map((service) => (
+                    <option key={service.id} value={service.id}>
+                      {service.name}
+                    </option>
+                  ))}
                 </select>
+              </div>
+
+              {/* Date & Time */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    htmlFor="appointment_date"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    تاريخ الموعد
+                  </label>
+                  <input
+                    type="date"
+                    id="appointment_date"
+                    name="appointment_date"
+                    value={formData.appointment_date}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 sm:py-4 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="appointment_time"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    وقت الموعد
+                  </label>
+                  <input
+                    type="time"
+                    id="appointment_time"
+                    name="appointment_time"
+                    value={formData.appointment_time}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 sm:py-4 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"
+                  />
+                </div>
               </div>
 
               {/* Comment Textarea */}
@@ -181,10 +306,15 @@ export default function BookingSection() {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={!formData.agreeToPrivacy}
+                disabled={
+                  !formData.agreeToPrivacy ||
+                  servicesLoading ||
+                  !!servicesError ||
+                  apiLoading
+                }
                 className="group w-full bg-gray-800 hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 sm:py-4 rounded-full text-sm sm:text-base md:text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-[1.02] disabled:transform-none disabled:shadow-md flex items-center justify-center gap-3"
               >
-                إرسال
+                {apiLoading ? "جاري الإرسال..." : "إرسال"}
                 <svg
                   className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:translate-x-1 transition-transform"
                   fill="none"

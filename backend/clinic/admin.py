@@ -105,10 +105,10 @@ class DoctorAdmin(admin.ModelAdmin):
             'fields': ('first_name', 'last_name', 'email', 'phone', 'id')
         }),
         ('Professional Information', {
-            'fields': ('specialization', 'license_number', 'services', 'bio')
+            'fields': ('specialization', 'license_number', 'services', 'biography')
         }),
         ('Media', {
-            'fields': ('photo',)
+            'fields': ('photo_url',)
         }),
         ('System Info', {
             'fields': ('created_at', 'updated_at'),
@@ -182,7 +182,7 @@ class QueueAdmin(admin.ModelAdmin):
             'fields': ('appointment', 'queue_position', 'appointment_date')
         }),
         ('Timing', {
-            'fields': ('scheduled_time', 'actual_start_time', 'actual_end_time', 'estimated_wait_minutes')
+            'fields': ('scheduled_start_time', 'actual_start_time', 'actual_end_time', 'estimated_wait_minutes')
         }),
         ('System Info', {
             'fields': ('created_at', 'updated_at'),
@@ -203,13 +203,13 @@ class QueueAdmin(admin.ModelAdmin):
 
 @admin.register(QueueStatistics)
 class QueueStatisticsAdmin(admin.ModelAdmin):
-    list_display = ('service_name', 'statistics_date', 'total_appointments', 'avg_wait_display', 'is_today')
-    list_filter = ('statistics_date', 'created_at')
+    list_display = ('service_name', 'appointment_date', 'total_appointments', 'avg_wait_display', 'is_today')
+    list_filter = ('appointment_date', 'created_at')
     search_fields = ('service__name',)
     readonly_fields = ('created_at', 'updated_at')
     fieldsets = (
         ('Service & Date', {
-            'fields': ('service', 'statistics_date')
+            'fields': ('service', 'appointment_date')
         }),
         ('Counts', {
             'fields': ('total_appointments', 'completed_appointments', 'cancelled_appointments')
@@ -236,7 +236,7 @@ class QueueStatisticsAdmin(admin.ModelAdmin):
     def is_today(self, obj):
         from django.utils import timezone
         today = timezone.now().date()
-        return obj.statistics_date == today
+        return obj.appointment_date == today
     is_today.short_description = "Today?"
     is_today.boolean = True
 

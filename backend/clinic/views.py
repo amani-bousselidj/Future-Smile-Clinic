@@ -71,6 +71,14 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         if self.action == 'create':
             return AppointmentCreateSerializer
         return AppointmentDetailSerializer
+
+    def create(self, request, *args, **kwargs):
+        """Create a new appointment and return a detailed response"""
+        serializer = AppointmentCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        appointment = serializer.save()
+        output = AppointmentDetailSerializer(appointment)
+        return Response(output.data, status=status.HTTP_201_CREATED)
     
     @action(detail=False, methods=['post'])
     def create_appointment(self, request):

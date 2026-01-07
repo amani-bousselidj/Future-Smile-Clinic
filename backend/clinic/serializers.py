@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from django.db import transaction
+from django.db import models
+from django.utils import timezone
+from datetime import datetime
 from .models import (
     Service, Patient, Doctor, Appointment, Queue, QueueStatistics,
     Notification, Testimonial, BlogPost, Gallery, ContactMessage
@@ -122,15 +125,19 @@ class AppointmentDetailSerializer(serializers.ModelSerializer):
 class AppointmentCreateSerializer(serializers.ModelSerializer):
     """Appointment creation serializer"""
     patient_name = serializers.CharField(write_only=True, required=True)
+    # Backward/alternate field name used by some frontend forms
+    patient_full_name = serializers.CharField(write_only=True, required=False)
     patient_phone = serializers.CharField(write_only=True, required=True)
     patient_email = serializers.EmailField(write_only=True, required=False, allow_blank=True)
     service_id = serializers.IntegerField(write_only=True, required=True)
+    # Backward/alternate field name used by some frontend forms
+    doctor_id = serializers.IntegerField(write_only=True, required=False)
     
     class Meta:
         model = Appointment
         fields = [
-            'id', 'booking_id', 'patient_name', 'patient_phone', 'patient_email',
-            'service_id', 'doctor', 'appointment_date', 'notes', 'queue_number',
+            'id', 'booking_id', 'patient_name', 'patient_full_name', 'patient_phone', 'patient_email',
+            'service_id', 'doctor', 'doctor_id', 'appointment_date', 'appointment_time', 'notes', 'queue_number',
             'status', 'created_at'
         ]
         read_only_fields = ['id', 'booking_id', 'queue_number', 'status', 'created_at']
@@ -138,10 +145,27 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         """Create appointment with patient"""
-        patient_name = validated_data.pop('patient_name')
+        patient_name = validated_data.pop('patient_name', '')
+        if not patient_name:
+            patient_name = validated_data.pop('patient_full_name', '')
+        else:
+            validated_data.pop('patient_full_name', None)
+
+        if not patient_name:
+            raise serializers.ValidationError({'patient_name': 'Patient name is required'})
+
         patient_phone = validated_data.pop('patient_phone')
         patient_email = validated_data.pop('patient_email', '')
         service_id = validated_data.pop('service_id')
+
+        doctor_id = validated_data.pop('doctor_id', None)
+        # Allow passing doctor as "doctor" (default ModelSerializer behavior)
+        doctor = validated_data.get('doctor', None)
+        if doctor is None and doctor_id:
+            try:
+                validated_data['doctor'] = Doctor.objects.get(id=doctor_id)
+            except Doctor.DoesNotExist:
+                raise serializers.ValidationError({'doctor_id': 'Doctor not found'})
         
         # Get or create patient
         patient, _ = Patient.objects.get_or_create(
@@ -167,15 +191,6 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
             service=service,
             queue_number=queue_number,
             **validated_data
-        )
-        
-        # Create queue record
-        Queue.objects.create(
-            appointment=appointment,
-            queue_position=queue_number,
-            appointment_date=appointment.appointment_date,
-            scheduled_start_time=f"{appointment.appointment_date}T{appointment.appointment_time}",
-            estimated_wait_minutes=self._estimate_wait_time(queue_number)
         )
         
         return appointment
@@ -229,7 +244,7 @@ class BlogPostSerializer(serializers.ModelSerializer):
 
 class GallerySerializer(serializers.ModelSerializer):
     """Gallery serializer"""
-    
+
     class Meta:
         model = Gallery
         fields = [
@@ -237,6 +252,7 @@ class GallerySerializer(serializers.ModelSerializer):
             'after_image_url', 'patient_name', 'is_featured', 'created_at', 'updated_at'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
+
 
 
 class ContactMessageSerializer(serializers.ModelSerializer):
