@@ -171,8 +171,11 @@ export default function HeroTooth({
       <div className={styles.ctaWrapper}>
         <button
           onClick={() => {
-            const bookingSection = document.querySelectorAll('section, div[class*="h-screen"]')[6];
-            bookingSection?.scrollIntoView({ behavior: 'smooth' });
+            const sections = document.querySelectorAll('section, div[class*="h-screen"]');
+            const bookingSection = sections[6]; // Section 7 (index 6) = BookingSection
+            if (bookingSection) {
+              bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
           }}
           className={styles.ctaButton}
         >

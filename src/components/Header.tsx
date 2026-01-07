@@ -4,7 +4,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 
 interface HeaderProps {
   onLoadingComplete?: boolean;
@@ -27,12 +26,19 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
   }, [onLoadingComplete]);
 
   const navItems = [
-    { id: "home", label: "الرئيسية", href: "/" },
-    { id: "about", label: "عن العيادة", href: "/about" },
-    { id: "services", label: "الخدمات", href: "/services" },
-    { id: "doctors", label: "الأطباء", href: "/about" },
-    { id: "testimonials", label: "قصص المرضى", href: "/about" },
+    { id: "home", label: "الرئيسية", sectionIndex: 0 },
+    { id: "services", label: "الخدمات", sectionIndex: 1 },
+    { id: "doctors", label: "الأطباء", sectionIndex: 2 },
+    { id: "testimonials", label: "قصص المرضى", sectionIndex: 4 },
   ];
+
+  const scrollToSection = (sectionIndex: number) => {
+    const sections = document.querySelectorAll('section, div[class*="h-screen"]');
+    const targetSection = sections[sectionIndex];
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <>
@@ -65,10 +71,12 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
                 }}
               >
                 {navItems.map((item) => (
-                  <Link
+                  <button
                     key={item.id}
-                    href={item.href}
-                    onClick={() => setActiveTab(item.id)}
+                    onClick={() => {
+                      setActiveTab(item.id);
+                      scrollToSection(item.sectionIndex);
+                    }}
                     className={`
                     relative px-6 py-2.5 rounded-full text-[15px] font-medium
                     transition-all duration-200
@@ -80,15 +88,15 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
                   `}
                   >
                     {item.label}
-                  </Link>
+                  </button>
                 ))}
               </div>
             </nav>
 
             {/* Right: Booking Button (hidden on small screens) */}
-            <Link
+            <button
               data-header-right="true"
-              href="/appointments"
+              onClick={() => scrollToSection(6)}
               className="hidden md:flex items-center gap-2 px-6 py-2.5 rounded-full bg-white border border-gray-300 
                      text-[15px] font-medium text-gray-800 whitespace-nowrap
                      hover:bg-gray-50 hover:scale-[1.02] transition-all duration-200 shadow-sm"
@@ -109,7 +117,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
                   />
                 </svg>
               </div>
-            </Link>
+            </button>
 
             {/* Mobile Menu Button */}
             <button
@@ -186,14 +194,14 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
           {/* Navigation */}
           <nav className="flex-1 space-y-2">
             {navItems.map((item, index) => (
-              <Link
+              <button
                 key={item.id}
-                href={item.href}
                 onClick={() => {
                   setActiveTab(item.id);
                   setMobileOpen(false);
+                  scrollToSection(item.sectionIndex);
                 }}
-                className={`group flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all duration-300 ${
+                className={`group flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all duration-300 w-full text-right ${
                   activeTab === item.id
                     ? "bg-gradient-to-r from-[#1e3a8a]/20 to-[#3b82f6]/20 backdrop-blur-sm shadow-lg text-[#1e3a8a]"
                     : "text-gray-800 hover:bg-white/30"
@@ -213,15 +221,17 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
                   }`}
                 ></div>
                 <span className="text-[15px] font-medium">{item.label}</span>
-              </Link>
+              </button>
             ))}
           </nav>
 
           {/* CTA Button */}
-          <Link
-            href="/appointments"
-            onClick={() => setMobileOpen(false)}
-            className="relative overflow-hidden mt-6 py-4 px-6 bg-gray-900 rounded-2xl shadow-lg hover:shadow-xl hover:bg-gray-800 transition-all duration-300 group"
+          <button
+            onClick={() => {
+              setMobileOpen(false);
+              scrollToSection(6);
+            }}
+            className="relative overflow-hidden mt-6 py-4 px-6 bg-gray-900 rounded-2xl shadow-lg hover:shadow-xl hover:bg-gray-800 transition-all duration-300 group w-full"
           >
             <div className="relative flex items-center justify-between text-white">
               <span className="font-semibold">احجز موعدك الآن</span>
@@ -241,7 +251,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
                 </svg>
               </div>
             </div>
-          </Link>
+          </button>
 
           {/* Social icons */}
           <div className="mt-6 pt-6 border-t border-white/20">
