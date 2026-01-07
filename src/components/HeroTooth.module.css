@@ -270,7 +270,7 @@
 /* Subtitles under the large brand name */
 .subtitlesContainer {
   position: absolute;
-  top: 35%;
+  top: 42%;
   left: 0;
   right: 0;
   z-index: 3;
@@ -300,23 +300,11 @@
 
 @media (max-width: 768px) {
   .subtitlesContainer {
-    top: 30%;
-    padding: 0 1rem;
-  }
-  
-  .subtitleLeft,
-  .subtitleRight {
-    font-size: clamp(0.65rem, 2vw, 0.9rem);
+    display: none;
   }
 }
 
-@media (max-width: 520px) {
-  .subtitlesContainer {
-    top: 25%;
-  }
-}
-
-/* Bottom content: description text and services button */
+/* Bottom content: description text */
 .bottomContent {
   position: absolute;
   bottom: 8rem;
@@ -324,7 +312,7 @@
   right: 0;
   z-index: 3;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: flex-end;
   padding: 0 1.5rem;
   max-width: 1280px;
@@ -334,6 +322,7 @@
 
 .descriptionBox {
   max-width: 400px;
+  text-align: right;
 }
 
 .descriptionText {
@@ -378,19 +367,17 @@
 
 @media (max-width: 768px) {
   .bottomContent {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
     bottom: 9rem;
+  }
+  
+  .descriptionBox {
+    text-align: center;
   }
   
   .descriptionText {
     font-size: clamp(0.75rem, 2vw, 0.9rem);
-  }
-  
-  .servicesButton {
-    padding: 0.75rem 1.5rem;
-    font-size: 0.875rem;
   }
 }
 

@@ -155,7 +155,7 @@ export default function HeroTooth({
         </div>
       </div>
 
-      {/* Bottom content: description text and CTA button */}
+      {/* Bottom content: description text */}
       <div className={styles.bottomContent}>
         <div className={styles.descriptionBox}>
           <p className={styles.descriptionText}>
@@ -166,30 +166,17 @@ export default function HeroTooth({
             بكل فرد من عائلتك
           </p>
         </div>
-        
-        <Link href="/services" className={styles.servicesButton}>
-          <span>خدماتنا</span>
-          <div className={styles.buttonIcon}>
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2.5}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </div>
-        </Link>
       </div>
 
       {/* Booking button: centered under hero on small screens, fixed bottom-right on large screens */}
       <div className={styles.ctaWrapper}>
-        <Link href="/appointments" className={styles.ctaButton}>
+        <button
+          onClick={() => {
+            const bookingSection = document.querySelectorAll('section, div[class*="h-screen"]')[6];
+            bookingSection?.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className={styles.ctaButton}
+        >
           <span>حجز موعد</span>
           <div className={styles.ctaIcon}>
             <svg
@@ -206,7 +193,7 @@ export default function HeroTooth({
               />
             </svg>
           </div>
-        </Link>
+        </button>
       </div>
     </section>
   );
