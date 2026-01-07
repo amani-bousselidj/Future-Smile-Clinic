@@ -55,12 +55,13 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
         >
           <div className="flex items-center justify-between gap-8">
             {/* Left: Clinic Name */}
-            <div
+            <button
+              onClick={() => scrollToSection(0)}
               data-header-left="true"
-              className="text-[17px] font-medium text-gray-800 whitespace-nowrap"
+              className="text-[17px] font-medium text-gray-800 whitespace-nowrap hover:text-gray-600 transition-colors"
             >
               Future Smile Clinic
-            </div>
+            </button>
 
             {/* Center: Navigation Capsule */}
             <nav className="hidden md:flex items-center justify-center flex-1 max-w-[600px]">
