@@ -85,10 +85,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'future_smile.wsgi.application'
 
 # Database Configuration
-if config('DATABASE_URL', default=None):
+database_url = config('DATABASE_URL', default=None)
+if database_url:
     DATABASES = {
         'default': dj_database_url.config(
-            default=config('DATABASE_URL'),
+            default=database_url,
             conn_max_age=600,
             conn_health_checks=True,
         )
