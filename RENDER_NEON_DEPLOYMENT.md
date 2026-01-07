@@ -39,14 +39,21 @@ Notes:
 
 In the Render service → **Environment** add:
 
-- `SECRET_KEY` = a long random secret
-- `DEBUG` = `False`
-- `DATABASE_URL` = (paste from Neon)
-- `ALLOWED_HOSTS` = `YOUR-SERVICE.onrender.com`
 
-Recommended (helps admin + cross-site POSTs):
-- `CSRF_TRUSTED_ORIGINS` = `https://YOUR-SERVICE.onrender.com,https://future-smile-clinic.vercel.app`
-- `CORS_ALLOWED_ORIGINS` = `https://future-smile-clinic.vercel.app,http://localhost:3000`
+### Example (copy-paste for your project):
+
+```
+SECRET_KEY=your-very-strong-secret
+DEBUG=False
+DATABASE_URL=postgresql://USER:PASSWORD@HOST/DBNAME?sslmode=require
+ALLOWED_HOSTS=future-smile-clinic.onrender.com
+CSRF_TRUSTED_ORIGINS=https://future-smile-clinic.onrender.com,https://future-smile-clinic.vercel.app
+CORS_ALLOWED_ORIGINS=https://future-smile-clinic.vercel.app,http://localhost:3000
+```
+
+> **Note:**
+> - Replace `DATABASE_URL` with your Neon connection string.
+> - `SECRET_KEY` must be a long, random value (never share it).
 
 Render also exposes `RENDER_EXTERNAL_HOSTNAME` automatically; the app will add it to `ALLOWED_HOSTS`.
 
