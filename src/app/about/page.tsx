@@ -16,23 +16,19 @@ export default function AboutPage() {
   const values = [
     {
       title: "التميز",
-      icon: "⭐",
-      description: "نسعى دائماً لتقديم أعلى مستويات الجودة في كل خدماتنا الطبية",
+      description: "نسعى دائماً لتقديم أعلى مستويات الجودة في كل خدماتنا الطبية والعناية بكل تفاصيل علاج مرضانا",
     },
     {
       title: "الاحترافية",
-      icon: "🎯",
-      description: "فريق طبي مؤهل بخبرات عالمية وشهادات معتمدة",
+      description: "فريق طبي مؤهل بخبرات عالمية وشهادات معتمدة يضمن تقديم أفضل مستوى من الخدمات الطبية",
     },
     {
       title: "الابتكار",
-      icon: "🔬",
-      description: "نستخدم أحدث التقنيات والأجهزة الطبية المتطورة",
+      description: "نستخدم أحدث التقنيات والأجهزة الطبية المتطورة لضمان نتائج دقيقة وفعالة",
     },
     {
       title: "الرعاية",
-      icon: "❤️",
-      description: "نهتم براحة وسلامة مرضانا في كل خطوة من رحلتهم العلاجية",
+      description: "نهتم براحة وسلامة مرضانا في كل خطوة من رحلتهم العلاجية ونوفر بيئة آمنة ومريحة",
     },
   ];
 
@@ -86,17 +82,16 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {values.map((value, index) => (
               <div
                 key={index}
-                className="backdrop-blur-md bg-white/60 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                className="backdrop-blur-md bg-white/70 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-white/40"
               >
-                <div className="text-5xl mb-4 text-center">{value.icon}</div>
-                <h3 className="text-xl font-bold text-gray-800 mb-3 text-center">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">
                   {value.title}
                 </h3>
-                <p className="text-gray-600 text-center leading-relaxed">
+                <p className="text-gray-600 leading-relaxed text-base">
                   {value.description}
                 </p>
               </div>

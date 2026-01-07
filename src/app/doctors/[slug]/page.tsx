@@ -30,7 +30,7 @@ export default function DoctorProfilePage({
     <div className="w-full">
       {/* Hero with same gradient as main sections */}
       <div
-        className="py-16 relative overflow-hidden"
+        className="pt-32 pb-16 relative overflow-hidden"
         style={{
           background:
             "linear-gradient(135deg, #ffffff 0%, #c5d1d6 30%, #c5d1d6 70%, #ffffff 100%)",
