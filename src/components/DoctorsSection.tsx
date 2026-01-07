@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useRef } from "react";
+import Link from "next/link";
+import { DOCTORS } from "@/lib/doctorsData";
 
 interface Doctor {
   id: number;
@@ -57,78 +59,13 @@ export default function DoctorsSection() {
     }
   };
 
-  const doctors: Doctor[] = [
-    {
-      id: 1,
-      name: "د. سارة أحمد",
-      role: "استشارية طب الأسنان",
-      image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&h=800&fit=crop",
-      link: "/doctors/sarah-ahmed",
-    },
-    {
-      id: 2,
-      name: "د. مريم الخليلي",
-      role: "أخصائية تقويم الأسنان",
-      image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=600&h=800&fit=crop",
-      link: "/doctors/mariam-khalili",
-    },
-    {
-      id: 3,
-      name: "د. عمر السيد",
-      role: "استشاري جراحة الفم والفكين",
-      image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&h=800&fit=crop",
-      link: "/doctors/omar-elsayed",
-    },
-    {
-      id: 4,
-      name: "د. أحمد كريم",
-      role: "أخصائي زراعة الأسنان",
-      image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=600&h=800&fit=crop",
-      link: "/doctors/ahmed-karim",
-    },
-    {
-      id: 5,
-      name: "د. كريم بشير",
-      role: "أخصائي تجميل الأسنان",
-      image: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=600&h=800&fit=crop",
-      link: "/doctors/karim-bashir",
-    },
-    {
-      id: 6,
-      name: "د. ليلى حسن",
-      role: "أخصائية طب أسنان الأطفال",
-      image: "https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?w=600&h=800&fit=crop",
-      link: "/doctors/layla-hassan",
-    },
-    {
-      id: 7,
-      name: "د. يوسف الصالح",
-      role: "استشاري علاج اللثة",
-      image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600&h=800&fit=crop",
-      link: "/doctors/youssef-saleh",
-    },
-    {
-      id: 8,
-      name: "د. نور الدين مراد",
-      role: "أخصائي تركيبات الأسنان",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=800&fit=crop",
-      link: "/doctors/noureddine-mourad",
-    },
-    {
-      id: 9,
-      name: "د. فاطمة الزهراء",
-      role: "استشارية علاج الجذور",
-      image: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=600&h=800&fit=crop",
-      link: "/doctors/fatima-zahra",
-    },
-    {
-      id: 10,
-      name: "د. محمد علي",
-      role: "أخصائي جراحة الفكين",
-      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=800&fit=crop",
-      link: "/doctors/mohamed-ali",
-    },
-  ];
+  const doctors: Doctor[] = DOCTORS.map((d) => ({
+    id: d.id,
+    name: d.name,
+    role: d.role,
+    image: d.image,
+    link: `/doctors/${d.slug}`,
+  }));
 
   const totalPages = Math.ceil(doctors.length / itemsPerPage);
   const startIndex = currentPage * itemsPerPage;
@@ -210,10 +147,8 @@ export default function DoctorsSection() {
                 }}
               >
                 {/* Link button in top-left corner */}
-                <a
+                <Link
                   href={doctor.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="absolute top-2 left-2 sm:top-3 sm:left-3 z-20 w-8 h-8 sm:w-10 sm:h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white hover:scale-110 transition-all duration-300"
                   onClick={(e) => e.stopPropagation()}
                   aria-label={`عرض ملف ${doctor.name}`}
@@ -231,7 +166,7 @@ export default function DoctorsSection() {
                       d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                     />
                   </svg>
-                </a>
+                </Link>
 
                 <div className="relative aspect-[3/4] w-full overflow-hidden">
                   <img

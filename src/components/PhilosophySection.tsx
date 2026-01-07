@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 
 export default function PhilosophySection() {
   const statistics = [
@@ -63,7 +64,10 @@ export default function PhilosophySection() {
           </p>
 
           {/* CTA Button */}
-          <button className="group bg-gray-800 hover:bg-gray-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base md:text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105 flex items-center gap-3">
+          <Link
+            href="/about"
+            className="group bg-gray-800 hover:bg-gray-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base md:text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105 inline-flex items-center gap-3"
+          >
             المزيد عن العيادة
             <svg
               className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:translate-x-1 transition-transform"
@@ -78,7 +82,7 @@ export default function PhilosophySection() {
                 d="M15 19l-7-7 7-7"
               />
             </svg>
-          </button>
+          </Link>
         </div>
       </div>
 

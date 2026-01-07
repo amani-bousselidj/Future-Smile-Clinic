@@ -106,6 +106,8 @@ export function Footer() {
               <li>
                 <Link
                   href="/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:text-blue-400 transition-colors"
                 >
                   سياسة الخصوصية

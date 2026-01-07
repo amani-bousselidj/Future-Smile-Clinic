@@ -135,6 +135,8 @@ export default function FooterSection() {
           <p>© {currentYear} Future Smile Clinic</p>
           <Link
             href="/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
             className="hover:text-gray-300 transition-colors duration-300"
           >
             سياسة الخصوصية
