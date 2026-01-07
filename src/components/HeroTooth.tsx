@@ -171,11 +171,11 @@ export default function HeroTooth({
       <div className={styles.ctaWrapper}>
         <button
           onClick={() => {
-            const sections = document.querySelectorAll('section, div[class*="h-screen"]');
-            const bookingSection = sections[6]; // Section 7 (index 6) = BookingSection
-            if (bookingSection) {
-              bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            window.dispatchEvent(
+              new CustomEvent("fps:go", {
+                detail: { index: 6 },
+              })
+            );
           }}
           className={styles.ctaButton}
         >

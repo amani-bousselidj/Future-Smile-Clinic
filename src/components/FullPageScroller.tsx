@@ -32,17 +32,33 @@ export function FullPageScroller({
   const go = useCallback(
     (next: number) => {
       const clamped = Math.max(0, Math.min(slides.length - 1, next));
-      if (clamped === index) return;
-      if (animatingRef.current) return;
+      setIndex((prev) => {
+        if (clamped === prev) return prev;
+        if (animatingRef.current) return prev;
 
-      animatingRef.current = true;
-      setIndex(clamped);
-      window.setTimeout(() => {
-        animatingRef.current = false;
-      }, durationMs);
+        animatingRef.current = true;
+        window.setTimeout(() => {
+          animatingRef.current = false;
+        }, durationMs);
+        return clamped;
+      });
     },
-    [durationMs, index, slides.length]
+    [durationMs, slides.length]
   );
+
+  useEffect(() => {
+    const onGo = (e: Event) => {
+      const ce = e as CustomEvent<{ index?: number }>;
+      const targetIndex = ce.detail?.index;
+      if (typeof targetIndex !== "number") return;
+      go(targetIndex);
+    };
+
+    window.addEventListener("fps:go", onGo as EventListener);
+    return () => {
+      window.removeEventListener("fps:go", onGo as EventListener);
+    };
+  }, [go]);
 
   const canScrollWithinSlide = useCallback(
     (dir: "up" | "down") => {

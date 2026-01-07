@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Providers } from "@/app/providers";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 import "@/styles/globals.css";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Shell } from "@/app/Shell";
 
 export const metadata: Metadata = {
   title: {
@@ -78,9 +77,7 @@ export default function RootLayout({
         style={{ fontFamily: "'Cairo', sans-serif" }}
       >
         <Providers>
-          <Header />
-          <main className="min-h-[calc(100vh-16rem)]">{children}</main>
-          <Footer />
+          <Shell>{children}</Shell>
         </Providers>
         <Analytics />
       </body>

@@ -10,7 +10,7 @@ interface HeaderProps {
 }
 
 export function Header({ onLoadingComplete = false }: HeaderProps) {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(!onLoadingComplete);
   const [activeTab, setActiveTab] = useState("home");
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -22,6 +22,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
       }, 100);
       return () => clearTimeout(timer);
     }
+    setIsVisible(true);
     return undefined;
   }, [onLoadingComplete]);
 
@@ -32,12 +33,12 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
     { id: "testimonials", label: "قصص المرضى", sectionIndex: 4 },
   ];
 
-  const scrollToSection = (sectionIndex: number) => {
-    const sections = document.querySelectorAll('section, div[class*="h-screen"]');
-    const targetSection = sections[sectionIndex];
-    if (targetSection) {
-      targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  const goToSection = (sectionIndex: number) => {
+    window.dispatchEvent(
+      new CustomEvent("fps:go", {
+        detail: { index: sectionIndex },
+      })
+    );
   };
 
   return (
@@ -47,6 +48,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
         style={{
           transform: isVisible ? "translateY(0)" : "translateY(-20px)",
           opacity: isVisible ? 1 : 0,
+          pointerEvents: isVisible ? "auto" : "none",
         }}
       >
         <div
@@ -56,7 +58,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
           <div className="flex items-center justify-between gap-8">
             {/* Left: Clinic Name */}
             <button
-              onClick={() => scrollToSection(0)}
+              onClick={() => goToSection(0)}
               data-header-left="true"
               className="text-[17px] font-medium text-gray-800 whitespace-nowrap hover:text-gray-600 transition-colors"
             >
@@ -76,7 +78,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
                     key={item.id}
                     onClick={() => {
                       setActiveTab(item.id);
-                      scrollToSection(item.sectionIndex);
+                      goToSection(item.sectionIndex);
                     }}
                     className={`
                     relative px-6 py-2.5 rounded-full text-[15px] font-medium
@@ -97,7 +99,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
             {/* Right: Booking Button (hidden on small screens) */}
             <button
               data-header-right="true"
-              onClick={() => scrollToSection(6)}
+              onClick={() => goToSection(6)}
               className="hidden md:flex items-center gap-2 px-6 py-2.5 rounded-full bg-white border border-gray-300 
                      text-[15px] font-medium text-gray-800 whitespace-nowrap
                      hover:bg-gray-50 hover:scale-[1.02] transition-all duration-200 shadow-sm"
@@ -200,7 +202,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
                 onClick={() => {
                   setActiveTab(item.id);
                   setMobileOpen(false);
-                  scrollToSection(item.sectionIndex);
+                  goToSection(item.sectionIndex);
                 }}
                 className={`group flex items-center gap-4 px-4 py-3.5 rounded-xl transition-all duration-300 w-full text-right ${
                   activeTab === item.id
@@ -230,7 +232,7 @@ export function Header({ onLoadingComplete = false }: HeaderProps) {
           <button
             onClick={() => {
               setMobileOpen(false);
-              scrollToSection(6);
+              goToSection(6);
             }}
             className="relative overflow-hidden mt-6 py-4 px-6 bg-gray-900 rounded-2xl shadow-lg hover:shadow-xl hover:bg-gray-800 transition-all duration-300 group w-full"
           >

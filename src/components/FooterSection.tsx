@@ -7,12 +7,20 @@ export default function FooterSection() {
   const currentYear = new Date().getFullYear();
 
   const navLinks = [
-    { title: "الصفحة الرئيسية", href: "/" },
-    { title: "الخدمات", href: "/services" },
-    { title: "الأطباء", href: "/doctors" },
-    { title: "نتائج قبل وبعد", href: "/" },
-    { title: "احجز موعد", href: "/appointments" },
+    { title: "الصفحة الرئيسية", slideIndex: 0 },
+    { title: "الخدمات", slideIndex: 1 },
+    { title: "الأطباء", slideIndex: 2 },
+    { title: "نتائج قبل وبعد", slideIndex: 4 },
+    { title: "احجز موعد", slideIndex: 6 },
   ];
+
+  const goToSlide = (slideIndex: number) => {
+    window.dispatchEvent(
+      new CustomEvent("fps:go", {
+        detail: { index: slideIndex },
+      })
+    );
+  };
 
   return (
     <div className="h-screen w-full bg-black text-white flex flex-col overflow-hidden relative">
@@ -21,12 +29,13 @@ export default function FooterSection() {
         <ul className="flex flex-wrap gap-6 sm:gap-8 md:gap-12 text-sm sm:text-base">
           {navLinks.map((link) => (
             <li key={link.title}>
-              <Link
-                href={link.href}
+              <button
+                type="button"
+                onClick={() => goToSlide(link.slideIndex)}
                 className="text-white hover:text-gray-300 transition-colors duration-300"
               >
                 {link.title}
-              </Link>
+              </button>
             </li>
           ))}
         </ul>
