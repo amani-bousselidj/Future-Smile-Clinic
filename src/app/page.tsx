@@ -40,7 +40,7 @@ export default function HomePage() {
       {!loadingComplete && (
         <LoadingSplash onComplete={() => setLoadingComplete(true)} />
       )}
-      <FullPageScroller enabled={loadingComplete} scrollableSlideIndex={-1}>
+      <FullPageScroller enabled={loadingComplete} scrollableSlideIndex={7}>
         <HeroTooth loadingComplete={loadingComplete} showHeader={true} />
         <ServicesSection services={transformedServices} loading={loading} />
         <DoctorsSection />

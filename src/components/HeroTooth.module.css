@@ -266,3 +266,137 @@
   border-radius: 0.5rem; /* rounded-md */
   box-shadow: 0 10px 25px rgba(13, 42, 76, 0.15);
 }
+
+/* Subtitles under the large brand name */
+.subtitlesContainer {
+  position: absolute;
+  top: 35%;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.subtitleLeft,
+.subtitleRight {
+  font-size: clamp(0.75rem, 1.5vw, 1.1rem);
+  font-weight: 400;
+  color: #353535;
+  letter-spacing: 0.02em;
+}
+
+.subtitleLeft {
+  text-align: left;
+}
+
+.subtitleRight {
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .subtitlesContainer {
+    top: 30%;
+    padding: 0 1rem;
+  }
+  
+  .subtitleLeft,
+  .subtitleRight {
+    font-size: clamp(0.65rem, 2vw, 0.9rem);
+  }
+}
+
+@media (max-width: 520px) {
+  .subtitlesContainer {
+    top: 25%;
+  }
+}
+
+/* Bottom content: description text and services button */
+.bottomContent {
+  position: absolute;
+  bottom: 8rem;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 1.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.descriptionBox {
+  max-width: 400px;
+}
+
+.descriptionText {
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  line-height: 1.6;
+  color: #353535;
+  margin: 0;
+}
+
+.servicesButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 2rem;
+  border-radius: 9999px;
+  background-color: #1f2937;
+  color: white;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+  font-weight: 500;
+}
+
+.servicesButton:hover {
+  background-color: #111827;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.buttonIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 9999px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .bottomContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    bottom: 9rem;
+  }
+  
+  .descriptionText {
+    font-size: clamp(0.75rem, 2vw, 0.9rem);
+  }
+  
+  .servicesButton {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .bottomContent {
+    bottom: 10rem;
+    padding: 0 1rem;
+  }
+}

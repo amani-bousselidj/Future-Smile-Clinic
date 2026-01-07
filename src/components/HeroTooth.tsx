@@ -144,6 +144,49 @@ export default function HeroTooth({
       </div>
 
       {/* Layer 4 — Foreground: nav + front text (z-index:4) */}
+      
+      {/* Subtitles under the large brand name */}
+      <div className={styles.subtitlesContainer}>
+        <div className={styles.subtitleLeft}>
+          طب أسنان مريح
+        </div>
+        <div className={styles.subtitleRight}>
+          للأطفال والكبار
+        </div>
+      </div>
+
+      {/* Bottom content: description text and CTA button */}
+      <div className={styles.bottomContent}>
+        <div className={styles.descriptionBox}>
+          <p className={styles.descriptionText}>
+            علاج حديث بدون ألم وخوف
+            <br />
+            — في جو هادئ، مع العناية
+            <br />
+            بكل فرد من عائلتك
+          </p>
+        </div>
+        
+        <Link href="/services" className={styles.servicesButton}>
+          <span>خدماتنا</span>
+          <div className={styles.buttonIcon}>
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </div>
+        </Link>
+      </div>
+
       {/* Booking button: centered under hero on small screens, fixed bottom-right on large screens */}
       <div className={styles.ctaWrapper}>
         <Link href="/appointments" className={styles.ctaButton}>
