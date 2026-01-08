@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.db import transaction
 from django.db import models
 from django.utils import timezone
-from datetime import datetime
+from datetime import datetime, time
 from .models import (
     Service, Patient, Doctor, Appointment, Queue, QueueStatistics,
     Notification, Testimonial, BlogPost, Gallery, ContactMessage
@@ -132,6 +132,8 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
     service_id = serializers.IntegerField(write_only=True, required=True)
     # Backward/alternate field name used by some frontend forms
     doctor_id = serializers.IntegerField(write_only=True, required=False)
+    # Allow creating appointment by date only; server will pick a default time.
+    appointment_time = serializers.TimeField(required=False)
     
     class Meta:
         model = Appointment
@@ -157,6 +159,9 @@ class AppointmentCreateSerializer(serializers.ModelSerializer):
         patient_phone = validated_data.pop('patient_phone')
         patient_email = validated_data.pop('patient_email', '')
         service_id = validated_data.pop('service_id')
+
+        if not validated_data.get('appointment_time'):
+            validated_data['appointment_time'] = time(9, 0)
 
         doctor_id = validated_data.pop('doctor_id', None)
         # Allow passing doctor as "doctor" (default ModelSerializer behavior)

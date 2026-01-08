@@ -23,7 +23,6 @@ export default function BookingSection() {
     phone: "",
     service_id: "",
     appointment_date: "",
-    appointment_time: "",
     comment: "",
     agreeToPrivacy: false,
   });
@@ -65,13 +64,17 @@ export default function BookingSection() {
       return;
     }
 
+    if (!formData.appointment_date) {
+      addNotification({ type: "error", message: "يرجى اختيار تاريخ الموعد" });
+      return;
+    }
+
     try {
       const payload = {
         patient_name: formData.name,
         patient_phone: formData.phone,
         service_id: parseInt(formData.service_id, 10),
         appointment_date: formData.appointment_date,
-        appointment_time: formData.appointment_time,
         notes: formData.comment,
       };
 
@@ -90,7 +93,6 @@ export default function BookingSection() {
         phone: "",
         service_id: "",
         appointment_date: "",
-        appointment_time: "",
         comment: "",
         agreeToPrivacy: false,
       });
@@ -216,6 +218,8 @@ export default function BookingSection() {
                       ? "جاري تحميل الخدمات..."
                       : servicesError
                         ? "تعذر تحميل الخدمات"
+                        : services.length === 0
+                          ? "لا توجد خدمات حاليا"
                         : "الخدمة المطلوبة"}
                   </option>
                   {services.map((service) => (
@@ -226,8 +230,8 @@ export default function BookingSection() {
                 </select>
               </div>
 
-              {/* Date & Time */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Date */}
+              <div>
                 <div>
                   <label
                     htmlFor="appointment_date"
@@ -240,24 +244,6 @@ export default function BookingSection() {
                     id="appointment_date"
                     name="appointment_date"
                     value={formData.appointment_date}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 sm:py-4 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="appointment_time"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    وقت الموعد
-                  </label>
-                  <input
-                    type="time"
-                    id="appointment_time"
-                    name="appointment_time"
-                    value={formData.appointment_time}
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 sm:py-4 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"
@@ -310,6 +296,7 @@ export default function BookingSection() {
                   !formData.agreeToPrivacy ||
                   servicesLoading ||
                   !!servicesError ||
+                  services.length === 0 ||
                   apiLoading
                 }
                 className="group w-full bg-gray-800 hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 sm:py-4 rounded-full text-sm sm:text-base md:text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-[1.02] disabled:transform-none disabled:shadow-md flex items-center justify-center gap-3"
