@@ -3,12 +3,27 @@ import { ADMIN_ACCESS_COOKIE, ADMIN_REFRESH_COOKIE, adminCookieOptions } from "@
 import { API_BASE_URL } from "@/lib/config";
 
 export async function POST(req: Request) {
-  const body = await req.json().catch(() => null);
+  const raw = await req.text().catch(() => "");
+  const body = (() => {
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  })();
+
   const identifier = body?.identifier ?? body?.email ?? body?.username;
   const password = body?.password;
 
   if (!identifier || !password) {
-    return NextResponse.json({ detail: "identifier and password required" }, { status: 400 });
+    return NextResponse.json(
+      {
+        detail: "identifier and password required",
+        receivedKeys: body && typeof body === "object" ? Object.keys(body) : [],
+      },
+      { status: 400 }
+    );
   }
 
   const tokenRes = await fetch(`${API_BASE_URL}/api/admin/token/`, {

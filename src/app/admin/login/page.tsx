@@ -21,8 +21,15 @@ export default function AdminLoginPage() {
         body: JSON.stringify({ identifier, password }),
       });
 
+      const data = await res.json().catch(() => null);
+
       if (!res.ok) {
-        addNotification({ type: "error", message: "بيانات الدخول غير صحيحة" });
+        const detail = data?.detail as string | undefined;
+        if (res.status === 400) {
+          addNotification({ type: "error", message: "يرجى إدخال اسم المستخدم/الإيميل وكلمة المرور" });
+        } else {
+          addNotification({ type: "error", message: detail || "بيانات الدخول غير صحيحة" });
+        }
         return;
       }
 
