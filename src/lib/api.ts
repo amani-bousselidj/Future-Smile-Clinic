@@ -44,7 +44,6 @@ class ApiClient {
         if (error.response?.status === 401) {
           // Token expired or invalid
           localStorage.removeItem("access_token");
-          window.location.href = "/login";
         }
         return Promise.reject(error);
       }

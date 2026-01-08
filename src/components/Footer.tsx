@@ -5,8 +5,25 @@
 
 import React from "react";
 import Link from "next/link";
+import { useFetch } from "@/lib/hooks";
+
+type ClinicProfile = {
+  name?: string;
+  primary_phone?: string;
+  secondary_phone?: string;
+  email?: string;
+  hours_weekdays?: string;
+  hours_weekend?: string;
+};
 
 export function Footer() {
+  const { data: profile } = useFetch<ClinicProfile>("/api/clinic-profile/");
+
+  const phone1 = profile?.primary_phone || "+966 12 345 6789";
+  const email = profile?.email || "info@futuresmile.com";
+  const hoursWeekdays = profile?.hours_weekdays || "ح-خ 9-6 مساءً";
+  const hoursWeekend = profile?.hours_weekend || "10 صباحاً - 4 مساءً";
+
   return (
     <footer className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 text-gray-300 mt-20 overflow-hidden">
       {/* Decorative Top Wave */}
@@ -36,7 +53,7 @@ export function Footer() {
               />
             </div>
             <h3 className="text-white font-bold text-xl mb-4">
-              عيادة ابتسامة المستقبل
+              {profile?.name ? profile.name : "عيادة ابتسامة المستقبل"}
             </h3>
             <p className="text-base leading-relaxed text-gray-400">
               عيادة متخصصة بأعلى معايير الجودة والاحترافية في رعاية الأسنان مع
@@ -130,19 +147,19 @@ export function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2">
                 <span className="text-blue-400 font-bold">رقم الهاتف:</span>
-                <span>+966 12 345 6789</span>
+                <span>{phone1}</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-blue-400 font-bold">البريد:</span>
-                <span>info@futuresmile.com</span>
+                <span>{email}</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-blue-400 font-bold">الساعات:</span>
-                <span>ح-خ 9-6 مساءً</span>
+                <span>{hoursWeekdays}</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-blue-400 font-bold">السبت:</span>
-                <span>10 صباحاً - 4 مساءً</span>
+                <span>{hoursWeekend}</span>
               </li>
             </ul>
           </div>

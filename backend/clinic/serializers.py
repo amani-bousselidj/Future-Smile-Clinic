@@ -5,7 +5,7 @@ from django.utils import timezone
 from datetime import datetime, time
 from .models import (
     Service, Patient, Doctor, Appointment, Queue, QueueStatistics,
-    Notification, Testimonial, BlogPost, Gallery, ContactMessage
+    Notification, Testimonial, BlogPost, Gallery, ContactMessage, ClinicProfile
 )
 
 
@@ -255,6 +255,20 @@ class GallerySerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'description', 'treatment_type', 'before_image_url',
             'after_image_url', 'patient_name', 'is_featured', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+
+class ClinicProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClinicProfile
+        fields = [
+            'id', 'name', 'tagline',
+            'primary_phone', 'secondary_phone', 'email',
+            'address_line_1', 'address_line_2',
+            'hours_weekdays', 'hours_weekend',
+            'instagram_url', 'facebook_url', 'tiktok_url',
+            'created_at', 'updated_at'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
 

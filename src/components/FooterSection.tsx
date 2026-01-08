@@ -2,9 +2,36 @@
 
 import React from "react";
 import Link from "next/link";
+import { useFetch } from "@/lib/hooks";
+
+type ClinicProfile = {
+  address_line_1?: string;
+  address_line_2?: string;
+  primary_phone?: string;
+  secondary_phone?: string;
+  email?: string;
+  hours_weekdays?: string;
+  hours_weekend?: string;
+  instagram_url?: string;
+  facebook_url?: string;
+  tiktok_url?: string;
+};
 
 export default function FooterSection() {
   const currentYear = new Date().getFullYear();
+  const { data: profile } = useFetch<ClinicProfile>("/api/clinic-profile/");
+
+  const address1 = profile?.address_line_1 || "الرياض، شارع الملك فهد، 17";
+  const address2 = profile?.address_line_2 || "جدة، شارع التحلية، 40";
+  const phone1 = profile?.primary_phone || "+966500000000";
+  const phone2 = profile?.secondary_phone || "+966511111111";
+  const email = profile?.email || "info@futuresmile.sa";
+  const hoursWeekdays = profile?.hours_weekdays || "السبت - الخميس: 11:00 - 20:30";
+  const hoursWeekend = profile?.hours_weekend || "الجمعة - عطلة";
+
+  const instagram = profile?.instagram_url || "https://instagram.com";
+  const facebook = profile?.facebook_url || "https://facebook.com";
+  const tiktok = profile?.tiktok_url || "https://tiktok.com";
 
   const navLinks = [
     { title: "الصفحة الرئيسية", slideIndex: 0 },
@@ -49,33 +76,33 @@ export default function FooterSection() {
             <div>
               <h3 className="text-base sm:text-lg font-semibold mb-3">جدول العمل</h3>
               <p className="text-sm sm:text-base text-gray-300">
-                السبت - الخميس: 11:00 - 20:30
+                {hoursWeekdays}
                 <br />
-                الجمعة - عطلة
+                {hoursWeekend}
               </p>
             </div>
             <div className="space-y-2">
               <h3 className="text-base sm:text-lg font-semibold mb-3">الاتصال</h3>
               <p className="text-sm sm:text-base text-gray-300">
-                الرياض، شارع الملك فهد، 17
+                {address1}
                 <br />
-                <a href="tel:+966500000000" className="hover:text-gray-400 transition-colors">
-                  + 966 50 000 00 00
+                <a href={`tel:${phone1}`} className="hover:text-gray-400 transition-colors">
+                  {phone1}
                 </a>
               </p>
               <p className="text-sm sm:text-base text-gray-300 pt-3">
-                جدة، شارع التحلية، 40
+                {address2}
                 <br />
-                <a href="tel:+966511111111" className="hover:text-gray-400 transition-colors">
-                  +966 51 111 11 11
+                <a href={`tel:${phone2}`} className="hover:text-gray-400 transition-colors">
+                  {phone2}
                 </a>
               </p>
               <p className="text-sm sm:text-base pt-3">
                 <a
-                  href="mailto:info@futuresmile.sa"
+                  href={`mailto:${email}`}
                   className="text-gray-300 hover:text-gray-400 transition-colors"
                 >
-                  info@futuresmile.sa
+                  {email}
                 </a>
               </p>
             </div>
@@ -96,7 +123,7 @@ export default function FooterSection() {
             <ul className="space-y-3 text-sm sm:text-base">
               <li>
                 <a
-                  href="https://instagram.com"
+                  href={instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white hover:text-gray-300 transition-colors duration-300 inline-block"
@@ -106,7 +133,7 @@ export default function FooterSection() {
               </li>
               <li>
                 <a
-                  href="https://facebook.com"
+                  href={facebook}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white hover:text-gray-300 transition-colors duration-300 inline-block"
@@ -116,7 +143,7 @@ export default function FooterSection() {
               </li>
               <li>
                 <a
-                  href="https://tiktok.com"
+                  href={tiktok}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white hover:text-gray-300 transition-colors duration-300 inline-block"

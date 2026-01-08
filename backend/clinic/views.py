@@ -1,33 +1,37 @@
 from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import (
     Service, Patient, Doctor, Appointment, Queue, QueueStatistics,
-    Notification, Testimonial, BlogPost, Gallery, ContactMessage
+    Notification, Testimonial, BlogPost, Gallery, ContactMessage, ClinicProfile
 )
 from .serializers import (
     ServiceSerializer, PatientSerializer, DoctorSerializer,
     AppointmentDetailSerializer, AppointmentCreateSerializer, QueueSerializer,
     NotificationSerializer, TestimonialSerializer, BlogPostSerializer,
-    GallerySerializer, ContactMessageSerializer, QueueStatisticsSerializer
+    GallerySerializer, ContactMessageSerializer, QueueStatisticsSerializer,
+    ClinicProfileSerializer
 )
+from .permissions import IsAdminOrReadOnly
 
 
 class ServiceViewSet(viewsets.ModelViewSet):
     """Service management ViewSet"""
     queryset = Service.objects.filter(is_active=True)
     serializer_class = ServiceSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['category', 'is_active']
     search_fields = ['name', 'description']
     
     def get_queryset(self):
         """Filter by active status"""
+        if self.request.user and self.request.user.is_staff:
+            return Service.objects.all()
         return Service.objects.filter(is_active=True)
 
 
@@ -35,7 +39,7 @@ class PatientViewSet(viewsets.ModelViewSet):
     """Patient management ViewSet"""
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdminUser]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ['full_name', 'phone', 'email']
     
@@ -48,18 +52,24 @@ class PatientViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class DoctorViewSet(viewsets.ReadOnlyModelViewSet):
-    """Doctor/Staff ViewSet (Read-only for patients)"""
+class DoctorViewSet(viewsets.ModelViewSet):
+    """Doctor/Staff ViewSet"""
     queryset = Doctor.objects.filter(is_active=True)
     serializer_class = DoctorSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ['first_name', 'last_name', 'specialization']
+
+    def get_queryset(self):
+        if self.request.user and self.request.user.is_staff:
+            return Doctor.objects.all()
+        return Doctor.objects.filter(is_active=True)
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):
     """Appointment management ViewSet"""
     queryset = Appointment.objects.all()
+    # Public can create bookings. Reading/management is admin-only.
     permission_classes = [AllowAny]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['status', 'appointment_date', 'service']
@@ -71,6 +81,12 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         if self.action == 'create':
             return AppointmentCreateSerializer
         return AppointmentDetailSerializer
+
+    def get_permissions(self):
+        # Allow booking creation to everyone; everything else is admin-only.
+        if self.action == 'create' or self.action == 'create_appointment':
+            return [AllowAny()]
+        return [IsAdminUser()]
 
     def create(self, request, *args, **kwargs):
         """Create a new appointment and return a detailed response"""
@@ -143,7 +159,7 @@ class QueueViewSet(viewsets.ReadOnlyModelViewSet):
     """Queue management ViewSet"""
     queryset = Queue.objects.all()
     serializer_class = QueueSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdminUser]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['appointment_date']
     ordering_fields = ['queue_position', 'appointment_date']
@@ -162,7 +178,7 @@ class NotificationViewSet(viewsets.ReadOnlyModelViewSet):
     """Notification ViewSet"""
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdminUser]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['status', 'channel', 'notification_type']
     ordering_fields = ['scheduled_time', 'sent_time']
@@ -172,7 +188,7 @@ class TestimonialViewSet(viewsets.ModelViewSet):
     """Testimonial ViewSet"""
     queryset = Testimonial.objects.filter(is_approved=True)
     serializer_class = TestimonialSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdminOrReadOnly]
     
     def get_queryset(self):
         """Only show approved testimonials to users"""
@@ -181,10 +197,10 @@ class TestimonialViewSet(viewsets.ModelViewSet):
         return Testimonial.objects.filter(is_approved=True)
 
 
-class BlogPostViewSet(viewsets.ReadOnlyModelViewSet):
+class BlogPostViewSet(viewsets.ModelViewSet):
     """Blog post ViewSet"""
     serializer_class = BlogPostSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ['title', 'content', 'category']
     filterset_fields = ['category', 'is_published']
@@ -196,20 +212,41 @@ class BlogPostViewSet(viewsets.ReadOnlyModelViewSet):
         return BlogPost.objects.filter(is_published=True)
 
 
-class GalleryViewSet(viewsets.ReadOnlyModelViewSet):
+class GalleryViewSet(viewsets.ModelViewSet):
     """Gallery ViewSet"""
     queryset = Gallery.objects.all()
     serializer_class = GallerySerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['treatment_type', 'is_featured']
+
+
+class ClinicProfileViewSet(viewsets.ModelViewSet):
+    """Clinic profile/settings. Public read, admin write."""
+    queryset = ClinicProfile.objects.all().order_by('id')
+    serializer_class = ClinicProfileSerializer
+    permission_classes = [IsAdminOrReadOnly]
+
+    def list(self, request, *args, **kwargs):
+        # Return a single profile (create a default one if missing)
+        obj = ClinicProfile.objects.first()
+        if obj is None:
+            obj = ClinicProfile.objects.create()
+        serializer = self.get_serializer(obj)
+        return Response(serializer.data)
 
 
 class ContactMessageViewSet(viewsets.ModelViewSet):
     """Contact message ViewSet"""
     queryset = ContactMessage.objects.all()
     serializer_class = ContactMessageSerializer
+    # Public can submit contact messages; listing/reading is admin-only.
     permission_classes = [AllowAny]
+
+    def get_permissions(self):
+        if self.action == 'create':
+            return [AllowAny()]
+        return [IsAdminUser()]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     ordering_fields = ['created_at', 'is_read']
     ordering = ['-created_at']
@@ -228,7 +265,7 @@ class QueueStatisticsViewSet(viewsets.ReadOnlyModelViewSet):
     """Queue statistics ViewSet"""
     queryset = QueueStatistics.objects.all()
     serializer_class = QueueStatisticsSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdminUser]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['service', 'appointment_date']
     ordering_fields = ['appointment_date', 'average_wait_minutes']

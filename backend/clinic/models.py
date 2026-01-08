@@ -258,16 +258,43 @@ class BlogPost(BaseModel):
     is_published = models.BooleanField(default=False)
     published_at = models.DateTimeField(null=True, blank=True)
     view_count = models.PositiveIntegerField(default=0)
-    
+
     class Meta:
         ordering = ['-published_at', '-created_at']
         indexes = [
             models.Index(fields=['slug']),
             models.Index(fields=['is_published', '-published_at']),
         ]
-    
+
     def __str__(self):
         return self.title
+
+
+class ClinicProfile(BaseModel):
+    """Singleton-like clinic profile/settings editable by admins."""
+    name = models.CharField(max_length=255, default='Future Smile Clinic')
+    tagline = models.CharField(max_length=255, blank=True, default='')
+
+    primary_phone = models.CharField(max_length=50, blank=True, default='')
+    secondary_phone = models.CharField(max_length=50, blank=True, default='')
+    email = models.EmailField(blank=True, default='')
+
+    address_line_1 = models.CharField(max_length=255, blank=True, default='')
+    address_line_2 = models.CharField(max_length=255, blank=True, default='')
+
+    hours_weekdays = models.CharField(max_length=255, blank=True, default='')
+    hours_weekend = models.CharField(max_length=255, blank=True, default='')
+
+    instagram_url = models.URLField(blank=True, default='')
+    facebook_url = models.URLField(blank=True, default='')
+    tiktok_url = models.URLField(blank=True, default='')
+
+    class Meta:
+        verbose_name = 'Clinic Profile'
+        verbose_name_plural = 'Clinic Profile'
+
+    def __str__(self):
+        return self.name
 
 
 class Gallery(BaseModel):
