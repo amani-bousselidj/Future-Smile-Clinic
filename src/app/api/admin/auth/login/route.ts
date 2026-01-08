@@ -4,18 +4,18 @@ import { API_BASE_URL } from "@/lib/config";
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
-  const email = body?.email;
+  const identifier = body?.identifier ?? body?.email ?? body?.username;
   const password = body?.password;
 
-  if (!email || !password) {
-    return NextResponse.json({ detail: "email and password required" }, { status: 400 });
+  if (!identifier || !password) {
+    return NextResponse.json({ detail: "identifier and password required" }, { status: 400 });
   }
 
   const tokenRes = await fetch(`${API_BASE_URL}/api/admin/token/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     // backend accepts email OR username in the 'username' field
-    body: JSON.stringify({ username: email, password }),
+    body: JSON.stringify({ username: identifier, password }),
   });
 
   const data = await tokenRes.json().catch(() => ({}));
