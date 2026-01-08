@@ -117,8 +117,8 @@ export default function BookingSection() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gray-50 flex items-start justify-center py-8">
-      <div className="w-full min-h-full flex flex-col md:flex-row">
+    <div className="h-full w-full bg-gray-50 flex items-start justify-center py-4 md:py-0">
+      <div className="w-full h-full flex flex-col md:flex-row">
         {/* Left Side - Image */}
         <div className="hidden md:flex md:w-1/2 relative bg-gradient-to-br from-blue-50 to-gray-100">
           <div className="absolute inset-0 flex items-center justify-center p-8 lg:p-12">
@@ -137,8 +137,8 @@ export default function BookingSection() {
         <div className="flex-1 md:w-1/2 flex items-start justify-center p-4 sm:p-6 md:p-8 lg:p-10">
           <div className="w-full max-w-xl my-4 md:my-0">
             {/* Header */}
-            <div className="mb-4 sm:mb-6 md:mb-8">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-2 sm:mb-3 md:mb-4 leading-tight">
+            <div className="mb-4 sm:mb-5 md:mb-6">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-gray-800 mb-2 sm:mb-3 leading-tight">
                 نناقش علاجك
               </h2>
               <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
@@ -150,91 +150,91 @@ export default function BookingSection() {
             {/* Form */}
             <form
               onSubmit={handleSubmit}
-              className="space-y-3 sm:space-y-4 md:space-y-5 pb-6"
+              className="space-y-3 sm:space-y-3 md:space-y-4"
             >
-              {/* Name Input */}
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  الاسم
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="أدخل اسمك"
-                  required
-                  className="w-full px-4 py-3 sm:py-4 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"
-                />
-              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+                {/* Name Input */}
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    الاسم
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="أدخل اسمك"
+                    required
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"
+                  />
+                </div>
 
-              {/* Phone Input */}
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  رقم الهاتف
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="رقم هاتفك"
-                  required
-                  className="w-full px-4 py-3 sm:py-4 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"
-                />
-              </div>
+                {/* Phone Input */}
+                <div>
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    رقم الهاتف
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="رقم هاتفك"
+                    required
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"
+                  />
+                </div>
 
-              {/* Service Select */}
-              <div>
-                <label
-                  htmlFor="service"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  اختر الخدمة
-                </label>
-                <select
-                  id="service"
-                  name="service_id"
-                  value={formData.service_id}
-                  onChange={handleChange}
-                  required
-                  disabled={servicesLoading || !!servicesError}
-                  className="w-full px-4 py-3 sm:py-4 bg-white border border-gray-200 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none cursor-pointer text-sm sm:text-base"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-                    backgroundPosition: "left 1rem center",
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "1.5em 1.5em",
-                    paddingLeft: "2.5rem",
-                  }}
-                >
-                  <option value="" disabled>
-                    {servicesLoading
-                      ? "جاري تحميل الخدمات..."
-                      : servicesError
-                        ? "تعذر تحميل الخدمات"
-                        : services.length === 0
-                          ? "لا توجد خدمات حاليا"
-                        : "الخدمة المطلوبة"}
-                  </option>
-                  {services.map((service) => (
-                    <option key={service.id} value={service.id}>
-                      {service.name}
+                {/* Service Select */}
+                <div>
+                  <label
+                    htmlFor="service"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    اختر الخدمة
+                  </label>
+                  <select
+                    id="service"
+                    name="service_id"
+                    value={formData.service_id}
+                    onChange={handleChange}
+                    required
+                    disabled={servicesLoading || !!servicesError}
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none cursor-pointer text-sm sm:text-base"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                      backgroundPosition: "left 1rem center",
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "1.5em 1.5em",
+                      paddingLeft: "2.5rem",
+                    }}
+                  >
+                    <option value="" disabled>
+                      {servicesLoading
+                        ? "جاري تحميل الخدمات..."
+                        : servicesError
+                          ? "تعذر تحميل الخدمات"
+                          : services.length === 0
+                            ? "لا توجد خدمات حاليا"
+                            : "الخدمة المطلوبة"}
                     </option>
-                  ))}
-                </select>
-              </div>
+                    {services.map((service) => (
+                      <option key={service.id} value={service.id}>
+                        {service.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-              {/* Date */}
-              <div>
+                {/* Date */}
                 <div>
                   <label
                     htmlFor="appointment_date"
@@ -249,7 +249,7 @@ export default function BookingSection() {
                     value={formData.appointment_date}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 sm:py-4 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"
                   />
                 </div>
               </div>
@@ -268,7 +268,7 @@ export default function BookingSection() {
                   value={formData.comment}
                   onChange={handleChange}
                   placeholder="تعليقك..."
-                  rows={3}
+                  rows={2}
                   className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none text-sm sm:text-base"
                 />
               </div>
@@ -302,7 +302,7 @@ export default function BookingSection() {
                   services.length === 0 ||
                   apiLoading
                 }
-                className="group w-full bg-gray-800 hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 sm:py-4 rounded-full text-sm sm:text-base md:text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-[1.02] disabled:transform-none disabled:shadow-md flex items-center justify-center gap-3"
+                className="group w-full bg-gray-800 hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-[1.02] disabled:transform-none disabled:shadow-md flex items-center justify-center gap-3"
               >
                 {apiLoading ? "جاري الإرسال..." : "إرسال"}
                 <svg
