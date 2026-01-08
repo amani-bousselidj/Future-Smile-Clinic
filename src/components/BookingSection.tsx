@@ -118,7 +118,7 @@ export default function BookingSection() {
 
   return (
     <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center py-8 md:py-0">
-      <div className="w-full min-h-screen md:h-auto flex flex-col md:flex-row">
+      <div className="w-full h-auto md:min-h-screen flex flex-col md:flex-row">
         {/* Left Side - Image */}
         <div className="hidden md:flex md:w-1/2 relative bg-gradient-to-br from-blue-50 to-gray-100">
           <div className="absolute inset-0 flex items-center justify-center p-8 lg:p-12">
