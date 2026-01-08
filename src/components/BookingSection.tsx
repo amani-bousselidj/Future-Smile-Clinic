@@ -117,8 +117,8 @@ export default function BookingSection() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center py-8 md:py-0">
-      <div className="w-full h-auto md:min-h-screen flex flex-col md:flex-row">
+    <div className="min-h-screen w-full bg-gray-50 flex items-start justify-center py-8">
+      <div className="w-full min-h-full flex flex-col md:flex-row">
         {/* Left Side - Image */}
         <div className="hidden md:flex md:w-1/2 relative bg-gradient-to-br from-blue-50 to-gray-100">
           <div className="absolute inset-0 flex items-center justify-center p-8 lg:p-12">
@@ -134,7 +134,7 @@ export default function BookingSection() {
         </div>
 
         {/* Right Side - Form */}
-        <div className="flex-1 md:w-1/2 flex items-start md:items-center justify-center p-4 sm:p-6 md:p-12 lg:p-16 overflow-y-auto">
+        <div className="flex-1 md:w-1/2 flex items-start justify-center p-4 sm:p-6 md:p-8 lg:p-10">
           <div className="w-full max-w-xl my-4 md:my-0">
             {/* Header */}
             <div className="mb-4 sm:mb-6 md:mb-8">
@@ -148,7 +148,10 @@ export default function BookingSection() {
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4 md:space-y-5">
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-3 sm:space-y-4 md:space-y-5 pb-6"
+            >
               {/* Name Input */}
               <div>
                 <label

@@ -23,11 +23,37 @@ export function FullPageScroller({
 }: FullPageScrollerProps) {
   const slides = useMemo(() => React.Children.toArray(children), [children]);
   const [index, setIndex] = useState(0);
+  const [viewportHeight, setViewportHeight] = useState<number>(() => {
+    if (typeof window === "undefined") return 0;
+    // visualViewport is more accurate on mobile browsers with dynamic address bars.
+    return Math.round(window.visualViewport?.height ?? window.innerHeight);
+  });
   const animatingRef = useRef(false);
   const touchStartYRef = useRef<number | null>(null);
   const touchStartXRef = useRef<number | null>(null);
   const horizontalGestureRef = useRef(false);
   const slideRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  useEffect(() => {
+    const update = () => {
+      const next = Math.round(window.visualViewport?.height ?? window.innerHeight);
+      // Guard against 0 during weird transient states.
+      if (next > 0) setViewportHeight(next);
+    };
+
+    update();
+
+    window.addEventListener("resize", update);
+    window.visualViewport?.addEventListener("resize", update);
+    // Some browsers update visualViewport height on scroll (address bar collapse/expand).
+    window.visualViewport?.addEventListener("scroll", update);
+
+    return () => {
+      window.removeEventListener("resize", update);
+      window.visualViewport?.removeEventListener("resize", update);
+      window.visualViewport?.removeEventListener("scroll", update);
+    };
+  }, []);
 
   const go = useCallback(
     (next: number) => {
@@ -289,11 +315,17 @@ export function FullPageScroller({
   }, [enabled, onWheel, onKeyDown, onTouchStart, onTouchMove, onTouchEnd]);
 
   return (
-    <div className="relative h-screen w-full overflow-hidden">
+    <div
+      className="relative w-full overflow-hidden"
+      style={{ height: viewportHeight ? `${viewportHeight}px` : "100dvh" }}
+    >
       <div
-        className="h-full w-full"
+        className="w-full"
         style={{
-          transform: `translateY(-${index * 100}vh)`,
+          height: viewportHeight ? `${viewportHeight}px` : "100dvh",
+          transform: viewportHeight
+            ? `translateY(-${index * viewportHeight}px)`
+            : `translateY(-${index * 100}vh)`,
           transition: `transform ${durationMs}ms cubic-bezier(0.22, 1, 0.36, 1)`,
           willChange: "transform",
         }}
@@ -304,8 +336,9 @@ export function FullPageScroller({
             ref={(el) => {
               slideRefs.current[i] = el;
             }}
-            className="h-screen w-full"
+            className="w-full"
             style={{
+              height: viewportHeight ? `${viewportHeight}px` : "100dvh",
               overflowY: i === scrollableSlideIndex ? "auto" : "hidden",
               overflowX: "hidden",
               WebkitOverflowScrolling: "touch",
