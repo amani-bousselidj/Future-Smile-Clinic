@@ -117,7 +117,7 @@ export default function BookingSection() {
   };
 
   return (
-    <div className="h-full w-full bg-gray-50 flex items-start justify-center py-4 md:py-0">
+    <div className="h-full w-full bg-gray-50 flex items-start md:items-center justify-center py-4 md:py-0">
       <div className="w-full h-full flex flex-col md:flex-row">
         {/* Left Side - Image */}
         <div className="hidden md:flex md:w-1/2 relative bg-gradient-to-br from-blue-50 to-gray-100">
@@ -134,7 +134,7 @@ export default function BookingSection() {
         </div>
 
         {/* Right Side - Form */}
-        <div className="flex-1 md:w-1/2 flex items-start justify-center p-4 sm:p-6 md:p-8 lg:p-10">
+        <div className="flex-1 md:w-1/2 flex items-start md:items-center justify-center p-4 sm:p-6 md:p-8 lg:p-10">
           <div className="w-full max-w-xl my-4 md:my-0">
             {/* Header */}
             <div className="mb-4 sm:mb-5 md:mb-6">
