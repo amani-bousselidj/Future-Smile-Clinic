@@ -40,21 +40,22 @@ export function NotificationCenter() {
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50 space-y-3 max-w-sm">
+    <div className="fixed top-4 left-4 right-4 sm:left-auto sm:right-4 z-50 space-y-3 max-w-sm sm:max-w-md mx-auto sm:mx-0">
       {notifications.map((notification) => (
         <div
           key={notification.id}
           className={`
-            border rounded-lg p-4 shadow-lg animate-in slide-in-from-top-4 duration-300
+            border rounded-lg p-4 sm:p-5 shadow-xl animate-in slide-in-from-top-4 duration-300
             ${getBackgroundColor(notification.type)}
             ${getTextColor(notification.type)}
           `}
         >
           <div className="flex items-start justify-between gap-4">
-            <p className="text-sm font-medium">{notification.message}</p>
+            <p className="text-base sm:text-lg font-semibold leading-relaxed">{notification.message}</p>
             <button
               onClick={() => removeNotification(notification.id)}
-              className="flex-shrink-0 text-lg hover:opacity-70"
+              className="flex-shrink-0 text-xl sm:text-2xl hover:opacity-70 transition-opacity p-1"
+              aria-label="إغلاق"
             >
               ✕
             </button>
