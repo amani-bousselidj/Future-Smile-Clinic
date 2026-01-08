@@ -59,37 +59,37 @@ export default function BeforeAfterSection() {
   const cases: BeforeAfterCase[] = [
     {
       id: "141971b7-1960-45b6-881d-b4652bc3c6c7",
-      title: "تبييض الأسنان",
+      title: "تقويم الأسنان",
       beforeImage: "/images/BeforeAndAfter/141971b7-1960-45b6-881d-b4652bc3c6c7Before.jpg",
       afterImage: "/images/BeforeAndAfter/141971b7-1960-45b6-881d-b4652bc3c6c7.jpg",
     },
     {
       id: "180b9a05-0b1d-4c58-a55f-02b509d17ffe",
-      title: "تقويم الأسنان",
+      title: " ابتسامة هوليود ",
       beforeImage: "/images/BeforeAndAfter/180b9a05-0b1d-4c58-a55f-02b509d17ffeBefore.jpg",
       afterImage: "/images/BeforeAndAfter/180b9a05-0b1d-4c58-a55f-02b509d17ffe.jpg",
     },
     {
       id: "2d98ff7b-22c4-4968-867e-5d4572e3089f",
-      title: "زراعة الأسنان",
+      title: " تبييض الأسنان",
       beforeImage: "/images/BeforeAndAfter/2d98ff7b-22c4-4968-867e-5d4572e3089fBefore.jpg",
       afterImage: "/images/BeforeAndAfter/2d98ff7b-22c4-4968-867e-5d4572e3089f.jpg",
     },
     {
       id: "702a397f-faf7-45b4-a2be-4bec2410198e",
-      title: "ابتسامة هوليود",
+      title: "تجميل الأسنان ",
       beforeImage: "/images/BeforeAndAfter/702a397f-faf7-45b4-a2be-4bec2410198eBefore.jpg",
       afterImage: "/images/BeforeAndAfter/702a397f-faf7-45b4-a2be-4bec2410198e.jpg",
     },
     {
       id: "ce57930b-f0eb-4b26-bb95-88e24676888d",
-      title: "تجميل الأسنان",
+      title: "تقويم الأسنان" ,
       beforeImage: "/images/BeforeAndAfter/ce57930b-f0eb-4b26-bb95-88e24676888dBefore.jpg",
       afterImage: "/images/BeforeAndAfter/ce57930b-f0eb-4b26-bb95-88e24676888d.jpg",
     },
     {
       id: "fe4c0af2-d8a2-455b-82be-656a9ac174e7",
-      title: "علاج اللثة",
+      title: "زراعة الأسنان ",
       beforeImage: "/images/BeforeAndAfter/fe4c0af2-d8a2-455b-82be-656a9ac174e7Before.jpg",
       afterImage: "/images/BeforeAndAfter/fe4c0af2-d8a2-455b-82be-656a9ac174e7.jpg",
     },
