@@ -3,6 +3,7 @@ import { ADMIN_ACCESS_COOKIE, ADMIN_REFRESH_COOKIE, adminCookieOptions } from "@
 import { API_BASE_URL } from "@/lib/config";
 
 export async function POST(req: Request) {
+  const contentType = req.headers.get("content-type") || "";
   const raw = await req.text().catch(() => "");
   const body = (() => {
     if (!raw) return null;
@@ -20,7 +21,11 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         detail: "identifier and password required",
+        contentType,
+        rawLength: raw.length,
         receivedKeys: body && typeof body === "object" ? Object.keys(body) : [],
+        hasIdentifier: Boolean(identifier),
+        hasPassword: Boolean(password),
       },
       { status: 400 }
     );

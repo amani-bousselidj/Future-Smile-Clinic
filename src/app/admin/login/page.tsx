@@ -13,23 +13,29 @@ export default function AdminLoginPage() {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const cleanIdentifier = identifier.trim();
+
+    if (!cleanIdentifier || !password) {
+      addNotification({ type: "error", message: "يرجى إدخال اسم المستخدم/الإيميل وكلمة المرور" });
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetch("/api/admin/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ identifier, password }),
+        body: JSON.stringify({ identifier: cleanIdentifier, password }),
       });
 
       const data = await res.json().catch(() => null);
 
       if (!res.ok) {
         const detail = data?.detail as string | undefined;
-        if (res.status === 400) {
-          addNotification({ type: "error", message: "يرجى إدخال اسم المستخدم/الإيميل وكلمة المرور" });
-        } else {
-          addNotification({ type: "error", message: detail || "بيانات الدخول غير صحيحة" });
-        }
+        addNotification({ type: "error", message: detail || "بيانات الدخول غير صحيحة" });
+        // Useful for debugging in production without exposing the password.
+        // eslint-disable-next-line no-console
+        console.error("Admin login failed", { status: res.status, data });
         return;
       }
 
