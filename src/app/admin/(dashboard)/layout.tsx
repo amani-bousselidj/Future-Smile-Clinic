@@ -3,72 +3,75 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BarChart3, Activity, Users, Calendar, MessageSquare, Settings, LogOut } from "lucide-react";
 
 const navItems = [
-  { href: "/admin", label: "نظرة عامة", icon: "📊" },
-  { href: "/admin/services", label: "الخدمات", icon: "🦷" },
-  { href: "/admin/doctors", label: "الأطباء", icon: "👨‍⚕️" },
-  { href: "/admin/appointments", label: "المواعيد", icon: "📅" },
-  { href: "/admin/messages", label: "الرسائل", icon: "💬" },
-  { href: "/admin/settings", label: "إعدادات العيادة", icon: "⚙️" },
+  { href: "/admin", label: "نظرة عامة", Icon: BarChart3 },
+  { href: "/admin/services", label: "الخدمات", Icon: Activity },
+  { href: "/admin/doctors", label: "الأطباء", Icon: Users },
+  { href: "/admin/appointments", label: "المواعيد", Icon: Calendar },
+  { href: "/admin/messages", label: "الرسائل", Icon: MessageSquare },
+  { href: "/admin/settings", label: "إعدادات العيادة", Icon: Settings },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-[1400px] mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                لوحة التحكم - عيادة ابتسامة المستقبل
-              </h1>
-              <p className="text-sm text-gray-500 mt-1">إدارة شاملة للموقع والعيادة</p>
+    <div className="min-h-screen bg-gray-50">
+      <div className="flex">
+        {/* Fixed Sidebar */}
+        <aside className="fixed right-0 top-0 h-screen w-64 bg-white border-l border-gray-200 shadow-lg flex flex-col z-10">
+          {/* Logo/Title */}
+          <div className="p-6 border-b border-gray-200">
+            <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
+              عيادة ابتسامة المستقبل
+            </h1>
+            <p className="text-xs text-gray-500 mt-1">لوحة التحكم</p>
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex-1 p-4 overflow-y-auto">
+            <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">القائمة الرئيسية</div>
+            <div className="space-y-1">
+              {navItems.map((item) => {
+                const isActive = pathname === item.href;
+                const Icon = item.Icon;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
+                      isActive
+                        ? "bg-gradient-to-r from-primary to-primary-dark text-white shadow-lg"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`}
+                  >
+                    <Icon className="w-5 h-5" />
+                    <span className="text-sm">{item.label}</span>
+                  </Link>
+                );
+              })}
             </div>
+          </nav>
+
+          {/* Logout Button */}
+          <div className="p-4 border-t border-gray-200">
             <form action="/api/admin/auth/logout" method="post">
-              <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-gray-800 to-gray-900 text-white text-sm font-medium hover:from-gray-900 hover:to-black transition-all shadow-md hover:shadow-lg">
+              <button className="flex items-center gap-3 w-full px-4 py-3 rounded-xl bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200 transition-all">
+                <LogOut className="w-5 h-5" />
                 <span>تسجيل الخروج</span>
-                <span>🚪</span>
               </button>
             </form>
           </div>
-        </div>
-      </div>
+        </aside>
 
-      <div className="max-w-[1400px] mx-auto px-6 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 items-start">
-          {/* Sidebar */}
-          <aside className="bg-white border border-gray-200 rounded-2xl shadow-sm lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] overflow-hidden">
-            <div className="p-4">
-              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">القائمة الرئيسية</div>
-              <nav className="space-y-1">
-                {navItems.map((item) => {
-                  const isActive = pathname === item.href;
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
-                        isActive
-                          ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md"
-                          : "text-gray-700 hover:bg-gray-100"
-                      }`}
-                    >
-                      <span className="text-xl">{item.icon}</span>
-                      <span className="text-sm">{item.label}</span>
-                    </Link>
-                  );
-                })}
-              </nav>
-            </div>
-          </aside>
-
-          {/* Main content */}
-          <main className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">{children}</main>
-        </div>
+        {/* Main Content - with margin for fixed sidebar */}
+        <main className="flex-1 mr-64 p-8">
+          <div className="max-w-[1400px] mx-auto">
+            {children}
+          </div>
+        </main>
       </div>
     </div>
   );

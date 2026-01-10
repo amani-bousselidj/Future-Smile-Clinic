@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useApp } from "@/context/AppContext";
+import { Activity, Plus, RefreshCw, Edit, Trash2, Power, PowerOff } from "lucide-react";
 
 type Service = {
   id: number;
@@ -178,16 +179,17 @@ export default function AdminServicesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <span>🦷</span>
+            <Activity className="w-7 h-7 text-primary" />
             <span>إدارة الخدمات</span>
           </h2>
-          <p className="text-sm text-gray-500 mt-1">إضافة وتعديل وحذف الخدمات الطبية</p>
+          <p className="text-sm text-gray-500 mt-1">إضافة وتعديل وحذف خدمات العيادة</p>
         </div>
         <button
           onClick={() => { resetForm(); setShowForm(!showForm); }}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium hover:from-blue-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-primary-dark text-white font-medium hover:opacity-90 transition-all shadow-md hover:shadow-lg"
         >
-          <span>{showForm ? "إخفاء النموذج" : "+ إضافة خدمة"}</span>
+          <Plus className="w-5 h-5" />
+          <span>{showForm ? "إخفاء النموذج" : "إضافة خدمة"}</span>
         </button>
       </div>
 
@@ -295,9 +297,9 @@ export default function AdminServicesPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex-1 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold disabled:opacity-60 hover:from-blue-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg"
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-dark text-white font-semibold disabled:opacity-60 hover:opacity-90 transition-all shadow-md hover:shadow-lg"
               >
-                {saving ? "جاري الحفظ..." : editingId ? "💾 حفظ التعديلات" : "➕ إضافة الخدمة"}
+                {saving ? "جاري الحفظ..." : editingId ? <><Edit className="w-5 h-5" /> حفظ التعديلات</> : <><Plus className="w-5 h-5" /> إضافة الخدمة</>}
               </button>
               {editingId && (
                 <button
@@ -325,7 +327,7 @@ export default function AdminServicesPage() {
             disabled={loading}
             className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-300 bg-white text-sm font-medium hover:bg-gray-50 transition disabled:opacity-60"
           >
-            <span>🔄</span>
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
             <span>{loading ? "جاري التحميل..." : "تحديث"}</span>
           </button>
         </div>
@@ -337,14 +339,17 @@ export default function AdminServicesPage() {
           </div>
         ) : items.length === 0 ? (
           <div className="p-12 text-center">
-            <div className="text-6xl mb-4">📭</div>
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+              <Activity className="w-8 h-8 text-gray-400" />
+            </div>
             <p className="text-lg font-semibold text-gray-900 mb-2">لا توجد خدمات بعد</p>
-            <p className="text-sm text-gray-500 mb-6">ابدأ بإضافة أول خدمة طبية</p>
+            <p className="text-sm text-gray-500 mb-6">ابدأ بإضافة أول خدمة</p>
             <button
               onClick={() => { resetForm(); setShowForm(true); }}
-              className="px-6 py-3 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition"
+              className="flex items-center gap-2 mx-auto px-6 py-3 rounded-xl bg-primary text-white font-medium hover:bg-primary-dark transition"
             >
-              + إضافة خدمة
+              <Plus className="w-5 h-5" />
+              <span>إضافة خدمة</span>
             </button>
           </div>
         ) : (
@@ -362,15 +367,14 @@ export default function AdminServicesPage() {
                     <p className="text-sm text-gray-600 mb-3 line-clamp-2">{svc.description}</p>
                     <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
                       <span className="flex items-center gap-1">
-                        <span>💰</span>
+                        <span>السعر:</span>
                         <span>{svc.price_min} {svc.price_max ? `- ${svc.price_max}` : ""} دج</span>
                       </span>
                       <span className="flex items-center gap-1">
-                        <span>⏱️</span>
+                        <span>المدة:</span>
                         <span>{svc.duration_minutes} دقيقة</span>
                       </span>
                       <span className={`flex items-center gap-1 px-2 py-1 rounded-lg font-semibold ${svc.is_active ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-600"}`}>
-                        <span>{svc.is_active ? "✓" : "×"}</span>
                         <span>{svc.is_active ? "مفعّلة" : "معطّلة"}</span>
                       </span>
                     </div>
@@ -379,25 +383,25 @@ export default function AdminServicesPage() {
                   <div className="flex flex-col gap-2 shrink-0">
                     <button
                       onClick={() => toggleActive(svc)}
-                      className={`px-4 py-2 rounded-xl text-xs font-semibold border-2 transition ${
+                      className={`flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border-2 transition ${
                         svc.is_active
                           ? "bg-green-50 border-green-200 text-green-700 hover:bg-green-100"
                           : "bg-gray-100 border-gray-300 text-gray-600 hover:bg-gray-200"
                       }`}
                     >
-                      {svc.is_active ? "✓ تعطيل" : "✓ تفعيل"}
+                      {svc.is_active ? <><Power className="w-3 h-3" /> تعطيل</> : <><PowerOff className="w-3 h-3" /> تفعيل</>}
                     </button>
                     <button
                       onClick={() => onEdit(svc)}
-                      className="px-4 py-2 rounded-xl text-xs font-semibold border-2 border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 transition"
+                      className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border-2 border-primary/30 bg-primary/10 text-primary hover:bg-primary/20 transition"
                     >
-                      ✏️ تعديل
+                      <Edit className="w-3 h-3" /> تعديل
                     </button>
                     <button
                       onClick={() => onDelete(svc)}
-                      className="px-4 py-2 rounded-xl text-xs font-semibold border-2 border-red-200 bg-red-50 text-red-700 hover:bg-red-100 transition"
+                      className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border-2 border-red-200 bg-red-50 text-red-700 hover:bg-red-100 transition"
                     >
-                      🗑️ حذف
+                      <Trash2 className="w-3 h-3" /> حذف
                     </button>
                   </div>
                 </div>
