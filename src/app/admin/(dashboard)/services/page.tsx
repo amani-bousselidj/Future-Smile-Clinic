@@ -15,12 +15,23 @@ type Service = {
   is_active: boolean;
 };
 
+const categories = [
+  { value: "cleaning", label: "تنظيف" },
+  { value: "whitening", label: "تبييض" },
+  { value: "orthodontics", label: "تقويم" },
+  { value: "implants", label: "زراعة" },
+  { value: "cosmetic", label: "تجميل" },
+  { value: "restorative", label: "ترميم" },
+  { value: "preventive", label: "وقائي" },
+];
+
 export default function AdminServicesPage() {
   const { addNotification } = useApp();
   const [items, setItems] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [showForm, setShowForm] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -45,6 +56,7 @@ export default function AdminServicesPage() {
       image_url: "",
       is_active: true,
     });
+    setShowForm(false);
   };
 
   const fail = async (res: Response, fallback: string) => {
@@ -117,6 +129,7 @@ export default function AdminServicesPage() {
       image_url: svc.image_url || "",
       is_active: Boolean(svc.is_active),
     });
+    setShowForm(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -157,115 +170,236 @@ export default function AdminServicesPage() {
     await load();
   };
 
+  const getCategoryLabel = (val: string) => categories.find((c) => c.value === val)?.label || val;
+
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-bold text-gray-900">الخدمات</h2>
-        <p className="text-sm text-gray-600">إضافة/تفعيل/تعطيل الخدمات</p>
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <span>🦷</span>
+            <span>إدارة الخدمات</span>
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">إضافة وتعديل وحذف الخدمات الطبية</p>
+        </div>
+        <button
+          onClick={() => { resetForm(); setShowForm(!showForm); }}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium hover:from-blue-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg"
+        >
+          <span>{showForm ? "إخفاء النموذج" : "+ إضافة خدمة"}</span>
+        </button>
       </div>
 
-      <form onSubmit={upsert} className="rounded-2xl border border-gray-200 bg-gray-50 p-4 space-y-3">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">الاسم</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={form.name} onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))} required />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">التصنيف</label>
-            <select className="w-full px-4 py-3 rounded-xl border border-gray-200" value={form.category} onChange={(e) => setForm((p) => ({ ...p, category: e.target.value }))}>
-              <option value="cleaning">Cleaning</option>
-              <option value="whitening">Whitening</option>
-              <option value="orthodontics">Orthodontics</option>
-              <option value="implants">Implants</option>
-              <option value="cosmetic">Cosmetic</option>
-              <option value="restorative">Restorative</option>
-              <option value="preventive">Preventive</option>
-            </select>
-          </div>
-        </div>
+      {/* Form */}
+      {showForm && (
+        <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-200 p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            {editingId ? "تعديل الخدمة" : "خدمة جديدة"}
+          </h3>
+          <form onSubmit={upsert} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">اسم الخدمة *</label>
+                <input
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+                  value={form.name}
+                  onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
+                  required
+                  placeholder="مثال: تنظيف الأسنان"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">التصنيف *</label>
+                <select
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+                  value={form.category}
+                  onChange={(e) => setForm((p) => ({ ...p, category: e.target.value }))}
+                >
+                  {categories.map((cat) => (
+                    <option key={cat.value} value={cat.value}>
+                      {cat.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">الوصف</label>
-          <textarea className="w-full px-4 py-3 rounded-xl border border-gray-200" rows={3} value={form.description} onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))} required />
-        </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">الوصف *</label>
+              <textarea
+                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition resize-none"
+                rows={3}
+                value={form.description}
+                onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
+                required
+                placeholder="وصف تفصيلي للخدمة..."
+              />
+            </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">السعر (من)</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={form.price_min} onChange={(e) => setForm((p) => ({ ...p, price_min: e.target.value }))} />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">السعر (إلى)</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={form.price_max} onChange={(e) => setForm((p) => ({ ...p, price_max: e.target.value }))} />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">المدة (دقيقة)</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={form.duration_minutes} onChange={(e) => setForm((p) => ({ ...p, duration_minutes: e.target.value }))} />
-          </div>
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">السعر الأدنى (دج)</label>
+                <input
+                  type="number"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+                  value={form.price_min}
+                  onChange={(e) => setForm((p) => ({ ...p, price_min: e.target.value }))}
+                  placeholder="0"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">السعر الأقصى (دج)</label>
+                <input
+                  type="number"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+                  value={form.price_max}
+                  onChange={(e) => setForm((p) => ({ ...p, price_max: e.target.value }))}
+                  placeholder="اختياري"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">المدة (دقيقة)</label>
+                <input
+                  type="number"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+                  value={form.duration_minutes}
+                  onChange={(e) => setForm((p) => ({ ...p, duration_minutes: e.target.value }))}
+                  placeholder="30"
+                />
+              </div>
+            </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">رابط الصورة (اختياري)</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={form.image_url} onChange={(e) => setForm((p) => ({ ...p, image_url: e.target.value }))} />
-          </div>
-          <label className="flex items-center gap-3 text-sm font-medium text-gray-700 mt-7">
-            <input type="checkbox" checked={form.is_active} onChange={(e) => setForm((p) => ({ ...p, is_active: e.target.checked }))} />
-            خدمة مفعّلة
-          </label>
-        </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">رابط الصورة (اختياري)</label>
+              <input
+                type="url"
+                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+                value={form.image_url}
+                onChange={(e) => setForm((p) => ({ ...p, image_url: e.target.value }))}
+                placeholder="https://..."
+              />
+            </div>
 
-        <div className="flex flex-col sm:flex-row gap-2">
-          <button disabled={saving} className="px-4 py-3 rounded-xl bg-gray-900 text-white font-medium disabled:opacity-60">
-            {saving ? "جاري الحفظ..." : editingId ? "حفظ التعديل" : "إضافة خدمة"}
+            <label className="flex items-center gap-3 text-sm font-medium text-gray-700 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={form.is_active}
+                onChange={(e) => setForm((p) => ({ ...p, is_active: e.target.checked }))}
+                className="w-5 h-5 rounded border-2 border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
+              />
+              <span>خدمة مفعّلة</span>
+            </label>
+
+            <div className="flex gap-3 pt-2">
+              <button
+                type="submit"
+                disabled={saving}
+                className="flex-1 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold disabled:opacity-60 hover:from-blue-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg"
+              >
+                {saving ? "جاري الحفظ..." : editingId ? "💾 حفظ التعديلات" : "➕ إضافة الخدمة"}
+              </button>
+              {editingId && (
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className="px-6 py-3 rounded-xl bg-white border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition"
+                >
+                  إلغاء التعديل
+                </button>
+              )}
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Services List */}
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+        <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-lg font-semibold text-gray-900">قائمة الخدمات</span>
+            <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold">{items.length}</span>
+          </div>
+          <button
+            onClick={load}
+            disabled={loading}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-300 bg-white text-sm font-medium hover:bg-gray-50 transition disabled:opacity-60"
+          >
+            <span>🔄</span>
+            <span>{loading ? "جاري التحميل..." : "تحديث"}</span>
           </button>
-          {editingId && (
-            <button
-              type="button"
-              onClick={resetForm}
-              className="px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-800 font-medium hover:bg-gray-50"
-            >
-              إلغاء التعديل
-            </button>
-          )}
         </div>
-      </form>
 
-      <div className="rounded-2xl border border-gray-200 overflow-hidden">
-        <div className="px-4 py-3 bg-white border-b border-gray-200 flex items-center justify-between">
-          <div className="text-sm font-medium text-gray-900">قائمة الخدمات</div>
-          <button onClick={load} className="text-sm px-3 py-2 rounded-xl border border-gray-200 hover:bg-gray-50">تحديث</button>
-        </div>
         {loading ? (
-          <div className="p-4 text-sm text-gray-600">جاري التحميل...</div>
+          <div className="p-12 text-center">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-blue-600"></div>
+            <p className="text-sm text-gray-500 mt-4">جاري تحميل الخدمات...</p>
+          </div>
+        ) : items.length === 0 ? (
+          <div className="p-12 text-center">
+            <div className="text-6xl mb-4">📭</div>
+            <p className="text-lg font-semibold text-gray-900 mb-2">لا توجد خدمات بعد</p>
+            <p className="text-sm text-gray-500 mb-6">ابدأ بإضافة أول خدمة طبية</p>
+            <button
+              onClick={() => { resetForm(); setShowForm(true); }}
+              className="px-6 py-3 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition"
+            >
+              + إضافة خدمة
+            </button>
+          </div>
         ) : (
-          <div className="divide-y">
+          <div className="divide-y divide-gray-100">
             {items.map((svc) => (
-              <div key={svc.id} className="p-4 flex items-start justify-between gap-4">
-                <div>
-                  <div className="font-semibold text-gray-900">{svc.name}</div>
-                  <div className="text-sm text-gray-600 line-clamp-2">{svc.description}</div>
-                  <div className="text-xs text-gray-500 mt-1">{svc.category} • {svc.duration_minutes} دقيقة</div>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <button
-                    onClick={() => toggleActive(svc)}
-                    className={`px-3 py-2 rounded-xl text-sm font-medium border ${svc.is_active ? "bg-green-50 border-green-200 text-green-700" : "bg-gray-50 border-gray-200 text-gray-700"}`}
-                  >
-                    {svc.is_active ? "مفعلة" : "معطلة"}
-                  </button>
-                  <button
-                    onClick={() => onEdit(svc)}
-                    className="px-3 py-2 rounded-xl text-sm font-medium border bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
-                  >
-                    تعديل
-                  </button>
-                  <button
-                    onClick={() => onDelete(svc)}
-                    className="px-3 py-2 rounded-xl text-sm font-medium border bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
-                  >
-                    حذف
-                  </button>
+              <div key={svc.id} className="p-5 hover:bg-gray-50 transition">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h3 className="text-lg font-bold text-gray-900">{svc.name}</h3>
+                      <span className="px-2.5 py-0.5 rounded-lg bg-blue-100 text-blue-700 text-xs font-semibold">
+                        {getCategoryLabel(svc.category)}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-600 mb-3 line-clamp-2">{svc.description}</p>
+                    <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500">
+                      <span className="flex items-center gap-1">
+                        <span>💰</span>
+                        <span>{svc.price_min} {svc.price_max ? `- ${svc.price_max}` : ""} دج</span>
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <span>⏱️</span>
+                        <span>{svc.duration_minutes} دقيقة</span>
+                      </span>
+                      <span className={`flex items-center gap-1 px-2 py-1 rounded-lg font-semibold ${svc.is_active ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-600"}`}>
+                        <span>{svc.is_active ? "✓" : "×"}</span>
+                        <span>{svc.is_active ? "مفعّلة" : "معطّلة"}</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-2 shrink-0">
+                    <button
+                      onClick={() => toggleActive(svc)}
+                      className={`px-4 py-2 rounded-xl text-xs font-semibold border-2 transition ${
+                        svc.is_active
+                          ? "bg-green-50 border-green-200 text-green-700 hover:bg-green-100"
+                          : "bg-gray-100 border-gray-300 text-gray-600 hover:bg-gray-200"
+                      }`}
+                    >
+                      {svc.is_active ? "✓ تعطيل" : "✓ تفعيل"}
+                    </button>
+                    <button
+                      onClick={() => onEdit(svc)}
+                      className="px-4 py-2 rounded-xl text-xs font-semibold border-2 border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 transition"
+                    >
+                      ✏️ تعديل
+                    </button>
+                    <button
+                      onClick={() => onDelete(svc)}
+                      className="px-4 py-2 rounded-xl text-xs font-semibold border-2 border-red-200 bg-red-50 text-red-700 hover:bg-red-100 transition"
+                    >
+                      🗑️ حذف
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
