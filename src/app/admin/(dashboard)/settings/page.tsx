@@ -74,87 +74,232 @@ export default function AdminSettingsPage() {
     }
   };
 
-  if (loading) return <div className="text-sm text-gray-600">جاري التحميل...</div>;
-  if (!profile) return <div className="text-sm text-gray-600">لا توجد بيانات</div>;
-
   const set = (k: keyof ClinicProfile) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setProfile((p) => (p ? { ...p, [k]: e.target.value } : p));
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-bold text-gray-900">إعدادات العيادة</h2>
-        <p className="text-sm text-gray-600">هذه المعلومات تظهر في الموقع</p>
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <span>⚙️</span>
+            <span>إعدادات العيادة</span>
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">إدارة المعلومات التي تظهر في الموقع</p>
+        </div>
       </div>
 
-      <form onSubmit={save} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">اسم العيادة</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={profile.name} onChange={set("name")} />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">الشعار (اختياري)</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={profile.tagline} onChange={set("tagline")} />
-          </div>
+      {loading ? (
+        <div className="p-12 text-center bg-white rounded-2xl border border-gray-200 shadow-sm">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-gray-900"></div>
+          <p className="text-sm text-gray-500 mt-4">جاري تحميل الإعدادات...</p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">الهاتف 1</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={profile.primary_phone} onChange={set("primary_phone")} />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">الهاتف 2</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={profile.secondary_phone} onChange={set("secondary_phone")} />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">الإيميل</label>
-            <input type="email" className="w-full px-4 py-3 rounded-xl border border-gray-200" value={profile.email} onChange={set("email")} />
-          </div>
+      ) : !profile ? (
+        <div className="p-12 text-center bg-white rounded-2xl border border-gray-200 shadow-sm">
+          <div className="text-6xl mb-4">⚠️</div>
+          <p className="text-lg font-semibold text-gray-900 mb-2">لا توجد بيانات</p>
         </div>
+      ) : (
+        <form onSubmit={save} className="space-y-6">
+          {/* Basic Info Section */}
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                <span>🏥</span>
+                <span>المعلومات الأساسية</span>
+              </h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">اسم العيادة *</label>
+                  <input
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 outline-none transition"
+                    value={profile.name}
+                    onChange={set("name")}
+                    required
+                    placeholder="عيادة المستقبل للأسنان"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">الشعار (اختياري)</label>
+                  <input
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-gray-500 focus:ring-2 focus:ring-gray-200 outline-none transition"
+                    value={profile.tagline}
+                    onChange={set("tagline")}
+                    placeholder="ابتسامتك المشرقة تبدأ هنا"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">العنوان 1</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={profile.address_line_1} onChange={set("address_line_1")} />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">العنوان 2</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={profile.address_line_2} onChange={set("address_line_2")} />
-          </div>
-        </div>
+          {/* Contact Section */}
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200">
+              <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                <span>📞</span>
+                <span>معلومات التواصل</span>
+              </h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">الهاتف الرئيسي *</label>
+                  <input
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+                    value={profile.primary_phone}
+                    onChange={set("primary_phone")}
+                    required
+                    placeholder="0123456789"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">الهاتف الثانوي</label>
+                  <input
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+                    value={profile.secondary_phone}
+                    onChange={set("secondary_phone")}
+                    placeholder="0987654321"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">البريد الإلكتروني *</label>
+                  <input
+                    type="email"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+                    value={profile.email}
+                    onChange={set("email")}
+                    required
+                    placeholder="info@example.com"
+                  />
+                </div>
+              </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">ساعات العمل (أيام الأسبوع)</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={profile.hours_weekdays} onChange={set("hours_weekdays")} />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">العنوان - السطر 1 *</label>
+                  <input
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+                    value={profile.address_line_1}
+                    onChange={set("address_line_1")}
+                    required
+                    placeholder="شارع الملك عبدالله"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">العنوان - السطر 2</label>
+                  <input
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
+                    value={profile.address_line_2}
+                    onChange={set("address_line_2")}
+                    placeholder="بجوار مستشفى الملك فهد"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">ساعات العمل (الويكند)</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={profile.hours_weekend} onChange={set("hours_weekend")} />
-          </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Instagram</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={profile.instagram_url} onChange={set("instagram_url")} />
+          {/* Working Hours Section */}
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="px-6 py-4 bg-gradient-to-r from-green-50 to-green-100 border-b border-green-200">
+              <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                <span>🕐</span>
+                <span>ساعات العمل</span>
+              </h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">أيام الأسبوع *</label>
+                  <input
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition"
+                    value={profile.hours_weekdays}
+                    onChange={set("hours_weekdays")}
+                    required
+                    placeholder="السبت - الخميس: 9:00 صباحاً - 9:00 مساءً"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">عطلة نهاية الأسبوع</label>
+                  <input
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition"
+                    value={profile.hours_weekend}
+                    onChange={set("hours_weekend")}
+                    placeholder="الجمعة: مغلق"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Facebook</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={profile.facebook_url} onChange={set("facebook_url")} />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">TikTok</label>
-            <input className="w-full px-4 py-3 rounded-xl border border-gray-200" value={profile.tiktok_url} onChange={set("tiktok_url")} />
-          </div>
-        </div>
 
-        <button disabled={saving} className="px-4 py-3 rounded-xl bg-gray-900 text-white font-medium disabled:opacity-60">
-          {saving ? "جاري الحفظ..." : "حفظ"}
-        </button>
-      </form>
+          {/* Social Media Section */}
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="px-6 py-4 bg-gradient-to-r from-purple-50 to-purple-100 border-b border-purple-200">
+              <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                <span>📱</span>
+                <span>وسائل التواصل الاجتماعي</span>
+              </h3>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-1">
+                    <span>Instagram</span>
+                    <span className="text-pink-500">📷</span>
+                  </label>
+                  <input
+                    type="url"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                    value={profile.instagram_url}
+                    onChange={set("instagram_url")}
+                    placeholder="https://instagram.com/..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-1">
+                    <span>Facebook</span>
+                    <span className="text-blue-600">📘</span>
+                  </label>
+                  <input
+                    type="url"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                    value={profile.facebook_url}
+                    onChange={set("facebook_url")}
+                    placeholder="https://facebook.com/..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-1">
+                    <span>TikTok</span>
+                    <span>🎵</span>
+                  </label>
+                  <input
+                    type="url"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                    value={profile.tiktok_url}
+                    onChange={set("tiktok_url")}
+                    placeholder="https://tiktok.com/@..."
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Save Button */}
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              disabled={saving}
+              className="flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-gray-800 to-gray-900 text-white font-bold text-lg disabled:opacity-60 hover:from-gray-900 hover:to-black transition-all shadow-lg hover:shadow-xl"
+            >
+              <span>{saving ? "⏳" : "💾"}</span>
+              <span>{saving ? "جاري الحفظ..." : "حفظ الإعدادات"}</span>
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   );
 }
