@@ -4,6 +4,16 @@ import { ADMIN_ACCESS_COOKIE, adminCookieOptions, getAdminTokens } from "@/lib/a
 
 const ALLOWED_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"] as const;
 
+function sanitizedUpstreamHeaders(upstream: Response) {
+  const headers = new Headers(upstream.headers);
+  // Node's fetch typically auto-decompresses, but may keep these headers.
+  // Forwarding them can trigger browser decoding errors.
+  headers.delete("content-encoding");
+  headers.delete("content-length");
+  headers.delete("transfer-encoding");
+  return headers;
+}
+
 async function refreshAccessToken(refresh: string) {
   const r = await fetch(`${API_BASE_URL}/api/token/refresh/`, {
     method: "POST",
@@ -62,7 +72,7 @@ async function handler(req: Request, params: { path: string[] }) {
       const body = await upstream.arrayBuffer();
       const res = new NextResponse(body, {
         status: upstream.status,
-        headers: upstream.headers,
+        headers: sanitizedUpstreamHeaders(upstream),
       });
       res.cookies.set(ADMIN_ACCESS_COOKIE, nextAccess, adminCookieOptions());
       return res;
@@ -79,7 +89,7 @@ async function handler(req: Request, params: { path: string[] }) {
   const body = await upstream.arrayBuffer();
   return new NextResponse(body, {
     status: upstream.status,
-    headers: upstream.headers,
+    headers: sanitizedUpstreamHeaders(upstream),
   });
 }
 
