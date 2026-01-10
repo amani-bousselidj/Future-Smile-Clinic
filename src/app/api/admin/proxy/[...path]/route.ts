@@ -66,6 +66,13 @@ async function handler(req: Request, params: { path: string[] }) {
     }
   }
 
+  // If still unauthorized (or no refresh token), normalize the response and clear cookies.
+  if (upstream.status === 401) {
+    const res = NextResponse.json({ detail: "Session expired" }, { status: 401 });
+    res.cookies.set(ADMIN_ACCESS_COOKIE, "", { ...adminCookieOptions(), maxAge: 0 });
+    return res;
+  }
+
   const body = await upstream.arrayBuffer();
   return new NextResponse(body, {
     status: upstream.status,

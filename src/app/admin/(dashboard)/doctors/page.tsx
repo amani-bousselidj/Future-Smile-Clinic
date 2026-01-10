@@ -25,6 +25,7 @@ export default function AdminDoctorsPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   const [form, setForm] = useState({
     first_name: "",
@@ -38,6 +39,22 @@ export default function AdminDoctorsPage() {
     is_active: true,
     services: [] as number[],
   });
+
+  const resetForm = () => {
+    setEditingId(null);
+    setForm({
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone: "",
+      specialization: "",
+      license_number: "",
+      biography: "",
+      photo_url: "",
+      is_active: true,
+      services: [],
+    });
+  };
 
   const fail = async (res: Response, fallback: string) => {
     if (res.status === 401) {
@@ -74,7 +91,7 @@ export default function AdminDoctorsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const create = async (e: React.FormEvent) => {
+  const upsert = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     try {
@@ -83,31 +100,56 @@ export default function AdminDoctorsPage() {
         biography: form.biography || null,
         photo_url: form.photo_url || null,
       };
-      const res = await fetch("/api/admin/proxy/api/doctors/", {
-        method: "POST",
+      const url = editingId ? `/api/admin/proxy/api/doctors/${editingId}/` : "/api/admin/proxy/api/doctors/";
+      const res = await fetch(url, {
+        method: editingId ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) await fail(res, "فشل إنشاء الطبيب");
-      addNotification({ type: "success", message: "تم إنشاء الطبيب" });
-      setForm({
-        first_name: "",
-        last_name: "",
-        email: "",
-        phone: "",
-        specialization: "",
-        license_number: "",
-        biography: "",
-        photo_url: "",
-        is_active: true,
-        services: [],
-      });
+      if (!res.ok) await fail(res, editingId ? "فشل تحديث الطبيب" : "فشل إنشاء الطبيب");
+      addNotification({ type: "success", message: editingId ? "تم تحديث الطبيب" : "تم إنشاء الطبيب" });
+      resetForm();
       await load();
     } catch (e) {
-      addNotification({ type: "error", message: e instanceof Error ? e.message : "فشل إنشاء الطبيب" });
+      addNotification({ type: "error", message: e instanceof Error ? e.message : editingId ? "فشل تحديث الطبيب" : "فشل إنشاء الطبيب" });
     } finally {
       setSaving(false);
     }
+  };
+
+  const onEdit = (d: Doctor) => {
+    setEditingId(d.id);
+    setForm({
+      first_name: d.first_name || "",
+      last_name: d.last_name || "",
+      email: d.email || "",
+      phone: d.phone || "",
+      specialization: d.specialization || "",
+      license_number: d.license_number || "",
+      biography: d.biography || "",
+      photo_url: d.photo_url || "",
+      is_active: Boolean(d.is_active),
+      services: Array.isArray(d.services) ? d.services : [],
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const onDelete = async (d: Doctor) => {
+    const ok = window.confirm(`حذف الطبيب: ${d.first_name} ${d.last_name} ؟`);
+    if (!ok) return;
+    const res = await fetch(`/api/admin/proxy/api/doctors/${d.id}/`, { method: "DELETE" });
+    if (!res.ok) {
+      if (res.status === 401) {
+        addNotification({ type: "error", message: "انتهت الجلسة، يرجى تسجيل الدخول" });
+        window.location.href = "/admin/login";
+        return;
+      }
+      const err = await res.json().catch(() => ({}));
+      addNotification({ type: "error", message: err?.detail || "فشل حذف الطبيب" });
+      return;
+    }
+    addNotification({ type: "success", message: "تم حذف الطبيب" });
+    await load();
   };
 
   return (
@@ -117,7 +159,7 @@ export default function AdminDoctorsPage() {
         <p className="text-sm text-gray-600">إضافة/تفعيل/تعطيل الأطباء</p>
       </div>
 
-      <form onSubmit={create} className="rounded-2xl border border-gray-200 bg-gray-50 p-4 space-y-3">
+      <form onSubmit={upsert} className="rounded-2xl border border-gray-200 bg-gray-50 p-4 space-y-3">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">الاسم</label>
@@ -189,9 +231,20 @@ export default function AdminDoctorsPage() {
           </div>
         </div>
 
-        <button disabled={saving} className="px-4 py-3 rounded-xl bg-gray-900 text-white font-medium disabled:opacity-60">
-          {saving ? "جاري الحفظ..." : "إضافة طبيب"}
-        </button>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <button disabled={saving} className="px-4 py-3 rounded-xl bg-gray-900 text-white font-medium disabled:opacity-60">
+            {saving ? "جاري الحفظ..." : editingId ? "حفظ التعديل" : "إضافة طبيب"}
+          </button>
+          {editingId && (
+            <button
+              type="button"
+              onClick={resetForm}
+              className="px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-800 font-medium hover:bg-gray-50"
+            >
+              إلغاء التعديل
+            </button>
+          )}
+        </div>
       </form>
 
       <div className="rounded-2xl border border-gray-200 overflow-hidden">
@@ -210,29 +263,43 @@ export default function AdminDoctorsPage() {
                   <div className="text-sm text-gray-600">{d.specialization}</div>
                   <div className="text-xs text-gray-500 mt-1">{d.email} • {d.phone}</div>
                 </div>
-                <button
-                  onClick={async () => {
-                    const res = await fetch(`/api/admin/proxy/api/doctors/${d.id}/`, {
-                      method: "PATCH",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ is_active: !d.is_active }),
-                    });
-                    if (!res.ok) {
-                      if (res.status === 401) {
-                        addNotification({ type: "error", message: "انتهت الجلسة، يرجى تسجيل الدخول" });
-                        window.location.href = "/admin/login";
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <button
+                    onClick={async () => {
+                      const res = await fetch(`/api/admin/proxy/api/doctors/${d.id}/`, {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ is_active: !d.is_active }),
+                      });
+                      if (!res.ok) {
+                        if (res.status === 401) {
+                          addNotification({ type: "error", message: "انتهت الجلسة، يرجى تسجيل الدخول" });
+                          window.location.href = "/admin/login";
+                          return;
+                        }
+                        const err = await res.json().catch(() => ({}));
+                        addNotification({ type: "error", message: err?.detail || "فشل تحديث الطبيب" });
                         return;
                       }
-                      const err = await res.json().catch(() => ({}));
-                      addNotification({ type: "error", message: err?.detail || "فشل تحديث الطبيب" });
-                      return;
-                    }
-                    await load();
-                  }}
-                  className={`px-3 py-2 rounded-xl text-xs font-medium border ${d.is_active ? "bg-green-50 border-green-200 text-green-700" : "bg-gray-50 border-gray-200 text-gray-700"}`}
-                >
-                  {d.is_active ? "مفعّل" : "معطّل"}
-                </button>
+                      await load();
+                    }}
+                    className={`px-3 py-2 rounded-xl text-xs font-medium border ${d.is_active ? "bg-green-50 border-green-200 text-green-700" : "bg-gray-50 border-gray-200 text-gray-700"}`}
+                  >
+                    {d.is_active ? "مفعّل" : "معطّل"}
+                  </button>
+                  <button
+                    onClick={() => onEdit(d)}
+                    className="px-3 py-2 rounded-xl text-xs font-medium border bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
+                  >
+                    تعديل
+                  </button>
+                  <button
+                    onClick={() => onDelete(d)}
+                    className="px-3 py-2 rounded-xl text-xs font-medium border bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
+                  >
+                    حذف
+                  </button>
+                </div>
               </div>
             ))}
           </div>

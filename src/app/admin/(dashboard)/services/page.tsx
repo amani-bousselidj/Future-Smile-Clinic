@@ -20,6 +20,7 @@ export default function AdminServicesPage() {
   const [items, setItems] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   const [form, setForm] = useState({
     name: "",
@@ -31,6 +32,20 @@ export default function AdminServicesPage() {
     image_url: "",
     is_active: true,
   });
+
+  const resetForm = () => {
+    setEditingId(null);
+    setForm({
+      name: "",
+      description: "",
+      category: "cleaning",
+      price_min: "0",
+      price_max: "",
+      duration_minutes: "30",
+      image_url: "",
+      is_active: true,
+    });
+  };
 
   const fail = async (res: Response, fallback: string) => {
     if (res.status === 401) {
@@ -62,7 +77,7 @@ export default function AdminServicesPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const create = async (e: React.FormEvent) => {
+  const upsert = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     try {
@@ -73,29 +88,54 @@ export default function AdminServicesPage() {
         duration_minutes: Number(form.duration_minutes || 30),
         image_url: form.image_url || null,
       };
-      const res = await fetch("/api/admin/proxy/api/services/", {
-        method: "POST",
+      const url = editingId ? `/api/admin/proxy/api/services/${editingId}/` : "/api/admin/proxy/api/services/";
+      const res = await fetch(url, {
+        method: editingId ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) await fail(res, "فشل إنشاء الخدمة");
-      addNotification({ type: "success", message: "تم إنشاء الخدمة" });
-      setForm({
-        name: "",
-        description: "",
-        category: "cleaning",
-        price_min: "0",
-        price_max: "",
-        duration_minutes: "30",
-        image_url: "",
-        is_active: true,
-      });
+      if (!res.ok) await fail(res, editingId ? "فشل تحديث الخدمة" : "فشل إنشاء الخدمة");
+      addNotification({ type: "success", message: editingId ? "تم تحديث الخدمة" : "تم إنشاء الخدمة" });
+      resetForm();
       await load();
     } catch (e) {
-      addNotification({ type: "error", message: e instanceof Error ? e.message : "فشل إنشاء الخدمة" });
+      addNotification({ type: "error", message: e instanceof Error ? e.message : editingId ? "فشل تحديث الخدمة" : "فشل إنشاء الخدمة" });
     } finally {
       setSaving(false);
     }
+  };
+
+  const onEdit = (svc: Service) => {
+    setEditingId(svc.id);
+    setForm({
+      name: svc.name || "",
+      description: svc.description || "",
+      category: svc.category || "cleaning",
+      price_min: String(svc.price_min ?? "0"),
+      price_max: svc.price_max == null ? "" : String(svc.price_max),
+      duration_minutes: String(svc.duration_minutes ?? 30),
+      image_url: svc.image_url || "",
+      is_active: Boolean(svc.is_active),
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const onDelete = async (svc: Service) => {
+    const ok = window.confirm(`حذف الخدمة: ${svc.name} ؟`);
+    if (!ok) return;
+    const res = await fetch(`/api/admin/proxy/api/services/${svc.id}/`, { method: "DELETE" });
+    if (!res.ok) {
+      if (res.status === 401) {
+        addNotification({ type: "error", message: "انتهت الجلسة، يرجى تسجيل الدخول" });
+        window.location.href = "/admin/login";
+        return;
+      }
+      const d = await res.json().catch(() => ({}));
+      addNotification({ type: "error", message: d?.detail || "فشل حذف الخدمة" });
+      return;
+    }
+    addNotification({ type: "success", message: "تم حذف الخدمة" });
+    await load();
   };
 
   const toggleActive = async (svc: Service) => {
@@ -124,7 +164,7 @@ export default function AdminServicesPage() {
         <p className="text-sm text-gray-600">إضافة/تفعيل/تعطيل الخدمات</p>
       </div>
 
-      <form onSubmit={create} className="rounded-2xl border border-gray-200 bg-gray-50 p-4 space-y-3">
+      <form onSubmit={upsert} className="rounded-2xl border border-gray-200 bg-gray-50 p-4 space-y-3">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">الاسم</label>
@@ -175,9 +215,20 @@ export default function AdminServicesPage() {
           </label>
         </div>
 
-        <button disabled={saving} className="px-4 py-3 rounded-xl bg-gray-900 text-white font-medium disabled:opacity-60">
-          {saving ? "جاري الحفظ..." : "إضافة خدمة"}
-        </button>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <button disabled={saving} className="px-4 py-3 rounded-xl bg-gray-900 text-white font-medium disabled:opacity-60">
+            {saving ? "جاري الحفظ..." : editingId ? "حفظ التعديل" : "إضافة خدمة"}
+          </button>
+          {editingId && (
+            <button
+              type="button"
+              onClick={resetForm}
+              className="px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-800 font-medium hover:bg-gray-50"
+            >
+              إلغاء التعديل
+            </button>
+          )}
+        </div>
       </form>
 
       <div className="rounded-2xl border border-gray-200 overflow-hidden">
@@ -196,12 +247,26 @@ export default function AdminServicesPage() {
                   <div className="text-sm text-gray-600 line-clamp-2">{svc.description}</div>
                   <div className="text-xs text-gray-500 mt-1">{svc.category} • {svc.duration_minutes} دقيقة</div>
                 </div>
-                <button
-                  onClick={() => toggleActive(svc)}
-                  className={`px-3 py-2 rounded-xl text-sm font-medium border ${svc.is_active ? "bg-green-50 border-green-200 text-green-700" : "bg-gray-50 border-gray-200 text-gray-700"}`}
-                >
-                  {svc.is_active ? "مفعلة" : "معطلة"}
-                </button>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <button
+                    onClick={() => toggleActive(svc)}
+                    className={`px-3 py-2 rounded-xl text-sm font-medium border ${svc.is_active ? "bg-green-50 border-green-200 text-green-700" : "bg-gray-50 border-gray-200 text-gray-700"}`}
+                  >
+                    {svc.is_active ? "مفعلة" : "معطلة"}
+                  </button>
+                  <button
+                    onClick={() => onEdit(svc)}
+                    className="px-3 py-2 rounded-xl text-sm font-medium border bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
+                  >
+                    تعديل
+                  </button>
+                  <button
+                    onClick={() => onDelete(svc)}
+                    className="px-3 py-2 rounded-xl text-sm font-medium border bg-white border-gray-200 text-gray-700 hover:bg-gray-50"
+                  >
+                    حذف
+                  </button>
+                </div>
               </div>
             ))}
           </div>
