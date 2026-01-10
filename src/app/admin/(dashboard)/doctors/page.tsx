@@ -39,6 +39,16 @@ export default function AdminDoctorsPage() {
     services: [] as number[],
   });
 
+  const fail = async (res: Response, fallback: string) => {
+    if (res.status === 401) {
+      addNotification({ type: "error", message: "انتهت الجلسة، يرجى تسجيل الدخول" });
+      window.location.href = "/admin/login";
+      return;
+    }
+    const d = await res.json().catch(() => ({}));
+    throw new Error(d?.detail || fallback);
+  };
+
   const load = async () => {
     setLoading(true);
     try {
@@ -46,8 +56,8 @@ export default function AdminDoctorsPage() {
         fetch("/api/admin/proxy/api/doctors/?page_size=100", { cache: "no-store" }),
         fetch("/api/admin/proxy/api/services/?page_size=200", { cache: "no-store" }),
       ]);
-      if (!drRes.ok) throw new Error("فشل تحميل الأطباء");
-      if (!svcRes.ok) throw new Error("فشل تحميل الخدمات");
+      if (!drRes.ok) await fail(drRes, "فشل تحميل الأطباء");
+      if (!svcRes.ok) await fail(svcRes, "فشل تحميل الخدمات");
       const dr = await drRes.json();
       const sv = await svcRes.json();
       setItems(dr?.results || []);
@@ -78,10 +88,7 @@ export default function AdminDoctorsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) {
-        const d = await res.json().catch(() => ({}));
-        throw new Error(d?.detail || "فشل إنشاء الطبيب");
-      }
+      if (!res.ok) await fail(res, "فشل إنشاء الطبيب");
       addNotification({ type: "success", message: "تم إنشاء الطبيب" });
       setForm({
         first_name: "",
@@ -203,9 +210,29 @@ export default function AdminDoctorsPage() {
                   <div className="text-sm text-gray-600">{d.specialization}</div>
                   <div className="text-xs text-gray-500 mt-1">{d.email} • {d.phone}</div>
                 </div>
-                <div className={`px-3 py-2 rounded-xl text-xs font-medium border ${d.is_active ? "bg-green-50 border-green-200 text-green-700" : "bg-gray-50 border-gray-200 text-gray-700"}`}>
+                <button
+                  onClick={async () => {
+                    const res = await fetch(`/api/admin/proxy/api/doctors/${d.id}/`, {
+                      method: "PATCH",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ is_active: !d.is_active }),
+                    });
+                    if (!res.ok) {
+                      if (res.status === 401) {
+                        addNotification({ type: "error", message: "انتهت الجلسة، يرجى تسجيل الدخول" });
+                        window.location.href = "/admin/login";
+                        return;
+                      }
+                      const err = await res.json().catch(() => ({}));
+                      addNotification({ type: "error", message: err?.detail || "فشل تحديث الطبيب" });
+                      return;
+                    }
+                    await load();
+                  }}
+                  className={`px-3 py-2 rounded-xl text-xs font-medium border ${d.is_active ? "bg-green-50 border-green-200 text-green-700" : "bg-gray-50 border-gray-200 text-gray-700"}`}
+                >
                   {d.is_active ? "مفعّل" : "معطّل"}
-                </div>
+                </button>
               </div>
             ))}
           </div>

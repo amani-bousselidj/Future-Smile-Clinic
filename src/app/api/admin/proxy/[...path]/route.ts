@@ -42,7 +42,10 @@ async function handler(req: Request, params: { path: string[] }) {
 
   const { access, refresh } = getAdminTokens();
   if (!access) {
-    return NextResponse.json({ detail: "Not authenticated" }, { status: 401 });
+    return NextResponse.json(
+      { detail: "Not authenticated", hasAccess: false, hasRefresh: Boolean(refresh) },
+      { status: 401 }
+    );
   }
 
   const pathname = params.path.join("/");

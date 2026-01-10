@@ -32,11 +32,21 @@ export default function AdminServicesPage() {
     is_active: true,
   });
 
+  const fail = async (res: Response, fallback: string) => {
+    if (res.status === 401) {
+      addNotification({ type: "error", message: "انتهت الجلسة، يرجى تسجيل الدخول" });
+      window.location.href = "/admin/login";
+      return;
+    }
+    const d = await res.json().catch(() => ({}));
+    throw new Error(d?.detail || fallback);
+  };
+
   const load = async () => {
     setLoading(true);
     try {
       const res = await fetch("/api/admin/proxy/api/services/?page_size=100", { cache: "no-store" });
-      if (!res.ok) throw new Error("فشل تحميل الخدمات");
+      if (!res.ok) await fail(res, "فشل تحميل الخدمات");
       const data = await res.json();
       const list = Array.isArray(data) ? data : data?.results || [];
       setItems(list);
@@ -68,10 +78,7 @@ export default function AdminServicesPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) {
-        const d = await res.json().catch(() => ({}));
-        throw new Error(d?.detail || "فشل إنشاء الخدمة");
-      }
+      if (!res.ok) await fail(res, "فشل إنشاء الخدمة");
       addNotification({ type: "success", message: "تم إنشاء الخدمة" });
       setForm({
         name: "",
@@ -98,7 +105,13 @@ export default function AdminServicesPage() {
       body: JSON.stringify({ is_active: !svc.is_active }),
     });
     if (!res.ok) {
-      addNotification({ type: "error", message: "فشل تحديث الخدمة" });
+      if (res.status === 401) {
+        addNotification({ type: "error", message: "انتهت الجلسة، يرجى تسجيل الدخول" });
+        window.location.href = "/admin/login";
+        return;
+      }
+      const d = await res.json().catch(() => ({}));
+      addNotification({ type: "error", message: d?.detail || "فشل تحديث الخدمة" });
       return;
     }
     await load();

@@ -17,8 +17,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </form>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-6">
-          <aside className="bg-white border border-gray-200 rounded-2xl p-4 h-fit">
+        <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-6 items-start">
+          <aside className="bg-white border border-gray-200 rounded-2xl p-4 md:sticky md:top-6 md:h-[calc(100vh-3rem)] overflow-auto">
             <nav className="space-y-1">
               <Link className="block px-3 py-2 rounded-xl hover:bg-gray-50" href="/admin">نظرة عامة</Link>
               <Link className="block px-3 py-2 rounded-xl hover:bg-gray-50" href="/admin/services">الخدمات</Link>

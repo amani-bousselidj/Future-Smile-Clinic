@@ -25,11 +25,21 @@ export default function AdminSettingsPage() {
   const [saving, setSaving] = useState(false);
   const [profile, setProfile] = useState<ClinicProfile | null>(null);
 
+  const fail = async (res: Response, fallback: string) => {
+    if (res.status === 401) {
+      addNotification({ type: "error", message: "انتهت الجلسة، يرجى تسجيل الدخول" });
+      window.location.href = "/admin/login";
+      return;
+    }
+    const d = await res.json().catch(() => ({}));
+    throw new Error(d?.detail || fallback);
+  };
+
   const load = async () => {
     setLoading(true);
     try {
       const res = await fetch("/api/admin/proxy/api/clinic-profile/", { cache: "no-store" });
-      if (!res.ok) throw new Error("فشل تحميل إعدادات العيادة");
+      if (!res.ok) await fail(res, "فشل تحميل إعدادات العيادة");
       const data = await res.json();
       setProfile(data);
     } catch (e) {
@@ -54,10 +64,7 @@ export default function AdminSettingsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(profile),
       });
-      if (!res.ok) {
-        const d = await res.json().catch(() => ({}));
-        throw new Error(d?.detail || "فشل حفظ الإعدادات");
-      }
+      if (!res.ok) await fail(res, "فشل حفظ الإعدادات");
       addNotification({ type: "success", message: "تم حفظ الإعدادات" });
       await load();
     } catch (e) {

@@ -10,12 +10,13 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
   // Home page uses the FullPageScroller which includes its own header/footer slides.
   const isHome = pathname === "/";
+  const isAdmin = pathname?.startsWith("/admin");
 
   return (
     <>
-      {!isHome && <Header />}
+      {!isHome && !isAdmin && <Header />}
       <main className="min-h-screen">{children}</main>
-      {!isHome && <FooterSection />}
+      {!isHome && !isAdmin && <FooterSection />}
     </>
   );
 }

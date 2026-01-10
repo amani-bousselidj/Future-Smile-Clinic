@@ -18,11 +18,21 @@ export default function AdminAppointmentsPage() {
   const [items, setItems] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const fail = async (res: Response, fallback: string) => {
+    if (res.status === 401) {
+      addNotification({ type: "error", message: "انتهت الجلسة، يرجى تسجيل الدخول" });
+      window.location.href = "/admin/login";
+      return;
+    }
+    const d = await res.json().catch(() => ({}));
+    throw new Error(d?.detail || fallback);
+  };
+
   const load = async () => {
     setLoading(true);
     try {
       const res = await fetch("/api/admin/proxy/api/appointments/?page_size=100", { cache: "no-store" });
-      if (!res.ok) throw new Error("فشل تحميل المواعيد");
+      if (!res.ok) await fail(res, "فشل تحميل المواعيد");
       const data = await res.json();
       setItems(data?.results || []);
     } catch (e) {
@@ -44,7 +54,13 @@ export default function AdminAppointmentsPage() {
       body: JSON.stringify({ status }),
     });
     if (!res.ok) {
-      addNotification({ type: "error", message: "فشل تحديث الحالة" });
+      if (res.status === 401) {
+        addNotification({ type: "error", message: "انتهت الجلسة، يرجى تسجيل الدخول" });
+        window.location.href = "/admin/login";
+        return;
+      }
+      const d = await res.json().catch(() => ({}));
+      addNotification({ type: "error", message: d?.detail || "فشل تحديث الحالة" });
       return;
     }
     await load();

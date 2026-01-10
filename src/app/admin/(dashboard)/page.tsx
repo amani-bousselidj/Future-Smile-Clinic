@@ -1,5 +1,6 @@
 import React from "react";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 async function fetchJson(path: string) {
   const h = await headers();
@@ -14,6 +15,9 @@ async function fetchJson(path: string) {
     cache: "no-store",
     headers: cookie ? { cookie } : undefined,
   });
+  if (res.status === 401) {
+    redirect("/admin/login");
+  }
   if (!res.ok) return null;
   return res.json();
 }

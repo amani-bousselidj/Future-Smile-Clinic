@@ -19,11 +19,21 @@ export default function AdminMessagesPage() {
   const [items, setItems] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const fail = async (res: Response, fallback: string) => {
+    if (res.status === 401) {
+      addNotification({ type: "error", message: "انتهت الجلسة، يرجى تسجيل الدخول" });
+      window.location.href = "/admin/login";
+      return;
+    }
+    const d = await res.json().catch(() => ({}));
+    throw new Error(d?.detail || fallback);
+  };
+
   const load = async () => {
     setLoading(true);
     try {
       const res = await fetch("/api/admin/proxy/api/contact/?page_size=100", { cache: "no-store" });
-      if (!res.ok) throw new Error("فشل تحميل الرسائل");
+      if (!res.ok) await fail(res, "فشل تحميل الرسائل");
       const data = await res.json();
       setItems(data?.results || []);
     } catch (e) {
@@ -41,7 +51,13 @@ export default function AdminMessagesPage() {
   const markRead = async (id: number) => {
     const res = await fetch(`/api/admin/proxy/api/contact/${id}/mark_read/`, { method: "POST" });
     if (!res.ok) {
-      addNotification({ type: "error", message: "فشل تحديث الرسالة" });
+      if (res.status === 401) {
+        addNotification({ type: "error", message: "انتهت الجلسة، يرجى تسجيل الدخول" });
+        window.location.href = "/admin/login";
+        return;
+      }
+      const d = await res.json().catch(() => ({}));
+      addNotification({ type: "error", message: d?.detail || "فشل تحديث الرسالة" });
       return;
     }
     await load();
