@@ -19,9 +19,12 @@ async function forward(req: Request, pathname: string, accessToken: string) {
   const normalized = pathname.endsWith("/") ? pathname : `${pathname}/`;
   const target = `${API_BASE_URL}/${normalized}${url.search}`;
 
-  const headers = new Headers(req.headers);
-  headers.delete("host");
+  // IMPORTANT: Do not forward Vercel/edge proxy headers to Django.
+  // Forwarding `x-forwarded-host` can trigger Django DisallowedHost.
+  const headers = new Headers();
   headers.set("accept", "application/json");
+  const contentType = req.headers.get("content-type");
+  if (contentType) headers.set("content-type", contentType);
   if (accessToken) headers.set("authorization", `Bearer ${accessToken}`);
 
   const method = req.method.toUpperCase();
