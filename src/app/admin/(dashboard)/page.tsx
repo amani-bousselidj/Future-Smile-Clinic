@@ -5,6 +5,30 @@ import { Activity, Calendar, MessageSquare, Users, TrendingUp, Clock } from "luc
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 export default function AdminHomePage() {
+  const DEMO = {
+    stats: {
+      services: 14,
+      appointments: 92,
+      messages: 18,
+      doctors: 7,
+    },
+    appointmentsByStatus: [
+      { name: "معلق", value: 22 },
+      { name: "مؤكد", value: 41 },
+      { name: "مكتمل", value: 24 },
+      { name: "ملغي", value: 5 },
+    ],
+    recentActivity: [
+      { day: "السبت", appointments: 11 },
+      { day: "الأحد", appointments: 15 },
+      { day: "الاثنين", appointments: 14 },
+      { day: "الثلاثاء", appointments: 18 },
+      { day: "الأربعاء", appointments: 16 },
+      { day: "الخميس", appointments: 19 },
+      { day: "الجمعة", appointments: 9 },
+    ],
+  };
+
   const [stats, setStats] = useState({
     services: 0,
     appointments: 0,
@@ -17,6 +41,12 @@ export default function AdminHomePage() {
 
   useEffect(() => {
     const load = async () => {
+      const applyDemo = () => {
+        setStats(DEMO.stats);
+        setAppointmentsByStatus(DEMO.appointmentsByStatus);
+        setRecentActivity(DEMO.recentActivity);
+      };
+
       try {
         const [services, appointments, messages, doctors] = await Promise.all([
           fetch("/api/admin/proxy/api/services/?page_size=1").then((r) => r.json()),
@@ -25,12 +55,12 @@ export default function AdminHomePage() {
           fetch("/api/admin/proxy/api/doctors/?page_size=1").then((r) => r.json()),
         ]);
 
-        setStats({
+        const nextStats = {
           services: services?.count || 0,
           appointments: appointments?.count || 0,
           messages: messages?.count || 0,
           doctors: doctors?.count || 0,
-        });
+        };
 
         // Process appointments by status
         const allAppointments = appointments?.results || [];
@@ -50,21 +80,24 @@ export default function AdminHomePage() {
           name: statusLabels[key] || key,
           value: value as number,
         }));
-        setAppointmentsByStatus(statusData);
 
-        // Simulate recent activity (last 7 days)
-        const activity = [
-          { day: "السبت", appointments: Math.floor(Math.random() * 20) + 5 },
-          { day: "الأحد", appointments: Math.floor(Math.random() * 20) + 5 },
-          { day: "الاثنين", appointments: Math.floor(Math.random() * 20) + 5 },
-          { day: "الثلاثاء", appointments: Math.floor(Math.random() * 20) + 5 },
-          { day: "الأربعاء", appointments: Math.floor(Math.random() * 20) + 5 },
-          { day: "الخميس", appointments: Math.floor(Math.random() * 20) + 5 },
-          { day: "الجمعة", appointments: Math.floor(Math.random() * 10) + 2 },
-        ];
-        setRecentActivity(activity);
+        // If the system is empty (common in fresh deployments), show demo stats.
+        const isEmpty =
+          nextStats.services === 0 &&
+          nextStats.appointments === 0 &&
+          nextStats.messages === 0 &&
+          nextStats.doctors === 0;
+
+        if (isEmpty) {
+          applyDemo();
+        } else {
+          setStats(nextStats);
+          setAppointmentsByStatus(statusData.length > 0 ? statusData : DEMO.appointmentsByStatus);
+          setRecentActivity(DEMO.recentActivity);
+        }
       } catch (error) {
         console.error("Failed to load stats:", error);
+        applyDemo();
       } finally {
         setLoading(false);
       }
