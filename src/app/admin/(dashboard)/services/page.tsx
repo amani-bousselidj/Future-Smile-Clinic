@@ -34,6 +34,26 @@ export default function AdminServicesPage() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
 
+  const formatApiError = (data: any, fallback: string) => {
+    if (!data) return fallback;
+    if (typeof data === "string") return data;
+    if (typeof data?.detail === "string") return data.detail;
+    if (Array.isArray(data)) return data.map(String).join("، ") || fallback;
+
+    if (typeof data === "object") {
+      const parts = Object.entries(data)
+        .map(([k, v]) => {
+          if (Array.isArray(v)) return `${k}: ${v.map(String).join("، ")}`;
+          if (v && typeof v === "object") return `${k}: ${JSON.stringify(v)}`;
+          return `${k}: ${String(v)}`;
+        })
+        .filter(Boolean);
+      return parts.join(" | ") || fallback;
+    }
+
+    return fallback;
+  };
+
   const [form, setForm] = useState({
     name: "",
     description: "",
@@ -67,7 +87,7 @@ export default function AdminServicesPage() {
       return;
     }
     const d = await res.json().catch(() => ({}));
-    throw new Error(d?.detail || fallback);
+    throw new Error(formatApiError(d, fallback));
   };
 
   const load = async () => {
@@ -94,11 +114,15 @@ export default function AdminServicesPage() {
     e.preventDefault();
     setSaving(true);
     try {
+      const priceMin = Number(form.price_min);
+      const priceMax = form.price_max === "" ? null : Number(form.price_max);
+      const duration = Number(form.duration_minutes);
+
       const payload = {
         ...form,
-        price_min: Number(form.price_min || 0),
-        price_max: form.price_max ? Number(form.price_max) : null,
-        duration_minutes: Number(form.duration_minutes || 30),
+        price_min: Number.isFinite(priceMin) && priceMin >= 0 ? priceMin : 0,
+        price_max: priceMax != null && Number.isFinite(priceMax) ? priceMax : null,
+        duration_minutes: Number.isFinite(duration) && duration > 0 ? duration : 30,
         image_url: form.image_url || null,
       };
       const url = editingId ? `/api/admin/proxy/api/services/${editingId}/` : "/api/admin/proxy/api/services/";
@@ -145,7 +169,7 @@ export default function AdminServicesPage() {
         return;
       }
       const d = await res.json().catch(() => ({}));
-      addNotification({ type: "error", message: d?.detail || "فشل حذف الخدمة" });
+      addNotification({ type: "error", message: formatApiError(d, "فشل حذف الخدمة") });
       return;
     }
     addNotification({ type: "success", message: "تم حذف الخدمة" });
@@ -165,7 +189,7 @@ export default function AdminServicesPage() {
         return;
       }
       const d = await res.json().catch(() => ({}));
-      addNotification({ type: "error", message: d?.detail || "فشل تحديث الخدمة" });
+      addNotification({ type: "error", message: formatApiError(d, "فشل تحديث الخدمة") });
       return;
     }
     await load();
@@ -244,6 +268,7 @@ export default function AdminServicesPage() {
                 <label className="block text-sm font-semibold text-gray-700 mb-2">السعر الأدنى (دج)</label>
                 <input
                   type="number"
+                  min={0}
                   className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
                   value={form.price_min}
                   onChange={(e) => setForm((p) => ({ ...p, price_min: e.target.value }))}
@@ -254,6 +279,7 @@ export default function AdminServicesPage() {
                 <label className="block text-sm font-semibold text-gray-700 mb-2">السعر الأقصى (دج)</label>
                 <input
                   type="number"
+                  min={0}
                   className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
                   value={form.price_max}
                   onChange={(e) => setForm((p) => ({ ...p, price_max: e.target.value }))}
@@ -264,6 +290,8 @@ export default function AdminServicesPage() {
                 <label className="block text-sm font-semibold text-gray-700 mb-2">المدة (دقيقة)</label>
                 <input
                   type="number"
+                  min={1}
+                  required
                   className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
                   value={form.duration_minutes}
                   onChange={(e) => setForm((p) => ({ ...p, duration_minutes: e.target.value }))}
