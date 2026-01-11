@@ -41,6 +41,15 @@ export default function AdminServicesPage() {
     if (Array.isArray(data)) return data.map(String).join("، ") || fallback;
 
     if (typeof data === "object") {
+      // Friendly Arabic message for common DRF validation.
+      const imgErr = data?.image_url;
+      if (
+        Array.isArray(imgErr) &&
+        imgErr.some((m) => String(m).includes("no more than") || String(m).includes("max_length"))
+      ) {
+        return "رابط الصورة طويل جداً. يرجى استخدام رابط أقصر (حتى 500 حرف).";
+      }
+
       const parts = Object.entries(data)
         .map(([k, v]) => {
           if (Array.isArray(v)) return `${k}: ${v.map(String).join("، ")}`;
@@ -114,6 +123,11 @@ export default function AdminServicesPage() {
     e.preventDefault();
     setSaving(true);
     try {
+      if (form.image_url && form.image_url.length > 500) {
+        addNotification({ type: "error", message: "رابط الصورة طويل جداً (الحد الأقصى 500 حرف)." });
+        return;
+      }
+
       const priceMin = Number(form.price_min);
       const priceMax = form.price_max === "" ? null : Number(form.price_max);
       const duration = Number(form.duration_minutes);
@@ -304,6 +318,7 @@ export default function AdminServicesPage() {
               <label className="block text-sm font-semibold text-gray-700 mb-2">رابط الصورة (اختياري)</label>
               <input
                 type="url"
+                maxLength={500}
                 className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition"
                 value={form.image_url}
                 onChange={(e) => setForm((p) => ({ ...p, image_url: e.target.value }))}

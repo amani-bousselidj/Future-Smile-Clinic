@@ -34,7 +34,7 @@ class Service(BaseModel):
     price_min = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     price_max = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     duration_minutes = models.IntegerField(default=30)
-    image_url = models.URLField(null=True, blank=True)
+    image_url = models.URLField(max_length=500, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     
     class Meta:
