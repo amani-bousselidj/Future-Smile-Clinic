@@ -179,14 +179,14 @@ export default function AdminServicesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <Activity className="w-7 h-7 text-primary" />
+            <Activity className="w-7 h-7 text-blue-600" />
             <span>إدارة الخدمات</span>
           </h2>
           <p className="text-sm text-gray-500 mt-1">إضافة وتعديل وحذف خدمات العيادة</p>
         </div>
         <button
           onClick={() => { resetForm(); setShowForm(!showForm); }}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-primary-dark text-white font-medium hover:opacity-90 transition-all shadow-md hover:shadow-lg"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium hover:opacity-90 transition-all shadow-md hover:shadow-lg"
         >
           <Plus className="w-5 h-5" />
           <span>{showForm ? "إخفاء النموذج" : "إضافة خدمة"}</span>
@@ -297,7 +297,7 @@ export default function AdminServicesPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-dark text-white font-semibold disabled:opacity-60 hover:opacity-90 transition-all shadow-md hover:shadow-lg"
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold disabled:opacity-60 hover:opacity-90 transition-all shadow-md hover:shadow-lg"
               >
                 {saving ? "جاري الحفظ..." : editingId ? <><Edit className="w-5 h-5" /> حفظ التعديلات</> : <><Plus className="w-5 h-5" /> إضافة الخدمة</>}
               </button>
@@ -346,7 +346,7 @@ export default function AdminServicesPage() {
             <p className="text-sm text-gray-500 mb-6">ابدأ بإضافة أول خدمة</p>
             <button
               onClick={() => { resetForm(); setShowForm(true); }}
-              className="flex items-center gap-2 mx-auto px-6 py-3 rounded-xl bg-primary text-white font-medium hover:bg-primary-dark transition"
+              className="flex items-center gap-2 mx-auto px-6 py-3 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-600-dark transition"
             >
               <Plus className="w-5 h-5" />
               <span>إضافة خدمة</span>
@@ -393,7 +393,7 @@ export default function AdminServicesPage() {
                     </button>
                     <button
                       onClick={() => onEdit(svc)}
-                      className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border-2 border-primary/30 bg-primary/10 text-primary hover:bg-primary/20 transition"
+                      className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border-2 border-blue-500/30 bg-blue-600/10 text-blue-600 hover:bg-blue-600/20 transition"
                     >
                       <Edit className="w-3 h-3" /> تعديل
                     </button>

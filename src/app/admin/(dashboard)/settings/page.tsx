@@ -137,7 +137,7 @@ export default function AdminSettingsPage() {
 
           {/* Contact Section */}
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-cyan-50 border-b border-primary/20">
+            <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-cyan-50 border-b border-blue-500/20">
               <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                 <span>📞</span>
                 <span>معلومات التواصل</span>
@@ -148,7 +148,7 @@ export default function AdminSettingsPage() {
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">الهاتف الرئيسي *</label>
                   <input
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                     value={profile.primary_phone}
                     onChange={set("primary_phone")}
                     required
@@ -158,7 +158,7 @@ export default function AdminSettingsPage() {
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">الهاتف الثانوي</label>
                   <input
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                     value={profile.secondary_phone}
                     onChange={set("secondary_phone")}
                     placeholder="0987654321"
@@ -168,7 +168,7 @@ export default function AdminSettingsPage() {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">البريد الإلكتروني *</label>
                   <input
                     type="email"
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                     value={profile.email}
                     onChange={set("email")}
                     required
@@ -181,7 +181,7 @@ export default function AdminSettingsPage() {
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">العنوان - السطر 1 *</label>
                   <input
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                     value={profile.address_line_1}
                     onChange={set("address_line_1")}
                     required
@@ -191,7 +191,7 @@ export default function AdminSettingsPage() {
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">العنوان - السطر 2</label>
                   <input
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                     value={profile.address_line_2}
                     onChange={set("address_line_2")}
                     placeholder="بجوار مستشفى الملك فهد"
@@ -214,7 +214,7 @@ export default function AdminSettingsPage() {
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">أيام الأسبوع *</label>
                   <input
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                     value={profile.hours_weekdays}
                     onChange={set("hours_weekdays")}
                     required
@@ -224,7 +224,7 @@ export default function AdminSettingsPage() {
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">عطلة نهاية الأسبوع</label>
                   <input
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                     value={profile.hours_weekend}
                     onChange={set("hours_weekend")}
                     placeholder="الجمعة: مغلق"
@@ -236,7 +236,7 @@ export default function AdminSettingsPage() {
 
           {/* Social Media Section */}
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-cyan-50 border-b border-primary/20">
+            <div className="px-6 py-4 bg-gradient-to-r from-blue-50 to-cyan-50 border-b border-blue-500/20">
               <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                 <span>📱</span>
                 <span>وسائل التواصل الاجتماعي</span>
@@ -292,7 +292,7 @@ export default function AdminSettingsPage() {
             <button
               type="submit"
               disabled={saving}
-              className="flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-primary to-primary-dark text-white font-bold text-lg disabled:opacity-60 hover:opacity-90 transition-all shadow-lg hover:shadow-xl"
+              className="flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold text-lg disabled:opacity-60 hover:opacity-90 transition-all shadow-lg hover:shadow-xl"
             >
               <span>{saving ? "⏳" : "💾"}</span>
               <span>{saving ? "جاري الحفظ..." : "حفظ الإعدادات"}</span>

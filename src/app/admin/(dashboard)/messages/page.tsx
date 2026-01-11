@@ -110,7 +110,7 @@ export default function AdminMessagesPage() {
         <button
           onClick={load}
           disabled={loading}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-primary-dark text-white font-medium hover:opacity-90 transition-all shadow-md hover:shadow-lg disabled:opacity-60"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium hover:opacity-90 transition-all shadow-md hover:shadow-lg disabled:opacity-60"
         >
           <span>🔄</span>
           <span>{loading ? "جاري التحميل..." : "تحديث"}</span>
@@ -128,11 +128,11 @@ export default function AdminMessagesPage() {
             <div className="text-4xl">📨</div>
           </div>
         </div>
-        <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 border border-primary/30 shadow-sm">
+        <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-500/30 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-primary-dark mb-1">غير مقروءة</p>
-              <p className="text-3xl font-bold text-primary-dark">{stats.unread}</p>
+              <p className="text-sm text-blue-700 mb-1">غير مقروءة</p>
+              <p className="text-3xl font-bold text-blue-700">{stats.unread}</p>
             </div>
             <div className="text-4xl">📬</div>
           </div>
@@ -157,7 +157,7 @@ export default function AdminMessagesPage() {
             onClick={() => setFilterRead(f)}
             className={`px-4 py-2 rounded-xl text-sm font-semibold border-2 transition ${
               filterRead === f
-                ? "bg-primary border-primary text-white shadow-md"
+                ? "bg-blue-600 border-blue-500 text-white shadow-md"
                 : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"
             }`}
           >
@@ -171,13 +171,13 @@ export default function AdminMessagesPage() {
         <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-lg font-semibold text-gray-900">قائمة الرسائل</span>
-            <span className="px-3 py-1 rounded-full bg-primary/10 text-primary-dark text-xs font-bold">{filteredItems.length}</span>
+            <span className="px-3 py-1 rounded-full bg-blue-600/10 text-blue-700 text-xs font-bold">{filteredItems.length}</span>
           </div>
         </div>
 
         {loading ? (
           <div className="p-12 text-center">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-primary"></div>
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-blue-600"></div>
             <p className="text-sm text-gray-500 mt-4">جاري تحميل الرسائل...</p>
           </div>
         ) : filteredItems.length === 0 ? (
@@ -207,7 +207,7 @@ export default function AdminMessagesPage() {
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-primary-dark font-semibold mb-2">الموضوع: {m.subject}</p>
+                    <p className="text-sm text-blue-700 font-semibold mb-2">الموضوع: {m.subject}</p>
                     <div className="flex flex-wrap items-center gap-4 text-xs text-gray-600 mb-3">
                       <span className="flex items-center gap-1">
                         <span>📧</span>
@@ -227,7 +227,7 @@ export default function AdminMessagesPage() {
                         <p className="text-sm text-gray-700 whitespace-pre-wrap">{m.message}</p>
                         <button
                           onClick={() => setExpandedId(null)}
-                          className="mt-3 text-xs text-primary-dark font-semibold hover:underline"
+                          className="mt-3 text-xs text-blue-700 font-semibold hover:underline"
                         >
                           ▲ إخفاء الرسالة
                         </button>
@@ -235,7 +235,7 @@ export default function AdminMessagesPage() {
                     ) : (
                       <button
                         onClick={() => setExpandedId(m.id)}
-                        className="mt-2 text-xs text-primary-dark font-semibold hover:underline"
+                        className="mt-2 text-xs text-blue-700 font-semibold hover:underline"
                       >
                         ▼ عرض الرسالة الكاملة
                       </button>
@@ -253,7 +253,7 @@ export default function AdminMessagesPage() {
                     ) : (
                       <button
                         onClick={() => markRead(m, false)}
-                        className="px-4 py-2 rounded-xl text-xs font-semibold border-2 border-primary/30 bg-primary/10 text-primary-dark hover:bg-primary/20 transition"
+                        className="px-4 py-2 rounded-xl text-xs font-semibold border-2 border-blue-500/30 bg-blue-600/10 text-blue-700 hover:bg-blue-600/20 transition"
                       >
                         ✉️ تعليم كغير مقروءة
                       </button>

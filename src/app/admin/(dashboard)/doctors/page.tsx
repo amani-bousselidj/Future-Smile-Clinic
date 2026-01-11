@@ -187,7 +187,7 @@ export default function AdminDoctorsPage() {
         </div>
         <button
           onClick={() => { resetForm(); setShowForm(!showForm); }}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-primary-dark text-white font-medium hover:opacity-90 transition-all shadow-md hover:shadow-lg"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium hover:opacity-90 transition-all shadow-md hover:shadow-lg"
         >
           <span>{showForm ? "إخفاء النموذج" : "+ إضافة طبيب"}</span>
         </button>
@@ -195,7 +195,7 @@ export default function AdminDoctorsPage() {
 
       {/* Form */}
       {showForm && (
-        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl border border-primary/20 p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl border border-blue-500/20 p-6 shadow-sm">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             {editingId ? "تعديل الطبيب" : "طبيب جديد"}
           </h3>
@@ -204,7 +204,7 @@ export default function AdminDoctorsPage() {
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">الاسم *</label>
                 <input
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                   value={form.first_name}
                   onChange={(e) => setForm((p) => ({ ...p, first_name: e.target.value }))}
                   required
@@ -214,7 +214,7 @@ export default function AdminDoctorsPage() {
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">اللقب *</label>
                 <input
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                   value={form.last_name}
                   onChange={(e) => setForm((p) => ({ ...p, last_name: e.target.value }))}
                   required
@@ -228,7 +228,7 @@ export default function AdminDoctorsPage() {
                 <label className="block text-sm font-semibold text-gray-700 mb-2">البريد الإلكتروني *</label>
                 <input
                   type="email"
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                   value={form.email}
                   onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
                   required
@@ -238,7 +238,7 @@ export default function AdminDoctorsPage() {
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">الهاتف *</label>
                 <input
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                   value={form.phone}
                   onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
                   required
@@ -251,7 +251,7 @@ export default function AdminDoctorsPage() {
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">التخصص *</label>
                 <input
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                   value={form.specialization}
                   onChange={(e) => setForm((p) => ({ ...p, specialization: e.target.value }))}
                   required
@@ -261,7 +261,7 @@ export default function AdminDoctorsPage() {
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">رقم الترخيص *</label>
                 <input
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                   value={form.license_number}
                   onChange={(e) => setForm((p) => ({ ...p, license_number: e.target.value }))}
                   required
@@ -273,7 +273,7 @@ export default function AdminDoctorsPage() {
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">نبذة (اختياري)</label>
               <textarea
-                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition resize-none"
+                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition resize-none"
                 rows={3}
                 value={form.biography}
                 onChange={(e) => setForm((p) => ({ ...p, biography: e.target.value }))}
@@ -285,7 +285,7 @@ export default function AdminDoctorsPage() {
               <label className="block text-sm font-semibold text-gray-700 mb-2">صورة (URL) (اختياري)</label>
               <input
                 type="url"
-                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+                className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                 value={form.photo_url}
                 onChange={(e) => setForm((p) => ({ ...p, photo_url: e.target.value }))}
                 placeholder="https://..."
@@ -296,7 +296,7 @@ export default function AdminDoctorsPage() {
               <label className="block text-sm font-semibold text-gray-700 mb-3">الخدمات التي يقدمها</label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {services.map((s) => (
-                  <label key={s.id} className="flex items-center gap-2 p-3 rounded-xl border-2 border-gray-200 hover:border-primary/50 cursor-pointer transition">
+                  <label key={s.id} className="flex items-center gap-2 p-3 rounded-xl border-2 border-gray-200 hover:border-blue-500/50 cursor-pointer transition">
                     <input
                       type="checkbox"
                       checked={form.services.includes(s.id)}
@@ -307,7 +307,7 @@ export default function AdminDoctorsPage() {
                           services: checked ? [...p.services, s.id] : p.services.filter((x) => x !== s.id),
                         }));
                       }}
-                      className="w-5 h-5 rounded border-2 border-gray-300 text-primary focus:ring-2 focus:ring-primary/50"
+                      className="w-5 h-5 rounded border-2 border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500/50"
                     />
                     <span className="text-sm font-medium text-gray-700">{s.name}</span>
                   </label>
@@ -320,7 +320,7 @@ export default function AdminDoctorsPage() {
                 type="checkbox"
                 checked={form.is_active}
                 onChange={(e) => setForm((p) => ({ ...p, is_active: e.target.checked }))}
-                className="w-5 h-5 rounded border-2 border-gray-300 text-primary focus:ring-2 focus:ring-primary/50"
+                className="w-5 h-5 rounded border-2 border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500/50"
               />
               <span>طبيب مفعّل</span>
             </label>
@@ -329,7 +329,7 @@ export default function AdminDoctorsPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex-1 px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-dark text-white font-semibold disabled:opacity-60 hover:opacity-90 transition-all shadow-md hover:shadow-lg"
+                className="flex-1 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold disabled:opacity-60 hover:opacity-90 transition-all shadow-md hover:shadow-lg"
               >
                 {saving ? "جاري الحفظ..." : editingId ? "💾 حفظ التعديلات" : "➕ إضافة الطبيب"}
               </button>
@@ -352,7 +352,7 @@ export default function AdminDoctorsPage() {
         <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-lg font-semibold text-gray-900">قائمة الأطباء</span>
-            <span className="px-3 py-1 rounded-full bg-primary/10 text-primary-dark text-xs font-bold">{items.length}</span>
+            <span className="px-3 py-1 rounded-full bg-blue-600/10 text-blue-700 text-xs font-bold">{items.length}</span>
           </div>
           <button
             onClick={load}
@@ -366,7 +366,7 @@ export default function AdminDoctorsPage() {
 
         {loading ? (
           <div className="p-12 text-center">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-primary"></div>
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-blue-600"></div>
             <p className="text-sm text-gray-500 mt-4">جاري تحميل الأطباء...</p>
           </div>
         ) : items.length === 0 ? (
@@ -376,7 +376,7 @@ export default function AdminDoctorsPage() {
             <p className="text-sm text-gray-500 mb-6">ابدأ بإضافة أول طبيب</p>
             <button
               onClick={() => { resetForm(); setShowForm(true); }}
-              className="px-6 py-3 rounded-xl bg-primary text-white font-medium hover:bg-primary-dark transition"
+              className="px-6 py-3 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-600-dark transition"
             >
               + إضافة طبيب
             </button>
@@ -394,7 +394,7 @@ export default function AdminDoctorsPage() {
                         <span>{d.is_active ? "مفعّل" : "معطّل"}</span>
                       </span>
                     </div>
-                    <p className="text-sm text-primary-dark font-medium mb-2">{d.specialization}</p>
+                    <p className="text-sm text-blue-700 font-medium mb-2">{d.specialization}</p>
                     {d.biography && (
                       <p className="text-sm text-gray-600 mb-3 line-clamp-2">{d.biography}</p>
                     )}
@@ -427,7 +427,7 @@ export default function AdminDoctorsPage() {
                     </button>
                     <button
                       onClick={() => onEdit(d)}
-                      className="px-4 py-2 rounded-xl text-xs font-semibold border-2 border-primary/30 bg-primary/10 text-primary-dark hover:bg-primary/20 transition"
+                      className="px-4 py-2 rounded-xl text-xs font-semibold border-2 border-blue-500/30 bg-blue-600/10 text-blue-700 hover:bg-blue-600/20 transition"
                     >
                       ✏️ تعديل
                     </button>

@@ -24,7 +24,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <aside className="fixed right-0 top-0 h-screen w-64 bg-white border-l border-gray-200 shadow-lg flex flex-col z-10">
           {/* Logo/Title */}
           <div className="p-6 border-b border-gray-200">
-            <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
+            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">
               عيادة ابتسامة المستقبل
             </h1>
             <p className="text-xs text-gray-500 mt-1">لوحة التحكم</p>
@@ -43,7 +43,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     href={item.href}
                     className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
                       isActive
-                        ? "bg-gradient-to-r from-primary to-primary-dark text-white shadow-lg"
+                        ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg"
                         : "text-gray-700 hover:bg-gray-100"
                     }`}
                   >

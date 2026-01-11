@@ -79,9 +79,9 @@ export default function AdminHomePage() {
       label: "الخدمات المتاحة",
       value: stats.services,
       Icon: Activity,
-      gradient: "from-primary to-primary-dark",
+      gradient: "from-blue-500 to-blue-600",
       bgColor: "bg-blue-50",
-      iconColor: "text-primary",
+      iconColor: "text-blue-600",
     },
     {
       label: "إجمالي المواعيد",
@@ -112,7 +112,7 @@ export default function AdminHomePage() {
   if (loading) {
     return (
       <div className="p-12 text-center">
-        <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-primary"></div>
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-blue-600"></div>
         <p className="text-sm text-gray-500 mt-4">جاري تحميل الإحصائيات...</p>
       </div>
     );
@@ -148,7 +148,7 @@ export default function AdminHomePage() {
         {/* Appointments by Status - Pie Chart */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
           <div className="flex items-center gap-3 mb-6">
-            <TrendingUp className="w-6 h-6 text-primary" />
+            <TrendingUp className="w-6 h-6 text-blue-600" />
             <h3 className="text-lg font-bold text-gray-900">توزيع المواعيد حسب الحالة</h3>
           </div>
           {appointmentsByStatus.length > 0 ? (
@@ -173,7 +173,7 @@ export default function AdminHomePage() {
         {/* Recent Activity - Line Chart */}
         <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
           <div className="flex items-center gap-3 mb-6">
-            <Clock className="w-6 h-6 text-primary" />
+            <Clock className="w-6 h-6 text-blue-600" />
             <h3 className="text-lg font-bold text-gray-900">نشاط المواعيد (آخر 7 أيام)</h3>
           </div>
           <ResponsiveContainer width="100%" height={300}>
@@ -192,7 +192,7 @@ export default function AdminHomePage() {
       {/* Bar Chart - Overview */}
       <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-6">
-          <Activity className="w-6 h-6 text-primary" />
+          <Activity className="w-6 h-6 text-blue-600" />
           <h3 className="text-lg font-bold text-gray-900">ملخص النظام</h3>
         </div>
         <ResponsiveContainer width="100%" height={300}>
@@ -216,8 +216,8 @@ export default function AdminHomePage() {
       {/* Info Banner */}
       <div className="bg-gradient-to-r from-blue-50 to-primary/10 rounded-2xl border border-primary/20 p-6">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-            <TrendingUp className="w-6 h-6 text-primary" />
+          <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
+            <TrendingUp className="w-6 h-6 text-blue-600" />
           </div>
           <div>
             <h3 className="font-semibold text-gray-900 mb-1">مرحباً بك في لوحة التحكم</h3>
